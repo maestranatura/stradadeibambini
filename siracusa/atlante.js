@@ -17,3 +17,6 @@ filters.forEach(input=>input.addEventListener(input.tagName==='INPUT'?'input':'c
 if(filters.length)update();
 function revealHash(){const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(target){const box=target.closest('details');if(box)box.open=true;}}
 window.addEventListener('hashchange',revealHash);revealHash();
+
+document.querySelectorAll('[data-print]').forEach(button=>button.addEventListener('click',()=>window.print()));
+document.querySelectorAll('.uda-form textarea').forEach(field=>field.addEventListener('input',()=>{field.style.height='auto';field.style.height=field.scrollHeight+'px';}));

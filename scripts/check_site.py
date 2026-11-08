@@ -14,7 +14,7 @@ class Doc(HTMLParser):
   if tag=='meta' and a.get('name')=='viewport':self.viewport=True
   for k in ['href','src']:
    if a.get(k):self.links.append(a[k])
-files=[ROOT/'index.html',*sorted((ROOT/'siracusa').glob('*.html'))]
+files=[ROOT/'index.html',*sorted((ROOT/'siracusa').rglob('*.html'))]
 docs={p:Doc(p.read_text()) for p in files}
 errors=[];checked=0
 for p,doc in docs.items():
@@ -38,6 +38,11 @@ assert len(atlas['data'])==35
 assert len({p['id'] for p in atlas['data']})==35
 assert all(p['id'] in atlas['geo'] and p['id'] in atlas['locusTags'] for p in atlas['data'])
 assert len(atlas['pilots'])==35
+uda=json.loads((ROOT/'siracusa/schede.json').read_text())
+assert len(uda['cases'])==3
+assert all(c['status']=='proposta' for c in uda['cases'])
+assert all(not a['value'] for c in uda['cases'] for a in c['audit'])
+assert all(x['value']=='Da raccogliere' for c in uda['cases'] for x in c['placeholders'])
 assert not list((ROOT/'siracusa').rglob('*.pdf'))
 assert not list((ROOT/'siracusa').rglob('*.jpg'))
 if errors:raise SystemExit('\n'.join(errors))

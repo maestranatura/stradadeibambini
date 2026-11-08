@@ -15,3 +15,10 @@
 .skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:var(--card);padding:1rem;z-index:100}
 [hidden]{display:none!important}.atlas-source{font-size:.9rem;color:var(--ink-soft)}.atlas-place:target{background:var(--panel)}
 @media(max-width:640px){.atlas-grid{grid-template-columns:1fr}.atlas-hero h1{font-size:clamp(2.5rem,12vw,4rem)}.stop>.wrap{padding-left:2.8rem}.atlas-place{scroll-margin-top:13rem}}
+
+/* Documentazione UDA: campi, spazi di raccolta e stampa. */
+.uda-fields{margin:1.5rem 0}.uda-fields dt{font:600 1rem var(--display);margin-top:1rem}.uda-fields dd{margin:.3rem 0 1rem;max-width:68ch;overflow-wrap:anywhere}
+.uda-pending{border:2px dashed var(--line);border-left:5px dotted var(--path);padding:1.2rem;margin:1.5rem 0;background:var(--card)}
+.uda-table{overflow-x:auto;margin:1.5rem 0}.uda-table table{border-collapse:collapse;width:100%;font-size:.95rem}.uda-table caption{text-align:left;font-style:italic;padding:1rem 0}.uda-table th,.uda-table td{text-align:left;vertical-align:top;padding:.8rem;border:1px solid var(--line);min-width:10rem}.uda-table th{font-family:var(--display);background:var(--panel)}
+.uda-form{max-width:78ch;margin-top:2rem}.uda-form label{display:block;font:600 1rem var(--display);margin:1.5rem 0 .5rem}.uda-form textarea{display:block;width:100%;min-height:6rem;padding:1rem;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:6px;resize:vertical}
+@media print{.nav,.atlas-nav,.filters,footer,.skip{display:none!important}.atlas-hero{padding:1rem 0}.atlas-hero h1{font-size:2.5rem}.stop{padding:1rem 0}.route::before,.stop-head::before{display:none}.stop>.wrap{padding:0}.uda-form textarea{height:auto;min-height:8rem;break-inside:avoid}.uda-form label{break-after:avoid}}
