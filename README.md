@@ -55,3 +55,5 @@ Lo script genera solo `/siracusa/`, mai la home. Lo stile base riprende
 esattamente il CSS della home; gli adattamenti responsive della sezione sono
 separati in `siracusa/atlante.css`. I filtri sono un miglioramento progressivo:
 senza JavaScript tutti i contenuti restano visibili.
+
+<!-- Deploy automatico da GitHub attivo dal 8 novembre 2026 -->
