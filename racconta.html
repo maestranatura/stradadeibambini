@@ -7,7 +7,7 @@
 <title>Contribuisci · La Strada dei Bambini</title>
 <link rel="canonical" href="https://stradadeibambini.it/racconta.html">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="stile.css">
+<link rel="stylesheet" href="stile.css?v=2">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
@@ -31,25 +31,29 @@
     </p>
     <fieldset>
       <legend>01 · Dove e quando</legend>
-      <div class="field"><label for="place-picker">Un'aula della mappa</label><select id="place-picker" name="aula_id"><option value="">Scegli un luogo o scrivine uno nuovo</option></select></div>
-      <div class="field"><label for="new-place">Oppure un luogo nuovo</label><input id="new-place" name="new-place" placeholder="Nome del luogo e comunità"></div>
-
-      <div id="geo-box" class="geo-box">
-        <p class="geo-label" id="geo-label">Posizione del luogo nuovo</p>
-        <div class="geo-tools">
-          <button type="button" class="btn geo-here" id="geo-here">Sono qui</button>
-          <div class="geo-search">
-            <label class="sr-only" for="geo-q">Cerca un indirizzo o un luogo</label>
-            <input id="geo-q" type="search" placeholder="Cerca un luogo in Italia…" autocomplete="off">
-            <button type="button" id="geo-search-btn">Cerca</button>
+      <div id="dove" class="dove">
+        <p class="dove-q" id="dove-label">Dove?</p>
+        <div id="dove-ways" class="dove-ways">
+          <button type="button" class="btn dove-here" id="dove-here"><span aria-hidden="true">◎</span> Sono qui</button>
+          <div class="dove-search">
+            <label class="sr-only" for="dove-q">Scrivi il nome del luogo</label>
+            <input id="dove-q" type="search" placeholder="Oppure scrivi il nome del luogo…" autocomplete="off" autocapitalize="none" enterkeyhint="search" aria-describedby="dove-label" aria-controls="dove-sugg">
+            <ul id="dove-sugg" class="dove-sugg" hidden></ul>
           </div>
+          <button type="button" class="dove-map-btn" id="dove-map-btn">Oppure tocca la mappa</button>
         </div>
-        <ul id="geo-results" class="geo-results" hidden></ul>
-        <p id="geo-msg" class="muted geo-msg" role="status"></p>
-        <div id="geo-map" aria-label="Mappa per collocare il luogo"></div>
-        <p id="geo-coords" class="muted geo-coords">Nessuna posizione scelta.</p>
-        <input type="hidden" id="geo-lat" name="lat" value="">
-        <input type="hidden" id="geo-lon" name="lon" value="">
+        <div id="dove-near" class="dove-near" hidden></div>
+        <div id="dove-chosen" class="dove-chosen" hidden></div>
+        <p id="dove-msg" class="muted dove-msg" role="status"></p>
+        <div id="dove-map-wrap" hidden><div id="dove-map" aria-label="Mappa: tocca per mettere il luogo"></div></div>
+        <div class="field" id="dove-name-wrap" hidden><label for="dove-name">Come si chiama questo luogo? <span class="muted">(facoltativo)</span></label><input id="dove-name" placeholder="Es. il prato dietro la scuola"></div>
+        <input type="hidden" id="f-aula-id" name="aula_id" value="">
+        <input type="hidden" id="f-luogo-nome" name="luogo_nome" value="">
+        <input type="hidden" id="f-lat" name="lat" value="">
+        <input type="hidden" id="f-lon" name="lon" value="">
+        <input type="hidden" id="f-fonte" name="fonte_posizione" value="">
+        <input type="hidden" id="f-new-place" name="new-place" value="">
+        <input type="hidden" id="f-comunita" name="comunita" value="">
       </div>
 
       <div class="two">
@@ -99,6 +103,7 @@
 </main>
 <footer class="site-footer"><span>La Strada dei Bambini · Comunità educanti</span><span><a href="racconta.html">Contribuisci</a></span></footer>
 
-<script src="app.js" defer></script>
+<script src="dove.js?v=3" defer></script>
+<script src="app.js?v=2" defer></script>
 </body>
 </html>

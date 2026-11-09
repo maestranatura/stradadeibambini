@@ -57,10 +57,8 @@ async function init(){
   }
 
   if($('#story-form')){
-    const places=[...geo.features].filter(f=>f.geometry.type==='Point').sort((a,b)=>a.properties.name.localeCompare(b.properties.name,'it'));
-    const placeById=Object.fromEntries(places.map(f=>[f.properties.id,f]));
-    $('#place-picker').innerHTML += places.map(f=>`<option value="${esc(f.properties.id)}">${esc(f.properties.name)} · ${esc(f.properties.community)}</option>`).join('');
-        // Messaggio vocale: non attivo in produzione (in arrivo).
+    const dove=window.initDove?window.initDove(geo, communities):null;
+    window.dove=dove;
     if($('#files')){
       $('#files').addEventListener('change', ()=>{
         const n=$('#files').files.length; let bytes=0; for(const f of $('#files').files) bytes+=f.size;
@@ -80,146 +78,11 @@ async function init(){
       }
     }
 
-    // --- Geolocation for new places (Leaflet + OpenTopoMap / Nominatim) ---
-    const geoBox=$('#geo-box'), geoMsg=$('#geo-msg'), geoCoords=$('#geo-coords'), geoLat=$('#geo-lat'), geoLon=$('#geo-lon'), geoResults=$('#geo-results');
-    let geoMap=null, geoMarker=null, geoReadonly=false;
-    const VALDO=[45.8992, 12.0117];
-    const fmt=(lat,lon)=>`Lat ${Number(lat).toFixed(5)} · Lon ${Number(lon).toFixed(5)}`;
-    const setFields=(lat,lon)=>{ geoLat.value=lat!=null?Number(lat).toFixed(6):''; geoLon.value=lon!=null?Number(lon).toFixed(6):'';
-      geoCoords.textContent = (lat!=null && lon!=null) ? fmt(lat,lon) : 'Nessuna posizione scelta.'; };
-    const placePin=(lat,lon, opts={})=>{
-      if(!geoMap) return;
-      const ll=[lat,lon];
-      if(!geoMarker){
-        geoMarker=L.marker(ll,{draggable:!geoReadonly, autoPan:true}).addTo(geoMap);
-        geoMarker.on('dragend',()=>{ if(geoReadonly) return; const p=geoMarker.getLatLng(); setFields(p.lat,p.lng); geoMsg.textContent='Posizione aggiornata spostando il segnalino.'; });
-      } else {
-        geoMarker.setLatLng(ll);
-        if(geoMarker.dragging){ geoReadonly ? geoMarker.dragging.disable() : geoMarker.dragging.enable(); }
-      }
-      geoMarker.dragging && (geoReadonly ? geoMarker.dragging.disable() : geoMarker.dragging.enable());
-      setFields(lat,lon);
-      if(opts.fly!==false) geoMap.setView(ll, opts.zoom||15);
-    };
-    const setReadonly=(on, label)=>{
-      geoReadonly=!!on;
-      geoBox.classList.toggle('is-readonly', geoReadonly);
-      $('#geo-label').textContent = label || (geoReadonly ? 'Posizione dell’aula scelta (sola lettura)' : 'Posizione del luogo nuovo');
-      if(geoMarker && geoMarker.dragging){ geoReadonly ? geoMarker.dragging.disable() : geoMarker.dragging.enable(); }
-      if(geoMap){
-        if(geoReadonly){ geoMap.dragging.disable(); geoMap.touchZoom.disable(); geoMap.doubleClickZoom.disable(); geoMap.scrollWheelZoom.disable(); geoMap.boxZoom.disable(); geoMap.keyboard.disable(); }
-        else { geoMap.dragging.enable(); geoMap.touchZoom.enable(); geoMap.doubleClickZoom.enable(); geoMap.scrollWheelZoom.enable(); geoMap.boxZoom.enable(); geoMap.keyboard.enable(); }
-      }
-    };
-    const ensureGeoMap=()=>{
-      if(geoMap || !window.L || !$('#geo-map')) return;
-      geoMap=L.map('geo-map',{scrollWheelZoom:true, zoomControl:true}).setView(VALDO, 13);
-      L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17, attribution:'© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)'}).addTo(geoMap);
-      geoMap.on('click', e=>{
-        if(geoReadonly){ geoMsg.textContent='Per spostare il segnalino scegli «luogo nuovo» oppure cancella l’aula selezionata.'; return; }
-        placePin(e.latlng.lat, e.latlng.lng, {fly:false});
-        geoMsg.textContent='Posizione impostata toccando la mappa.';
-      });
-      setTimeout(()=>geoMap.invalidateSize(), 80);
-    };
-    const syncGeoMode=()=>{
-      ensureGeoMap();
-      const placeId=$('#place-picker').value;
-      const newName=$('#new-place').value.trim();
-      geoResults.hidden=true; geoResults.innerHTML='';
-      if(placeId && placeById[placeId]){
-        const f=placeById[placeId]; const c=f.geometry.coordinates;
-        setReadonly(true, `Posizione di ${f.properties.name} (sola lettura)`);
-        placePin(c[1], c[0], {zoom:15});
-        geoMsg.textContent='Aula esistente: la posizione è quella già presente sulla mappa.';
-      } else {
-        setReadonly(false, 'Posizione del luogo nuovo');
-        if(geoLat.value && geoLon.value){
-          placePin(Number(geoLat.value), Number(geoLon.value), {zoom:15, fly:false});
-          geoMsg.textContent= newName ? 'Puoi spostare il segnalino, usare «Sono qui» o cercare un luogo.' : 'Scrivi il nome del luogo nuovo e collocalo sulla mappa.';
-        } else {
-          if(geoMarker){ geoMap.removeLayer(geoMarker); geoMarker=null; }
-          setFields(null,null);
-          geoMap.setView(VALDO, 13);
-          geoMsg.textContent='Usa «Sono qui», cerca un luogo (Invio) oppure tocca la mappa per piazzare il segnalino.';
-        }
-      }
-      setTimeout(()=>geoMap && geoMap.invalidateSize(), 60);
-    };
-    $('#place-picker').addEventListener('change', syncGeoMode);
-    $('#new-place').addEventListener('input', ()=>{
-      if($('#place-picker').value && $('#new-place').value.trim()){
-        // Prefer new place if user starts typing a new name
-        $('#place-picker').value='';
-      }
-      syncGeoMode();
-    });
-    $('#geo-here').onclick=()=>{
-      if(geoReadonly){ geoMsg.textContent='Deseleziona l’aula per collocare un luogo nuovo.'; return; }
-      if(!navigator.geolocation){ geoMsg.textContent='Questo dispositivo non offre la geolocalizzazione.'; return; }
-      geoMsg.textContent='Cerco la tua posizione…';
-      navigator.geolocation.getCurrentPosition(
-        pos=>{ placePin(pos.coords.latitude, pos.coords.longitude, {zoom:16}); geoMsg.textContent='Posizione rilevata dal dispositivo.'; },
-        err=>{
-          const map={1:'Permesso di geolocalizzazione negato.',2:'Posizione non disponibile.',3:'Richiesta di posizione scaduta.'};
-          geoMsg.textContent=(map[err.code]||'Non sono riuscito a leggere la posizione.')+' Puoi cercare un luogo o toccare la mappa.';
-        },
-        {enableHighAccuracy:true, timeout:12000, maximumAge:60000}
-      );
-    };
-    const runGeoSearch=async()=>{
-      if(geoReadonly){ geoMsg.textContent='Deseleziona l’aula per cercare un luogo nuovo.'; return; }
-      const q=$('#geo-q').value.trim();
-      if(q.length<3){ geoMsg.textContent='Scrivi almeno tre lettere e premi Cerca.'; return; }
-      geoMsg.textContent='Cerco su OpenStreetMap…';
-      geoResults.hidden=true; geoResults.innerHTML='';
-      try{
-        const url='https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(q)+'&countrycodes=it&limit=5&addressdetails=0';
-        const res=await fetch(url,{headers:{'Accept':'application/json'}});
-        if(!res.ok) throw new Error('HTTP '+res.status);
-        const list=await res.json();
-        if(!list.length){ geoMsg.textContent='Nessun risultato in Italia per questa ricerca.'; return; }
-        geoResults.innerHTML=list.map((item,i)=>`<li><button type="button" data-i="${i}">${esc(item.display_name)}</button></li>`).join('');
-        geoResults.hidden=false;
-        geoMsg.textContent='Scegli un risultato dall’elenco.';
-        geoResults.querySelectorAll('button').forEach(btn=>{
-          btn.onclick=()=>{
-            const item=list[Number(btn.dataset.i)];
-            placePin(Number(item.lat), Number(item.lon), {zoom:15});
-            geoResults.hidden=true;
-            geoMsg.textContent='Posizione impostata dalla ricerca.';
-            if(!$('#new-place').value.trim()){
-              $('#new-place').value=(item.display_name||'').split(',')[0].trim();
-            }
-          };
-        });
-      }catch(e){
-        console.error(e);
-        geoMsg.textContent='Ricerca non riuscita. Riprova tra poco o tocca la mappa.';
-      }
-    };
-    $('#geo-search-btn').addEventListener('click', runGeoSearch);
-    $('#geo-q').addEventListener('keydown', ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); runGeoSearch(); } });
-
-    // demo=geo → Valdobbiadene pin for screenshots
-    const params=new URLSearchParams(location.search);
-    ensureGeoMap();
-    if(params.get('demo')==='geo'){
-      $('#place-picker').value='';
-      if(!$('#new-place').value) $('#new-place').value='Luogo nuovo · Valdobbiadene (demo)';
-      setReadonly(false);
-      placePin(VALDO[0], VALDO[1], {zoom:14});
-      geoMsg.textContent='Demo: segnalino su Valdobbiadene. Puoi spostarlo.';
-      setTimeout(()=>{ const el=$('#geo-map'); if(el) el.scrollIntoView({behavior:'instant', block:'center'}); }, 200);
-    } else {
-      syncGeoMode();
-    }
 
     $('#story-form').addEventListener('submit', async ev=>{
       ev.preventDefault();
-      const placeId=$('#place-picker').value; const newPlace=$('#new-place').value.trim();
-      if(!placeId && !newPlace){ alert('Scegli un’aula o scrivi il nome del luogo nuovo.'); return; }
-      if(!placeId && (!geoLat.value || !geoLon.value)){ alert('Colloca il luogo nuovo sulla mappa (Sono qui, cerca, o tocca la mappa).'); return; }
+      const v=dove?dove.value():{};
+      if(!v.mode){ alert('Dove? Tocca «Sono qui», scrivi il nome del luogo oppure tocca la mappa.'); const d=document.getElementById('dove'); if(d) d.scrollIntoView({behavior:'smooth',block:'center'}); return; }
       const text=$('#racconto').value.trim();
       if(!text){ alert('Scrivi cosa è successo.'); return; }
       const links=$('#video').value.trim().split(/\n/).filter(Boolean);
@@ -231,10 +94,13 @@ async function init(){
         let total=0; for(const f of filesEl.files) total+=f.size;
         if(total > 9.5*1024*1024){ alert('Le foto superano circa 10 MB totali (limite di Netlify Forms). Riduci o comprimi le immagini.'); return; }
       }
-      const place = placeId ? places.find(f=>f.properties.id===placeId)?.properties : {id:'nuovo', name:newPlace};
-      const aulaName = place?.name || newPlace;
-      const link = placeId ? `mappa.html?aula=${encodeURIComponent(placeId)}` : 'mappa.html';
-      const coordsTxt = (geoLat.value && geoLon.value) ? ` · ${fmt(geoLat.value, geoLon.value)}` : '';
+      const isAula=v.mode==='aula' && !!v.aula_id;
+      const aulaName = v.luogo_nome || 'Luogo nuovo';
+      // Campi per Netlify Forms (compatibili con le submission precedenti)
+      $('#f-new-place').value = isAula ? '' : aulaName;
+      $('#f-comunita').value = v.community || '';
+      const link = isAula ? `mappa.html?aula=${encodeURIComponent(v.aula_id)}` : 'mappa.html';
+      const coordsTxt = (v.lat && v.lon) ? ` · Lat ${Number(v.lat).toFixed(5)} · Lon ${Number(v.lon).toFixed(5)}` : '';
       const btn=$('#submit-btn'); const st=$('#submit-status');
       if(btn){ btn.disabled=true; btn.textContent='Invio in corso…'; }
       if(st) st.textContent='Sto inviando il contributo in privato…';
@@ -244,11 +110,10 @@ async function init(){
         fd.set('aula_nome', aulaName);
         const res=await fetch('/', { method:'POST', body:fd, headers:{ 'Accept':'application/json' } });
         if(!res.ok && res.status!==200){
-          // Some Netlify setups return 200 HTML; treat network/4xx as error
           throw new Error('HTTP '+res.status);
         }
         $('#story-form').hidden=true; $('#thanks').hidden=false;
-        $('#thanks-msg').textContent = `Il tuo racconto per l’aula ${aulaName} è arrivato in privato ed è in attesa di approvazione.`;
+        $('#thanks-msg').textContent = `Il tuo racconto per ${isAula?'l’aula ':''}${aulaName} è arrivato in privato ed è in attesa di approvazione.`;
         $('#thanks-link').textContent = link + coordsTxt;
         $('#thanks-aula').href = link;
         $('#thanks').scrollIntoView({behavior:'smooth'});
