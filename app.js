@@ -23,7 +23,7 @@ function daCompletareBox(items){
 
 function card(e, note=''){
   const vNote = (e.videos&&e.videos.length) ? `<p class="match-note">Video documentato · ${(e.videos||[]).length} clip</p>` : '';
-  return `<article class="experience"><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span><h3><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></h3><p>${esc(e.aula)} · ${esc(e.community)}</p>${note?`<p class="match-note">${esc(note)}</p>`:''}${vNote}<p>${esc(e.descrizione)}</p><p class="tags">${esc(e.eta.join(' · '))} / ${esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · '))}<br>${esc(e.discipline.join(' · '))}</p><p class="provenance">${esc(e.provenienza)}</p><p><a href="esperienza.html?id=${encodeURIComponent(e.id)}">Apri la scheda →</a> · <a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Vai all’aula →</a></p></article>`;
+  return `<article class="experience"><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}${e.codice?` <span class="provenance">${esc(e.codice)}</span>`:''}<h3><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></h3><p>${esc(e.aula)} · ${esc(e.community)}</p>${note?`<p class="match-note">${esc(note)}</p>`:''}${vNote}<p>${esc(e.descrizione)}</p><p class="tags">${esc(e.eta.join(' · '))} / ${esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · '))}<br>${esc(e.discipline.join(' · '))}</p><p class="provenance">${esc(e.provenienza)}</p><p><a href="esperienza.html?id=${encodeURIComponent(e.id)}">Apri la scheda →</a> · <a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Vai all’aula →</a></p></article>`;
 }
 
 // --- Contributi approvati (da /api/pubblicati: solo approvati, senza audio né contatti) ---
@@ -65,11 +65,14 @@ async function init(){
       ['tipo_aula','Tipo di aula',[...new Set(data.map(e=>e.tipo_aula))]],
       ['eta','Età',ages],
       ['discipline','Disciplina',disciplines],
-      ['stato','Stato',['vissuta','proposta']]
+      ['stato','Stato',['vissuta','proposta']],
+      ['gruppo','Gruppo',groups],
+      ['competenze_ue','Competenza UE',[...new Set(data.flatMap(e=>e.competenze_ue||[]))].sort()],
+      ['documentazione','Documentazione',[...new Set(data.map(e=>e.documentazione).filter(Boolean))].sort()]
     ];
     $('#archive-filters').innerHTML = `<div class="field grow"><label for="search">Cerca</label><input id="search" type="search" placeholder="albero, ascolto, piazza…"></div>` +
       fields.map(([id,label,vals])=>`<div class="field"><label for="f-${id}">${esc(label)}</label><select id="f-${id}">${options(vals,'','Tutti')}</select></div>`).join('');
-    const row=e=>`<tr><td><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span></td><td><strong><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></strong><div class="provenance">${esc(e.descrizione)}</div></td><td>${esc(e.aula)}</td><td>${esc(e.community)}</td><td>${esc(e.eta.join(', '))}</td><td>${esc(e.discipline.join(', '))}</td><td class="provenance">${esc(e.provenienza)}</td></tr>`;
+    const row=e=>`<tr><td><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span></td><td><strong><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></strong>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}<div class="provenance">${esc(e.descrizione)}</div></td><td>${esc(e.aula)}</td><td>${esc(e.community)}</td><td>${esc(e.eta.join(', '))}</td><td>${esc(e.discipline.join(', '))}</td><td class="provenance">${esc(e.provenienza)}</td></tr>`;
     const render=()=>{
       let filtered=data.filter(e=>fields.every(([id])=>{const v=$(`#f-${id}`).value; return !v || (Array.isArray(e[id])?e[id].includes(v):e[id]===v);}));
       const q=$('#search').value.toLocaleLowerCase();
@@ -78,8 +81,8 @@ async function init(){
       const proposte=filtered.filter(e=>e.stato==='proposta');
       $('#result-count').textContent = `${filtered.length} esperienze · ${vissute.length} vissute · ${proposte.length} proposte`;
       let html='';
-      if(vissute.length){ html += `<tr class="group-row"><td colspan="7"><strong>Esperienze vissute</strong> · documentate (Salento volume, Valdobbiadene con video, contributi approvati)</td></tr>` + vissute.map(row).join(''); }
-      if(proposte.length){ html += `<tr class="group-row"><td colspan="7"><strong>Proposte · cosa si può fare qui</strong> · non ancora svolte</td></tr>` + proposte.map(row).join(''); }
+      if(vissute.length){ html += `<tr class="group-row"><td colspan="7"><strong>Esperienze vissute</strong> · con i bambini, documentate (volume del Salento, uscite di Valdobbiadene in video, contributi approvati)</td></tr>` + vissute.map(row).join(''); }
+      if(proposte.length){ html += `<tr class="group-row"><td colspan="7"><strong>Proposte · cosa si può fare qui</strong> · non ancora svolte con una classe (progetti scritti, sopralluoghi degli adulti)</td></tr>` + proposte.map(row).join(''); }
       $('#archive-results').innerHTML = html || `<tr><td colspan="7">Nessuna esperienza con questi filtri.</td></tr>`;
     };
     $('#archive-filters').addEventListener('input', render); render();
@@ -356,6 +359,8 @@ window.initAulaPage = async function(){
     const p = f.properties;
     document.title = `${p.name} · La Strada dei Bambini`;
     const related = data.filter(e => e.aula_id === id);
+    const relatedUda = data.filter(e => e.aula_id !== id && ((e.tappe||[]).some(t=>t.aula_id===id) || (e.aule_collegate||[]).some(a=>(a.id||a)===id)));
+    const matBimbi = related.flatMap(e => (e.materiali_bambini||[]).filter(m=>m.immagine).map(m=>({...m, esp:e})));
     const sameTipo = data.filter(e => e.aula_id !== id && p.tipo_aula && e.tipo_aula === p.tipo_aula && p.tipo_aula !== 'Da classificare');
     const com = (communities||[]).find(c => c.name === p.community || c.id === (p.community||'').slice(0,2));
     const comSlug = ({
@@ -402,9 +407,11 @@ window.initAulaPage = async function(){
       </section>
       ${daComp ? `<section class="detail-block editor-box" aria-label="Da completare"><h2>Da completare</h2><p class="muted">Appunti per chi corregge la scheda (non sono esperienze inventate).</p><ul>${daComp}</ul></section>` : ''}
       <section class="detail-block">
-        <h2>Esperienze collegate</h2>
+        <h2>Esperienze e UDA di questa aula</h2>
         ${related.length ? related.map(e=>card(e)).join('') : '<p class="muted">Non ci sono ancora esperienze documentate proprio in questa aula.</p>'}
       </section>
+      ${relatedUda.length ? `<section class="detail-block"><h2>Percorsi che passano di qui</h2>${relatedUda.map(e=>card(e, (e.tappe||[]).some(t=>t.aula_id===id)?'Questa aula è una tappa del percorso':'Aula collegata all’esperienza')).join('')}</section>` : ''}
+      ${matBimbi.length ? `<section class="detail-block"><h2>I materiali dei bambini</h2><div class="uda-gallery">${matBimbi.slice(0,8).map(m=>`<figure class="uda-mat"><a href="esperienza.html?id=${encodeURIComponent(m.esp.id)}#materiali-bambini"><img src="${esc(m.immagine)}" alt="${esc(m.titolo||'')}" loading="lazy"></a><figcaption><strong>${esc(m.titolo||'')}</strong><br><span class="provenance">${esc(m.esp.titolo)}</span></figcaption></figure>`).join('')}</div></section>` : ''}
       ${sameTipo.length ? `<section class="detail-block"><h2>Esperienze dello stesso tipo di aula</h2><p class="match-note">Spunti da altri luoghi dello stesso tipo: da adattare, non esperienze già svolte qui.</p>${sameTipo.slice(0,6).map(e=>card(e, 'Stesso tipo di aula')).join('')}</section>` : ''}
       <section class="detail-block">
         <h2>Contribuisci</h2>
@@ -417,6 +424,131 @@ window.initAulaPage = async function(){
   }
 };
 
+
+// --- Modello UDA integrato (Salento + curriculum mapping) · v1, 10 novembre 2026 ---
+const UDA_LIVELLI_DEFAULT=['Inizia, con guida','Prova, con qualche aiuto','Fa da sé','Spiega e trasferisce'];
+function udaVal(v){
+  if(v==null||v==='') return '<span class="uda-gap">Da completare con i docenti</span>';
+  if(Array.isArray(v)) return v.length?v.map(esc).join(' · '):'<span class="uda-gap">Da completare con i docenti</span>';
+  return esc(v);
+}
+function udaNote(t){ return t?`<span class="uda-stato">${esc(t)}</span>`:''; }
+function udaList(a){ return (a&&a.length)?`<ul class="uda-ul">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''; }
+function udaSintesi(e){
+  const s=e.uda_sintesi||{}, n=s.note||{};
+  const docenti=(s.docenti||[]).map(d=>esc(d.nome)+(d.ruolo?` <span class="muted">(${esc(d.ruolo)})</span>`:'')).join('; ');
+  const rows=[
+    ['Quando',udaVal(s.quando),n.quando],
+    ['Dove',udaVal(s.dove),n.dove],
+    ['Chi',udaVal(s.chi),n.chi],
+    ['Docenti e discipline',docenti||udaVal(''),n.docenti],
+    ['Risorse esterne',udaVal(s.risorse_esterne),n.risorse_esterne],
+    ['Tipologia UDA',udaVal(s.tipologia),n.tipologia],
+    ['Discipline coinvolte',udaVal(s.discipline),n.discipline],
+    ['Prodotti intermedi',udaVal(s.prodotti_intermedi),n.prodotti_intermedi],
+    ['Prodotto finale',udaVal(s.prodotto_finale),n.prodotto_finale],
+    ['Competenze chiave UE',udaVal(s.competenze_chiave),n.competenze_chiave]
+  ];
+  (s.extra||[]).forEach(([k,v])=>rows.splice(3,0,[k,udaVal(v),'']));
+  return `<section class="detail-block uda-sintesi" id="sintesi"><h2>L’UDA in sintesi</h2><dl class="scheda">${rows.map(([k,v,nt])=>`<div><dt>${esc(k)}</dt><dd>${v}${nt?' '+udaNote(nt):''}</dd></div>`).join('')}</dl></section>`;
+}
+function udaProgettazione(e){
+  const p=e.progettazione; if(!p) return '';
+  const dg=p.domanda_generativa;
+  const comp=(p.competenze||[]).map(c=>`<div class="uda-comp"><h4>${esc(c.competenza)}</h4>${c.abilita&&c.abilita.length?`<p><strong>Abilità</strong></p>${udaList(c.abilita)}`:''}${c.conoscenze&&c.conoscenze.length?`<p><strong>Conoscenze</strong></p>${udaList(c.conoscenze)}`:''}${c.traguardi&&c.traguardi.length?`<p><strong>Traguardi / campi d’esperienza</strong></p>${udaList(c.traguardi)}`:''}</div>`).join('');
+  const fasi=(p.fasi||[]).map((f,i)=>`<li class="uda-fase"><div class="uda-fase-head"><strong>${esc(f.titolo||('Fase '+(i+1)))}</strong>${f.tempi?` <span class="muted">· ${esc(f.tempi)}</span>`:''}</div>${f.attivita?`<p>${esc(f.attivita)}</p>`:''}${(f.discipline||[]).length?`<p class="uda-chips">${f.discipline.map(d=>`<span>${esc(d)}</span>`).join('')}</p>`:''}${f.fonte?`<p class="provenance">${esc(f.fonte)}</p>`:''}</li>`).join('');
+  const gantt=(()=>{ const fs=(p.fasi||[]).filter(f=>(f.discipline||[]).length); if(fs.length<2) return ''; const ds=[...new Set(fs.flatMap(f=>f.discipline))]; return `<details class="uda-gantt"><summary>Vista sinottica: discipline per fase</summary><div class="table-scroll"><table><thead><tr><th>Disciplina</th>${fs.map((f,i)=>`<th title="${esc(f.titolo||'')}">${i+1}</th>`).join('')}</tr></thead><tbody>${ds.map(d=>`<tr><td>${esc(d)}</td>${fs.map(f=>`<td>${f.discipline.includes(d)?'<span class="dot" aria-label="sì">●</span>':''}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`; })();
+  return `<section class="detail-block uda-prog" id="progettazione"><h2>Progettazione</h2>
+    ${dg?`<div class="uda-domanda"><p class="kicker">Domanda generativa</p><p>${esc(dg.testo||dg)}</p>${dg.stato?udaNote(dg.stato):''}</div>`:''}
+    ${comp?`<details class="uda-det"${p.apri_competenze?' open':''}><summary>Competenze → abilità e conoscenze → traguardi ${p.competenze_stato?udaNote(p.competenze_stato):''}</summary>${comp}</details>`:(p.competenze_stato?`<p class="muted">Competenze: ${esc(p.competenze_stato)}</p>`:'')}
+    ${fasi?`<details class="uda-det" open><summary>Fasi e attività ${p.fasi_stato?udaNote(p.fasi_stato):''}</summary><ol class="uda-fasi">${fasi}</ol>${gantt}</details>`:''}
+    ${(p.risorse||[]).length?`<details class="uda-det"><summary>Risorse e materiali</summary>${udaList(p.risorse)}</details>`:''}
+    ${p.sicurezza?`<details class="uda-det"><summary>Accessibilità, sicurezza, permessi</summary><p>${esc(p.sicurezza)}</p></details>`:''}
+  </section>`;
+}
+function udaMovimenti(e){
+  const m=e.movimenti||[];
+  if(!m.length) return `<section class="detail-block" id="racconto"><h2>Il racconto in movimenti</h2>${e.racconto?`<p class="racconto">${esc(e.racconto)}</p>`:`<p class="muted">${e.stato==='proposta'?'Proposta: il racconto si scriverà dopo la prova con la classe.':'Racconto da completare con i docenti.'}</p>`}</section>`;
+  return `<section class="detail-block uda-mov" id="racconto"><h2>Il racconto in movimenti</h2>${e.racconto_nota?`<p class="muted">${esc(e.racconto_nota)}</p>`:''}${m.map(x=>`<article class="uda-movimento"><h3>${esc(x.titolo)}</h3>${String(x.testo||'').split(/\n\n+/).map(t=>`<p class="racconto">${esc(t)}</p>`).join('')}${x.fonte?`<p class="provenance">${esc(x.fonte)}</p>`:''}</article>`).join('')}</section>`;
+}
+function udaVoci(e){
+  const v=e.voci||[];
+  const bimbi=v.filter(x=>x.chi!=='adulto'), adulti=v.filter(x=>x.chi==='adulto');
+  const q=x=>`<blockquote class="voce${x.verificata===false?' da-verificare':''}"><p>${x.citazione===false?esc(x.testo):'«'+esc(x.testo)+'»'}</p>${(x.contesto||x.fonte)?`<cite>${esc([x.contesto,x.fonte].filter(Boolean).join(' · '))}</cite>`:''}</blockquote>`;
+  let html=`<section class="detail-block" id="voci"><h2>Le voci dei bambini</h2>`;
+  if(bimbi.length) html+=bimbi.map(q).join('');
+  else if((e.voci_bambini||[]).length) html+=e.voci_bambini.map(t=>`<blockquote class="voce"><p>«${esc(t)}»</p></blockquote>`).join('');
+  else html+=`<p class="muted">${esc(e.voci_nota||(e.stato==='proposta'?'Da raccogliere durante la prova, con il consenso delle famiglie.':'Non trascritte nelle fonti: da raccogliere con i docenti.'))}</p>`;
+  if(e.voci_nota && (bimbi.length||(e.voci_bambini||[]).length)) html+=`<p class="provenance">${esc(e.voci_nota)}</p>`;
+  if(adulti.length) html+=`<h3 class="uda-sub">Le parole degli adulti</h3>`+adulti.map(q).join('');
+  return html+`</section>`;
+}
+function udaOsservazioni(e){
+  const o=e.osservazioni_docenti||[];
+  return `<section class="detail-block" id="osservazioni"><h2>Osservazioni dei docenti</h2>${o.length?`<ul class="uda-oss">${o.map(x=>`<li>${x.tipo?`<span class="uda-tag">${esc(x.tipo)}</span> `:''}${esc(x.testo)}${x.fonte?` <span class="provenance">${esc(x.fonte)}</span>`:''}</li>`).join('')}</ul>`:`<p class="muted">${e.stato==='proposta'?'Da raccogliere durante la prova: evento osservato, interpretazione, domanda aperta.':'Non documentate nelle fonti: da completare con i docenti.'}</p>`}</section>`;
+}
+function udaMateriali(e){
+  const g=(m,id,h,nota)=>m.length?`<section class="detail-block" id="${id}"><h2>${h}</h2>${nota?`<p class="provenance">${nota}</p>`:''}<div class="uda-gallery">${udaFig(m)}</div></section>`:'';
+  return g(e.materiali_bambini||[],'materiali-bambini','I materiali dei bambini','')+g(e.materiali_adulti||[],'materiali-adulti','Materiali preparati dagli adulti','Non sono prodotti dei bambini: servono a capire come è stata condotta l’esperienza.');
+}
+function udaFig(m){
+  return `${m.map(x=>`<figure class="uda-mat">${x.immagine?`<a href="${esc(x.immagine)}" target="_blank" rel="noopener"><img src="${esc(x.immagine)}" alt="${esc(x.titolo||x.didascalia||'Materiale')}" loading="lazy"></a>`:''}<figcaption><strong>${esc(x.titolo||'')}</strong>${x.tipo?` <span class="uda-tag">${esc(x.tipo)}</span>`:''}${x.didascalia?`<br>${esc(x.didascalia)}`:''}${x.fonte?`<br><span class="provenance">${esc(x.fonte)}</span>`:''}</figcaption></figure>`).join('')}`;
+}
+function udaValutazione(e){
+  const v=e.valutazione||{};
+  const r=v.rubrica;
+  const livelli=(r&&r.livelli)||UDA_LIVELLI_DEFAULT;
+  const rub=r&&(r.indicatori||[]).length?`<details class="uda-det"><summary>Rubrica osservativa ${r.stato?udaNote(r.stato):''}</summary><div class="table-scroll"><table class="uda-rubrica"><thead><tr><th>Dimensione</th>${livelli.map(l=>`<th>${esc(l)}</th>`).join('')}</tr></thead><tbody>${r.indicatori.map(i=>`<tr><th scope="row">${esc(i.dimensione)}${i.ambito?`<br><span class="muted">${esc(i.ambito)}</span>`:''}</th>${(i.descrittori||[]).map(d=>`<td>${esc(d)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`:'';
+  const row=(k,t)=>`<div><dt>${k}</dt><dd>${t?esc(t):'<span class="uda-gap">Non documentato</span>'}</dd></div>`;
+  return `<section class="detail-block uda-val" id="valutazione"><h2>Valutazione</h2>${v.stato?`<p>${udaNote(v.stato)}</p>`:''}
+    <dl class="scheda">${row('Prodotto',v.prodotto)}${row('Processo',v.processo)}${row('Metacognizione e autovalutazione',v.metacognizione)}</dl>
+    ${rub}
+    ${(v.evidenze||[]).length?`<p><strong>Evidenze raccolte</strong></p>${udaList(v.evidenze)}`:''}
+    <p class="provenance">${esc(v.nota||'Griglie osservative e formative, non una pagella: nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola.')}</p></section>`;
+}
+function udaLettura(e){
+  const l=e.lettura||{};
+  const parts=[['Ciclo di Kolb',l.kolb],['Intelligenze multiple (Gardner)',l.gardner],['Play Motifs',l.play_motifs],['Indicazioni nazionali',l.indicazioni],['Competenze UE 2018',l.ue]].filter(x=>x[1]);
+  const testo=l.testo||e.lettura_pedagogica||'';
+  return `<section class="detail-block" id="lettura"><h2>Lettura pedagogica</h2>${l.stato?`<p>${udaNote(l.stato)}</p>`:''}${testo?String(testo).split(/\n\n+/).map(t=>`<p class="racconto">${esc(t)}</p>`).join(''):''}${parts.length?`<dl class="scheda">${parts.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`:''}${(!testo&&!parts.length)?'<p class="muted">Da completare.</p>':''}</section>`;
+}
+function udaApparato(e){
+  const a=e.apparato||{};
+  const reg=(a.registro||[]).map(r=>`<li><strong>${esc(r.versione||'')}</strong> · ${esc(r.data||'')} — ${esc(r.nota||'')}</li>`).join('');
+  return `<section class="detail-block" id="apparato"><h2>Apparato</h2>
+    ${(a.fonti||[]).length?`<h3 class="uda-sub">Fonti</h3>${udaList(a.fonti)}`:''}
+    ${(e.links||[]).length?`<p>${e.links.map(l=>`<a target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.label)} ↗</a>`).join('<br>')}</p>`:''}
+    ${(a.materiali||[]).length?`<h3 class="uda-sub">Materiali</h3>${udaList(a.materiali)}`:''}
+    ${a.replicare?`<h3 class="uda-sub">Per replicare</h3><p class="racconto">${esc(a.replicare)}</p>`:''}
+    ${reg?`<h3 class="uda-sub">Registro delle revisioni</h3><ul class="uda-ul">${reg}</ul>`:''}
+  </section>`;
+}
+function udaTappe(e, data){
+  const parts=[];
+  if(e.tappe&&e.tappe.length){
+    parts.push(`<section class="detail-block" id="tappe"><h2>Le tappe del percorso</h2><ol class="uda-tappe">${e.tappe.map(t=>{const x=data.find(d=>d.id===t.esperienza_id); return `<li><a href="${x?`esperienza.html?id=${encodeURIComponent(x.id)}`:`aula.html?id=${encodeURIComponent(t.aula_id)}`}">${esc(t.titolo||(x&&x.titolo)||t.aula_id)}</a>${t.nota?` <span class="muted">· ${esc(t.nota)}</span>`:''} · <a class="muted" href="aula.html?id=${encodeURIComponent(t.aula_id)}">aula</a></li>`;}).join('')}</ol></section>`);
+  }
+  if(e.percorso_uda){ const u=data.find(d=>d.id===e.percorso_uda.id); if(u) parts.push(`<p class="match-note">Questa scheda è la tappa ${esc(e.percorso_uda.tappa||'')} dell’UDA <a href="esperienza.html?id=${encodeURIComponent(u.id)}">${esc(u.titolo)}</a>.</p>`); }
+  return parts.join('');
+}
+function renderUda(e, data){
+  const toc=[['sintesi','Sintesi'],['progettazione','Progettazione'],['racconto','Racconto'],['voci','Voci'],['valutazione','Valutazione'],['lettura','Lettura'],['apparato','Apparato']];
+  const head=`<nav class="crumbs" aria-label="Percorso"><a href="archivio.html">Archivio</a><span>›</span><strong>${esc(e.titolo)}</strong></nav>
+    <div class="page-head">
+      <p class="kicker"><span class="badge ${esc(e.stato)}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span> · ${esc(e.community)}${e.codice?` · ${esc(e.codice)}`:''}</p>
+      <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">${esc(e.titolo)}</h1>
+      ${e.sottotitolo?`<p class="uda-sottotitolo">${esc(e.sottotitolo)}</p>`:''}
+      <p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">${esc(e.aula)}</a>${(e.aule_collegate||[]).length?` <span class="muted">· e altre ${e.aule_collegate.length} aule collegate</span>`:''}</p>
+      <p class="tags">${esc((e.eta||[]).join(' · '))}${(e.gruppo||[]).length?' / '+esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · ')):''}${(e.discipline||[]).length?'<br>'+esc(e.discipline.join(' · ')):''}</p>
+      <p class="provenance">${esc(e.provenienza||'')}${e.versione?` · ${esc(e.versione)}`:''}${e.documentazione?` · documentazione: ${esc(e.documentazione)}`:''}</p>
+    </div>
+    <nav class="uda-toc" aria-label="Sezioni della scheda">${toc.map(([id,l])=>`<a href="#${id}">${l}</a>`).join('')}</nav>`;
+  const fotos=(e.foto||[]).length?`<div class="detail-gallery">${e.foto.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:'';
+  const videos=(e.videos||[]).length?`<section class="detail-block"><h2>Video</h2>${e.videos_nota?`<p class="muted">${esc(e.videos_nota)}</p>`:''}${videoBlocks(e.videos)}</section>`:'';
+  const intro=`<section class="detail-block"><p class="racconto">${esc(e.descrizione||'')}</p><p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula →</a> · <a href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa →</a></p>${(e.aule_collegate||[]).length?`<p class="muted">Aule collegate: ${e.aule_collegate.map(a=>`<a href="aula.html?id=${encodeURIComponent(a.id||a)}">${esc(a.nome||a)}</a>`).join(' · ')}</p>`:''}</section>`;
+  return head+udaTappe(e,data)+fotos+intro+udaSintesi(e)+udaProgettazione(e)+videos+udaMovimenti(e)+udaMateriali(e)+udaVoci(e)+udaOsservazioni(e)+udaValutazione(e)+udaLettura(e)+udaApparato(e)+daCompletareBox(e.da_completare||[]);
+}
+
 window.initEspPage = async function(){
   const root = $('#esp-root'); if(!root) return;
   const id = new URLSearchParams(location.search).get('id');
@@ -426,6 +558,7 @@ window.initEspPage = async function(){
     const e = data.find(x => x.id === id);
     if(!e){ root.innerHTML = '<p class="notice">Esperienza non trovata in questo prototipo.</p>'; return; }
     document.title = `${e.titolo} · La Strada dei Bambini`;
+    if (e.modello) { root.innerHTML = renderUda(e, data); return; }
     const s = e.scheda_uda || {};
     const voci = (e.voci_bambini||[]).map(v=>`<blockquote class="voce"><p>«${esc(v)}»</p></blockquote>`).join('');
     const videos = e.videos || [];

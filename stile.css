@@ -356,3 +356,52 @@ tr.group-row td{background:var(--wash);font-size:13px;color:#333;padding-top:18p
 .foto-thumb figcaption{position:absolute;left:4px;bottom:4px;background:rgba(255,255,255,.9);border-radius:999px;padding:0 6px;font-size:12px}
 .foto-thumb.errore figcaption{background:#FBEDEB;color:#A33224}
 .foto-thumb button{position:absolute;right:4px;top:4px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;line-height:1}
+
+/* --- Scheda UDA integrata (v1, 10/11/2026) --- */
+.badge.uda{background:#E8EEF6;color:#2B4A6F}
+.uda-sottotitolo{font-family:var(--serif);font-size:19px!important;color:#333!important}
+.uda-toc{display:flex;gap:6px;flex-wrap:wrap;background:#fff;padding:8px 0;border-bottom:1px solid var(--line)}
+.uda-toc a{font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink);white-space:nowrap}
+.uda-toc a:hover{border-color:var(--green)}
+.uda-gap{color:#8A6D2B;font-style:italic}
+.uda-stato{display:inline-block;font-size:11px;line-height:1.3;padding:2px 8px;border-radius:999px;background:#F1E8D8;color:#6B5320;font-weight:600;vertical-align:middle;margin-left:4px}
+.uda-ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.uda-domanda{padding:14px 16px;background:var(--wash);border-left:3px solid var(--green);border-radius:0 8px 8px 0}
+.uda-domanda p{margin:4px 0;font-size:17px;font-family:var(--serif)}
+.uda-domanda .kicker{font-family:var(--sans);font-size:11px}
+.uda-det{border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:#fff}
+.uda-det>summary{cursor:pointer;font-weight:600;font-size:15px;min-height:32px;display:list-item}
+.uda-det[open]>summary{margin-bottom:10px}
+.uda-comp{padding:10px 0;border-top:1px dashed var(--line)}
+.uda-comp h4{margin:0 0 6px;font-size:15px}
+.uda-comp p{margin:6px 0 2px;font-size:13px;color:var(--muted)}
+.uda-fasi{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px}
+.uda-fase p{margin:4px 0;font-size:15px;line-height:1.55}
+.uda-chips{display:flex;flex-wrap:wrap;gap:6px}
+.uda-chips span{font-size:12px;padding:2px 8px;border-radius:999px;background:#E5EEE7;color:var(--green)}
+.uda-gantt{margin-top:12px}
+.uda-gantt summary{cursor:pointer;font-size:14px;color:var(--muted)}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.uda-gantt table,.uda-rubrica{border-collapse:collapse;font-size:13px;min-width:100%}
+.uda-gantt th,.uda-gantt td{border:1px solid var(--line);padding:4px 8px;text-align:center}
+.uda-gantt td:first-child{text-align:left;white-space:nowrap}
+.uda-gantt .dot{color:var(--green)}
+.uda-rubrica th,.uda-rubrica td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left;min-width:130px}
+.uda-rubrica thead th{background:var(--wash);font-size:12px}
+.uda-movimento{display:flex;flex-direction:column;gap:6px;padding:4px 0 8px}
+.uda-movimento h3,.uda-sub{margin:6px 0 0;font-family:var(--serif);font-size:18px;font-weight:600}
+.voce{margin:0;padding:12px 16px;background:var(--wash);border-left:3px solid var(--green);border-radius:0 8px 8px 0}
+.voce p{margin:0;font-family:var(--serif);font-size:17px;line-height:1.45}
+.voce cite{display:block;margin-top:6px;font-style:normal;font-size:12px;color:var(--soft)}
+.voce.da-verificare{border-left-color:#C9A65A}
+.uda-oss{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.uda-tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:#EEE;color:#555;font-weight:600}
+.uda-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.uda-mat{margin:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.uda-mat img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--wash);border:1px solid var(--line)}
+.uda-tappe{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+@media(max-width:700px){
+  .uda-toc{margin:0;padding:8px 16px;overflow-x:auto;flex-wrap:nowrap}
+  .uda-gallery{grid-template-columns:repeat(2,1fr)}
+  .uda-domanda p{font-size:16px}
+}
