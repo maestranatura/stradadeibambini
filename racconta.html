@@ -7,7 +7,7 @@
 <title>Contribuisci · La Strada dei Bambini</title>
 <link rel="canonical" href="https://stradadeibambini.it/racconta.html">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="stile.css?v=2">
+<link rel="stylesheet" href="stile.css?v=4">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
@@ -22,13 +22,18 @@
     <p class="kicker">La comunità è coautrice</p>
     <h1 class="page-title" style="font-size:40px">Contribuisci</h1>
     <p>Racconta un'esperienza in cinque domande, dal telefono, appena rientrati. La struttura la mettiamo noi dopo.</p>
-    <p class="notice">Il contributo arriva in privato (Netlify Forms). Non viene pubblicato automaticamente: serve l’approvazione del responsabile. Niente cognomi dei bambini; nelle foto i volti non devono essere riconoscibili.</p>
+    <p class="notice">Il contributo arriva in privato. Non viene pubblicato automaticamente: serve l’approvazione del responsabile. Niente cognomi dei bambini; nelle foto i volti non devono essere riconoscibili.</p>
   </div>
-  <form id="story-form" name="contribuisci" method="POST" action="/grazie.html" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+  <form id="story-form" name="contribuisci" method="POST" action="/grazie.html" data-netlify="true" netlify-honeypot="bot-field">
     <input type="hidden" name="form-name" value="contribuisci">
+    <input type="hidden" name="subject" id="f-subject" value="Nuovo contributo da approvare · Strada dei Bambini">
     <p class="sr-only" aria-hidden="true">
       <label>Non compilare: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
     </p>
+    <input type="hidden" name="foto_keys" id="f-foto-keys" value="">
+    <input type="hidden" name="n_foto" id="f-n-foto" value="0">
+    <input type="hidden" name="n_audio" id="f-n-audio" value="0">
+    <input type="hidden" name="revisione" value="https://stradadeibambini.it/approva/">
     <fieldset>
       <legend>01 · Dove e quando</legend>
       <div id="dove" class="dove">
@@ -72,14 +77,23 @@
     </fieldset>
     <fieldset>
       <legend>03 · Cosa è successo</legend>
-      <div class="field"><label for="racconto">Scrivilo a parole</label><textarea id="racconto" name="racconto" rows="5" placeholder="Come lo diresti a una collega" required></textarea></div>
-      <p class="notice" style="margin-top:8px">Il messaggio vocale con trascrizione automatica arriva a breve: per ora racconta per iscritto.</p>
-      <div class="field" style="margin-top:16px"><label for="voci">Voci dei bambini <span class="muted">(facoltativo · solo nomi di battesimo)</span></label><textarea id="voci" name="voci" rows="3"></textarea></div>
+      <div class="field"><label for="racconto">Scrivilo a parole, oppure dillo a voce</label><textarea id="racconto" name="racconto" rows="5" placeholder="Come lo diresti a una collega"></textarea></div>
+      <div id="rec-racconto"></div>
+      <p class="rec-note">🔒 L'audio arriva solo alla coordinatrice; per i bambini solo il nome di battesimo. Massimo 3 minuti per registrazione.</p>
+      <div class="field" style="margin-top:16px"><label for="voci">Voci dei bambini <span class="muted">(facoltativo · solo nomi di battesimo)</span></label><textarea id="voci" name="voci" rows="3" placeholder="Giulia: «…»"></textarea></div>
+      <div class="voci-rec">
+        <p class="voci-rec-h">Oppure registra le loro voci <span class="muted">· una per bambino, solo il nome di battesimo</span></p>
+        <div id="voci-list"></div>
+        <button type="button" class="voci-add" id="voci-add">+ Aggiungi un'altra voce</button>
+      </div>
+      <input type="hidden" id="f-audio-racconto" name="audio_racconto" value="">
+      <input type="hidden" id="f-audio-voci" name="audio_voci" value="">
     </fieldset>
     <fieldset>
       <legend>04 · Foto, disegni, video</legend>
-      <div class="field"><label for="files">Foto e disegni <span class="muted">(fino a circa 10&nbsp;MB totali per Netlify Forms)</span></label><input id="files" name="files" type="file" multiple accept="image/*,.pdf"></div>
+      <div class="field"><label for="files">Foto e disegni <span class="muted">(senza limite di numero · le ridimensioniamo noi)</span></label><input id="files" type="file" multiple accept="image/*"></div>
       <p class="muted" id="file-count"></p>
+      <div id="foto-thumbs" class="foto-thumbs"></div>
       <div class="field"><label for="video">Link video YouTube <span class="muted">(uno per riga)</span></label><textarea id="video" name="video" rows="3" placeholder="https://www.youtube.com/watch?v=…"></textarea></div>
       <label class="check"><input type="checkbox" name="consenso_genitori" id="consenso" value="si" required> Ho il consenso dei genitori</label>
       <label class="check"><input type="checkbox" name="volti_non_riconoscibili" id="volti" value="si" required> I volti non sono riconoscibili</label>
@@ -104,6 +118,8 @@
 <footer class="site-footer"><span>La Strada dei Bambini · Comunità educanti</span><span><a href="racconta.html">Contribuisci</a></span></footer>
 
 <script src="dove.js?v=3" defer></script>
-<script src="app.js?v=2" defer></script>
+<script src="rec.js?v=1" defer></script>
+<script src="foto.js?v=1" defer></script>
+<script src="app.js?v=4" defer></script>
 </body>
 </html>

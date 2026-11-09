@@ -38,5 +38,11 @@
 /archivio/              /archivio.html 301
 /mappa.html/            /mappa.html 301
 
+# File di servizio (functions, dipendenze, config): mai serviti
+/netlify/*        /404.html  404!
+/package.json     /404.html  404!
+/package-lock.json /404.html 404!
+/netlify.toml     /404.html  404!
+
 # SPA-ish query pages stay as real files; 404 fallback
 /*    /404.html  404
