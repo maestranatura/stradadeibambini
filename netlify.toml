@@ -4,7 +4,13 @@
   command = ""
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 # Sito statico: pagine già generate e versionate.
 # Forms: modulo contribuisci in racconta.html (Netlify Forms).
+# Functions: audio, foto, approva (area riservata /approva/), pubblicati,
+# submission-created (copia i contributi in Blobs «da approvare» + email), trascrizione opzionale.

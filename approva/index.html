@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Da approvare · La Strada dei Bambini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/stile.css?v=4">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="approva.css?v=1">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/index.html">La Strada dei Bambini</a>
+  <nav class="site-nav" aria-label="Revisione"><span class="ap-who" id="ap-who"></span><button type="button" class="ap-out" id="ap-out" hidden>Esci</button></nav>
+</header>
+<main class="ap-main">
+  <section id="ap-login" class="ap-login" hidden>
+    <p class="kicker">Area riservata</p>
+    <h1 class="page-title" style="font-size:34px">Da approvare</h1>
+    <p>Inserisci la chiave di revisione. Resta salvata solo in questo browser.</p>
+    <form id="ap-login-form"><input id="ap-token" type="password" autocomplete="current-password" placeholder="Chiave di revisione" required><button class="btn" type="submit">Entra</button></form>
+    <p class="rec-err" id="ap-login-err"></p>
+  </section>
+  <section id="ap-app" hidden>
+    <div class="ap-head">
+      <h1 class="page-title" style="font-size:34px">Da approvare</h1>
+      <div class="ap-tabs" role="tablist">
+        <button type="button" data-stato="da approvare" class="on">Da approvare <span id="n-da"></span></button>
+        <button type="button" data-stato="approvato">Approvati</button>
+        <button type="button" data-stato="scartato">Scartati</button>
+      </div>
+      <p class="muted">Niente va online finché non premi «Approva». Gli audio e i contatti non vengono mai pubblicati.</p>
+    </div>
+    <div id="ap-list" class="ap-list" aria-live="polite"></div>
+    <details class="ap-tools" id="ap-tools"><summary>Strumenti</summary>
+      <p class="muted">Elimina dall'archivio privato audio e foto caricati ma mai arrivati con un modulo (prove, invii abbandonati) da più di un'ora.</p>
+      <button type="button" id="ap-clean">Pulisci audio e foto non collegati</button> <span id="ap-clean-out" class="muted"></span>
+    </details>
+  </section>
+</main>
+<script src="approva.js?v=1" defer></script>
+</body>
+</html>

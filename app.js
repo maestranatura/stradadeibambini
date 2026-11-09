@@ -25,9 +25,38 @@ function card(e, note=''){
   const vNote = (e.videos&&e.videos.length) ? `<p class="match-note">Video documentato · ${(e.videos||[]).length} clip</p>` : '';
   return `<article class="experience"><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span><h3><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></h3><p>${esc(e.aula)} · ${esc(e.community)}</p>${note?`<p class="match-note">${esc(note)}</p>`:''}${vNote}<p>${esc(e.descrizione)}</p><p class="tags">${esc(e.eta.join(' · '))} / ${esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · '))}<br>${esc(e.discipline.join(' · '))}</p><p class="provenance">${esc(e.provenienza)}</p><p><a href="esperienza.html?id=${encodeURIComponent(e.id)}">Apri la scheda →</a> · <a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Vai all’aula →</a></p></article>`;
 }
+
+// --- Contributi approvati (da /api/pubblicati: solo approvati, senza audio né contatti) ---
+async function fetchApproved(){
+  try{ const r=await fetch('/api/pubblicati',{cache:'no-store'}); if(!r.ok) return []; const d=await r.json(); return Array.isArray(d)?d:[]; }catch{ return []; }
+}
+function ytEmbed(u){ const m=String(u||'').match(/(?:embed\/|watch\?v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{6,})/); return m?`https://www.youtube.com/embed/${m[1]}`:''; }
+function mergeApproved(list, data, geo, communities){
+  const byId=Object.fromEntries(geo.features.filter(f=>f.geometry.type==='Point').map(f=>[f.properties.id,f]));
+  for(const c of list){
+    let aulaId=c.aula_id, f=aulaId&&byId[aulaId];
+    if(!f && c.lat!=null && c.lon!=null){
+      aulaId='contrib-'+c.id;
+      const com=(communities||[]).find(x=>x.name===c.community);
+      f={type:'Feature',geometry:{type:'Point',coordinates:[Number(c.lon),Number(c.lat)]},properties:{id:aulaId,name:c.luogo_nome||'Luogo nuovo',community:c.community||'Altre comunità',color:(com&&com.color)||'#2F5D3A',foto:c.foto||[],nuovo:true,tipo_aula:'Da classificare',breve:'Luogo aggiunto da un contributo approvato.'}};
+      geo.features.push(f); byId[aulaId]=f;
+    }
+    if(!f) continue;
+    const p=f.properties;
+    if(p.nuovo===undefined && (c.foto||[]).length) p.foto=[...(p.foto||[]), ...c.foto];
+    data.push({id:'contrib-'+c.id, titolo:c.titolo||p.name, aula:p.name, aula_id:aulaId, community:p.community, percorso:'', stato:'vissuta',
+      eta:[], gruppo:[], discipline:[], tipo_aula:p.tipo_aula||'Da classificare',
+      descrizione:(c.racconto||'').replace(/\s+/g,' ').slice(0,220)+((c.racconto||'').length>220?'…':''),
+      racconto:c.racconto||'', voci_bambini:String(c.voci||'').split(/\n+/).map(x=>x.trim()).filter(Boolean),
+      videos:(c.video||[]).map(u=>({url:u, embed:ytEmbed(u), titolo:'Video del contributo'})).filter(v=>v.embed),
+      provenienza:`Contributo di ${c.autore||'—'}${[c.classe,c.scuola].filter(Boolean).length?` · ${[c.classe,c.scuola].filter(Boolean).join(', ')}`:''} · approvato`,
+      foto:c.foto||[], contributo:true, quando:c.quando, scheda_uda:{}, da_completare:[]});
+  }
+}
 async function init(){
   if(!$('#map') && !$('#archive-filters') && !$('#story-form')) return;
-  const [data, geo, communities] = await Promise.all(['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})));
+  const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), $('#story-form')?Promise.resolve([]):fetchApproved()]);
+  mergeApproved(approvati, data, geo, communities);
   const disciplines=[...new Set(data.flatMap(e=>e.discipline))].sort();
 
   if($('#archive-filters')){
@@ -49,7 +78,7 @@ async function init(){
       const proposte=filtered.filter(e=>e.stato==='proposta');
       $('#result-count').textContent = `${filtered.length} esperienze · ${vissute.length} vissute · ${proposte.length} proposte`;
       let html='';
-      if(vissute.length){ html += `<tr class="group-row"><td colspan="7"><strong>Esperienze vissute</strong> · documentate (Salento volume + Valdobbiadene con video)</td></tr>` + vissute.map(row).join(''); }
+      if(vissute.length){ html += `<tr class="group-row"><td colspan="7"><strong>Esperienze vissute</strong> · documentate (Salento volume, Valdobbiadene con video, contributi approvati)</td></tr>` + vissute.map(row).join(''); }
       if(proposte.length){ html += `<tr class="group-row"><td colspan="7"><strong>Proposte · cosa si può fare qui</strong> · non ancora svolte</td></tr>` + proposte.map(row).join(''); }
       $('#archive-results').innerHTML = html || `<tr><td colspan="7">Nessuna esperienza con questi filtri.</td></tr>`;
     };
@@ -59,70 +88,44 @@ async function init(){
   if($('#story-form')){
     const dove=window.initDove?window.initDove(geo, communities):null;
     window.dove=dove;
-    if($('#files')){
-      $('#files').addEventListener('change', ()=>{
-        const n=$('#files').files.length; let bytes=0; for(const f of $('#files').files) bytes+=f.size;
-        $('#file-count').textContent = n ? `${n} file · ${(bytes/1024/1024).toFixed(1)} MB (limite circa 10 MB)` : '';
-      });
-    }
-    // Prefill "Quando?" with today (Europe/Rome label already on page via JS)
-    const q=$('#quando');
-    if(q && !q.value){
-      const now=new Date();
-      const y=now.getFullYear(), m=String(now.getMonth()+1).padStart(2,'0'), d=String(now.getDate()).padStart(2,'0');
-      q.value=`${y}-${m}-${d}`;
-      const lab=$('#quando-label');
-      if(lab){
-        try{ lab.textContent='Oggi · '+now.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); }
-        catch{ lab.textContent=`Oggi · ${d}/${m}/${y}`; }
-      }
-    }
-
+    const voice=window.initVoiceInputs?window.initVoiceInputs():null;
+    { const q=$('#quando'); if(q){ const n=new Date(); q.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; const lab=q.parentElement.querySelector('span.muted'); if(lab) lab.textContent='Oggi · '+n.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); } }
 
     $('#story-form').addEventListener('submit', async ev=>{
       ev.preventDefault();
       const v=dove?dove.value():{};
-      if(!v.mode){ alert('Dove? Tocca «Sono qui», scrivi il nome del luogo oppure tocca la mappa.'); const d=document.getElementById('dove'); if(d) d.scrollIntoView({behavior:'smooth',block:'center'}); return; }
-      const text=$('#racconto').value.trim();
-      if(!text){ alert('Scrivi cosa è successo.'); return; }
+      if(!v.mode){ alert('Dove? Tocca «Sono qui», scrivi il nome del luogo oppure tocca la mappa.'); document.getElementById('dove').scrollIntoView({behavior:'smooth',block:'center'}); return; }
+      const text=$('#racconto').value.trim(); if(voice) voice.sync(); const hasVoice=!!$('#f-audio-racconto').value;
+      if(!text && !hasVoice){ alert('Scrivi cosa è successo oppure registra un messaggio vocale.'); return; }
       const links=$('#video').value.trim().split(/\n/).filter(Boolean);
       if(links.some(x=>{ try{ const u=new URL(x); return !['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(u.hostname)||u.protocol!=='https:'; }catch{return true;} })){
         alert('Inserisci link YouTube validi, uno per riga.'); return;
       }
-      const filesEl=$('#files');
-      if(filesEl && filesEl.files && filesEl.files.length){
-        let total=0; for(const f of filesEl.files) total+=f.size;
-        if(total > 9.5*1024*1024){ alert('Le foto superano circa 10 MB totali (limite di Netlify Forms). Riduci o comprimi le immagini.'); return; }
-      }
-      const isAula=v.mode==='aula' && !!v.aula_id;
+      if(window.fotoPending && window.fotoPending()>0){ alert('Aspetta un attimo: le foto si stanno ancora caricando.'); return; }
+      if(document.querySelector('.rec-box[data-state="recording"]')){ alert('Ferma prima la registrazione in corso.'); return; }
+      const audioKeys=voice?voice.keys():[];
       const aulaName = v.luogo_nome || 'Luogo nuovo';
-      // Campi per Netlify Forms (compatibili con le submission precedenti)
-      $('#f-new-place').value = isAula ? '' : aulaName;
       $('#f-comunita').value = v.community || '';
-      const link = isAula ? `mappa.html?aula=${encodeURIComponent(v.aula_id)}` : 'mappa.html';
-      const coordsTxt = (v.lat && v.lon) ? ` · Lat ${Number(v.lat).toFixed(5)} · Lon ${Number(v.lon).toFixed(5)}` : '';
-      const btn=$('#submit-btn'); const st=$('#submit-status');
-      if(btn){ btn.disabled=true; btn.textContent='Invio in corso…'; }
-      if(st) st.textContent='Sto inviando il contributo in privato…';
+      { const np=$('#f-new-place'); if(np) np.value = (v.mode==='aula' && v.aula_id) ? '' : aulaName; } // compatibile con le submission precedenti
+      $('#f-n-audio').value = String(audioKeys.length);
+      $('#f-subject').value = `Nuovo contributo da approvare · ${aulaName}${$('#autore').value.trim()?` · ${$('#autore').value.trim()}`:''}`;
+      const btn=$('#submit-btn'), st=$('#submit-status');
+      btn.disabled=true; btn.textContent='Invio in corso…'; st.textContent='Sto inviando il contributo in privato…';
       try{
         const fd=new FormData($('#story-form'));
-        if(!fd.get('form-name')) fd.set('form-name','contribuisci');
-        fd.set('aula_nome', aulaName);
-        const res=await fetch('/', { method:'POST', body:fd, headers:{ 'Accept':'application/json' } });
-        if(!res.ok && res.status!==200){
-          throw new Error('HTTP '+res.status);
-        }
-        $('#story-form').hidden=true; $('#thanks').hidden=false;
-        $('#thanks-msg').textContent = `Il tuo racconto per ${isAula?'l’aula ':''}${aulaName} è arrivato in privato ed è in attesa di approvazione.`;
-        $('#thanks-link').textContent = link + coordsTxt;
-        $('#thanks-aula').href = link;
-        $('#thanks').scrollIntoView({behavior:'smooth'});
+        const res=await fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(fd).toString()});
+        if(!res.ok) throw new Error('HTTP '+res.status);
       }catch(err){
-        console.error(err);
-        if(st) st.textContent='Invio non riuscito. Controlla la connessione e riprova, oppure scrivi a chi cura il sito.';
-        if(btn){ btn.disabled=false; btn.textContent='Invia il contributo →'; }
-        alert('Non è stato possibile inviare il contributo. Riprova tra poco.');
+        console.error(err); btn.disabled=false; btn.textContent='Invia il contributo →';
+        st.textContent='Invio non riuscito. Controlla la connessione e riprova.'; return;
       }
+      const link = v.aula_id ? `mappa.html?aula=${encodeURIComponent(v.aula_id)}` : 'mappa.html';
+      const nFoto=Number($('#f-n-foto').value||0);
+      $('#story-form').hidden=true; $('#thanks').hidden=false;
+      $('#thanks-msg').textContent = `Il tuo racconto per ${v.aula_id?'l’aula ':''}${aulaName} è arrivato ed è in attesa di approvazione.`;
+      $('#thanks-link').textContent = [aulaName, v.community, `${nFoto} foto`, `${audioKeys.length} audio`].filter(Boolean).join(' · ');
+      $('#thanks-aula').href = link;
+      $('#thanks').scrollIntoView({behavior:'smooth'});
     });
   }
 
@@ -337,7 +340,8 @@ init().catch(err=>{ console.error(err); const t=$('#place-panel')||$('#archive-r
 
 
 async function loadProtoData(){
-  const [data, geo, communities] = await Promise.all(['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})));
+  const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), fetchApproved()]);
+  mergeApproved(approvati, data, geo, communities);
   return {data, geo, communities};
 }
 
@@ -439,6 +443,7 @@ window.initEspPage = async function(){
         <p class="tags">${esc((e.eta||[]).join(' · '))} / ${esc((e.gruppo||[]).map(g=>groupLabels[g]||g).join(' · '))}<br>${esc((e.discipline||[]).join(' · '))}</p>
         <p class="provenance">${esc(e.provenienza)}</p>
       </div>
+      ${(e.foto||[]).length ? `<div class="detail-gallery">${e.foto.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>` : ''}
       ${videos.length ? `<section class="detail-block"><h2>Video</h2>${videoBlocks(videos)}</section>` : ''}
       <section class="detail-block">
         <h2>In sintesi</h2>

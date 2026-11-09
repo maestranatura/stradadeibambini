@@ -5,3 +5,8 @@
 
 /mappa/foto/*
   Cache-Control: public, max-age=604800
+
+/approva/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store
+  Referrer-Policy: no-referrer
