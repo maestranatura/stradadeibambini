@@ -263,15 +263,15 @@ async function init(){
 
   if($('#map')){
     if(!window.L){ $('#map').innerHTML='<p class="notice">La mappa richiede la connessione per caricare Leaflet.</p>'; return; }
-    const map=window.prototypeMap=L.map('map',{scrollWheelZoom:true, zoomControl:true}).setView([42.1,12.5],5.5);
+    const ITALY=[42.1,12.5], ITALY_Z=innerWidth<700?5:5.5;
+    const map=window.prototypeMap=L.map('map',{scrollWheelZoom:true, zoomControl:true, zoomSnap:0.5, tap:true}).setView(ITALY,ITALY_Z);
     L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17, attribution:'© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)'}).addTo(map);
     L.control.scale({imperial:false}).addTo(map);
 
-    const cs=L.layerGroup().addTo(map);
     const routes=L.layerGroup(); // toggled
-    const points=L.layerGroup().addTo(map);
     const shortName=n=>n.replace(' · Il paesaggio che sono io','').replace('Via Francigena · Salento','Francigena');
     const managerByName=Object.fromEntries(communities.map(c=>[c.name, c.manager||'']));
+    const colorByName=Object.fromEntries(communities.map(c=>[c.name, c.color]));
     const byAula={};
     data.forEach(e=>{
       (byAula[e.aula_id]||(byAula[e.aula_id]={vissute:[],proposte:[]}))[e.stato==='vissuta'?'vissute':'proposte'].push(e);
@@ -283,23 +283,43 @@ async function init(){
       return 'neutra';
     };
 
-    // Community chips + community filter options
+    // Aule layer: clustered at low zoom (if Leaflet.markercluster loaded), always visible.
+    const hasCluster=typeof L.markerClusterGroup==='function';
+    const points = hasCluster ? L.markerClusterGroup({
+      showCoverageOnHover:false, spiderfyOnMaxZoom:true, maxClusterRadius:z=>z<9?70:z<12?40:28,
+      disableClusteringAtZoom:14, chunkedLoading:true,
+      iconCreateFunction:cl=>{
+        const ms=cl.getAllChildMarkers(); const cnt={};
+        ms.forEach(m=>{ cnt[m.options._com]=(cnt[m.options._com]||0)+1; });
+        const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+        const col=(top&&colorByName[top[0]])||'#4f6127';
+        const n=cl.getChildCount(); const s=n<10?34:n<100?40:46;
+        return L.divIcon({className:'aula-cluster', html:`<span style="background:${esc(col)}">${n}</span>`, iconSize:[s,s]});
+      }
+    }) : L.layerGroup();
+    points.addTo(map);
+
+    // Community chips (small, only at Italy-wide zoom) + community filter options
     const fCom=$('#f-community');
+    const comBounds={};
+    geo.features.forEach(f=>{ if(f.geometry.type!=='Point') return; const c=f.geometry.coordinates; (comBounds[f.properties.community]||(comBounds[f.properties.community]=L.latLngBounds([]))).extend([c[1],c[0]]); });
+    const goCommunity=(name)=>{
+      const c=communities.find(x=>x.name===name);
+      const b=comBounds[name];
+      if(b && b.isValid()) map.fitBounds(b.pad(0.08),{maxZoom:14});
+      else if(c) map.setView(c.center,12);
+      $('#crumbs').innerHTML=`<a href="mappa.html">Italia</a><span>›</span><strong>${esc(name)}</strong>`;
+    };
     communities.forEach(c=>{
-      const icon=L.divIcon({className:'community-marker', html:`<div class="community-dot" style="background:${esc(c.color)}"></div>`, iconSize:[16,16], iconAnchor:[8,8]});
-      const m=L.marker(c.center,{icon}).bindTooltip(esc(c.name),{className:'community-tip', direction:'top', offset:[0,-8]});
-      m.on('click',()=>{ map.setView(c.center,12); if(fCom) fCom.value=c.name; applyFilters(); });
-      cs.addLayer(m);
       const b=document.createElement('button'); b.type='button'; b.className='community-chip';
-      b.innerHTML=`<span>${esc(shortName(c.name))}</span><small>${c.has_routes?`${c.route_count} percorsi`:'senza percorso tracciato'}${c.manager?` · ${esc(c.manager)}`:''}</small>`;
-      b.style.borderLeft=`4px solid ${c.color}`;
-      b.onclick=()=>{ map.setView(c.center,12); $('#crumbs').innerHTML=`<a href="mappa.html">Italia</a><span>›</span><strong>${esc(c.name)}</strong>`; if(fCom) fCom.value=c.name; applyFilters(); };
+      b.innerHTML=`<i style="background:${esc(c.color)}"></i><span>${esc(shortName(c.name))}</span><small>${c.has_routes?`${c.route_count} percorsi`:'senza percorso tracciato'}${c.manager?` · ${esc(c.manager)}`:''}</small>`;
+      b.onclick=()=>{ if(fCom) fCom.value=c.name; applyFilters(); goCommunity(c.name); };
       $('#community-bar').appendChild(b);
       if(fCom){
         const o=document.createElement('option'); o.value=c.name; o.textContent=shortName(c.name); fCom.appendChild(o);
       }
     });
-    $('#zoom-italy').onclick=()=>{ map.setView([42.1,12.5],5.5); $('#crumbs').innerHTML='<a href="mappa.html">Italia</a>'; if(fCom) fCom.value=''; applyFilters(); closePanelHome(); };
+    $('#zoom-italy').onclick=()=>{ map.setView(ITALY,ITALY_Z); $('#crumbs').innerHTML='<a href="mappa.html">Italia</a>'; if(fCom) fCom.value=''; applyFilters(); closePanelHome(); };
 
     const defaultPanelHTML = $('#place-panel').innerHTML;
     const closePanelHome=()=>{
@@ -311,7 +331,7 @@ async function init(){
 
     const zoomNoteText=()=>{
       const z=map.getZoom();
-      return z<11 ? 'Scegli una comunità o avvicinati.' : z<13 ? 'Percorsi (se attivi) e aule in avvicinamento.' : 'Clicca un’aula. Punto pieno = vissuta · vuoto = proposte · piccolo = senza schede.';
+      return z<11 ? 'Punto pieno = esperienza vissuta · vuoto = solo proposte · piccolo = ancora senza schede.' : 'Tocca un’aula. Punto pieno = vissuta · vuoto = proposte · piccolo = ancora senza schede.';
     };
 
     const ytIdFrom=u=>{
@@ -359,29 +379,21 @@ async function init(){
       $('#place-panel').classList.add('open');
       const closeBtn=$('#panel-close');
       if(closeBtn) closeBtn.onclick=()=>closePanelHome();
-      if(innerWidth<850) $('#place-panel').scrollIntoView({behavior:'smooth', block:'start'});
     };
 
-    // Build markers (aule only) and routes from real geometries
+    // Build markers (aule only) and routes from real geometries.
+    // Each aula is a divIcon with a 28px tap area; the visible dot inside shows the kind.
     const aulaMarkers=[]; // {feature, marker, kind, community}
     geo.features.forEach(f=>{
       const p=f.properties, g=f.geometry;
       if(g.type==='Point'){
         const kind=kindOf(p);
-        const filled = kind==='vissuta';
-        const hollow = kind==='proposta';
-        const radius = filled||hollow ? 7 : 4;
-        const m=L.circleMarker([g.coordinates[1], g.coordinates[0]], {
-          radius,
-          color: p.color,
-          fillColor: filled ? p.color : '#fff',
-          fillOpacity: filled ? 0.95 : (hollow ? 0.15 : 0.35),
-          weight: hollow ? 2.5 : (filled ? 1.5 : 1),
-          opacity: 0.95,
-          className: 'aula-marker aula-'+kind
-        }).bindTooltip(esc(p.name),{className:'community-tip'}).on('click',()=>openPlace(f));
+        const col=p.color||colorByName[p.community]||'#4f6127';
+        const icon=L.divIcon({className:'aula-pin aula-'+kind, html:`<span style="--c:${esc(col)}"></span>`, iconSize:[28,28], iconAnchor:[14,14]});
+        const m=L.marker([g.coordinates[1], g.coordinates[0]], {icon, title:p.name, keyboard:true, riseOnHover:true, _com:p.community})
+          .bindTooltip(esc(p.name),{className:'community-tip', direction:'top', offset:[0,-10]})
+          .on('click',()=>openPlace(f));
         aulaMarkers.push({feature:f, marker:m, kind, community:p.community});
-        points.addLayer(m);
       } else {
         // Only real route geometries already in luoghi.geojson (from My Maps/umap)
         const layer=L.geoJSON(f,{style:{color:p.color, weight:4, opacity:.7, dashArray: null}});
@@ -392,76 +404,67 @@ async function init(){
     });
 
     let showRoutes=true;
+    const fAule=$('#f-aule');
     const applyFilters=()=>{
-      const onlyV=$('#f-vissute')?.checked;
-      const onlyP=$('#f-proposte')?.checked;
+      const mode=fAule?.value||'';           // '' = tutte le aule (default)
       const com=fCom?.value||'';
       showRoutes=!!$('#f-percorsi')?.checked;
-      aulaMarkers.forEach(({marker, kind, community, feature})=>{
-        let ok=true;
-        if(com && community!==com) ok=false;
-        if(onlyV || onlyP){
-          const passV=onlyV && kind==='vissuta';
-          const passP=onlyP && kind==='proposta';
-          if(!(passV||passP)) ok=false;
-        }
-        if(ok){ if(!points.hasLayer(marker)) points.addLayer(marker); }
-        else { if(points.hasLayer(marker)) points.removeLayer(marker); }
-      });
-      // routes: toggle + community filter
-      routes.eachLayer(layer=>{
-        const c=layer._protoCommunity;
-        const ok=showRoutes && (!com || c===com);
-        // layer is in routes group; we control routes group on map
-      });
+      const visible=aulaMarkers.filter(({kind, community})=>{
+        if(com && community!==com) return false;
+        if(mode==='vissuta' && kind!=='vissuta') return false;
+        if(mode==='proposta' && kind!=='proposta') return false;
+        return true;
+      }).map(x=>x.marker);
+      points.clearLayers();
+      if(points.addLayers) points.addLayers(visible); else visible.forEach(m=>points.addLayer(m));
+      const cnt=$('#aule-count'); if(cnt) cnt.textContent=`${visible.length} aule`;
       if(showRoutes){
         if(!map.hasLayer(routes)) map.addLayer(routes);
-        // filter individual by community: rebuild visibility via opacity
         routes.eachLayer(layer=>{
-          const c=layer._protoCommunity;
-          const ok=!com || c===com;
+          const ok=!com || layer._protoCommunity===com;
           layer.setStyle({opacity: ok?0.7:0, weight: ok?4:0});
-          if(layer.getLayers) layer.getLayers().forEach(l=>{ if(l.setStyle) l.setStyle({opacity:ok?0.7:0, weight:ok?4:0}); });
         });
       } else if(map.hasLayer(routes)){
         map.removeLayer(routes);
       }
-      const note=$('#zoom-note'); if(note && !$('#place-panel').classList.contains('open')) note.textContent=zoomNoteText();
+      updateZoomChrome();
     };
 
-    ['f-vissute','f-proposte','f-percorsi','f-community'].forEach(id=>{
+    if(fCom) fCom.addEventListener('change', ()=>{ applyFilters(); if(fCom.value) goCommunity(fCom.value); });
+    ['f-aule','f-percorsi'].forEach(id=>{
       const el=document.getElementById(id); if(el) el.addEventListener('change', applyFilters);
     });
 
-    const updateZoomChrome=()=>{
+    // Community chips only at the Italy-wide view and when no community is chosen: never over a zoomed map.
+    function updateZoomChrome(){
       const z=map.getZoom();
-      $('#community-bar').style.display = z>=13 ? 'none' : 'flex';
-      if(z>=11 && showRoutes && !map.hasLayer(routes)) map.addLayer(routes);
-      // Keep aule visible from zoom 12 up (simpler than old 14)
-      const showPoints = z>=12;
-      if(showPoints && !map.hasLayer(points)) map.addLayer(points);
-      if(!showPoints && map.hasLayer(points)) map.removeLayer(points);
-      // community dots only at Italy view
-      if(z<12 && !map.hasLayer(cs)) map.addLayer(cs);
-      if(z>=12 && map.hasLayer(cs)) map.removeLayer(cs);
+      const show = z<7 && !(fCom&&fCom.value);
+      const bar=$('#community-bar');
+      if(bar.hidden===show){ bar.hidden=!show; setTimeout(()=>map.invalidateSize({pan:false}),0); }
       const note=$('#zoom-note'); if(note && !$('#place-panel').classList.contains('open')) note.textContent=zoomNoteText();
-    };
-    map.on('zoomend moveend', updateZoomChrome);
+    }
+    map.on('zoomend', updateZoomChrome);
     applyFilters();
-    updateZoomChrome();
 
     const params=new URLSearchParams(location.search);
     const id=params.get('aula');
+    const focus=(f)=>{
+      const m=aulaMarkers.find(x=>x.feature===f)?.marker;
+      const ll=[f.geometry.coordinates[1], f.geometry.coordinates[0]];
+      if(m && points.zoomToShowLayer) points.zoomToShowLayer(m, ()=>map.setView(ll, Math.max(map.getZoom(),15)));
+      else map.setView(ll, 15);
+      openPlace(f);
+    };
     if(id){
       const f=geo.features.find(f=>f.properties.id===id && f.geometry.type==='Point');
-      if(f){
-        map.setView([f.geometry.coordinates[1], f.geometry.coordinates[0]], 15);
-        openPlace(f);
-      }
+      if(f) focus(f);
+    } else if(params.get('comunita')){
+      const name=communities.find(c=>c.id===params.get('comunita')||c.name===params.get('comunita'))?.name;
+      if(name){ if(fCom) fCom.value=name; applyFilters(); goCommunity(name); }
     }
     window.openPrototypePlace=(id)=>{
       const f=geo.features.find(f=>f.properties.id===id && f.geometry.type==='Point');
-      if(f){ map.setView([f.geometry.coordinates[1], f.geometry.coordinates[0]], 15); openPlace(f); }
+      if(f) focus(f);
     };
   }
 }
