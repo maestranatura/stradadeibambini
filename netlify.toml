@@ -3,4 +3,8 @@
   publish = "."
   command = ""
 
-# Sito statico: pagine gia generate e versionate.
+[build.environment]
+  NODE_VERSION = "20"
+
+# Sito statico: pagine già generate e versionate.
+# Forms: modulo contribuisci in racconta.html (Netlify Forms).

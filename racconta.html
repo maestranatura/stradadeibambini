@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Racconta un’esperienza in un’aula della Strada dei Bambini">
+<title>Contribuisci · La Strada dei Bambini</title>
+<link rel="canonical" href="https://stradadeibambini.it/racconta.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stile.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">La Strada dei Bambini</a>
+  <nav class="site-nav" aria-label="Sezioni"><a href="index.html" class="">Racconto</a><a href="mappa.html" class="">Mappa</a><a href="archivio.html" class="">Archivio</a><a class="contrib active" href="racconta.html">Contribuisci</a></nav>
+</header>
+
+<main class="narrow">
+  <div class="page-head" style="padding:0;gap:12px;display:flex;flex-direction:column">
+    <p class="kicker">La comunità è coautrice</p>
+    <h1 class="page-title" style="font-size:40px">Contribuisci</h1>
+    <p>Racconta un'esperienza in cinque domande, dal telefono, appena rientrati. La struttura la mettiamo noi dopo.</p>
+    <p class="notice">Il contributo arriva in privato (Netlify Forms). Non viene pubblicato automaticamente: serve l’approvazione del responsabile. Niente cognomi dei bambini; nelle foto i volti non devono essere riconoscibili.</p>
+  </div>
+  <form id="story-form" name="contribuisci" method="POST" action="/grazie.html" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+    <input type="hidden" name="form-name" value="contribuisci">
+    <p class="sr-only" aria-hidden="true">
+      <label>Non compilare: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+    </p>
+    <fieldset>
+      <legend>01 · Dove e quando</legend>
+      <div class="field"><label for="place-picker">Un'aula della mappa</label><select id="place-picker" name="aula_id"><option value="">Scegli un luogo o scrivine uno nuovo</option></select></div>
+      <div class="field"><label for="new-place">Oppure un luogo nuovo</label><input id="new-place" name="new-place" placeholder="Nome del luogo e comunità"></div>
+
+      <div id="geo-box" class="geo-box">
+        <p class="geo-label" id="geo-label">Posizione del luogo nuovo</p>
+        <div class="geo-tools">
+          <button type="button" class="btn geo-here" id="geo-here">Sono qui</button>
+          <div class="geo-search">
+            <label class="sr-only" for="geo-q">Cerca un indirizzo o un luogo</label>
+            <input id="geo-q" type="search" placeholder="Cerca un luogo in Italia…" autocomplete="off">
+            <button type="button" id="geo-search-btn">Cerca</button>
+          </div>
+        </div>
+        <ul id="geo-results" class="geo-results" hidden></ul>
+        <p id="geo-msg" class="muted geo-msg" role="status"></p>
+        <div id="geo-map" aria-label="Mappa per collocare il luogo"></div>
+        <p id="geo-coords" class="muted geo-coords">Nessuna posizione scelta.</p>
+        <input type="hidden" id="geo-lat" name="lat" value="">
+        <input type="hidden" id="geo-lon" name="lon" value="">
+      </div>
+
+      <div class="two">
+        <div class="field"><label for="quando">Quando?</label><input id="quando" name="quando" type="date" required><span class="muted" style="font-size:12px" id="quando-label"></span></div>
+        <div class="field"><label for="tempo">Che tempo faceva? <span class="muted">(facoltativo)</span></label><input id="tempo" name="tempo" placeholder="Sole, vento, pioggia…"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>02 · Chi c'era</legend>
+      <div class="two">
+        <div class="field"><label for="classe">Classe</label><input id="classe" name="classe" required></div>
+        <div class="field"><label for="scuola">Scuola</label><input id="scuola" name="scuola" required></div>
+        <div class="field"><label for="numero">Numero di bambini</label><input id="numero" name="numero" type="number" min="1" required></div>
+        <div class="field"><label for="accompagnatori">Accompagnatori</label><input id="accompagnatori" name="accompagnatori" placeholder="Docenti, esperti, custodi…"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>03 · Cosa è successo</legend>
+      <div class="field"><label for="racconto">Scrivilo a parole</label><textarea id="racconto" name="racconto" rows="5" placeholder="Come lo diresti a una collega" required></textarea></div>
+      <p class="notice" style="margin-top:8px">Il messaggio vocale con trascrizione automatica arriva a breve: per ora racconta per iscritto.</p>
+      <div class="field" style="margin-top:16px"><label for="voci">Voci dei bambini <span class="muted">(facoltativo · solo nomi di battesimo)</span></label><textarea id="voci" name="voci" rows="3"></textarea></div>
+    </fieldset>
+    <fieldset>
+      <legend>04 · Foto, disegni, video</legend>
+      <div class="field"><label for="files">Foto e disegni <span class="muted">(fino a circa 10&nbsp;MB totali per Netlify Forms)</span></label><input id="files" name="files" type="file" multiple accept="image/*,.pdf"></div>
+      <p class="muted" id="file-count"></p>
+      <div class="field"><label for="video">Link video YouTube <span class="muted">(uno per riga)</span></label><textarea id="video" name="video" rows="3" placeholder="https://www.youtube.com/watch?v=…"></textarea></div>
+      <label class="check"><input type="checkbox" name="consenso_genitori" id="consenso" value="si" required> Ho il consenso dei genitori</label>
+      <label class="check"><input type="checkbox" name="volti_non_riconoscibili" id="volti" value="si" required> I volti non sono riconoscibili</label>
+    </fieldset>
+    <fieldset>
+      <legend>05 · La tua firma</legend>
+      <div class="field"><label for="autore">Nome di chi scrive</label><input id="autore" name="autore" required></div>
+      <label class="check"><input type="checkbox" name="licenza_aperta" id="licenza" value="si" required> Acconsento a pubblicare il racconto con licenza aperta, citando il mio nome</label>
+      <p class="muted">Prima della pubblicazione: revisione e approvazione del responsabile. Nulla va online automaticamente.</p>
+      <button class="btn" type="submit" id="submit-btn">Invia il contributo →</button>
+      <p class="muted" id="submit-status" role="status"></p>
+    </fieldset>
+  </form>
+  <section id="thanks" class="thanks" hidden role="status">
+    <p class="kicker">In attesa di approvazione</p>
+    <h2>Grazie per il tuo contributo.</h2>
+    <p id="thanks-msg">Il tuo racconto è arrivato in privato ed è in attesa di approvazione.</p>
+    <p class="notice">Riferimento aula: <span id="thanks-link"></span></p>
+    <a class="btn" id="thanks-aula" href="mappa.html">Apri l'aula sulla mappa</a>
+  </section>
+</main>
+<footer class="site-footer"><span>La Strada dei Bambini · Comunità educanti</span><span><a href="racconta.html">Contribuisci</a></span></footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

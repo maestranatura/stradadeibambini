@@ -1,0 +1,62 @@
+[
+  {
+    "id": "01-siracusa",
+    "name": "Siracusa",
+    "color": "#b84d3e",
+    "center": [
+      37.07,
+      15.28
+    ],
+    "manager": "Danilo Casertano",
+    "has_routes": false,
+    "route_count": 0
+  },
+  {
+    "id": "02-salento-paesaggio-che-sono-io",
+    "name": "Salento · Il paesaggio che sono io",
+    "color": "#826e2f",
+    "center": [
+      40.06,
+      18.32
+    ],
+    "manager": "Ezio del Gottardo",
+    "has_routes": true,
+    "route_count": 1
+  },
+  {
+    "id": "03-valdobbiadene",
+    "name": "Valdobbiadene",
+    "color": "#4f6127",
+    "center": [
+      45.9,
+      12.0
+    ],
+    "manager": "Andrea Rossetto",
+    "has_routes": true,
+    "route_count": 16
+  },
+  {
+    "id": "04-druento",
+    "name": "Druento",
+    "color": "#337585",
+    "center": [
+      45.14,
+      7.57
+    ],
+    "manager": "Alessandra de Grandis",
+    "has_routes": true,
+    "route_count": 1
+  },
+  {
+    "id": "05-via-francigena-salento",
+    "name": "Via Francigena · Salento",
+    "color": "#825d85",
+    "center": [
+      40.03,
+      18.24
+    ],
+    "manager": "IC Supersano",
+    "has_routes": true,
+    "route_count": 5
+  }
+]

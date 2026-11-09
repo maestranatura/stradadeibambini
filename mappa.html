@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Mappa delle aule all’aperto: comunità, percorsi e esperienze documentate">
+<title>Mappa delle aule · La Strada dei Bambini</title>
+<link rel="canonical" href="https://stradadeibambini.it/mappa.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stile.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">La Strada dei Bambini</a>
+  <nav class="site-nav" aria-label="Sezioni"><a href="index.html" class="">Racconto</a><a href="mappa.html" class="active">Mappa</a><a href="archivio.html" class="">Archivio</a><a class="contrib" href="racconta.html">Contribuisci</a></nav>
+</header>
+
+<div class="map-shell">
+  <div class="map-pane">
+    <div class="crumbs" id="crumbs"><a href="mappa.html">Italia</a></div>
+    <div class="map-tools" id="community-bar" aria-label="Comunità"></div>
+    <div class="map-filters" id="map-filters" aria-label="Filtri mappa">
+      <label class="map-check"><input type="checkbox" id="f-vissute"> Con esperienze vissute</label>
+      <label class="map-check"><input type="checkbox" id="f-proposte"> Con proposte</label>
+      <label class="map-check"><input type="checkbox" id="f-percorsi" checked> Percorsi</label>
+      <select id="f-community" aria-label="Comunità">
+        <option value="">Tutte le comunità</option>
+      </select>
+    </div>
+    <div id="map" role="region" aria-label="Mappa fisica delle comunità educanti"></div>
+    <div class="map-float">
+      <button type="button" id="zoom-italy">Tutta l'Italia</button>
+      <span class="map-legend" aria-hidden="true">
+        <span class="leg-fill"></span> Vissute
+        <span class="leg-hollow"></span> Proposte
+        <span class="leg-neutral"></span> Altre
+      </span>
+    </div>
+  </div>
+  <aside id="place-panel" aria-live="polite">
+    <button type="button" class="panel-close" id="panel-close" hidden aria-label="Chiudi">×</button>
+    <p class="kicker">Italia · comunità educanti</p>
+    <h2>Da dove partiamo?</h2>
+    <p>Scegli una comunità. Avvicinati per vedere le aule. I percorsi si accendono col toggle «Percorsi» dove abbiamo un tracciato reale.</p>
+    <p class="muted" id="zoom-note">Punto pieno = esperienza vissuta · vuoto = solo proposte · piccolo = ancora senza schede.</p>
+    <p><a href="mappa.html?aula=03-valdobbiadene-109">Prova: scuola San Pietro (Valdobbiadene) →</a></p>
+    <p><a href="mappa.html?aula=02-salento-paesaggio-che-sono-io-60">Prova: Parco dei Pini (Salento) →</a></p>
+  </aside>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

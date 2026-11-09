@@ -1,0 +1,42 @@
+# Old Siracusa atlas → community / map / esperienze
+/siracusa               /comunita/siracusa.html 301
+/siracusa/               /comunita/siracusa.html 301
+/siracusa/index.html    /comunita/siracusa.html 301
+/siracusa/neapolis      /comunita/siracusa.html 301
+/siracusa/neapolis.html /comunita/siracusa.html 301
+/siracusa/ortigia       /comunita/siracusa.html 301
+/siracusa/ortigia.html  /comunita/siracusa.html 301
+/siracusa/citta         /comunita/siracusa.html 301
+/siracusa/citta.html    /comunita/siracusa.html 301
+/siracusa/dintorni      /comunita/siracusa.html 301
+/siracusa/dintorni.html /comunita/siracusa.html 301
+/siracusa/percorsi      /mappa.html 301
+/siracusa/percorsi.html /mappa.html 301
+/siracusa/fonti         /comunita/siracusa.html 301
+/siracusa/fonti.html    /comunita/siracusa.html 301
+/siracusa/schede        /archivio.html 301
+/siracusa/schede/       /archivio.html 301
+/siracusa/schede/index.html /archivio.html 301
+/siracusa/schede/modello /archivio.html 301
+/siracusa/schede/modello.html /archivio.html 301
+/siracusa/schede/quarte-orecchio /esperienza.html?id=quarte-orecchio 301
+/siracusa/schede/quarte-orecchio.html /esperienza.html?id=quarte-orecchio 301
+/siracusa/schede/terza-piazza-minerva /esperienza.html?id=terza-piazza-minerva 301
+/siracusa/schede/terza-piazza-minerva.html /esperienza.html?id=terza-piazza-minerva 301
+/siracusa/schede/seconda-duomo /esperienza.html?id=seconda-duomo 301
+/siracusa/schede/seconda-duomo.html /esperienza.html?id=seconda-duomo 301
+
+# Old map entry points (folder kept for /mappa/foto/* assets)
+/mappa                  /mappa.html 301
+/mappa/                 /mappa.html 301
+/mappa/index.html       /mappa.html 301
+
+# Friendly aliases
+/contribuisci           /racconta.html 301
+/contribuisci/          /racconta.html 301
+/archivio               /archivio.html 301
+/archivio/              /archivio.html 301
+/mappa.html/            /mappa.html 301
+
+# SPA-ish query pages stay as real files; 404 fallback
+/*    /404.html  404
