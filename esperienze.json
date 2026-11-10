@@ -377,7 +377,9 @@
       }
     ],
     "materiali_adulti": [],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p20-disegno-infanzia-1.jpg"
+    ],
     "competenze_ue": [
       "Personale, sociale e capacità di imparare a imparare",
       "Consapevolezza ed espressione culturali"
@@ -1591,7 +1593,9 @@
         "fonte": "Volume «Il paesaggio che sono io» (IC Botrugno · Scuola Giardinieri Custodi del Paesaggio), p. 47"
       }
     ],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p47-traccia-gps.jpg"
+    ],
     "competenze_ue": [
       "Competenza in materia di cittadinanza",
       "Competenza personale, sociale e capacità di imparare a imparare",
@@ -2021,7 +2025,9 @@
       }
     ],
     "materiali_adulti": [],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p56-frottage.jpg"
+    ],
     "competenze_ue": [
       "Competenza matematica e in scienze",
       "Competenza alfabetica funzionale",
@@ -2423,7 +2429,9 @@
       }
     ],
     "materiali_adulti": [],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p62-equazione.jpg"
+    ],
     "competenze_ue": [
       "Competenza alfabetica funzionale",
       "Personale, sociale e capacità di imparare a imparare"
@@ -2844,7 +2852,9 @@
         "fonte": "Volume «Il paesaggio che sono io» (IC Botrugno · Scuola Giardinieri Custodi del Paesaggio), p. 69"
       }
     ],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p69-giustina.jpg"
+    ],
     "competenze_ue": [
       "Competenza matematica",
       "Personale, sociale e capacità di imparare a imparare",
@@ -3746,7 +3756,9 @@
         "fonte": "Volume «Il paesaggio che sono io» (IC Botrugno · Scuola Giardinieri Custodi del Paesaggio), p. 82"
       }
     ],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p82-piatto-glaciazione.jpg"
+    ],
     "competenze_ue": [
       "Competenza in materia di consapevolezza ed espressione culturali",
       "Personale, sociale e capacità di imparare a imparare",
@@ -4150,8 +4162,7 @@
     "materiali_bambini": [],
     "materiali_adulti": [],
     "foto": [
-      "assets/materiali/salento/p88-madonna-della-serra.jpg",
-      "assets/materiali/salento/p94-quaremma.jpg"
+      "assets/materiali/salento/p88-madonna-della-serra.jpg"
     ],
     "competenze_ue": [
       "Competenza in materia di cittadinanza",
@@ -4486,7 +4497,9 @@
         "fonte": "Volume «Il paesaggio che sono io» (IC Botrugno · Scuola Giardinieri Custodi del Paesaggio), p. 96"
       }
     ],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p99-fumetto-1.jpg"
+    ],
     "competenze_ue": [
       "Competenza matematica",
       "Competenza alfabetica funzionale",
@@ -4831,7 +4844,9 @@
       }
     ],
     "materiali_adulti": [],
-    "foto": [],
+    "foto": [
+      "assets/materiali/salento/p106-maschera-1.jpg"
+    ],
     "competenze_ue": [
       "Competenza in scienze",
       "Consapevolezza ed espressione culturali",
@@ -4962,7 +4977,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-54",
@@ -5169,7 +5185,10 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": [
+      "mappa/foto/03-valdobbiadene/museo-della-terra-e-del-pensiero-collinare-55-1.jpg"
+    ]
   },
   {
     "id": "valdo-56",
@@ -5370,7 +5389,10 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": [
+      "mappa/foto/03-valdobbiadene/sorgente-teva-57-1.jpg"
+    ]
   },
   {
     "id": "valdo-61",
@@ -5571,7 +5593,10 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": [
+      "mappa/foto/03-valdobbiadene/roseto-sul-vigneto-62-1.jpg"
+    ]
   },
   {
     "id": "valdo-63",
@@ -5770,7 +5795,10 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": [
+      "mappa/foto/03-valdobbiadene/ciglioni-erbosi-zhopa-rovesa-64-1.jpg"
+    ]
   },
   {
     "id": "valdo-69",
@@ -5969,7 +5997,10 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": [
+      "mappa/foto/03-valdobbiadene/cannone-sonoro-antigrandine-70-1.jpg"
+    ]
   },
   {
     "id": "valdo-92",
@@ -6118,7 +6149,10 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": [
+      "mappa/foto/03-valdobbiadene/edificio-rurale-93-1.jpg"
+    ]
   },
   {
     "id": "valdo-109",
@@ -6390,7 +6424,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-110",
@@ -6673,7 +6708,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-111",
@@ -6939,7 +6975,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-112",
@@ -7206,7 +7243,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-113",
@@ -7473,7 +7511,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-114",
@@ -7741,7 +7780,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-116",
@@ -7994,7 +8034,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-117",
@@ -8234,7 +8275,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-119",
@@ -8487,7 +8529,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-120",
@@ -8731,7 +8774,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-121",
@@ -8977,7 +9021,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-123",
@@ -9223,7 +9268,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-126",
@@ -9496,7 +9542,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-127",
@@ -9758,7 +9805,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-128",
@@ -10025,7 +10073,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-129",
@@ -10292,7 +10341,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-130",
@@ -10552,7 +10602,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-131",
@@ -10791,7 +10842,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-132",
@@ -11018,7 +11070,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-134",
@@ -11256,7 +11309,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-142",
@@ -11470,7 +11524,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-143",
@@ -11703,7 +11758,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-145",
@@ -11931,7 +11987,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-146",
@@ -12154,7 +12211,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-147",
@@ -12370,7 +12428,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-151",
@@ -12606,7 +12665,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-153",
@@ -12837,7 +12897,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-158",
@@ -13086,7 +13147,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-159",
@@ -13322,7 +13384,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-160",
@@ -13554,7 +13617,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-161",
@@ -13712,7 +13776,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-162",
@@ -13926,7 +13991,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-163",
@@ -14156,7 +14222,8 @@
         }
       ]
     },
-    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione."
+    "fonte_parziale": "La scheda di questa aula, nell’esportazione pubblica di My Maps, è visibilmente incompleta. Il testo resta parziale: non completiamo le frasi per invenzione.",
+    "foto": []
   },
   {
     "id": "valdo-165",
@@ -14408,7 +14475,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-166",
@@ -14654,7 +14722,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-167",
@@ -14898,7 +14967,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-169",
@@ -15148,7 +15218,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-170",
@@ -15413,7 +15484,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-172",
@@ -15655,7 +15727,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-173",
@@ -15901,7 +15974,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-174",
@@ -16138,7 +16212,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-175",
@@ -16413,7 +16488,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-176",
@@ -16659,7 +16735,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-177",
@@ -16901,7 +16978,8 @@
           "nota": "Revisione di qualità Valdobbiadene: racconto per movimenti, foto dell’aula già sul sito accostate all’attività, voci solo se presenti in trascrizione (da verificare, non attribuite), proposte dichiarate distinte dal vissuto, niente prodotti o risultati inventati, Indicazioni come proposta di raccordo."
         }
       ]
-    }
+    },
+    "foto": []
   },
   {
     "id": "valdo-179",
@@ -17145,7 +17223,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-180",
@@ -17389,7 +17468,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-182",
@@ -17633,7 +17713,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-194",
@@ -17886,7 +17967,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "valdo-202",
@@ -18072,7 +18154,8 @@
         }
       ]
     },
-    "voci_in_verifica": true
+    "voci_in_verifica": true,
+    "foto": []
   },
   {
     "id": "quarte-orecchio",
@@ -18452,7 +18535,9 @@
     "competenze_ue": [
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/castagno-secolare-59-1.jpg"
+    ],
     "voci_in_verifica": true
   },
   {
@@ -20452,7 +20537,9 @@
       "Consapevolezza ed espressione culturali",
       "Personale, sociale e capacità di imparare a imparare"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/castagno-secolare-59-1.jpg"
+    ],
     "racconto": "Partenza dal museo della Terra. Il museo della Terra e del pensiero collinare era una scuola elementare, con il maestro che abitava al piano di sopra; oggi è la sede della Pro Loco. Da qui parte il giro.\n\nLe vigne vuote e la flavescenza dorata. Le malattie della vite: di solito attaccano prima le rose, per questo si piantano ai bordi dei filari. La flavescenza dorata è portata da un piccolo insetto che vive tra il bosco e la vigna; è contagiosa, e per non far morire tutte le piante bisogna toglierle.\n\nLe rose nel vigneto. «Di solito le malattie attaccano prima le rose»: la rosa a capo del filare fa da sentinella per la vite.\n\nLa sorgente e il torrente Teva. Tra due frazioni nasce il torrente Teva: c’erano nove mulini, e da Asolo, Bassano e Treviso venivano a comprare i pezzi di ferro lavorati qui. Nel racconto dei bambini: «poi abbiamo visto una sorgente».\n\nQuanti anni ha il castagno?. Il più grosso del gruppo è l’albero. È un castagno? Quanti anni ha? Cinquanta, cento, duecento… più di trecento. Ha sofferto: i cacciatori sparavano agli uccellini sulla sua chioma e lo hanno riempito di piombo; per quarantacinque anni è sembrato morto, e quest’anno ha rigermogliato. Il tempo degli uomini è corto, quello della natura è lungo.\n\nLa zappa rovesa. C’è una tecnica di zappare che si chiama zappa rovesa, al contrario: si zappa e si butta giù la terra. Tutti i gradini dei ciglioni sono stati fatti così, dalle mani dei contadini, e oggi sono un paesaggio da far conoscere a tutto il mondo.\n\nIl cannone antigrandine. Che cos’è quello? Un cannone. Siamo in guerra? No: serve contro la grandine, per proteggere le vigne.\n\nLa mappa raccontata. Alla fine i bambini mostrano la mappa che hanno disegnato e la raccontano: da dove si parte, la salita con la curva, la sosta sui vigneti malati, la sorgente, le casere, l’albero di trecento anni, il ritorno al museo che una volta era una scuola.",
     "voci_bambini": [],
     "lettura_pedagogica": "Il castagno di trecento anni dà la misura: il tempo degli uomini è corto, quello della natura lungo. La mappa finale, raccontata a voce, è l’unica evidenza diretta dei bambini nelle fonti. proposta di raccordo, da validare con i docenti.",
@@ -21238,7 +21325,9 @@
       "Personale, sociale e capacità di imparare a imparare",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/parco-villa-dei-cedri-101-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -21414,7 +21503,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/lavatoio-102-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -21602,7 +21693,9 @@
       "Consapevolezza ed espressione culturali",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/parco-della-filandetta-103-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -21812,7 +21905,9 @@
       "Competenza alfabetica funzionale",
       "Personale, sociale e capacità di imparare a imparare"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/casa-di-riposo-san-gregorio-104-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -22014,7 +22109,9 @@
     "competenze_ue": [
       "Competenza in materia di cittadinanza"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/ospedale-di-valdobbiadene-106-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -22216,7 +22313,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/cimitero-di-valdobbiadene-108-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -22403,7 +22502,9 @@
       "Consapevolezza ed espressione culturali",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/vigneti-vuoti-flavescenza-dorata-56-1.jpg"
+    ],
     "percorso_uda": {
       "id": "valdo-uda-santo-stefano",
       "titolo": "Santo Stefano: il tempo lungo della collina",
@@ -22583,7 +22684,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/ex-latteria-zilli-58-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -22777,7 +22880,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/vigneto-vecio-60-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -23068,7 +23173,9 @@
       "Competenza matematica e in scienze, tecnologie e ingegneria",
       "Competenza digitale"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/sistema-delle-prealpi-dalla-fauna-e-flora-pioniera-alla-foresta-matura-65-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -23269,7 +23376,9 @@
       "Consapevolezza ed espressione culturali",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/hogback-e-cuesta-66-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -23487,7 +23596,9 @@
       "Competenza in materia di cittadinanza",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/punto-di-osservazione-valdobbiadene-dal-piave-al-cesen-67-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -23765,7 +23876,9 @@
       "Competenza matematica e in scienze, tecnologie e ingegneria",
       "Competenza imprenditoriale"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/castagno-vecchio-guardiano-69-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -24010,7 +24123,9 @@
       "Consapevolezza ed espressione culturali",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/azienda-agricola-75-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -24203,7 +24318,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/cartello-cartizze-81-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -24399,7 +24516,9 @@
     "competenze_ue": [
       "Consapevolezza ed espressione culturali"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/chiesa-san-vito-89-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -24645,7 +24764,9 @@
       "Consapevolezza ed espressione culturali",
       "Personale, sociale e capacità di imparare a imparare"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/chiesetta-91-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -24877,7 +24998,9 @@
       "Personale, sociale e capacità di imparare a imparare",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/ex-cava-92-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -25122,7 +25245,9 @@
       "Personale, sociale e capacità di imparare a imparare",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/casa-nel-bosco-94-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -25358,7 +25483,9 @@
       "Personale, sociale e capacità di imparare a imparare",
       "Competenza matematica e in scienze, tecnologie e ingegneria"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/casa-architetto-95-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -25606,7 +25733,9 @@
       "Competenza matematica e in scienze, tecnologie e ingegneria",
       "Competenza imprenditoriale"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/boschetto-96-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",
@@ -26035,7 +26164,9 @@
     "competenze_ue": [
       "Competenza in materia di cittadinanza"
     ],
-    "foto": [],
+    "foto": [
+      "mappa/foto/03-valdobbiadene/comando-dei-carabinieri-99-1.jpg"
+    ],
     "racconto": "",
     "voci_bambini": [],
     "lettura_pedagogica": "Proposta scritta: la lettura pedagogica si farà dopo la prova con una classe. proposta di raccordo, da validare con i docenti.",

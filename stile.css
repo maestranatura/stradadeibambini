@@ -163,8 +163,23 @@ legend{font-family:var(--serif);font-size:22px;font-weight:600;padding:0 12px 0 
 
 /* Detail pages */
 .detail .page-head{gap:12px;display:flex;flex-direction:column}
-.detail-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.detail-photo img{width:100%;height:auto;max-height:min(70vh,640px);object-fit:contain;object-position:center;border-radius:8px;background:#DCE9F0}
+.detail-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;width:100%;max-width:100%}
+.detail-photo{margin:0;max-width:100%}
+.detail-photo img{
+  display:block;width:auto;max-width:100%;height:auto;
+  object-fit:contain;object-position:center;
+  background:transparent;border-radius:0;
+  filter:none;opacity:1;
+}
+/* Telefono/tablet: copertina a larghezza piena, proporzioni interne, niente max-height che letterboxa. */
+@media (max-width:850px){
+  .detail-gallery{grid-template-columns:1fr}
+  .detail-photo img{width:100%;height:auto;max-height:none}
+}
+/* PC: altezza massima ragionevole; la larghezza segue le proporzioni, nessuna forzatura 100%×max-height. */
+@media (min-width:851px){
+  .detail-photo img{width:auto;max-width:100%;max-height:min(70vh,640px);margin-inline:auto}
+}
 .detail-block{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:1px solid var(--line)}
 .detail-block h2{margin:0;font-family:var(--serif);font-size:22px;font-weight:600}
 .bozza-banner{margin:0;padding:10px 14px;background:#F7E8C7;border:1px solid #E2C888;border-radius:6px;color:#5C4818;font-weight:600;font-size:14px}
@@ -425,7 +440,18 @@ tr.group-row td{background:var(--wash);font-size:13px;color:#333;padding-top:18p
 .uda-tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:#EEE;color:#555;font-weight:600}
 .uda-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
 .uda-mat{margin:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
-.uda-mat img{width:100%;height:auto;max-height:min(70vh,420px);object-fit:contain;object-position:center;border-radius:8px;background:var(--wash);border:1px solid var(--line)}
+.uda-mat img{
+  display:block;width:auto;max-width:100%;height:auto;
+  object-fit:contain;object-position:center;
+  background:transparent;border:1px solid var(--line);border-radius:0;
+  filter:none;opacity:1;
+}
+@media (max-width:850px){
+  .uda-mat img{width:100%;height:auto;max-height:none}
+}
+@media (min-width:851px){
+  .uda-mat img{width:auto;max-width:100%;max-height:min(70vh,420px);margin-inline:auto}
+}
 .uda-tappe{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
 @media(max-width:700px){
   .uda-toc{margin:0;padding:8px 16px;overflow-x:auto;flex-wrap:nowrap}
