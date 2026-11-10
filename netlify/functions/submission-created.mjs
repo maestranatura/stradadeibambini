@@ -2,6 +2,7 @@
 // privato "contributi" con stato «da approvare», avvia la trascrizione degli audio e invia l'email.
 // Nulla viene pubblicato: la pubblicazione avviene solo da /approva/.
 import { getStore } from "@netlify/blobs";
+import { normalizeHttpsUrl } from "../lib/https-url.mjs";
 
 const AUDIO_RE = /^\d{4}-\d{2}-\d{2}\/[0-9a-f-]{36}\.(m4a|webm|ogg|mp3|wav)$/;
 const FOTO_RE = /^\d{4}-\d{2}-\d{2}\/[0-9a-f-]{36}\.(jpg|png|webp)$/;
@@ -25,6 +26,7 @@ export default async (req, context) => {
     community: s(d.comunita, 80), aula_id: s(d.aula_id, 80), luogo_nome: s(d.luogo_nome, 160),
     lat: Number.isFinite(lat) ? lat : null, lon: Number.isFinite(lon) ? lon : null, fonte_posizione: s(d.fonte_posizione, 20),
     quando: s(d.quando, 20), tempo: s(d.tempo, 120), classe: s(d.classe, 60), scuola: s(d.scuola, 160),
+    sito_scuola: normalizeHttpsUrl(d.sito_scuola), profilo: normalizeHttpsUrl(d.profilo),
     numero: s(d.numero, 10), accompagnatori: s(d.accompagnatori, 300),
     racconto: s(d.racconto, 8000), voci: s(d.voci, 4000), video: s(d.video, 2000).split(/\s+/).filter(u => /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//.test(u)).slice(0, 10),
     audio_racconto: audioRacconto, audio_voci: audioVoci, foto,
@@ -51,13 +53,15 @@ export default async (req, context) => {
     "È arrivato un nuovo contributo alla Strada dei Bambini. Non è pubblicato: aspetta la tua approvazione.",
     "",
     `Chi: ${rec.autore || "—"}${rec.classe || rec.scuola ? ` · ${[rec.classe, rec.scuola].filter(Boolean).join(", ")}` : ""}`,
+    rec.sito_scuola ? `Sito o pagina della scuola: ${rec.sito_scuola}` : null,
+    rec.profilo ? `Profilo: ${rec.profilo}` : null,
     `Dove: ${rec.luogo_nome || "luogo nuovo"}${rec.community ? ` (${rec.community})` : ""}${rec.aula_id ? "" : " · luogo nuovo"}`,
     `Quando: ${rec.quando || "—"}${rec.tempo ? ` · ${rec.tempo}` : ""}`,
     `Racconto: ${prime}`,
     `Foto: ${foto.length} · Audio: ${keys.length}${rec.video.length ? ` · Video: ${rec.video.length}` : ""}`,
     "",
     `Rivedi e approva: ${link}`,
-  ].join("\n");
+  ].filter(Boolean).join("\n");
   rec.notifica = { a: to, oggetto: subject };
   if (process.env.RESEND_API_KEY && process.env.MAIL_FROM) {
     try {

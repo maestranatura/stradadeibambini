@@ -2,6 +2,7 @@
 // Solo con token (ADMIN_TOKEN = coordinatrice; COMMUNITY_TOKENS = community manager limitati alla loro comunità).
 import { getStore } from "@netlify/blobs";
 import { who, canSee, json } from "../lib/auth.mjs";
+import { parseHttpsUrl } from "../lib/https-url.mjs";
 
 const stores = () => ({
   c: getStore({ name: "contributi", consistency: "strong" }),
@@ -16,6 +17,7 @@ export function pubblico(r) {
   return {
     id: r.id, titolo: titoloDi(r), community: r.community, aula_id: r.aula_id || "", luogo_nome: r.luogo_nome || "",
     lat: r.lat, lon: r.lon, nuovo_luogo: !r.aula_id, quando: r.quando, tempo: r.tempo, classe: r.classe, scuola: r.scuola,
+    sito_scuola: parseHttpsUrl(r.sito_scuola).url, profilo: parseHttpsUrl(r.profilo).url,
     racconto: r.racconto_pubblico ?? r.racconto, voci: r.voci_pubbliche ?? r.voci,
     foto: (r.foto || []).map(k => `/api/foto?key=${encodeURIComponent(k)}`), video: r.video || [],
     autore: r.autore, approvato: r.approvato,
@@ -102,15 +104,30 @@ export default async (req) => {
   if (!r) return json({ error: "Contributo non trovato" }, 404);
   if (!canSee(user, r.community)) return json({ error: "Non è della tua comunità" }, 403);
   const log = cosa => (r.storia = [...(r.storia || []), { quando: new Date().toISOString(), cosa, chi: user.role + (user.community ? ` · ${user.community}` : "") }]);
+  const applicaLink = (campo) => {
+    if (typeof body[campo] !== "string") return null;
+    const p = parseHttpsUrl(body[campo]);
+    if (body[campo].trim() && !p.ok) return campo;
+    r[campo] = p.url;
+    return null;
+  };
   const applicaTesti = () => {
     if (typeof body.racconto === "string") r.racconto_pubblico = body.racconto.slice(0, 8000);
     if (typeof body.voci === "string") r.voci_pubbliche = body.voci.slice(0, 4000);
     if (typeof body.titolo === "string" && body.titolo.trim()) r.titolo = body.titolo.trim().slice(0, 160);
+    const bad = applicaLink("sito_scuola") || applicaLink("profilo");
+    if (bad) return bad;
+    return null;
   };
 
-  if (azione === "modifica") { applicaTesti(); log("testo modificato"); }
+  if (azione === "modifica") {
+    const badLink = applicaTesti();
+    if (badLink) return json({ error: "Link non valido: usa solo un indirizzo https://, oppure lascia vuoto", campo: badLink }, 400);
+    log("testo modificato");
+  }
   else if (azione === "approva") {
-    applicaTesti();
+    const badLink = applicaTesti();
+    if (badLink) return json({ error: "Link non valido: usa solo un indirizzo https://, oppure lascia vuoto", campo: badLink }, 400);
     if (!(r.consensi?.genitori && r.consensi?.volti_non_riconoscibili && r.consensi?.licenza_aperta)) return json({ error: "Mancano i consensi: non si può pubblicare" }, 409);
     r.stato = "approvato"; r.approvato = new Date().toISOString(); log("approvato");
     await setPubblico(st, r, true);
