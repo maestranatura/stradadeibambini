@@ -563,16 +563,15 @@ function renderUda(e, data){
       <p class="kicker"><span class="badge ${esc(e.stato)}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span> · ${esc(e.community)}${e.codice?` · ${esc(e.codice)}`:''}</p>
       <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">${esc(e.titolo)}</h1>
       ${e.sottotitolo?`<p class="uda-sottotitolo">${esc(e.sottotitolo)}</p>`:''}
+      ${(e.foto||[]).filter(Boolean).length?`<div class="detail-gallery">${(e.foto||[]).filter(Boolean).map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:''}
       <p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">${esc(e.aula)}</a>${(e.aule_collegate||[]).length?` <span class="muted">· e altre ${e.aule_collegate.length} aule collegate</span>`:''}</p>
       <p class="tags">${esc((e.eta||[]).join(' · '))}${(e.gruppo||[]).length?' / '+esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · ')):''}${(e.discipline||[]).length?'<br>'+esc(e.discipline.join(' · ')):''}</p>
       <p class="provenance">${esc(e.provenienza||'')}${e.versione?` · ${esc(e.versione)}`:''}${e.documentazione?` · documentazione: ${esc(e.documentazione)}`:''}</p>
     </div>
     <nav class="uda-toc" aria-label="Sezioni della scheda">${toc.map(([id,l])=>`<a href="#${id}">${l}</a>`).join('')}</nav>`;
-  const coverFotos=(e.foto||[]).filter(Boolean);
-  const fotos=coverFotos.length?`<div class="detail-gallery">${coverFotos.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:'';
   const videos=(e.videos||[]).length?`<section class="detail-block"><h2>Video</h2>${e.videos_nota?`<p class="muted">${esc(e.videos_nota)}</p>`:''}${videoBlocks(e.videos)}</section>`:'';
   const intro=`<section class="detail-block"><p class="racconto">${esc(e.descrizione||'')}</p><p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula →</a> · <a href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa →</a></p>${(e.aule_collegate||[]).length?`<p class="muted">Aule collegate: ${e.aule_collegate.map(a=>`<a href="aula.html?id=${encodeURIComponent(a.id||a)}">${esc(a.nome||a)}</a>`).join(' · ')}</p>`:''}</section>`;
-  return head+udaTappe(e,data)+fotos+intro+udaSintesi(e)+udaProgettazione(e)+videos+udaMovimenti(e)+udaMateriali(e)+udaVoci(e)+udaOsservazioni(e)+udaValutazione(e)+udaLettura(e)+udaApparato(e)+daCompletareBox(e.da_completare||[]);
+  return head+udaTappe(e,data)+intro+udaSintesi(e)+udaProgettazione(e)+videos+udaMovimenti(e)+udaMateriali(e)+udaVoci(e)+udaOsservazioni(e)+udaValutazione(e)+udaLettura(e)+udaApparato(e)+daCompletareBox(e.da_completare||[]);
 }
 
 window.initEspPage = async function(){
