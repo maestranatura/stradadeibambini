@@ -487,9 +487,11 @@ function udaImmaginiPiazzate(e){
 }
 function udaMovimenti(e){
   const m=e.movimenti||[];
+  const cover=new Set(e.foto||[]);
   if(!m.length) return `<section class="detail-block" id="racconto"><h2>Il racconto in movimenti</h2>${e.racconto?`<p class="racconto">${esc(e.racconto)}</p>`:`<p class="muted">${e.stato==='proposta'?'Proposta: il racconto si scriverà dopo la prova con la classe.':'Racconto da completare con i docenti.'}</p>`}</section>`;
-  return `<section class="detail-block uda-mov" id="racconto"><h2>Il racconto in movimenti</h2>${e.racconto_nota?`<p class="muted">${esc(e.racconto_nota)}</p>`:''}${m.map(x=>`<article class="uda-movimento"><h3>${esc(x.titolo)}</h3>${String(x.testo||'').split(/\n\n+/).map(t=>`<p class="racconto">${esc(t)}</p>`).join('')}${(x.immagini||[]).length?`<div class="uda-gallery uda-in-mov">${udaFig(x.immagini)}</div>`:''}${(()=>{ const pub=(x.voci||[]).filter(udaVocePubblicabile).map(udaVoce).join(''); return pub?`<div class="uda-voci-in-mov">${pub}</div>`:''; })()}${x.fonte?`<p class="provenance">${esc(x.fonte)}</p>`:''}</article>`).join('')}</section>`;
+  return `<section class="detail-block uda-mov" id="racconto"><h2>Il racconto in movimenti</h2>${e.racconto_nota?`<p class="muted">${esc(e.racconto_nota)}</p>`:''}${m.map((x,i)=>{const imgs=(x.immagini||[]).filter(im=>{const u=im&&im.immagine; return !(i===0 && u && cover.has(u));}); return `<article class="uda-movimento"><h3>${esc(x.titolo)}</h3>${String(x.testo||'').split(/\n\n+/).map(t=>`<p class="racconto">${esc(t)}</p>`).join('')}${imgs.length?`<div class="uda-gallery uda-in-mov">${udaFig(imgs)}</div>`:''}${(()=>{ const pub=(x.voci||[]).filter(udaVocePubblicabile).map(udaVoce).join(''); return pub?`<div class="uda-voci-in-mov">${pub}</div>`:''; })()}${x.fonte?`<p class="provenance">${esc(x.fonte)}</p>`:''}</article>`;}).join('')}</section>`;
 }
+
 function udaVoci(e){
   const v=e.voci||[];
   const bimbi=v.filter(x=>x.chi!=='adulto' && udaVocePubblicabile(x));
@@ -566,9 +568,8 @@ function renderUda(e, data){
       <p class="provenance">${esc(e.provenienza||'')}${e.versione?` · ${esc(e.versione)}`:''}${e.documentazione?` · documentazione: ${esc(e.documentazione)}`:''}</p>
     </div>
     <nav class="uda-toc" aria-label="Sezioni della scheda">${toc.map(([id,l])=>`<a href="#${id}">${l}</a>`).join('')}</nav>`;
-  const placed=udaImmaginiPiazzate(e);
-  const fotoLibere=(e.foto||[]).filter(u=>!placed.has(u));
-  const fotos=fotoLibere.length?`<div class="detail-gallery">${fotoLibere.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:'';
+  const coverFotos=(e.foto||[]).filter(Boolean);
+  const fotos=coverFotos.length?`<div class="detail-gallery">${coverFotos.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:'';
   const videos=(e.videos||[]).length?`<section class="detail-block"><h2>Video</h2>${e.videos_nota?`<p class="muted">${esc(e.videos_nota)}</p>`:''}${videoBlocks(e.videos)}</section>`:'';
   const intro=`<section class="detail-block"><p class="racconto">${esc(e.descrizione||'')}</p><p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula →</a> · <a href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa →</a></p>${(e.aule_collegate||[]).length?`<p class="muted">Aule collegate: ${e.aule_collegate.map(a=>`<a href="aula.html?id=${encodeURIComponent(a.id||a)}">${esc(a.nome||a)}</a>`).join(' · ')}</p>`:''}</section>`;
   return head+udaTappe(e,data)+fotos+intro+udaSintesi(e)+udaProgettazione(e)+videos+udaMovimenti(e)+udaMateriali(e)+udaVoci(e)+udaOsservazioni(e)+udaValutazione(e)+udaLettura(e)+udaApparato(e)+daCompletareBox(e.da_completare||[]);
