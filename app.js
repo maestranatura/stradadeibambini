@@ -132,9 +132,11 @@ async function init(){
   if($('#map')){
     if(!window.L){ $('#map').innerHTML='<p class="notice">La mappa richiede la connessione per caricare Leaflet.</p>'; return; }
     const ITALY=[42.1,12.5], ITALY_Z=innerWidth<700?5:5.5;
-    const map=window.prototypeMap=L.map('map',{scrollWheelZoom:true, zoomControl:true, zoomSnap:0.5, tap:true}).setView(ITALY,ITALY_Z);
-    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17, attribution:'© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)'}).addTo(map);
+    const map=window.prototypeMap=L.map('map',{scrollWheelZoom:true, zoomControl:true, zoomSnap:0.5, tap:true, maxZoom:22}).setView(ITALY,ITALY_Z);
+    const otm=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17, maxNativeZoom:17, attribution:'© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)'});
+    otm.addTo(map);
     L.control.scale({imperial:false}).addTo(map);
+    if (window.initMapTilerBasemap) window.initMapTilerBasemap(map, otm);
 
     const routes=L.layerGroup(); // toggled
     const shortName=n=>n.replace(' · Il paesaggio che sono io','').replace('Via Francigena · Salento','Francigena');
@@ -479,4 +481,121 @@ window.initEspPage = async function(){
     console.error(err);
     root.innerHTML = '<p class="notice">Non è stato possibile caricare i dati dell’esperienza.</p>';
   }
+};
+/* MapTiler Satellite/Hybrid.
+   Config pubblica client: maptiler-config.json (solo key origin-restricted + style).
+   Sorgente privata fuori dalla root di publish; eventuale override locale maptiler.local.json solo su localhost.
+   Senza config valida il selettore non compare. Se i tile falliscono (origin, quota, errore) si torna a Topografica.
+   Con L.tileLayer il traffico conta come richieste API, non come sessioni (docs MapTiler). */
+window.initMapTilerBasemap = function(map, otm){
+  const PLACEHOLDER=/^(INSERISCI_QUI_LA_TUA_CHIAVE|YOUR_MAPTILER_API_KEY|YOUR_API_KEY|changeme|example)?$/i;
+  const parseCfg=j=>{
+    if(!j || typeof j!=='object') return null;
+    const key=String(j.key||j.apiKey||j.api_key||'').trim();
+    if(!key || PLACEHOLDER.test(key)) return null;
+    const style=String(j.style||'hybrid-v4').trim()||'hybrid-v4';
+    if(!/^[a-z0-9-]+$/i.test(style)) return null;
+    return {key, style};
+  };
+  const loadCfg=()=>{
+    const host=location.hostname;
+    const local=/^(localhost|127\.0\.0\.1)$/.test(host);
+    const urls=local?['maptiler.local.json','maptiler-config.json']:['maptiler-config.json'];
+    const tryUrl=i=>{
+      if(i>=urls.length) return Promise.resolve(null);
+      return fetch(urls[i],{cache:'no-store'}).then(r=>{
+        if(!r.ok) return tryUrl(i+1);
+        return r.json().then(parseCfg).then(cfg=>cfg||tryUrl(i+1));
+      }).catch(()=>tryUrl(i+1));
+    };
+    return tryUrl(0);
+  };
+
+  const attach=cfg=>{
+    if(!cfg || !map || !otm) return;
+    const filters=$('#map-filters');
+    if(!filters || filters.querySelector('.basemap-switch')) return;
+    const attr='<a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>';
+    const sat=L.tileLayer('https://api.maptiler.com/maps/'+cfg.style+'/256/{z}/{x}/{y}.jpg?key='+encodeURIComponent(cfg.key),{
+      tileSize:256, minZoom:1, maxZoom:22, maxNativeZoom:22, attribution:attr, crossOrigin:true
+    });
+    const wrap=document.createElement('div');
+    wrap.className='basemap-switch';
+    wrap.setAttribute('role','group');
+    wrap.setAttribute('aria-label','Sfondo della mappa');
+    wrap.innerHTML='<button type="button" class="is-on" data-base="topo" aria-pressed="true">Topografica</button><button type="button" data-base="sat" aria-pressed="false">Satellite</button>';
+    filters.appendChild(wrap);
+    let note=filters.querySelector('.basemap-note');
+    if(!note){
+      note=document.createElement('p');
+      note.className='basemap-note';
+      note.setAttribute('role','status');
+      note.hidden=true;
+      filters.appendChild(note);
+    }
+    const showNote=msg=>{
+      if(!msg){ note.hidden=true; note.textContent=''; return; }
+      note.textContent=msg;
+      note.hidden=false;
+    };
+    let logo=null;
+    const showLogo=on=>{
+      if(on){
+        if(!logo){
+          logo=document.createElement('a');
+          logo.className='maptiler-logo';
+          logo.href='https://www.maptiler.com/';
+          logo.target='_blank';
+          logo.rel='noopener';
+          logo.title='MapTiler';
+          logo.innerHTML='<img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler" width="68" height="16">';
+          const box=document.getElementById('map');
+          if(box) box.appendChild(logo);
+        }
+        logo.hidden=false;
+      } else if(logo) logo.hidden=true;
+    };
+    let satOk=false, errCount=0, current='topo';
+    const setBase=which=>{
+      const wantSat=which==='sat';
+      if(wantSat){
+        errCount=0;
+        satOk=false;
+        showNote('');
+        if(map.hasLayer(otm)) map.removeLayer(otm);
+        if(!map.hasLayer(sat)) sat.addTo(map);
+        sat.bringToBack();
+        if(map.getZoom()>22) map.setZoom(22);
+      } else {
+        if(map.hasLayer(sat)) map.removeLayer(sat);
+        if(!map.hasLayer(otm)) otm.addTo(map);
+        otm.bringToBack();
+        if(map.getZoom()>17) map.setZoom(17);
+      }
+      current=wantSat?'sat':'topo';
+      showLogo(wantSat);
+      wrap.querySelectorAll('button').forEach(b=>{
+        const on=b.getAttribute('data-base')===(wantSat?'sat':'topo');
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on?'true':'false');
+      });
+    };
+    const fallbackTopo=()=>{
+      if(current!=='sat') return;
+      setBase('topo');
+      showNote('Satellite non disponibile (errore o quota). Resto su Topografica.');
+    };
+    sat.on('tileload', ()=>{ satOk=true; errCount=0; });
+    sat.on('tileerror', ()=>{
+      if(current!=='sat') return;
+      errCount++;
+      const limit=satOk?12:6;
+      if(errCount>=limit) fallbackTopo();
+    });
+    wrap.addEventListener('click', ev=>{
+      const b=ev.target.closest('button[data-base]');
+      if(b) setBase(b.getAttribute('data-base'));
+    });
+  };
+  loadCfg().then(attach);
 };
