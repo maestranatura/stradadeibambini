@@ -356,3 +356,23 @@ tr.group-row td{background:var(--wash);font-size:13px;color:#333;padding-top:18p
 .foto-thumb figcaption{position:absolute;left:4px;bottom:4px;background:rgba(255,255,255,.9);border-radius:999px;padding:0 6px;font-size:12px}
 .foto-thumb.errore figcaption{background:#FBEDEB;color:#A33224}
 .foto-thumb button{position:absolute;right:4px;top:4px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;line-height:1}
+
+/* Selettore sfondo mappa (MapTiler): visibile solo con config valida */
+.basemap-switch{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;flex:0 0 auto}
+.basemap-switch button{min-height:34px;padding:0 10px;border:0;background:#fff;font-size:13px;cursor:pointer;color:#333}
+.basemap-switch button.is-on{background:var(--green);color:#fff}
+.basemap-switch button:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+#map{position:relative}
+#map .maptiler-logo{position:absolute;left:8px;bottom:26px;z-index:400;line-height:0;opacity:.92}
+#map .maptiler-logo img{height:16px;width:auto;display:block}
+#map .maptiler-logo[hidden]{display:none}
+@media(max-width:850px){
+  .map-filters .basemap-switch{grid-column:1/-1;justify-self:start}
+  #map .maptiler-logo{bottom:22px}
+}
+
+.basemap-note{margin:0;flex:1 1 100%;font-size:12px;line-height:1.35;color:#5C4818}
+.basemap-note[hidden]{display:none}
+@media(max-width:850px){
+  .map-filters .basemap-note{grid-column:1/-1}
+}
