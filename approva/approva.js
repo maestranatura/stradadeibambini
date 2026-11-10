@@ -2,6 +2,35 @@
 (function(){
   const $=s=>document.querySelector(s);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const parseHttpsUrl=raw=>{
+    const t=String(raw??'').trim();
+    if(!t) return {ok:true,url:''};
+    if(t.length>500) return {ok:false,url:'',error:'troppo lungo'};
+    if(/[\s<>"']/.test(t)) return {ok:false,url:'',error:'caratteri non validi'};
+    if(/^(javascript|data|blob|file|vbscript|about|mailto|intent):/i.test(t)) return {ok:false,url:'',error:'schema non consentito'};
+    let candidate=t;
+    if(candidate.startsWith('//')) candidate='https://'+candidate.replace(/^\/+/, '');
+    else if(!/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(candidate)) candidate='https://'+candidate;
+    let u; try{ u=new URL(candidate); }catch{ return {ok:false,url:'',error:'url non valido'}; }
+    if(u.protocol!=='https:') return {ok:false,url:'',error:'solo https'};
+    if(u.username||u.password) return {ok:false,url:'',error:'credenziali non ammesse'};
+    const host=u.hostname.replace(/\.$/, '').toLowerCase();
+    if(!host||!host.includes('.')||host.startsWith('.')||host.includes('..')) return {ok:false,url:'',error:'host non valido'};
+    if(/^(localhost|127\.0\.0\.1|0\.0\.0\.0|::1|\[::1\])$/i.test(host)) return {ok:false,url:'',error:'host non consentito'};
+    if(/^(10\.|192\.168\.|169\.254\.|100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host)) return {ok:false,url:'',error:'host non consentito'};
+    if(/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return {ok:false,url:'',error:'indirizzo ip non consentito'};
+    if(!/^[a-z0-9.-]+$/i.test(host)) return {ok:false,url:'',error:'host non valido'};
+    if(u.port&&u.port!=='443') return {ok:false,url:'',error:'porta non consentita'};
+    u.hostname=host;
+    const href=u.href;
+    if(href.length>500||!href.startsWith('https://')) return {ok:false,url:'',error:'solo https'};
+    return {ok:true,url:href};
+  };
+  const linkView=(url,vuoto='—')=>{
+    const p=parseHttpsUrl(url);
+    if(!p.ok||!p.url) return vuoto;
+    return `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.url)}</a>`;
+  };
   const KEY='sdb_revisione_token';
   let token=localStorage.getItem(KEY)||'', stato='da approvare', user=null;
   const api=async(path,opts={})=>{
@@ -55,6 +84,8 @@
       <div class="ap-meta">
         <div><span>Chi scrive</span>${esc(it.autore||'—')}</div>
         <div><span>Classe · scuola</span>${esc([it.classe,it.scuola].filter(Boolean).join(' · ')||'—')}</div>
+        <div><span>Sito o pagina della scuola</span><span class="t-view">${linkView(it.sito_scuola)}</span><input class="t-edit sito-edit" hidden type="text" inputmode="url" maxlength="500" value="${esc(it.sito_scuola||'')}" placeholder="https:// · vuoto per rimuovere" aria-label="Sito o pagina della scuola"></div>
+        <div><span>Profilo di chi scrive</span><span class="t-view">${linkView(it.profilo)}</span><input class="t-edit profilo-edit" hidden type="text" inputmode="url" maxlength="500" value="${esc(it.profilo||'')}" placeholder="https:// · vuoto per rimuovere" aria-label="Profilo di chi scrive"></div>
         <div><span>Bambini · accompagnatori</span>${esc([it.numero,it.accompagnatori].filter(Boolean).join(' · ')||'—')}</div>
         <div><span>Quando · tempo</span>${esc(fmtDate(it.quando))}${it.tempo?` · ${esc(it.tempo)}`:''}</div>
         <div><span>Dove</span>${esc(it.luogo_nome||'Luogo nuovo')}${it.aula_id?` · <a href="/mappa.html?aula=${encodeURIComponent(it.aula_id)}" target="_blank" rel="noopener">aula ↗</a>`:''}<br><small class="muted">${it.lat!=null?`${Number(it.lat).toFixed(5)}, ${Number(it.lon).toFixed(5)}`:'senza coordinate'} · ${esc(it.fonte_posizione||'')}</small></div>
@@ -80,7 +111,14 @@
     const setEdit=on=>{ editing=on; el.querySelectorAll('.t-view').forEach(x=>x.hidden=on); el.querySelectorAll('.t-edit').forEach(x=>x.hidden=!on); renderActions(); };
     const send=async(azione,extra={})=>{
       const body={azione,id:it.id,...extra};
-      if(editing){ body.racconto=el.querySelector('.r-edit').value; body.voci=el.querySelector('.v-edit').value; body.titolo=el.querySelector('.ap-title').value; }
+      if(editing){
+        body.racconto=el.querySelector('.r-edit').value; body.voci=el.querySelector('.v-edit').value; body.titolo=el.querySelector('.ap-title').value;
+        const sito=parseHttpsUrl(el.querySelector('.sito-edit').value);
+        const prof=parseHttpsUrl(el.querySelector('.profilo-edit').value);
+        if(!sito.ok){ alert('«Sito o pagina della scuola»: inserisci un indirizzo https:// valido, oppure lascia vuoto.'); el.querySelector('.sito-edit').focus(); renderActions(); return; }
+        if(!prof.ok){ alert('«Il tuo profilo»: inserisci un indirizzo https:// valido, oppure lascia vuoto.'); el.querySelector('.profilo-edit').focus(); renderActions(); return; }
+        body.sito_scuola=sito.url; body.profilo=prof.url;
+      }
       el.querySelectorAll('.ap-actions button').forEach(b=>b.disabled=true);
       try{ const r=await api('/api/approva',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}); const d=await r.json(); if(!r.ok) throw new Error(d.error||r.status); load(); }
       catch(e){ alert('Non riuscito: '+e.message); renderActions(); }

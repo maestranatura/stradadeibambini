@@ -1,5 +1,50 @@
 'use strict';
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MAX_HTTPS_URL=500;
+function parseHttpsUrl(raw, max=MAX_HTTPS_URL){
+  const t=String(raw??'').trim();
+  if(!t) return {ok:true,url:''};
+  if(t.length>max) return {ok:false,url:'',error:'troppo lungo'};
+  if(/[\s<>"']/.test(t)) return {ok:false,url:'',error:'caratteri non validi'};
+  if(/^(javascript|data|blob|file|vbscript|about|mailto|intent):/i.test(t)) return {ok:false,url:'',error:'schema non consentito'};
+  let candidate=t;
+  if(candidate.startsWith('//')) candidate='https://'+candidate.replace(/^\/+/, '');
+  else if(!/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(candidate)) candidate='https://'+candidate;
+  let u; try{ u=new URL(candidate); }catch{ return {ok:false,url:'',error:'url non valido'}; }
+  if(u.protocol!=='https:') return {ok:false,url:'',error:'solo https'};
+  if(u.username||u.password) return {ok:false,url:'',error:'credenziali non ammesse'};
+  const host=u.hostname.replace(/\.$/, '').toLowerCase();
+  if(!host||!host.includes('.')||host.startsWith('.')||host.includes('..')) return {ok:false,url:'',error:'host non valido'};
+  if(/^(localhost|127\.0\.0\.1|0\.0\.0\.0|::1|\[::1\])$/i.test(host)) return {ok:false,url:'',error:'host non consentito'};
+  if(/^(10\.|192\.168\.|169\.254\.|100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host)) return {ok:false,url:'',error:'host non consentito'};
+  if(/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return {ok:false,url:'',error:'indirizzo ip non consentito'};
+  if(!/^[a-z0-9.-]+$/i.test(host)) return {ok:false,url:'',error:'host non valido'};
+  if(u.port&&u.port!=='443') return {ok:false,url:'',error:'porta non consentita'};
+  u.hostname=host;
+  const href=u.href;
+  if(href.length>max||!href.startsWith('https://')) return {ok:false,url:'',error:'solo https'};
+  return {ok:true,url:href};
+}
+function extLink(href, label){
+  const p=parseHttpsUrl(href);
+  if(!p.ok||!p.url) return esc(label);
+  return `<a href="${esc(p.url)}" rel="nofollow noopener ugc" target="_blank">${esc(label)}</a>`;
+}
+function raccontatoDaHtml(e){
+  if(!e||!e.contributo) return '';
+  const nome=e.autore||'—';
+  const chi=parseHttpsUrl(e.profilo).url?extLink(e.profilo,nome):esc(nome);
+  const scuolaNome=e.scuola||'';
+  const sito=parseHttpsUrl(e.sito_scuola).url;
+  let scuola='';
+  if(sito&&scuolaNome) scuola=extLink(e.sito_scuola,scuolaNome);
+  else if(sito) scuola=extLink(e.sito_scuola,'Sito della scuola');
+  else if(scuolaNome) scuola=esc(scuolaNome);
+  const bits=[`Raccontato da ${chi}`];
+  const resto=[e.classe?esc(e.classe):'', scuola].filter(Boolean).join(' · ');
+  if(resto) bits.push(resto);
+  return `<p class="provenance raccontato-da">${bits.join(' · ')}</p>`;
+}
 const ages=['infanzia','primaria I-II','primaria III-V','secondaria'];
 const groups=['piccolo gruppo fino a 10','classe','più classi'];
 const groupLabels={'piccolo gruppo fino a 10':'Piccolo gruppo (fino a 10)','classe':'Una classe','più classi':'Più classi'};
@@ -23,7 +68,7 @@ function daCompletareBox(items){
 
 function card(e, note=''){
   const vNote = (e.videos&&e.videos.length) ? `<p class="match-note">Video documentato · ${(e.videos||[]).length} clip</p>` : '';
-  return `<article class="experience"><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}${e.codice?` <span class="provenance">${esc(e.codice)}</span>`:''}<h3><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></h3><p>${esc(e.aula)} · ${esc(e.community)}</p>${note?`<p class="match-note">${esc(note)}</p>`:''}${vNote}<p>${esc(e.descrizione)}</p><p class="tags">${esc((e.eta||[]).join(' · '))} / ${esc((e.gruppo||[]).map(g=>groupLabels[g]||g).join(' · '))}<br>${esc((e.discipline||[]).join(' · '))}</p><p class="provenance">${esc(e.provenienza||'')}</p><p><a href="esperienza.html?id=${encodeURIComponent(e.id)}">Apri la scheda →</a> · <a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Vai all’aula →</a></p></article>`;
+  return `<article class="experience"><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}${e.codice?` <span class="provenance">${esc(e.codice)}</span>`:''}<h3><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></h3><p>${esc(e.aula)} · ${esc(e.community)}</p>${note?`<p class="match-note">${esc(note)}</p>`:''}${vNote}<p>${esc(e.descrizione)}</p><p class="tags">${esc((e.eta||[]).join(' · '))} / ${esc((e.gruppo||[]).map(g=>groupLabels[g]||g).join(' · '))}<br>${esc((e.discipline||[]).join(' · '))}</p>${e.contributo?raccontatoDaHtml(e):`<p class="provenance">${esc(e.provenienza||'')}</p>`}<p><a href="esperienza.html?id=${encodeURIComponent(e.id)}">Apri la scheda →</a> · <a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Vai all’aula →</a></p></article>`;
 }
 
 // --- Contributi approvati (da /api/pubblicati: solo approvati, senza audio né contatti) ---
@@ -49,8 +94,10 @@ function mergeApproved(list, data, geo, communities){
       descrizione:(c.racconto||'').replace(/\s+/g,' ').slice(0,220)+((c.racconto||'').length>220?'…':''),
       racconto:c.racconto||'', voci_bambini:String(c.voci||'').split(/\n+/).map(x=>x.trim()).filter(Boolean),
       videos:(c.video||[]).map(u=>({url:u, embed:ytEmbed(u), titolo:'Video del contributo'})).filter(v=>v.embed),
-      provenienza:`Contributo di ${c.autore||'—'}${[c.classe,c.scuola].filter(Boolean).length?` · ${[c.classe,c.scuola].filter(Boolean).join(', ')}`:''} · approvato`,
-      foto:c.foto||[], contributo:true, quando:c.quando, scheda_uda:{}, da_completare:[]});
+      provenienza:`Raccontato da ${c.autore||'—'}${[c.classe,c.scuola].filter(Boolean).length?` · ${[c.classe,c.scuola].filter(Boolean).join(', ')}`:''} · approvato`,
+      foto:c.foto||[], contributo:true, quando:c.quando, autore:c.autore||'', classe:c.classe||'', scuola:c.scuola||'',
+      sito_scuola:parseHttpsUrl(c.sito_scuola).url, profilo:parseHttpsUrl(c.profilo).url,
+      scheda_uda:{}, da_completare:[]});
   }
 }
 async function init(){
@@ -72,7 +119,7 @@ async function init(){
     ];
     $('#archive-filters').innerHTML = `<div class="field grow"><label for="search">Cerca</label><input id="search" type="search" placeholder="albero, ascolto, piazza…"></div>` +
       fields.map(([id,label,vals])=>`<div class="field"><label for="f-${id}">${esc(label)}</label><select id="f-${id}">${options(vals,'','Tutti')}</select></div>`).join('');
-    const row=e=>`<tr><td><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span></td><td><strong><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></strong>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}<div class="provenance">${esc(e.descrizione||'')}</div></td><td>${esc(e.aula||'')}</td><td>${esc(e.community||'')}</td><td>${esc((e.eta||[]).join(', '))}</td><td>${esc((e.discipline||[]).join(', '))}</td><td class="provenance">${esc(e.provenienza||'')}</td></tr>`;
+    const row=e=>`<tr><td><span class="badge ${e.stato}">${e.stato==='vissuta'?'Vissuta':'Proposta'}</span></td><td><strong><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></strong>${e.modello?` <span class="badge uda">${(e.tappe||[]).length?'UDA · percorso':'Scheda UDA'}</span>`:''}<div class="provenance">${esc(e.descrizione||'')}</div></td><td>${esc(e.aula||'')}</td><td>${esc(e.community||'')}</td><td>${esc((e.eta||[]).join(', '))}</td><td>${esc((e.discipline||[]).join(', '))}</td><td class="provenance">${e.contributo?raccontatoDaHtml(e):esc(e.provenienza||'')}</td></tr>`;
     const render=()=>{
       let filtered=data.filter(e=>fields.every(([id])=>{const v=$(`#f-${id}`).value; return !v || (Array.isArray(e[id])?e[id].includes(v):e[id]===v);}));
       const q=$('#search').value.toLocaleLowerCase();
@@ -104,6 +151,12 @@ async function init(){
       if(links.some(x=>{ try{ const u=new URL(x); return !['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(u.hostname)||u.protocol!=='https:'; }catch{return true;} })){
         alert('Inserisci link YouTube validi, uno per riga.'); return;
       }
+      const sitoOk=parseHttpsUrl(($('#sito_scuola')||{}).value||'');
+      if(!sitoOk.ok){ alert('«Sito o pagina della scuola»: inserisci un indirizzo https:// valido, oppure lascia il campo vuoto. Non inserire link a profili o foto di bambini.'); $('#sito_scuola').focus(); return; }
+      const profOk=parseHttpsUrl(($('#profilo')||{}).value||'');
+      if(!profOk.ok){ alert('«Il tuo profilo»: inserisci un indirizzo https:// valido, oppure lascia il campo vuoto. Non inserire link a profili o foto di bambini.'); $('#profilo').focus(); return; }
+      if($('#sito_scuola')) $('#sito_scuola').value=sitoOk.url;
+      if($('#profilo')) $('#profilo').value=profOk.url;
       if(window.fotoPending && window.fotoPending()>0){ alert('Aspetta un attimo: le foto si stanno ancora caricando.'); return; }
       if(document.querySelector('.rec-box[data-state="recording"]')){ alert('Ferma prima la registrazione in corso.'); return; }
       const audioKeys=voice?voice.keys():[];
@@ -599,7 +652,7 @@ window.initEspPage = async function(){
         <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">${esc(e.titolo)}</h1>
         <p>${esc(e.aula)} · ${esc(e.percorso||'')}</p>
         <p class="tags">${esc((e.eta||[]).join(' · '))} / ${esc((e.gruppo||[]).map(g=>groupLabels[g]||g).join(' · '))}<br>${esc((e.discipline||[]).join(' · '))}</p>
-        <p class="provenance">${esc(e.provenienza)}</p>
+        ${e.contributo?raccontatoDaHtml(e):`<p class="provenance">${esc(e.provenienza)}</p>`}
       </div>
       ${(e.foto||[]).length ? `<div class="detail-gallery">${e.foto.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>` : ''}
       ${videos.length ? `<section class="detail-block"><h2>Video</h2>${videoBlocks(videos)}</section>` : ''}
