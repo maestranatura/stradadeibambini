@@ -128,7 +128,9 @@ export default async (req) => {
   else if (azione === "approva") {
     const badLink = applicaTesti();
     if (badLink) return json({ error: "Link non valido: usa solo un indirizzo https://, oppure lascia vuoto", campo: badLink }, 400);
-    if (!(r.consensi?.genitori && r.consensi?.volti_non_riconoscibili && r.consensi?.licenza_aperta)) return json({ error: "Mancano i consensi: non si può pubblicare" }, 409);
+    const c = r.consensi || {};
+    const okMinori = c.privacy || (c.genitori && c.volti_non_riconoscibili);
+    if (!(okMinori && c.licenza_aperta)) return json({ error: "Mancano i consensi: non si può pubblicare" }, 409);
     r.stato = "approvato"; r.approvato = new Date().toISOString(); log("approvato");
     await setPubblico(st, r, true);
   }

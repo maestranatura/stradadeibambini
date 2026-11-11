@@ -310,6 +310,10 @@ async function init(){
     const voice=window.initVoiceInputs?window.initVoiceInputs():null;
     { const q=$('#quando'); if(q){ const n=new Date(); q.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; const lab=q.parentElement.querySelector('span.muted'); if(lab) lab.textContent='Oggi · '+n.toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}); } }
 
+    { const cons=$('#consenso-privacy');
+      if(cons){ const msg='Per inviare il contributo serve questa dichiarazione (privacy, minori e foto).';
+        const sync=()=>cons.setCustomValidity(cons.checked?'':msg);
+        sync(); cons.addEventListener('change',sync); } }
     $('#story-form').addEventListener('submit', async ev=>{
       ev.preventDefault();
       const v=dove?dove.value():{};
@@ -326,6 +330,11 @@ async function init(){
       if(!profOk.ok){ alert('«Il tuo profilo»: inserisci un indirizzo https:// valido, oppure lascia il campo vuoto. Non inserire link a profili o foto di bambini.'); $('#profilo').focus(); return; }
       if($('#sito_scuola')) $('#sito_scuola').value=sitoOk.url;
       if($('#profilo')) $('#profilo').value=profOk.url;
+      const cons=$('#consenso-privacy');
+      if(!cons || !cons.checked){ if(cons){ cons.focus(); cons.reportValidity(); } else alert('Per inviare serve la dichiarazione su privacy, minori e foto.'); return; }
+      const quandoEl=$('#f-consenso-quando'); if(quandoEl) quandoEl.value=new Date().toISOString();
+      const g=$('#f-consenso-genitori'); if(g) g.value='si';
+      const voltiEl=$('#f-consenso-volti'); if(voltiEl) voltiEl.value='si';
       if(window.fotoPending && window.fotoPending()>0){ alert('Aspetta un attimo: le foto si stanno ancora caricando.'); return; }
       if(document.querySelector('.rec-box[data-state="recording"]')){ alert('Ferma prima la registrazione in corso.'); return; }
       const audioKeys=voice?voice.keys():[];

@@ -625,3 +625,14 @@ table.archive tr.solo-tappe td{opacity:.85}
   .site-nav{gap:6px 11px;font-size:13px;flex-wrap:wrap}
   .site-nav a.contrib{padding:6px 9px;font-size:13px}
 }
+
+/* Informativa privacy */
+.privacy-doc{max-width:720px}
+.privacy-doc h1{margin-bottom:8px}
+.privacy-doc .lede{margin:0 0 28px;font-size:18px}
+.privacy-doc h2{margin:32px 0 10px;font-family:var(--serif);font-weight:600;font-size:22px}
+.privacy-doc h3{margin:22px 0 8px;font-family:var(--serif);font-weight:600;font-size:18px}
+.privacy-doc p,.privacy-doc li{font-size:16px;line-height:1.65;color:#333}
+.privacy-doc ul{margin:0 0 16px;padding-left:1.2em}
+.privacy-doc .da-completare{background:#FFF6E5;border-left:4px solid #E8B84A;padding:12px 14px;border-radius:0 8px 8px 0;color:#5c430e;font-size:15px}
+.check a{text-decoration:underline}

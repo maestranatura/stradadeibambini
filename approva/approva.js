@@ -74,7 +74,8 @@
   function card(it){
     const el=document.createElement('article'); el.className='ap-card'; el.id='c-'+it.id;
     const c=it.consensi||{};
-    const okAll=c.genitori&&c.volti_non_riconoscibili&&c.licenza_aperta;
+    const okMinori=c.privacy||(c.genitori&&c.volti_non_riconoscibili);
+    const okAll=okMinori&&c.licenza_aperta;
     const tick=(v,l)=>`<label><input type="checkbox" disabled ${v?'checked':''}> <span class="${v?'':'no'}">${esc(l)}${v?'':' — manca'}</span></label>`;
     const racconto=it.racconto_pubblico ?? it.racconto ?? '';
     const voci=it.voci_pubbliche ?? it.voci ?? '';
@@ -98,7 +99,7 @@
       ${(it.audio||[]).length?`<section class="ap-sec"><h3>Audio · solo per te, mai pubblicati</h3>${it.audio.map((a,i)=>`<div class="ap-audio" data-i="${i}"><strong>${a.tipo==='voce'?`Voce di ${esc(a.nome||'—')}${a.ruolo?` · ${esc(a.ruolo)}`:''}`:'Racconto a voce'}${a.durata?` · ${Math.floor(a.durata/60)}:${String(a.durata%60).padStart(2,'0')}`:''}</strong><audio controls preload="none"></audio>${a.trascrizione?`<p class="tr">${esc(a.trascrizione)}</p><button type="button" class="use-tr" data-i="${i}">Usa la trascrizione nel testo</button>`:`<p class="tr da">${esc(a.stato_trascrizione==='fatta'?'':a.stato_trascrizione||'da trascrivere')}</p>`}</div>`).join('')}</section>`:''}
       ${(it.foto||[]).length?`<section class="ap-sec"><h3>Foto · ${it.foto.length}</h3><div class="ap-photos">${it.foto.map(()=>'<img alt="">').join('')}</div></section>`:''}
       ${(it.video||[]).length?`<section class="ap-sec"><h3>Video</h3>${it.video.map(u=>`<p><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></p>`).join('')}</section>`:''}
-      <section class="ap-sec ap-consensi"><h3>Consensi</h3>${tick(c.genitori,'Ho il consenso dei genitori')}${tick(c.volti_non_riconoscibili,'I volti non sono riconoscibili')}${tick(c.licenza_aperta,'Licenza aperta, citando il nome')}</section>
+      <section class="ap-sec ap-consensi"><h3>Consensi</h3>${tick(okMinori,'Permesso dei genitori o responsabili per voci e immagini di minori; foto senza volti riconoscibili di bambini')}${tick(c.licenza_aperta,'Licenza aperta, citando il nome')}${c.quando?`<p class="muted">Consenso registrato il ${esc(fmtDate(c.quando))}</p>`:''}</section>
       <div class="ap-actions"></div>
       <p class="ap-note">${(it.storia||[]).map(s=>`${esc(fmtDate(s.quando))} ${esc(s.cosa)}`).join(' · ')}</p>`;
     // map
