@@ -100,10 +100,19 @@ function mergeApproved(list, data, geo, communities){
       scheda_uda:{}, da_completare:[]});
   }
 }
+// Comunità non ancora attivate: restano nei dati ma non si mostrano sul sito
+const COMUNITA_NASCOSTE=['Siracusa'];
+function nascondiComunita(data, geo, communities){
+  const via=x=>COMUNITA_NASCOSTE.includes(x);
+  for(let i=data.length-1;i>=0;i--) if(via(data[i].community)) data.splice(i,1);
+  if(geo&&geo.features) geo.features=geo.features.filter(f=>!via(f.properties&&f.properties.community));
+  if(communities) for(let i=communities.length-1;i>=0;i--) if(via(communities[i].name)) communities.splice(i,1);
+}
 async function init(){
   if(!$('#map') && !$('#archive-filters') && !$('#story-form')) return;
   const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), $('#story-form')?Promise.resolve([]):fetchApproved()]);
   mergeApproved(approvati, data, geo, communities);
+  nascondiComunita(data, geo, communities);
   const disciplines=[...new Set(data.flatMap(e=>e.discipline))].sort();
 
   if($('#archive-filters')){
@@ -400,6 +409,7 @@ init().catch(err=>{ console.error(err); const t=$('#place-panel')||$('#archive-r
 async function loadProtoData(){
   const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), fetchApproved()]);
   mergeApproved(approvati, data, geo, communities);
+  nascondiComunita(data, geo, communities);
   return {data, geo, communities};
 }
 
