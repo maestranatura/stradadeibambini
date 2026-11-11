@@ -621,23 +621,30 @@ table.archive tr.solo-tappe td{opacity:.85}
 @media (max-width:520px){.voce-top{grid-template-columns:1fr}}
 
 
-/* Contatti: pannello nel menu e blocco «Seguici» nel footer */
-.nav-contatti{position:relative;display:flex;align-items:center}
-.site-nav .nav-contatti-btn{appearance:none;background:none;border:0;cursor:pointer;font:inherit;font-weight:500;padding-left:0;padding-right:0}
+/* Contatti: tasto allineato alle altre voci, link a righe nel pannello e nel footer */
+.nav-contatti{position:relative;display:flex;align-items:stretch;align-self:stretch}
+.site-nav .nav-contatti-btn{
+  appearance:none;-webkit-appearance:none;background:transparent;margin:0;cursor:pointer;
+  font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;
+  letter-spacing:inherit;line-height:inherit;color:#555;
+  padding:0 0 4px;border:0;border-bottom:2px solid transparent;border-radius:0;box-shadow:none;
+  display:flex;align-items:flex-start;justify-content:flex-start;text-align:left;
+}
 .contatti-panel[hidden]{display:none!important}
-.contatti-panel{position:absolute;top:calc(100% + 8px);right:0;z-index:40;min-width:230px;max-width:min(300px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(27,27,27,.12);padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left}
+.contatti-panel{position:absolute;top:calc(100% + 8px);right:0;z-index:40;min-width:230px;max-width:min(320px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(27,27,27,.12);padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left}
 .contatti-panel p{margin:0;font-size:14px;font-weight:400;line-height:1.5;color:#333}
-.contatti-titolo{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--ink)!important}
 .site-nav .contatti-panel a{color:var(--green);padding:0;border-bottom:0;font-weight:500}
 .site-nav .contatti-panel a:hover{color:var(--green-dark)}
-.footer-seguici{display:flex;flex-direction:column;gap:2px;line-height:1.5}
-.footer-seguici-t{margin:0;font-weight:600;color:var(--ink)}
-.footer-seguici p{margin:0}
-.thanks-seguici{margin:4px 0 0;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
-.thanks-seguici .footer-seguici-t{font-family:var(--serif);font-size:18px}
+.footer-seguici,.thanks-seguici{display:flex;flex-direction:column;gap:4px;line-height:1.5}
+.footer-seguici p,.thanks-seguici p{margin:0}
+.thanks-seguici{margin:4px 0 0;padding-top:14px;border-top:1px solid var(--line)}
 .gl-top{position:relative}
 .gl-top-actions{display:flex;align-items:center;gap:14px;margin-left:auto}
-.gl-top .nav-contatti-btn{appearance:none;background:none;border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;color:#555;padding:0 0 2px;border-bottom:2px solid transparent}
+.gl-top .nav-contatti-btn{
+  appearance:none;-webkit-appearance:none;background:transparent;margin:0;cursor:pointer;
+  font-family:inherit;font-size:15px;font-weight:500;font-style:inherit;letter-spacing:inherit;line-height:inherit;
+  color:#555;padding:0 0 2px;border:0;border-bottom:2px solid transparent;border-radius:0;box-shadow:none;
+}
 .gl-top .nav-contatti-btn:hover,.gl-top .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);border-bottom-color:var(--green)}
 .gl-top .contatti-panel a{color:var(--green)}
 
