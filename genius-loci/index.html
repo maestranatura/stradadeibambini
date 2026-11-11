@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Parla con il Genius Loci · La Strada dei Bambini</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Prototipo: fai una domanda e il Genius Loci ti indica aule, UDA e voci dei bambini della Strada dei Bambini.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/stile.css?v=9">
+<link rel="stylesheet" href="/genius-loci/genius-loci.css?v=1">
+<link rel="icon" href="/favicon.ico?v=1" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=1">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1">
+<meta name="theme-color" content="#2F5D3A">
+</head>
+<body class="gl">
+<a class="gl-skip" href="#gl-domanda">Vai al campo della domanda</a>
+<header class="gl-top">
+  <a class="gl-brand" href="/">La Strada dei Bambini</a>
+  <span class="gl-tag" title="Pagina di prova, non collegata dal menu">Prototipo</span>
+</header>
+
+<main class="gl-main" id="gl-main">
+  <section class="gl-hero" id="gl-hero">
+    <img class="gl-logo" src="/favicon.svg?v=1" alt="" width="56" height="56">
+    <h1>Parla con il Genius Loci</h1>
+    <p class="gl-lede">Chiedi delle aule, delle UDA e delle parole dei bambini. Rispondo solo con quello che c’è nelle schede del sito.</p>
+  </section>
+
+  <section class="gl-thread" id="gl-thread" aria-live="polite" aria-label="Conversazione"></section>
+
+  <div class="gl-dock" id="gl-dock">
+    <form class="gl-form" id="gl-form" role="search" autocomplete="off">
+      <label class="gl-sr" for="gl-domanda">Scrivi la tua domanda</label>
+      <textarea id="gl-domanda" name="q" rows="1" maxlength="300" placeholder="Chiedi al Genius Loci…" enterkeyhint="send"></textarea>
+      <button type="submit" class="gl-send" aria-label="Chiedi">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+    <ul class="gl-esempi" id="gl-esempi" aria-label="Domande d’esempio">
+      <li><button type="button">Che aula posso usare con una quarta a Siracusa?</button></li>
+      <li><button type="button">Attività sull’acqua per la seconda media</button></li>
+      <li><button type="button">Cosa hanno detto i bambini sulle formiche?</button></li>
+      <li><button type="button">Come si fa la passeggiata genius loci?</button></li>
+    </ul>
+    <p class="gl-nota" id="gl-nota">Prototipo. Cerco nei testi delle schede e te li mostro così come sono: nessuna intelligenza artificiale scrive al posto delle fonti. <span class="badge vissuta">Vissuta</span> = fatta con una classe · <span class="badge proposta">Proposta</span> = idea da provare.</p>
+  </div>
+</main>
+<script type="module" src="/genius-loci/app.mjs?v=1"></script>
+</body>
+</html>
