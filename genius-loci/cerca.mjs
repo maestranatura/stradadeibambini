@@ -305,7 +305,7 @@ function introduzione(ix, cap, risultati, lista, classeMancante) {
   const perChi = cap.classeEtichetta ? ` per la ${cap.classeEtichetta}` : '';
   if (!risultati.length) {
     if (cap.comunita && cap.classe) return { tipo: 'vuoto', testo: `Non ho trovato nulla${dove}${perChi} che risponda davvero alla domanda. Non voglio inventare: prova a togliere la classe o il luogo, oppure a usare un tema più semplice (acqua, alberi, memoria, confini).` };
-    return { tipo: 'vuoto', testo: 'Su questo nei testi del sito non ho trovato niente di pertinente, e preferisco non inventare. Prova a nominare un luogo (Siracusa, Valdobbiadene, Botrugno), una classe (quarta, seconda media) o un tema (acqua, alberi, memoria, la ferita del luogo).' };
+    return { tipo: 'vuoto', testo: 'Su questo nei testi del sito non ho trovato niente di pertinente, e preferisco non inventare. Prova a nominare un luogo (Valdobbiadene, Botrugno, Druento), una classe (quarta, seconda media) o un tema (acqua, alberi, memoria, la ferita del luogo).' };
   }
   const uda = risultati.filter(r => r.tipo === 'uda');
   const v = uda.filter(r => r.stato === 'vissuta').length, pr = uda.filter(r => r.stato === 'proposta').length;

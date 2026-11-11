@@ -19,6 +19,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from testi import clean, split, metodo_chunks, estratto_breve  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+# Comunità non ancora attivate: fuori dall'indice pubblico (svuotare il file per riattivarle e rigenerare).
+NASCOSTE = json.loads((ROOT / 'genius-loci' / 'comunita-nascoste.json').read_text())
+RE_NASCOSTE = {'Siracusa': r'siracus|neapolis|ortigia'}
+def nascosta(c): return any(str(c or '').startswith(n) for n in NASCOSTE)
 OUT = ROOT / 'genius-loci' / 'indice.json'
 
 def comunita_breve(c):
@@ -37,6 +41,7 @@ def add(**kw):
 esperienze = json.loads((ROOT / 'esperienze.json').read_text())
 schede = []
 for e in esperienze:
+    if nascosta(e.get('community')): continue
     base = dict(tipo='uda', ref=e['id'], titolo=e['titolo'], comunita=comunita_breve(e['community']),
                 stato=e.get('stato'), eta=e.get('eta') or [], discipline=e.get('discipline') or [],
                 aula=e.get('aula'), aula_id=e.get('aula_id'), luogo=e.get('percorso'))
@@ -101,6 +106,7 @@ aule = []
 for f in feat:
     p = f['properties']
     if f['geometry']['type'] != 'Point': continue
+    if nascosta(p.get('community')): continue
     txt = clean(p.get('descrizione') or p.get('breve') or '')
     has_text = txt and PLACEHOLDER not in txt.lower()
     linked = uda_per_aula.get(p['id'], [])
@@ -128,6 +134,11 @@ if Path(a.metodo).exists():
             fonte='Mappe Genius Loci (D. Casertano, A. Rossetto), estratto' + (' · ' + fonti[7:].strip() if fonti else ''))
         n_met += 1
 
+rx = '|'.join(RE_NASCOSTE.get(n, re.escape(n.lower())) for n in NASCOSTE)
+if rx:
+    prima = len(passi)
+    passi = [p for p in passi if not re.search(rx, (p.get('testo','') + ' ' + p.get('titolo','')).lower())]
+    if prima != len(passi): print('tolti', prima - len(passi), 'passi che nominano comunità nascoste')
 OUT.write_text(json.dumps({'versione': 1, 'schede': schede, 'aule': aule, 'passi': passi},
                           ensure_ascii=False, separators=(',', ':')))
 from collections import Counter
