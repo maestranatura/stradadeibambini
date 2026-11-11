@@ -8,7 +8,7 @@ const KEY_RE = /^\d{4}-\d{2}-\d{2}\/[0-9a-f-]{36}\.(m4a|webm|ogg|mp3|wav)$/;
 
 export default async (req) => {
   if (req.method !== "POST") return;
-  // Solo chiamate interne (submission-created) o della coordinatrice: evita trascrizioni a pagamento abusive.
+  // Solo chiamate interne (submission-created) o del responsabile: evita trascrizioni a pagamento abusive.
   if (!who(req) || who(req).community) return;
   let body = {};
   try { body = await req.json(); } catch { return; }

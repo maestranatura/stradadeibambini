@@ -16,8 +16,15 @@ export default async (req, context) => {
   if ((p.form_name || p.data?.["form-name"]) !== "contribuisci") return new Response("ignorato");
   const d = p.data || {};
   const id = s(p.id || crypto.randomUUID(), 40).replace(/[^a-zA-Z0-9-]/g, "");
+  // Voci: chi parla (bambino o bambina, docente, abitante, custode). Bambini: solo il nome di battesimo.
+  const RUOLI = ["bambino o bambina", "docente", "abitante", "custode"];
+  const ruoloDi = r => RUOLI.includes(r) ? r : RUOLI[0];
+  const nomeDi = (nome, ruolo) => ruolo === RUOLI[0] ? s(nome, 30).split(/\s+/)[0] : s(nome, 80).replace(/\s+/g, " ");
   const audioVoci = (parseJSON(d.audio_voci, []) || []).filter(x => x && AUDIO_RE.test(x.key)).slice(0, 30)
-    .map(x => ({ nome: s(x.nome, 30).split(/\s+/)[0], key: x.key }));
+    .map(x => { const ruolo = ruoloDi(x.ruolo); return { nome: nomeDi(x.nome, ruolo), ruolo, key: x.key }; });
+  const vociElenco = (parseJSON(d.voci_elenco, []) || []).filter(x => x && typeof x === "object").slice(0, 40)
+    .map(x => { const ruolo = ruoloDi(x.ruolo); return { ruolo, nome: nomeDi(x.nome, ruolo), testo: s(x.testo, 600), audio: !!x.audio }; })
+    .filter(x => x.testo || x.audio);
   const audioRacconto = AUDIO_RE.test(d.audio_racconto || "") ? d.audio_racconto : "";
   const foto = (parseJSON(d.foto_keys, []) || []).filter(k => FOTO_RE.test(k)).slice(0, 60);
   const lat = Number(d.lat), lon = Number(d.lon);
@@ -28,7 +35,7 @@ export default async (req, context) => {
     quando: s(d.quando, 20), tempo: s(d.tempo, 120), classe: s(d.classe, 60), scuola: s(d.scuola, 160),
     sito_scuola: normalizeHttpsUrl(d.sito_scuola), profilo: normalizeHttpsUrl(d.profilo),
     numero: s(d.numero, 10), accompagnatori: s(d.accompagnatori, 300),
-    racconto: s(d.racconto, 8000), voci: s(d.voci, 4000), video: s(d.video, 2000).split(/\s+/).filter(u => /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//.test(u)).slice(0, 10),
+    racconto: s(d.racconto, 8000), voci: s(d.voci, 4000), voci_elenco: vociElenco, video: s(d.video, 2000).split(/\s+/).filter(u => /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//.test(u)).slice(0, 10),
     audio_racconto: audioRacconto, audio_voci: audioVoci, foto,
     consensi: { genitori: on(d.consenso_genitori), volti_non_riconoscibili: on(d.volti_non_riconoscibili), licenza_aperta: on(d.licenza_aperta) },
     autore: s(d.autore, 120), email: s(d.email, 160),
@@ -44,7 +51,7 @@ export default async (req, context) => {
     try { await fetch(`${site}/api/trascrivi`, { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${process.env.ADMIN_TOKEN || ""}` }, body: JSON.stringify({ keys, aula_id: rec.aula_id, luogo_nome: rec.luogo_nome, community: rec.community, contributo: id }) }); } catch {}
   }
 
-  // Email alla coordinatrice: riepilogo + link alla revisione. Nessun allegato (niente audio né foto).
+  // Email al responsabile: riepilogo + link alla revisione. Nessun allegato (niente audio né foto).
   const to = process.env.NOTIFY_TO || "info@scuolenaturali.it";
   const link = `${site}/approva/#${id}`;
   const prime = rec.racconto ? rec.racconto.split(/\n+/).join(" ").slice(0, 280) + (rec.racconto.length > 280 ? "…" : "") : (audioRacconto ? "(racconto a voce)" : "(nessun testo)");
@@ -58,7 +65,7 @@ export default async (req, context) => {
     `Dove: ${rec.luogo_nome || "luogo nuovo"}${rec.community ? ` (${rec.community})` : ""}${rec.aula_id ? "" : " · luogo nuovo"}`,
     `Quando: ${rec.quando || "—"}${rec.tempo ? ` · ${rec.tempo}` : ""}`,
     `Racconto: ${prime}`,
-    `Foto: ${foto.length} · Audio: ${keys.length}${rec.video.length ? ` · Video: ${rec.video.length}` : ""}`,
+    `Foto: ${foto.length} · Audio: ${keys.length}${rec.video.length ? ` · Video: ${rec.video.length}` : ""}${vociElenco.length ? ` · Voci: ${vociElenco.length} (${[...new Set(vociElenco.map(v => v.ruolo))].join(", ")})` : ""}`,
     "",
     `Rivedi e approva: ${link}`,
   ].filter(Boolean).join("\n");

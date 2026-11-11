@@ -51,7 +51,7 @@
       const r=await api('/api/approva?whoami=1'); user=await r.json();
       localStorage.setItem(KEY,token);
       $('#ap-login').hidden=true; $('#ap-app').hidden=false; $('#ap-out').hidden=false;
-      $('#ap-who').textContent = user.community ? `Community manager · ${user.community}` : 'Coordinatrice';
+      $('#ap-who').textContent = user.community ? `Community manager · ${user.community}` : 'Responsabile';
       $('#ap-tools').hidden = !!user.community;
       load();
     }catch(e){ localStorage.removeItem(KEY); showLogin(e.status?'Chiave non valida.':'Non riesco a collegarmi. Riprova.'); }
@@ -93,8 +93,9 @@
       </div>
       ${it.lat!=null?'<div class="ap-map"></div>':''}
       <section class="ap-sec"><h3>Racconto</h3><p class="ap-text t-view">${esc(racconto)||'<span class="muted">(nessun testo scritto)</span>'}</p><textarea class="t-edit r-edit" hidden>${esc(racconto)}</textarea></section>
-      <section class="ap-sec"><h3>Voci dei bambini (scritte)</h3><p class="ap-text t-view">${esc(voci)||'<span class="muted">—</span>'}</p><textarea class="t-edit v-edit" hidden>${esc(voci)}</textarea></section>
-      ${(it.audio||[]).length?`<section class="ap-sec"><h3>Audio · solo per te, mai pubblicati</h3>${it.audio.map((a,i)=>`<div class="ap-audio" data-i="${i}"><strong>${a.tipo==='voce'?`Voce di ${esc(a.nome||'—')}`:'Racconto a voce'}${a.durata?` · ${Math.floor(a.durata/60)}:${String(a.durata%60).padStart(2,'0')}`:''}</strong><audio controls preload="none"></audio>${a.trascrizione?`<p class="tr">${esc(a.trascrizione)}</p><button type="button" class="use-tr" data-i="${i}">Usa la trascrizione nel testo</button>`:`<p class="tr da">${esc(a.stato_trascrizione==='fatta'?'':a.stato_trascrizione||'da trascrivere')}</p>`}</div>`).join('')}</section>`:''}
+      ${(it.voci_elenco||[]).length?`<section class="ap-sec"><h3>Voci · chi parla</h3><ul class="ap-voci">${it.voci_elenco.map(v=>`<li><span class="ap-ruolo">${esc(v.ruolo||'bambino o bambina')}</span> ${esc(v.nome||'')}${v.testo?`: «${esc(v.testo)}»`:''}${v.audio?' <span class="muted">· registrata</span>':''}</li>`).join('')}</ul><p class="muted">Così l’ha scritto chi contribuisce. Online va solo il testo qui sotto, dopo la tua approvazione.</p></section>`:''}
+      <section class="ap-sec"><h3>Voci (testo che va online)</h3><p class="ap-text t-view">${esc(voci)||'<span class="muted">—</span>'}</p><textarea class="t-edit v-edit" hidden>${esc(voci)}</textarea></section>
+      ${(it.audio||[]).length?`<section class="ap-sec"><h3>Audio · solo per te, mai pubblicati</h3>${it.audio.map((a,i)=>`<div class="ap-audio" data-i="${i}"><strong>${a.tipo==='voce'?`Voce di ${esc(a.nome||'—')}${a.ruolo?` · ${esc(a.ruolo)}`:''}`:'Racconto a voce'}${a.durata?` · ${Math.floor(a.durata/60)}:${String(a.durata%60).padStart(2,'0')}`:''}</strong><audio controls preload="none"></audio>${a.trascrizione?`<p class="tr">${esc(a.trascrizione)}</p><button type="button" class="use-tr" data-i="${i}">Usa la trascrizione nel testo</button>`:`<p class="tr da">${esc(a.stato_trascrizione==='fatta'?'':a.stato_trascrizione||'da trascrivere')}</p>`}</div>`).join('')}</section>`:''}
       ${(it.foto||[]).length?`<section class="ap-sec"><h3>Foto · ${it.foto.length}</h3><div class="ap-photos">${it.foto.map(()=>'<img alt="">').join('')}</div></section>`:''}
       ${(it.video||[]).length?`<section class="ap-sec"><h3>Video</h3>${it.video.map(u=>`<p><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a></p>`).join('')}</section>`:''}
       <section class="ap-sec ap-consensi"><h3>Consensi</h3>${tick(c.genitori,'Ho il consenso dei genitori')}${tick(c.volti_non_riconoscibili,'I volti non sono riconoscibili')}${tick(c.licenza_aperta,'Licenza aperta, citando il nome')}</section>
@@ -105,7 +106,7 @@
     // private media through the token
     (it.audio||[]).forEach((a,i)=>{ const au=el.querySelector(`.ap-audio[data-i="${i}"] audio`); blobUrl('/api/audio?key='+encodeURIComponent(a.key)).then(u=>au.src=u).catch(()=>au.replaceWith(Object.assign(document.createElement('p'),{className:'rec-err',textContent:'Audio non disponibile'}))); });
     el.querySelectorAll('.ap-photos img').forEach((img,i)=>blobUrl('/api/foto?key='+encodeURIComponent(it.foto[i])).then(u=>img.src=u).catch(()=>img.alt='non disponibile'));
-    el.querySelectorAll('.use-tr').forEach(b=>b.onclick=()=>{ setEdit(true); const a=it.audio[+b.dataset.i]; const ta=a.tipo==='voce'?el.querySelector('.v-edit'):el.querySelector('.r-edit'); ta.value=(ta.value?ta.value+'\n':'')+(a.tipo==='voce'?`${a.nome}: «${a.trascrizione}»`:a.trascrizione); });
+    el.querySelectorAll('.use-tr').forEach(b=>b.onclick=()=>{ setEdit(true); const a=it.audio[+b.dataset.i]; const ta=a.tipo==='voce'?el.querySelector('.v-edit'):el.querySelector('.r-edit'); ta.value=(ta.value?ta.value+'\n':'')+(a.tipo==='voce'?`${[a.nome,a.ruolo].filter(Boolean).join(', ')||'Voce'}: «${a.trascrizione}»`:a.trascrizione); });
     // actions
     let editing=false;
     const setEdit=on=>{ editing=on; el.querySelectorAll('.t-view').forEach(x=>x.hidden=on); el.querySelectorAll('.t-edit').forEach(x=>x.hidden=!on); renderActions(); };

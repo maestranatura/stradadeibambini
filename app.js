@@ -186,11 +186,46 @@ function nascondiComunita(data, geo, communities){
   if(geo&&geo.features) geo.features=geo.features.filter(f=>!via(f.properties&&f.properties.community));
   if(communities) for(let i=communities.length-1;i>=0;i--) if(via(communities[i].name)) communities.splice(i,1);
 }
+// --- Voci dei filtri normalizzate (solo in visualizzazione e nei filtri; esperienze.json non cambia) ---
+// Competenze europee: le otto della Raccomandazione del Consiglio UE del 22 maggio 2018. Le varianti dei dati
+// («Consapevolezza ed espressione culturali», «Competenza in scienze», «Competenza matematica»…) si riportano alla voce ufficiale.
+const UE_2018=['Competenza alfabetica funzionale','Competenza multilinguistica','Competenza matematica e competenza in scienze, tecnologie e ingegneria','Competenza digitale','Competenza personale, sociale e capacità di imparare a imparare','Competenza in materia di cittadinanza','Competenza imprenditoriale','Competenza in materia di consapevolezza ed espressione culturali'];
+function normUE(v){
+  const s=String(v||'').toLowerCase();
+  const i=/alfabetic/.test(s)?0:/multilingu/.test(s)?1:/matematic|scienz/.test(s)?2:/digital/.test(s)?3:/personale|imparare/.test(s)?4:/cittadinanza/.test(s)?5:/imprendit/.test(s)?6:/cultural/.test(s)?7:-1;
+  return i<0?String(v||''):UE_2018[i];
+}
+// «motoria» ed «educazione motoria» sono la stessa disciplina
+function normDisc(v){ return /^\s*motoria\s*$/i.test(String(v||''))?(/^\s*M/.test(v)?'Educazione motoria':'educazione motoria'):v; }
+// Documentazione: quattro voci al posto delle nove descrizioni dei dati
+const DOC_TIPI=['volume','video','racconto di un docente','progetto scritto'];
+function docTipi(e){
+  if(e.contributo) return ['racconto di un docente'];
+  const d=String(e.documentazione||'').toLowerCase(), o=[];
+  if(/volume/.test(d)) o.push('volume');
+  if(/video/.test(d)) o.push('video');
+  if(/progetto/.test(d)) o.push('progetto scritto');
+  return o;
+}
+function normalizzaVoci(data){
+  const uniq=a=>[...new Set(a)];
+  for(const e of data){
+    if(Array.isArray(e.competenze_ue)) e.competenze_ue=uniq(e.competenze_ue.map(normUE));
+    if(Array.isArray(e.discipline)) e.discipline=uniq(e.discipline.map(normDisc));
+    const s=e.uda_sintesi;
+    if(s){
+      if(Array.isArray(s.competenze_chiave)) s.competenze_chiave=uniq(s.competenze_chiave.map(normUE));
+      if(Array.isArray(s.discipline)) s.discipline=uniq(s.discipline.map(normDisc));
+    }
+    for(const f of ((e.progettazione||{}).fasi||[])) if(Array.isArray(f.discipline)) f.discipline=uniq(f.discipline.map(normDisc));
+  }
+}
 async function init(){
   if(!$('#map') && !$('#archive-filters') && !$('#story-form')) return;
   const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), $('#story-form')?Promise.resolve([]):fetchApproved()]);
   mergeApproved(approvati, data, geo, communities);
   nascondiComunita(data, geo, communities);
+  normalizzaVoci(data);
   const disciplines=[...new Set(data.flatMap(e=>e.discipline))].sort();
 
   if($('#archive-filters')){
@@ -199,28 +234,34 @@ async function init(){
     // Legame tappa → percorso dai dati: percorso_uda.id e, all'inverso, percorso.tappe[].esperienza_id
     const tappeDi=Object.fromEntries(data.filter(e=>(e.tappe||[]).length).map(p=>[p.id, p.tappe.map(t=>byId[t.esperienza_id]).filter(x=>x && x.percorso_uda && x.percorso_uda.id===p.id)]));
     const inPercorso=new Set(Object.values(tappeDi).flat().map(x=>x.id));
-    const tipoLabels={uda:'UDA', tappa:'Tappa', contributo:'Contributo'};
-    const tipi=['uda','tappa',...(data.some(e=>e._tipo==='contributo')?['contributo']:[])];
+    const tipoLabels={uda:'UDA vissuta', tappa:'Tappa', proposta:'Proposta', contributo:'Contributo'};
+    // Tipo per il filtro: una tappa di un percorso proposto è sia «Tappa» sia «Proposta»
+    data.forEach(e=>{ e._tipi=e._tipo==='contributo'?['contributo']:e.stato==='proposta'?(e._tipo==='tappa'?['tappa','proposta']:['proposta']):[e._tipo]; e._doc=docTipi(e); });
+    const tipi=['uda','tappa','proposta',...(data.some(e=>e._tipo==='contributo')?['contributo']:[])];
+    // In vista: ricerca, comunità, età, tipo. Gli altri sotto «Altri filtri».
     const fields=[
-      ['community','Comunità',[...new Set(data.map(e=>e.community))]],
-      ['tipo_aula','Tipo di aula',[...new Set(data.map(e=>e.tipo_aula))]],
-      ['eta','Età',ages],
-      ['discipline','Disciplina',disciplines],
-      ['_tipo','Tipo di scheda',tipi],
-      ['stato','Stato',['vissuta','proposta']],
-      ['gruppo','Gruppo',groups],
-      ['competenze_ue','Competenza UE',[...new Set(data.flatMap(e=>e.competenze_ue||[]))].sort()],
-      ['documentazione','Documentazione',[...new Set(data.map(e=>e.documentazione).filter(Boolean))].sort()]
+      ['community','Comunità',[...new Set(data.map(e=>e.community))],1],
+      ['eta','Età',ages,1],
+      ['_tipi','Tipo',tipi,1],
+      ['discipline','Disciplina',disciplines,0],
+      ['tipo_aula','Tipo di aula',[...new Set(data.map(e=>e.tipo_aula))],0],
+      ['gruppo','Gruppo',groups,0],
+      ['competenze_ue','Competenza europea',UE_2018,0],
+      ['_doc','Documentazione',DOC_TIPI,0],
+      ['stato','Stato',['vissuta','proposta'],0]
     ];
-    const optLabel=(id,v)=>id==='_tipo'?tipoLabels[v]:id==='stato'?(v==='vissuta'?'Vissuta':'Proposta'):(groupLabels[v]||v);
-    $('#archive-filters').innerHTML = `<div class="field grow"><label for="search">Cerca</label><input id="search" type="search" placeholder="albero, ascolto, piazza…"></div>` +
-      fields.map(([id,label,vals])=>`<div class="field"><label for="f-${id}">${esc(label)}</label><select id="f-${id}"><option value="">Tutti</option>${vals.map(v=>`<option value="${esc(v)}">${esc(optLabel(id,v))}</option>`).join('')}</select></div>`).join('');
+    const optLabel=(id,v)=>id==='_tipi'?tipoLabels[v]:id==='stato'?(v==='vissuta'?'Vissuta':'Proposta'):id==='_doc'?(v.charAt(0).toUpperCase()+v.slice(1)):(groupLabels[v]||v);
+    const sel=([id,label,vals])=>`<div class="field"><label for="f-${id}">${esc(label)}</label><select id="f-${id}"><option value="">Tutti</option>${vals.map(v=>`<option value="${esc(v)}">${esc(optLabel(id,v))}</option>`).join('')}</select></div>`;
+    $('#archive-filters').innerHTML = `<div class="filter-row filtri-vista"><div class="field grow"><label for="search">Cerca</label><input id="search" type="search" placeholder="albero, ascolto, piazza…"></div>${fields.filter(f=>f[3]).map(sel).join('')}<div class="field field-altri"><button type="button" class="altri-btn" id="altri-btn" aria-expanded="false" aria-controls="altri-filtri">Altri filtri <span class="altri-n" id="altri-n"></span><span class="acc-i" aria-hidden="true"></span></button></div></div><div class="filter-row filtri-altri" id="altri-filtri" hidden>${fields.filter(f=>!f[3]).map(sel).join('')}</div>`;
+    $('#altri-btn').addEventListener('click', ()=>{ const b=$('#altri-btn'), on=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded', String(on)); $('#altri-filtri').hidden=!on; });
     const aperti=new Map(); // scelta esplicita di chi legge: id percorso → aperto sì/no
     const cells=(e,extra='')=>`<td class="c-tipo">${etichettaScheda(e)}</td><td class="c-titolo"><strong><a href="esperienza.html?id=${encodeURIComponent(e.id)}">${esc(e.titolo)}</a></strong>${metaPercorso(e)}${extra}<div class="provenance">${esc(P(e.descrizione||''))}</div></td><td class="c-aula">${esc(e.aula||'')}</td><td class="c-com">${esc(e.community||'')}</td><td class="c-eta">${esc((e.eta||[]).join(', '))}</td><td class="c-disc">${esc((e.discipline||[]).join(', '))}</td><td class="c-prov provenance">${e.contributo?raccontatoDaHtml(e):esc(P(e.provenienza||''))}</td>`;
     const row=e=>`<tr>${cells(e)}</tr>`;
     const render=()=>{
       const q=$('#search').value.toLocaleLowerCase().trim();
       const attivi=!!q || fields.some(([id])=>$(`#f-${id}`).value);
+      const nAltri=fields.filter(f=>!f[3] && $(`#f-${f[0]}`).value).length;
+      $('#altri-n').textContent=nAltri?`(${nAltri})`:'';
       const ok=new Set(data.filter(e=>fields.every(([id])=>{const v=$(`#f-${id}`).value; return !v || (Array.isArray(e[id])?e[id].includes(v):e[id]===v);}))
         .filter(e=>!q || JSON.stringify(e).toLocaleLowerCase().includes(q)).map(e=>e.id));
       const filtered=data.filter(e=>ok.has(e.id));
@@ -529,6 +570,7 @@ async function loadProtoData(){
   const [data, geo, communities, approvati] = await Promise.all([...['esperienze.json','luoghi.geojson','comunita.json'].map(x=>fetch(x).then(r=>{if(!r.ok) throw Error(x); return r.json();})), fetchApproved()]);
   mergeApproved(approvati, data, geo, communities);
   nascondiComunita(data, geo, communities);
+  normalizzaVoci(data);
   return {data, geo, communities};
 }
 
@@ -628,46 +670,58 @@ function udaVal(v){
 function udaNote(t){ const x=P(t,true); return x?`<span class="uda-stato">${esc(x)}</span>`:''; }
 function udaList(a){ const xs=(a||[]).map(x=>P(x)).filter(Boolean); return xs.length?`<ul class="uda-ul">${xs.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''; }
 function udaParagrafi(t, cls='racconto'){ return String(t||'').split(/\n\n+/).map(x=>P(x)).filter(Boolean).map(x=>`<p class="${cls}">${esc(x)}</p>`).join(''); }
-function udaSintesi(e){
-  const s=e.uda_sintesi||{}, n=s.note||{};
-  const docenti=(s.docenti||[]).map(d=>{ const nome=P(d.nome), ruolo=P(d.ruolo); return nome?esc(nome)+(ruolo?` <span class="muted">(${esc(ruolo)})</span>`:''):''; }).filter(Boolean).join('; ');
-  if(!docenti) CANTIERE_SEGNO=true;
-  const rows=[
-    ['Quando',udaVal(s.quando),n.quando],
-    ['Dove',udaVal(s.dove),n.dove],
-    ['Chi',udaVal(s.chi),n.chi],
-    ['Docenti e discipline',docenti,n.docenti],
-    ['Risorse esterne',udaVal(s.risorse_esterne),n.risorse_esterne],
-    ['Tipologia UDA',udaVal(s.tipologia),n.tipologia],
-    ['Discipline coinvolte',udaVal(s.discipline),n.discipline],
-    ['Prodotti intermedi',udaVal(s.prodotti_intermedi),n.prodotti_intermedi],
-    ['Prodotto finale',udaVal(s.prodotto_finale),n.prodotto_finale],
-    ['Competenze chiave UE',udaVal(s.competenze_chiave),n.competenze_chiave]
-  ];
-  (s.extra||[]).forEach(([k,v])=>rows.splice(3,0,[k,udaVal(v),'']));
-  const vis=rows.filter(([,v])=>v);
-  if(!vis.length) return '';
-  return `<section class="detail-block uda-sintesi" id="sintesi"><h2>L’UDA in sintesi</h2><dl class="scheda">${vis.map(([k,v,nt])=>{ const nn=udaNote(nt); return `<div><dt>${esc(k)}</dt><dd>${v}${nn?' '+nn:''}</dd></div>`; }).join('')}</dl></section>`;
+// --- Scheda a voci a comparsa · v3, 11 novembre 2026 ---
+// In alto, fissi: breadcrumb, etichetta, titolo, foto e sintesi. Sotto, una colonna di voci che si aprono
+// (veri <button> con aria-expanded, indirizzo #racconto, #tappe, #luogo, #voci, #compiti, #valutazione, #lettura, #fonti).
+// Solo presentazione dei dati esistenti: nessun contenuto nuovo. Le sezioni vuote non compaiono.
+const SUGG_TITLE='Proposta della redazione, non ancora provata';
+function suggBadge(){ return `<span class="sugg" title="${SUGG_TITLE}">Suggerito</span>`; }
+const RACCORDO_RE=/proposta di raccordo/i;
+// Testo pulito dal cantiere. Dove i dati marcano un raccordo come «proposta di raccordo», la formula
+// lascia il posto all'etichetta «Suggerito» (sugg=true), uguale in tutto il sito.
+function SG(raw){
+  const orig=String(raw??'').trim();
+  const sugg=RACCORDO_RE.test(orig);
+  let t=P(orig, true);
+  if(sugg){
+    t=t.replace(/\s*in forma di proposta di raccordo/gi,' suggeriti')
+      .replace(/(^|[.;:]\s*)(raccordo\s+)?proposta di raccordo(\s+(relativa a questa tappa|ricavata dai gesti documentati nel video|ricavata[^,.;:]*))?\s*[:,.;]?\s*/gi,'$1')
+      .replace(/\s*[;:,]\s*(\.)?\s*$/,(m,p)=>p?'.':'')
+      .replace(/^[\s.;:,]+/,'').trim();
+    if(t && /^[a-zà-ù]/.test(t)) t=t.charAt(0).toUpperCase()+t.slice(1);
+    if(t.replace(/[^a-zà-ù]/gi,'').length<3) t='';
+  }
+  return {t, sugg};
 }
-function udaProgettazione(e){
-  const p=e.progettazione; if(!p) return '';
-  const dg=p.domanda_generativa;
-  const dgTesto=dg?P(dg.testo||dg):'';
-  const comp=(p.competenze||[]).map(c=>{ const ab=udaList(c.abilita), co=udaList(c.conoscenze), tr=udaList(c.traguardi), nome=P(c.competenza); if(!nome&&!ab&&!co&&!tr) return ''; return `<div class="uda-comp">${nome?`<h4>${esc(nome)}</h4>`:''}${ab?`<p><strong>Abilità</strong></p>${ab}`:''}${co?`<p><strong>Conoscenze</strong></p>${co}`:''}${tr?`<p><strong>Traguardi / campi d’esperienza</strong></p>${tr}`:''}</div>`; }).join('');
-  const fasiOk=(p.fasi||[]).map((f,i)=>({f, i, titolo:P(f.titolo)||('Fase '+(i+1)), tempi:P(f.tempi), attivita:P(f.attivita), fonte:P(f.fonte)}));
-  const fasi=fasiOk.map(({f,titolo,tempi,attivita,fonte})=>`<li class="uda-fase"><div class="uda-fase-head"><strong>${esc(titolo)}</strong>${tempi?` <span class="muted">· ${esc(tempi)}</span>`:''}</div>${attivita?`<p>${esc(attivita)}</p>`:''}${(f.discipline||[]).length?`<p class="uda-chips">${f.discipline.map(d=>`<span>${esc(d)}</span>`).join('')}</p>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</li>`).join('');
-  const gantt=(()=>{ const fs=(p.fasi||[]).filter(f=>(f.discipline||[]).length); if(fs.length<2) return ''; const ds=[...new Set(fs.flatMap(f=>f.discipline))]; return `<details class="uda-gantt"><summary>Vista sinottica: discipline per fase</summary><div class="table-scroll"><table><thead><tr><th>Disciplina</th>${fs.map((f,i)=>`<th title="${esc(P(f.titolo)||'')}">${i+1}</th>`).join('')}</tr></thead><tbody>${ds.map(d=>`<tr><td>${esc(d)}</td>${fs.map(f=>`<td>${f.discipline.includes(d)?'<span class="dot" aria-label="sì">●</span>':''}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`; })();
-  const risorse=udaList(p.risorse), sic=P(p.sicurezza);
-  const compStato=udaNote(p.competenze_stato);
-  if(!dgTesto && !comp && !fasi && !risorse && !sic) return '';
-  return `<section class="detail-block uda-prog" id="progettazione"><h2>Progettazione</h2>
-    ${dgTesto?`<div class="uda-domanda"><p class="kicker">Domanda generativa</p><p>${esc(dgTesto)}</p>${dg.stato?udaNote(dg.stato):''}</div>`:''}
-    ${comp?`<details class="uda-det"${p.apri_competenze?' open':''}><summary>Competenze → abilità e conoscenze → traguardi ${compStato}</summary>${comp}</details>`:''}
-    ${fasi?`<details class="uda-det" open><summary>Fasi e attività ${udaNote(p.fasi_stato)}</summary><ol class="uda-fasi">${fasi}</ol>${gantt}</details>`:''}
-    ${risorse?`<details class="uda-det"><summary>Risorse e materiali</summary>${risorse}</details>`:''}
-    ${sic?`<details class="uda-det"><summary>Accessibilità, sicurezza, permessi</summary><p>${esc(sic)}</p></details>`:''}
-  </section>`;
+const SEZ_ALIAS={apparato:'fonti', progettazione:'luogo', osservazioni:'valutazione', 'materiali-adulti':'materiali-adulti'};
+function acc(id, titolo, anteprima, corpo){
+  if(!corpo) return '';
+  return `<section class="acc" id="${id}"><h2 class="acc-h"><button type="button" class="acc-btn" id="${id}-btn" aria-expanded="false" aria-controls="${id}-corpo"><span class="acc-t">${esc(titolo)}</span>${anteprima?`<span class="acc-p">${esc(anteprima)}</span>`:'<span class="acc-p"></span>'}<span class="acc-i" aria-hidden="true"></span></button></h2><div class="acc-corpo" id="${id}-corpo" role="region" aria-labelledby="${id}-btn" hidden>${corpo}</div></section>`;
 }
+const plur=(n,uno,tanti)=>`${n} ${n===1?uno:tanti}`;
+function origineDi(e){
+  if(e.contributo) return `raccontato da ${e.autore||'—'}`;
+  const d=String(e.documentazione||'').toLowerCase();
+  if(/volume/.test(d)) return 'dal volume';
+  if(/video/.test(d)) return 'dal video';
+  if(/progetto/.test(d)) return 'dalla scheda di progetto';
+  return '';
+}
+function origineFonti(list, e){
+  const f=list.map(x=>String(x||'').toLowerCase());
+  if(f.some(x=>/volume/.test(x))) return 'dal volume';
+  if(f.some(x=>/video/.test(x))) return 'dal video';
+  if(f.some(x=>/progetto|scheda dell/.test(x))) return 'dalla scheda di progetto';
+  return origineDi(e);
+}
+function quandoBreve(q){ const t=P(q); if(!t) return ''; const first=t.split(/\s*(?:[:;(]|\s·\s)\s*/)[0].trim(); return first.length<=40?first:''; }
+function etichettaTesta(e){
+  const t=tipoScheda(e), prop=e.stato==='proposta';
+  if(t==='contributo') return `<span class="badge vissuta">Contributo</span>`;
+  if(t==='tappa') return `<span class="badge tappa${prop?' proposta':''}">${prop?'Tappa · proposta':'Tappa'}</span>`;
+  return prop?`<span class="badge proposta">Proposta</span>`:`<span class="badge vissuta">UDA vissuta</span>`;
+}
+function segnoScheda(){ return `<p class="scheda-lavorazione" role="note">Scheda in lavorazione: <a href="racconta.html">se c’eri, raccontala</a></p>`; }
 function udaVocePubblicabile(x){
   return !!(x && x.verificata===true && x.testo);
 }
@@ -675,112 +729,20 @@ function udaVoce(x){
   if(!udaVocePubblicabile(x)) return '';
   return `<blockquote class="voce${x.chi==='adulto'?' voce-adulto':''}"><p>${x.citazione===false?esc(x.testo):'«'+esc(x.testo)+'»'}</p>${(x.contesto||x.fonte)?`<cite>${esc([x.contesto,x.fonte].filter(Boolean).join(' · '))}</cite>`:''}</blockquote>`;
 }
-
 function udaImmaginiPiazzate(e){
   const u=new Set();
   for(const x of (e.movimenti||[])) for(const im of (x.immagini||[])) if(im&&im.immagine) u.add(im.immagine);
   return u;
 }
-function udaMovimenti(e){
-  const m=e.movimenti||[];
-  const cover=new Set(e.foto||[]);
-  if(!m.length){
-    const r=udaParagrafi(e.racconto);
-    if(r) return `<section class="detail-block" id="racconto"><h2>Il racconto in movimenti</h2>${r}</section>`;
-    if(e.stato==='proposta') return `<section class="detail-block" id="racconto"><h2>Il racconto in movimenti</h2><p class="muted">Proposta: il racconto si scriverà dopo la prova con la classe.</p></section>`;
-    CANTIERE_SEGNO=true; return '';
-  }
-  const nota=P(e.racconto_nota);
-  return `<section class="detail-block uda-mov" id="racconto"><h2>Il racconto in movimenti</h2>${nota?`<p class="muted">${esc(nota)}</p>`:''}${m.map((x,i)=>{const imgs=(x.immagini||[]).filter(im=>{const u=im&&im.immagine; return !(i===0 && u && cover.has(u));}); const fonte=P(x.fonte); return `<article class="uda-movimento"><h3>${esc(x.titolo)}</h3>${udaParagrafi(x.testo)}${imgs.length?`<div class="uda-gallery uda-in-mov">${udaFig(imgs)}</div>`:''}${(()=>{ const pub=(x.voci||[]).filter(udaVocePubblicabile).map(udaVoce).join(''); return pub?`<div class="uda-voci-in-mov">${pub}</div>`:''; })()}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</article>`;}).join('')}</section>`;
-}
-
-function udaVoci(e){
-  const v=e.voci||[];
-  const nv=t=>String(t||'').toLowerCase().replace(/[^a-zàèéìòù]/g,'');
-  const giaNelRacconto=new Set((e.movimenti||[]).flatMap(x=>(x.voci||[]).filter(udaVocePubblicabile).map(y=>nv(y.testo))));
-  const bimbi=v.filter(x=>x.chi!=='adulto' && udaVocePubblicabile(x) && !giaNelRacconto.has(nv(x.testo)));
-  const adulti=v.filter(x=>x.chi==='adulto' && udaVocePubblicabile(x) && !giaNelRacconto.has(nv(x.testo)));
-  const pend=!!(e.voci_in_verifica || (e.movimenti||[]).some(x=>x.voci_in_verifica) || (e.voci||[]).some(x=>x&&!udaVocePubblicabile(x)));
-  if(pend) CANTIERE_SEGNO=true; // le trascrizioni in verifica non si mostrano: resta il segno «Scheda in lavorazione»
-  const nelRacconto=(e.movimenti||[]).some(x=>(x.voci||[]).some(udaVocePubblicabile));
-  const nota=(e.voci_nota && e.voci_nota!=='Trascrizioni in verifica.') ? P(e.voci_nota) : '';
-  let corpo='';
-  if(bimbi.length){ if(nelRacconto) corpo+=`<p class="muted">Altre parole dei bambini sono nel racconto, accanto al movimento in cui sono nate.</p>`; corpo+=bimbi.map(udaVoce).join(''); }
-  else if(nelRacconto) corpo+=`<p class="muted">Le parole dei bambini sono nel <a href="#racconto">racconto</a>, accanto al movimento in cui sono nate.</p>`;
-  else if(e.stato==='proposta') corpo+=`<p class="muted">${esc(nota||'Le voci si raccoglieranno durante la prova, con il consenso delle famiglie.')}</p>`;
-  else if(nota) corpo+=`<p class="muted">${esc(nota)}</p>`;
-  if(nota && (bimbi.length||nelRacconto) ) corpo+=`<p class="provenance">${esc(nota)}</p>`;
-  if(adulti.length) corpo+=`<h3 class="uda-sub">Le parole degli adulti</h3>`+adulti.map(udaVoce).join('');
-  if(!corpo){ CANTIERE_SEGNO=true; return ''; }
-  return `<section class="detail-block" id="voci"><h2>Le voci dei bambini</h2>${corpo}</section>`;
-}
-function udaOsservazioni(e){
-  const o=(e.osservazioni_docenti||[]).map(x=>({tipo:P(x.tipo), testo:P(x.testo), fonte:P(x.fonte)})).filter(x=>x.testo);
-  if(!o.length){
-    if(e.stato==='proposta') return `<section class="detail-block" id="osservazioni"><h2>Osservazioni dei docenti</h2><p class="muted">Si raccoglieranno durante la prova: evento osservato, interpretazione, domanda aperta.</p></section>`;
-    CANTIERE_SEGNO=true; return '';
-  }
-  return `<section class="detail-block" id="osservazioni"><h2>Osservazioni dei docenti</h2><ul class="uda-oss">${o.map(x=>`<li>${x.tipo?`<span class="uda-tag">${esc(x.tipo)}</span> `:''}${esc(x.testo)}${x.fonte?` <span class="provenance">${esc(x.fonte)}</span>`:''}</li>`).join('')}</ul></section>`;
-}
-function udaMateriali(e){
-  const placed=udaImmaginiPiazzate(e);
-  const rest=(list)=> (list||[]).filter(x=>!x.immagine||!placed.has(x.immagine));
-  const g=(m,id,h,nota)=>m.length?`<section class="detail-block" id="${id}"><h2>${h}</h2>${nota?`<p class="provenance">${nota}</p>`:''}<div class="uda-gallery">${udaFig(m)}</div></section>`:'';
-  return g(rest(e.materiali_bambini),'materiali-bambini','I materiali dei bambini','')+g(rest(e.materiali_adulti),'materiali-adulti','Materiali preparati dagli adulti','Non sono prodotti dei bambini: servono a capire come è stata condotta l’esperienza.');
-}
 function udaFig(m){
   return `${m.map(x=>{ const did=P(x.didascalia), fonte=P(x.fonte); return `<figure class="uda-mat">${x.immagine?`<a href="${esc(x.immagine)}" target="_blank" rel="noopener"><img src="${esc(x.immagine)}" alt="${esc(x.titolo||did||'Materiale')}" loading="lazy"></a>`:''}<figcaption><strong>${esc(x.titolo||'')}</strong>${x.tipo?` <span class="uda-tag">${esc(x.tipo)}</span>`:''}${did?`<br>${esc(did)}`:''}${fonte?`<br><span class="provenance">${esc(fonte)}</span>`:''}</figcaption></figure>`; }).join('')}`;
-}
-function udaValutazione(e){
-  const v=e.valutazione||{};
-  const r=v.rubrica;
-  const livelli=(r&&r.livelli)||UDA_LIVELLI_DEFAULT;
-  const rub=r&&(r.indicatori||[]).length?`<details class="uda-det"><summary>Rubrica osservativa ${udaNote(r.stato)}</summary><div class="table-scroll"><table class="uda-rubrica"><thead><tr><th>Dimensione</th>${livelli.map(l=>`<th>${esc(l)}</th>`).join('')}</tr></thead><tbody>${r.indicatori.map(i=>`<tr><th scope="row">${esc(i.dimensione)}${i.ambito?`<br><span class="muted">${esc(i.ambito)}</span>`:''}</th>${(i.descrittori||[]).map(d=>`<td>${esc(P(d))}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`:'';
-  const righe=[['Prodotto',P(v.prodotto)],['Processo',P(v.processo)],['Metacognizione e autovalutazione',P(v.metacognizione)]];
-  if(righe.some(([,t])=>!t)) CANTIERE_SEGNO=true;
-  const vis=righe.filter(([,t])=>t);
-  const ev=udaList(v.evidenze);
-  const stato=udaNote(v.stato);
-  if(!vis.length && !rub && !ev) return '';
-  return `<section class="detail-block uda-val" id="valutazione"><h2>Valutazione</h2>${stato?`<p>${stato}</p>`:''}
-    ${vis.length?`<dl class="scheda">${vis.map(([k,t])=>`<div><dt>${k}</dt><dd>${esc(t)}</dd></div>`).join('')}</dl>`:''}
-    ${rub}
-    ${ev?`<p><strong>Evidenze raccolte</strong></p>${ev}`:''}
-    <p class="provenance">${esc(P(v.nota)||'Griglie osservative e formative, non una pagella: nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola.')}</p></section>`;
 }
 function udaManifesto(e){
   const voci=MANIFESTO_VOCI.map(([k,l])=>[l,String(e[k]||'').trim()]).filter(([,t])=>t);
   if(!voci.length) return '';
   return `<div class="uda-manifesto"><p class="kicker">Con il manifesto della Strada</p>${voci.map(([l,t])=>`<h3 class="uda-sub">${esc(l)}</h3>${udaParagrafi(t)}`).join('')}</div>`;
 }
-function udaLettura(e){
-  const l=e.lettura||{};
-  const parts=[['Ciclo di Kolb',l.kolb],['Intelligenze multiple (Gardner)',l.gardner],['Play Motifs',l.play_motifs],['Indicazioni nazionali',l.indicazioni],['Competenze UE 2018',l.ue]].map(([k,v])=>[k,P(v)]).filter(x=>x[1]);
-  const testo=udaParagrafi(l.testo||e.lettura_pedagogica||'');
-  const man=udaManifesto(e);
-  if(!testo && !parts.length && !man){ CANTIERE_SEGNO=true; return ''; }
-  const stato=udaNote(l.stato);
-  return `<section class="detail-block" id="lettura"><h2>Lettura pedagogica</h2>${stato?`<p>${stato}</p>`:''}${testo}${parts.length?`<dl class="scheda">${parts.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`:''}${man}</section>`;
-}
-function udaApparato(e){
-  const a=e.apparato||{};
-  const reg=(a.registro||[]).map(r=>{ const n=P(r.nota); return `<li><strong>${esc(r.versione||'')}</strong> · ${esc(r.data||'')}${n?` — ${esc(n)}`:''}</li>`; }).join('');
-  const fonti=udaList(a.fonti), mat=udaList(a.materiali), repl=P(a.replicare);
-  const links=(e.links||[]).length?`<p>${e.links.map(l=>`<a target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.label)} ↗</a>`).join('<br>')}</p>`:'';
-  if(!fonti && !links && !mat && !repl && !reg) return '';
-  return `<section class="detail-block" id="apparato"><h2>Apparato</h2>
-    ${fonti?`<h3 class="uda-sub">Fonti</h3>${fonti}`:''}
-    ${links}
-    ${mat?`<h3 class="uda-sub">Materiali</h3>${mat}`:''}
-    ${repl?`<h3 class="uda-sub">Per replicare</h3><p class="racconto">${esc(repl)}</p>`:''}
-    ${reg?`<h3 class="uda-sub">Registro delle revisioni</h3><ul class="uda-ul">${reg}</ul>`:''}
-  </section>`;
-}
 function linkTappa(t, data){ const x=data.find(d=>d.id===t.esperienza_id); return x?`esperienza.html?id=${encodeURIComponent(x.id)}`:`aula.html?id=${encodeURIComponent(t.aula_id)}`; }
-function udaTappe(e, data){
-  if(!(e.tappe&&e.tappe.length)) return '';
-  return `<section class="detail-block" id="tappe"><h2>Le tappe del percorso</h2><ol class="uda-tappe">${e.tappe.map(t=>{const x=data.find(d=>d.id===t.esperienza_id); const nota=P(t.nota); return `<li><a href="${linkTappa(t,data)}">${esc(t.titolo||(x&&x.titolo)||t.aula_id)}</a>${nota?` <span class="muted">· ${esc(nota)}</span>`:''} · <a class="muted" href="aula.html?id=${encodeURIComponent(t.aula_id)}">aula</a></li>`;}).join('')}</ol></section>`;
-}
 // Rimando chiaro dalla tappa al suo percorso (UDA o proposta), con tappa precedente e successiva
 function udaTappaNav(e, data){
   if(!e.percorso_uda) return '';
@@ -792,34 +754,301 @@ function udaTappaNav(e, data){
   const uUrl=`esperienza.html?id=${encodeURIComponent(u.id)}`;
   return `<nav class="tappa-nav" aria-label="Il percorso di questa tappa">
     <p class="kicker">Tappa ${esc(n)} di ${tl.length}</p>
-    <p>Questa scheda è una sosta del percorso <a href="${uUrl}"><strong>${esc(u.titolo)}</strong></a> ${etichettaScheda(u)}. Progettazione, valutazione e lettura dell’uscita intera sono nella scheda del percorso.</p>
+    <p>Questa scheda è una sosta del percorso <a href="${uUrl}"><strong>${esc(u.titolo)}</strong></a> ${etichettaScheda(u)}. Domanda, discipline, valutazione e lettura dell’uscita intera sono nella scheda del percorso.</p>
     <p class="tappa-nav-links">${prev?`<a href="${linkTappa(prev,data)}" rel="prev">← ${esc(prev.titolo)}</a>`:'<span></span>'}<a class="tappa-nav-all" href="${uUrl}#tappe">Tutte le tappe</a>${next?`<a href="${linkTappa(next,data)}" rel="next">${esc(next.titolo)} →</a>`:'<span></span>'}</p>
   </nav>`;
 }
-function renderUda(e, data){
-  CANTIERE_SEGNO=!!((e.da_completare||[]).length || e.voci_in_verifica);
-  const u=e.percorso_uda&&data.find(d=>d.id===e.percorso_uda.id);
+
+// In sintesi: sempre visibile. Dove, Chi e Domanda generativa (solo se presente).
+function sezSintesi(e, k){
+  const s=e.uda_sintesi||{};
   const descr=P(e.descrizione||'');
-  const prov=[esc(P(e.provenienza||'')), e.versione?esc(e.versione):'', P(e.documentazione)?`documentazione: ${esc(P(e.documentazione))}`:''];
-  const videoNota=P(e.videos_nota);
-  const videos=(e.videos||[]).length?`<section class="detail-block"><h2>Video</h2>${videoNota?`<p class="muted">${esc(videoNota)}</p>`:''}${videoBlocks(e.videos)}</section>`:'';
-  const intro=`<section class="detail-block">${descr?`<p class="racconto">${esc(descr)}</p>`:''}<p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula →</a> · <a href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa →</a></p>${(e.aule_collegate||[]).length?`<p class="muted">Aule collegate: ${e.aule_collegate.map(a=>`<a href="aula.html?id=${encodeURIComponent(a.id||a)}">${esc(a.nome||a)}</a>`).join(' · ')}</p>`:''}</section>`;
-  const body=udaTappe(e,data)+intro+udaSintesi(e)+udaProgettazione(e)+videos+udaMovimenti(e)+udaMateriali(e)+udaVoci(e)+udaOsservazioni(e)+udaValutazione(e)+udaLettura(e)+udaApparato(e);
-  const toc=[['tappe','Tappe'],['sintesi','Sintesi'],['progettazione','Progettazione'],['racconto','Racconto'],['voci','Voci'],['osservazioni','Osservazioni'],['valutazione','Valutazione'],['lettura','Lettura'],['apparato','Apparato']].filter(([id])=>body.includes(`id="${id}"`));
-  const head=`<nav class="crumbs" aria-label="Percorso"><a href="archivio.html">Archivio</a><span>›</span>${u?`<a href="esperienza.html?id=${encodeURIComponent(u.id)}">${esc(u.titolo)}</a><span>›</span>`:''}<strong>${esc(e.titolo)}</strong></nav>
-    <div class="page-head">
-      <p class="kicker">${etichettaScheda(e)}${metaPercorso(e)} · ${esc(e.community)}${e.codice?` · ${esc(e.codice)}`:''}</p>
-      <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">${esc(e.titolo)}</h1>
+  const righe=[];
+  const dove=udaVal(s.dove); if(dove) righe.push(['Dove',dove]);
+  if(!k.tappa){ const chi=udaVal(s.chi); if(chi) righe.push(['Chi',chi]); }
+  if(!k.tappa){
+    const dg=(e.progettazione||{}).domanda_generativa;
+    const t=dg?P(typeof dg==='string'?dg:dg.testo):'';
+    if(t){ const st=SG(dg&&dg.stato||''); righe.push(['Domanda',`${/^[«“"]/.test(t)?esc(t):'«'+esc(t)+'»'}${st.sugg?' '+suggBadge():''}`]); }
+  }
+  return `<section class="sintesi" id="sintesi" aria-labelledby="sintesi-h"><h2 class="sintesi-h" id="sintesi-h">In sintesi</h2>${descr?`<p class="sintesi-testo">${esc(descr)}</p>`:''}${righe.length?`<dl class="sintesi-dl">${righe.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>`:''}
+    <p class="sintesi-azioni"><a class="btn" href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa</a><a class="btn btn-alt" href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula</a></p></section>`;
+}
+// Il racconto: movimenti in colonna stretta, foto accanto al movimento, voci rientrate; i video si incorporano qui.
+function sezRacconto(e, k){
+  if(k.proposta) return '';
+  const m=e.movimenti||[];
+  const cover=new Set(e.foto||[]);
+  let nMov=0; const fonti=[];
+  let corpo='';
+  if(m.length){
+    corpo=m.map((x,i)=>{
+      const imgs=(x.immagini||[]).filter(im=>{const u=im&&im.immagine; return !(i===0 && u && cover.has(u));});
+      const testo=udaParagrafi(x.testo);
+      const voci=(x.voci||[]).filter(udaVocePubblicabile).map(udaVoce).join('');
+      const fonte=P(x.fonte); if(fonte) fonti.push(fonte);
+      if(!testo && !voci && !imgs.length) return '';
+      nMov++;
+      return `<article class="uda-movimento${imgs.length?' con-foto':''}"><div class="mov-testo">${x.titolo?`<h3>${esc(x.titolo)}</h3>`:''}${testo}${voci?`<div class="uda-voci-in-mov">${voci}</div>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</div>${imgs.length?`<div class="mov-foto">${udaFig(imgs)}</div>`:''}</article>`;
+    }).join('');
+  } else {
+    corpo=udaParagrafi(e.racconto);
+  }
+  if(!corpo && !k.contributo) CANTIERE_SEGNO=true;
+  const vids=(e.videos||[]);
+  const vNota=P(e.videos_nota);
+  const nota=P(e.racconto_nota);
+  if(!corpo && !vids.length) return '';
+  const html=`${nota?`<p class="muted">${esc(nota)}</p>`:''}${vids.length?`${vNota?`<p class="muted">${esc(vNota)}</p>`:''}${videoBlocks(vids)}`:''}<div class="racconto-col">${corpo}</div>`;
+  const prev=[nMov?plur(nMov,'movimento','movimenti'):(corpo?'racconto':''), vids.length?plur(vids.length,'video','video'):'', origineFonti(fonti,e)].filter(Boolean).join(' · ');
+  return acc('racconto','Il racconto',prev,html);
+}
+// Le tappe: elenco verticale numerato con un filo. Percorsi: le soste con la loro scheda. Altrimenti le fasi
+// della progettazione; nelle proposte i passi scritti della proposta. Compare con almeno due tappe.
+function sezTappe(e, data, k){
+  if(k.tappa && !k.proposta) return ''; // le tappe vissute rimandano alla loro UDA; una tappa proposta mostra i suoi passi
+  const p=e.progettazione||{};
+  const fasi=(p.fasi||[]).map((f,i)=>({nome:P(f.titolo)||('Fase '+(i+1)), riga:P(f.attivita), tempi:P(f.tempi), disc:f.discipline||[], fonte:P(f.fonte)}));
+  const lista=items=>`<ol class="filo">${items.map(x=>`<li><p class="filo-nome">${x.href?`<a href="${x.href}">${esc(x.nome)}</a>`:esc(x.nome)}${x.tempi?` <span class="muted">· ${esc(x.tempi)}</span>`:''}</p>${x.riga?`<p class="filo-riga">${esc(x.riga)}</p>`:''}${x.extra||''}${(x.disc||[]).length?`<p class="uda-chips">${x.disc.map(d=>`<span>${esc(d)}</span>`).join('')}</p>`:''}${x.fonte?`<p class="provenance">${esc(x.fonte)}</p>`:''}</li>`).join('')}</ol>`;
+  const gantt=(()=>{ const fs=(p.fasi||[]).filter(f=>(f.discipline||[]).length); if(fs.length<2) return ''; const ds=[...new Set(fs.flatMap(f=>f.discipline))]; return `<details class="uda-gantt"><summary>Vista sinottica: discipline per fase</summary><div class="table-scroll"><table><thead><tr><th>Disciplina</th>${fs.map((f,i)=>`<th title="${esc(P(f.titolo)||'')}">${i+1}</th>`).join('')}</tr></thead><tbody>${ds.map(d=>`<tr><td>${esc(d)}</td>${fs.map(f=>`<td>${f.discipline.includes(d)?'<span class="dot" aria-label="sì">●</span>':''}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`; })();
+  const fasiStato=SG(p.fasi_stato||'');
+  let items=[], dopo='', prev='';
+  if((e.tappe||[]).length){
+    items=e.tappe.map(t=>{ const x=data.find(d=>d.id===t.esperienza_id); const nome=t.titolo||(x&&x.titolo)||t.aula_id; const nota=P(t.nota); return {nome, href:linkTappa(t,data), extra:`<p class="filo-riga muted">${nota&&nota.trim()!==String(nome).trim()?`${esc(nota.trim())} · `:''}<a class="muted" href="aula.html?id=${encodeURIComponent(t.aula_id)}">scheda dell’aula</a></p>`}; });
+    if(fasi.length) dopo=`<h3 class="uda-sub">Come è organizzata l’uscita</h3>${lista(fasi)}${gantt}`;
+    prev=plur(items.length,'tappa','tappe')+' · ognuna con la sua scheda';
+  } else if(k.proposta){
+    const mov=(e.movimenti||[]).map(x=>({nome:P(x.titolo), riga:P(x.testo), fonte:P(x.fonte)})).filter(x=>x.nome||x.riga);
+    if(mov.length>=2){ items=mov; if(fasi.length) dopo=`<details class="uda-det"><summary>La scheda di progetto, passo per passo</summary>${lista(fasi)}${gantt}</details>`; }
+    else if(fasi.length>=2) items=fasi;
+    prev=items.length?`${plur(items.length,'tappa','tappe')} · ${origineFonti(items.map(x=>x.fonte).concat(fasi.map(f=>f.fonte)),e)}`.replace(/ · $/,''):'';
+  } else if(fasi.length>=2){
+    items=fasi; dopo=gantt;
+    prev=`${plur(items.length,'tappa','tappe')} · ${origineFonti(fasi.map(f=>f.fonte),e)}`.replace(/ · $/,'');
+  }
+  if(items.length<2) return '';
+  const html=`${fasiStato.t||fasiStato.sugg?`<p class="provenance">${esc(fasiStato.t)}${fasiStato.sugg?' '+suggBadge():''}</p>`:''}${lista(items)}${dopo}`;
+  return acc('tappe','Le tappe',prev,html);
+}
+// Il luogo e le discipline: aule collegate, competenze → abilità, conoscenze, traguardi (dove esistono nei dati),
+// in fondo i link per approfondire.
+function sezLuogo(e, k){
+  if(k.tappa) return '';
+  const s=e.uda_sintesi||{}, p=e.progettazione||{};
+  const disc=(Array.isArray(s.discipline)?s.discipline:[]).map(x=>P(x)).filter(Boolean);
+  const stato=SG(p.competenze_stato||'');
+  let sugg=stato.sugg;
+  const righe=(p.competenze||[]).map(c=>{
+    const L=a=>(a||[]).map(x=>{ const r=SG(x); if(r.sugg) sugg=true; return r.t; }).filter(Boolean);
+    const ab=L(c.abilita), co=L(c.conoscenze), tr=L(c.traguardi);
+    const nome=SG(c.competenza||''); if(nome.sugg) sugg=true;
+    if(!nome.t && !ab.length && !co.length && !tr.length) return '';
+    const ul=(t,a)=>a.length?`<p class="disc-l">${t}</p><ul class="uda-ul">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'';
+    const dx=ul('Abilità',ab)+ul('Conoscenze',co)+ul('Traguardi',tr);
+    return dx?`<div class="disc-riga"><p class="disc-nome">${esc(nome.t)}</p><div class="disc-dx">${dx}</div></div>`:`<div class="disc-riga solo"><p class="disc-nome">${esc(nome.t)}</p></div>`;
+  }).join('');
+  const aule=(!(e.tappe||[]).length && (e.aule_collegate||[]).length)?`<p><strong>Aule collegate</strong> · ${e.aule_collegate.map(a=>`<a href="aula.html?id=${encodeURIComponent(a.id||a)}">${esc(String(a.nome||a).trim())}</a>`).join(' · ')}</p>`:'';
+  const links=(e.links||[]).filter(l=>l&&l.url);
+  const appro=links.length?`<h3 class="uda-sub">Per approfondire</h3><ul class="uda-ul">${links.map(l=>`<li>${extLink(l.url, (l.label||l.url)+' ↗')}</li>`).join('')}</ul>`:'';
+  if(!aule && !disc.length && !righe && !appro) return '';
+  const html=`${aule}${disc.length?`<p class="disc-elenco"><strong>Discipline</strong> · ${disc.map(esc).join(' · ')}</p>`:''}${righe?`<h3 class="uda-sub">Competenze, abilità e traguardi ${sugg?suggBadge():''}</h3>${stato.t?`<p class="provenance">${esc(stato.t)}</p>`:''}<div class="disc-tab">${righe}</div>`:''}${appro}`;
+  const nComp=(p.competenze||[]).length;
+  const prev=[disc.length?plur(disc.length,'disciplina','discipline'):'', righe?plur(nComp,'competenza','competenze'):'', links.length?plur(links.length,'link','link'):''].filter(Boolean).join(' · ');
+  return acc('luogo','Il luogo e le discipline',prev,html);
+}
+// Voci della comunità: una per riquadro; le voci già nel racconto non si ripetono, si rimanda al racconto.
+function sezVoci(e, k){
+  if(k.proposta) return '';
+  const v=e.voci||[];
+  const nv=t=>String(t||'').toLowerCase().replace(/[^a-zàèéìòù]/g,'');
+  const inMov=(e.movimenti||[]).flatMap(x=>(x.voci||[]).filter(udaVocePubblicabile));
+  const giaNelRacconto=new Set(inMov.map(y=>nv(y.testo)));
+  const pubb=v.filter(udaVocePubblicabile);
+  const resto=pubb.filter(x=>!giaNelRacconto.has(nv(x.testo)));
+  const pend=!!(e.voci_in_verifica || (e.movimenti||[]).some(x=>x.voci_in_verifica) || v.some(x=>x&&!udaVocePubblicabile(x)));
+  if(pend) CANTIERE_SEGNO=true; // le trascrizioni in verifica non si mostrano: resta «Scheda in lavorazione»
+  const tutte=[...inMov, ...resto];
+  const nb=tutte.filter(x=>x.chi!=='adulto').length, na=tutte.filter(x=>x.chi==='adulto').length;
+  const bB=resto.filter(x=>x.chi!=='adulto'), bA=resto.filter(x=>x.chi==='adulto');
+  const nota=(e.voci_nota && e.voci_nota!=='Trascrizioni in verifica.') ? P(e.voci_nota) : '';
+  let corpo='';
+  if(inMov.length){ const kb=inMov.some(x=>x.chi!=='adulto'), ka=inMov.some(x=>x.chi==='adulto'); corpo+=`<p class="muted">${resto.length?'Altre parole':'Le parole'} ${kb&&ka?'dei bambini e degli adulti':kb?'dei bambini':'degli adulti'} sono nel <a href="#racconto">racconto</a>, accanto al momento in cui sono nate.</p>`; }
+  if(bB.length && bA.length) corpo+=`<p class="voci-filtri" role="group" aria-label="Filtra le voci"><button type="button" data-f="" aria-pressed="true">Tutti</button><button type="button" data-f="b" aria-pressed="false">Bambini</button><button type="button" data-f="a" aria-pressed="false">Adulti</button></p>`;
+  if(resto.length) corpo+=`<div class="voci-griglia">${resto.map(x=>`<div class="voce-box" data-r="${x.chi==='adulto'?'a':'b'}"><p class="voce-ruolo">${x.chi==='adulto'?'Adulto':'Bambino o bambina'}</p>${udaVoce(x)}</div>`).join('')}</div>`;
+  if(corpo && nota) corpo+=`<p class="provenance">${esc(nota)}</p>`;
+  if(!corpo){ CANTIERE_SEGNO=true; return ''; }
+  const prev=[nb?plur(nb,'voce di bambini','voci di bambini'):'', na?`${na} di adulti`:''].filter(Boolean).join(' · ').replace(/^(\d+) di adulti$/,(m,n)=>plur(+n,'voce di adulti','voci di adulti'))+(inMov.length&&!resto.length?' · nel racconto':'');
+  return acc('voci','Voci della comunità',prev,corpo);
+}
+// Compiti: solo se i dati li hanno (oggi nessuna scheda). Tre gruppi: dati alla classe, suggeriti, per il luogo.
+function sezCompiti(e, k){
+  const c=e.compiti; if(!c||k.tappa) return '';
+  const g=(t,a,s)=>{ const xs=(a||[]).map(x=>P(typeof x==='string'?x:x&&x.testo)).filter(Boolean); return xs.length?`<h3 class="uda-sub">${t}${s?' '+suggBadge():''}</h3><ul class="uda-ul">${xs.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''; };
+  const html=g('Dati alla classe',c.dati)+g('Suggeriti',c.suggeriti,true)+g('Per il luogo',c.luogo);
+  const n=a=>(a||[]).length;
+  return acc('compiti','Compiti',[n(c.dati)?`${n(c.dati)} dati`:'', n(c.suggeriti)?`${n(c.suggeriti)} suggeriti`:'', n(c.luogo)?`${n(c.luogo)} per il luogo`:''].filter(Boolean).join(' · '),html);
+}
+// Valutazione partecipata: blocchi di testo descrittivi, senza tabella né scala a livelli (la rubrica va in Fonti e materiali).
+function sezValutazione(e, k){
+  if(k.proposta || k.tappa) return '';
+  const v=e.valutazione||{};
+  const righe=[['Prodotto',P(v.prodotto)],['Processo',P(v.processo)],['Metacognizione e autovalutazione',P(v.metacognizione)]];
+  if(righe.some(([,t])=>!t)) CANTIERE_SEGNO=true;
+  const vis=righe.filter(([,t])=>t);
+  const ev=udaList(v.evidenze);
+  const o=(e.osservazioni_docenti||[]).map(x=>({tipo:P(x.tipo), testo:P(x.testo), fonte:P(x.fonte)})).filter(x=>x.testo);
+  if(!o.length) CANTIERE_SEGNO=true;
+  const stato=SG(v.stato||'');
+  if(!vis.length && !ev && !o.length) return '';
+  const html=`${stato.t||stato.sugg?`<p class="provenance">${esc(stato.t)}${stato.sugg?' '+suggBadge():''}</p>`:''}${vis.map(([kk,t])=>`<div class="val-blocco"><h3 class="uda-sub">${kk}</h3><p>${esc(t)}</p></div>`).join('')}${ev?`<div class="val-blocco"><h3 class="uda-sub">Evidenze raccolte</h3>${ev}</div>`:''}${o.length?`<div class="val-blocco"><h3 class="uda-sub">Osservazioni dei docenti</h3><ul class="uda-oss">${o.map(x=>`<li>${x.tipo?`<span class="uda-tag">${esc(x.tipo)}</span> `:''}${esc(x.testo)}${x.fonte?` <span class="provenance">${esc(x.fonte)}</span>`:''}</li>`).join('')}</ul></div>`:''}`;
+  const prev=[...vis.map(([kk])=>kk==='Metacognizione e autovalutazione'?'autovalutazione':kk.toLowerCase()), o.length?plur(o.length,'osservazione dei docenti','osservazioni dei docenti'):''].filter(Boolean).join(' · ');
+  return acc('valutazione','Valutazione partecipata',prev,html);
+}
+// Lettura pedagogica: testo, cornici (Kolb, Gardner, Play Motifs, Indicazioni), competenze chiave europee, tre voci del manifesto.
+function sezLettura(e, k){
+  if(k.tappa) return '';
+  const l=e.lettura||{}, s=e.uda_sintesi||{};
+  let sugg=false;
+  const paras=String(l.testo||e.lettura_pedagogica||'').split(/\n\n+/).map(x=>{ const r=SG(x); if(r.sugg) sugg=true; return r.t; }).filter(Boolean).map(x=>`<p class="racconto">${esc(x)}</p>`).join('');
+  const parts=[['Ciclo di Kolb',l.kolb,'Kolb'],['Intelligenze multiple (Gardner)',l.gardner,'Gardner'],['Play Motifs',l.play_motifs,'Play Motifs'],['Indicazioni nazionali',l.indicazioni,'Indicazioni']].map(([kk,v,c])=>{ const r=SG(v||''); return [kk,r.t,r.sugg,c]; }).filter(x=>x[1]);
+  // Competenze chiave europee (2018): elenco normalizzato dai dati + nota della lettura
+  const cc=(Array.isArray(s.competenze_chiave)?s.competenze_chiave:[]).map(x=>P(x)).filter(Boolean);
+  const ccNota=SG((s.note||{}).competenze_chiave||''), ue=SG(l.ue||'');
+  let ueHtml='';
+  if(cc.length || ue.t){
+    ueHtml=`<div><dt>Competenze chiave europee (2018)</dt><dd>${cc.length?`<ul class="uda-ul">${cc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}${ue.t?`<p>${esc(ue.t)}</p>`:''}${(ccNota.sugg||ue.sugg)?suggBadge():''}</dd></div>`;
+  }
+  const man=udaManifesto(e);
+  if(!paras && !parts.length && !ueHtml && !man){ CANTIERE_SEGNO=true; return ''; }
+  const st=SG(l.stato||'');
+  const html=`${(st.t||st.sugg||sugg)?`<p class="provenance">${esc(st.t)}${(st.sugg||sugg)?' '+suggBadge():''}</p>`:''}${paras}${(parts.length||ueHtml)?`<dl class="scheda">${parts.map(([kk,v,sg])=>`<div><dt>${esc(kk)}</dt><dd>${esc(v)}${sg?' '+suggBadge():''}</dd></div>`).join('')}${ueHtml}</dl>`:''}${man}`;
+  const prev=[...parts.map(x=>x[3]), ueHtml?'competenze UE':'', man?'manifesto':''].filter(Boolean).join(' · ');
+  return acc('lettura','Lettura pedagogica',prev,html);
+}
+// Fonti e materiali: codice e dati della scheda, video delle proposte, fonti, materiali, come rifarla, registro chiuso in fondo.
+function sezFonti(e, k){
+  const s=e.uda_sintesi||{}, a=e.apparato||{}, p=e.progettazione||{}, n=s.note||{};
+  const docenti=(s.docenti||[]).map(d=>{ const nome=P(d.nome), ruolo=P(d.ruolo); return nome?esc(nome)+(ruolo?` <span class="muted">(${esc(ruolo)})</span>`:''):''; }).filter(Boolean).join('; ');
+  const nn=t=>{ const r=SG(t||''); return (r.t?` <span class="uda-stato">${esc(r.t)}</span>`:'')+(r.sugg?' '+suggBadge():''); };
+  const dati=[['Codice',e.codice?esc(e.codice):'' ,'']];
+  dati.push(['Quando',udaVal(s.quando),n.quando]);
+  if(!k.tappa){
+    dati.push(['Docenti e discipline',docenti,n.docenti]);
+    (s.extra||[]).forEach(([kk,v])=>dati.push([kk,udaVal(v),'']));
+    dati.push(['Risorse esterne',udaVal(s.risorse_esterne),n.risorse_esterne],['Tipologia',udaVal(s.tipologia),n.tipologia],['Prodotti intermedi',udaVal(s.prodotti_intermedi),n.prodotti_intermedi],['Prodotto finale',udaVal(s.prodotto_finale),n.prodotto_finale]);
+  } else dati.push(['Risorse esterne',udaVal(s.risorse_esterne),n.risorse_esterne]);
+  if(!docenti && !k.tappa) CANTIERE_SEGNO=true;
+  const docum=P(e.documentazione), provv=P(e.provenienza||'');
+  dati.push(['Documentazione',docum?esc(docum):'',''],['Provenienza',provv?esc(provv):'',''],['Versione',e.versione?esc(e.versione):'','']);
+  const datiVis=dati.filter(([,v])=>v);
+  const fonti=udaList(a.fonti), mat=udaList(a.materiali), repl=P(a.replicare);
+  const risorse=k.tappa?'':udaList(p.risorse), sic=k.tappa?'':P(p.sicurezza);
+  // Nelle proposte un solo passo scritto, senza tappe: è il «come si può fare»
+  const movProp=(k.proposta && !k.tappa)?(e.movimenti||[]).filter(x=>P(x.testo)):[];
+  const passoUnico=(movProp.length===1 && !((p.fasi||[]).length>=2))?`<h3 class="uda-sub">${esc(P(movProp[0].titolo)||'Come si può fare')}</h3>${udaParagrafi(movProp[0].testo)}`:'';
+  const vidProp=(k.proposta && (e.videos||[]).length)?`<h3 class="uda-sub">Video</h3>${P(e.videos_nota)?`<p class="muted">${esc(P(e.videos_nota))}</p>`:''}${videoBlocks(e.videos)}`:'';
+  const r=(e.valutazione||{}).rubrica;
+  let rub='';
+  if(!k.tappa && !k.proposta && r && (r.indicatori||[]).length){
+    const livelli=(r.livelli)||UDA_LIVELLI_DEFAULT; const rs=SG(r.stato||'');
+    const nota=P((e.valutazione||{}).nota)||'Griglie osservative e formative, non una pagella: nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola.';
+    rub=`<details class="uda-det"><summary>Rubrica osservativa${rs.sugg?' '+suggBadge():''}${rs.t?` <span class="uda-stato">${esc(rs.t)}</span>`:''}</summary><div class="table-scroll"><table class="uda-rubrica"><thead><tr><th>Dimensione</th>${livelli.map(l=>`<th>${esc(l)}</th>`).join('')}</tr></thead><tbody>${r.indicatori.map(i=>`<tr><th scope="row">${esc(i.dimensione)}${i.ambito?`<br><span class="muted">${esc(i.ambito)}</span>`:''}</th>${(i.descrittori||[]).map(d=>`<td>${esc(P(d))}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="provenance">${esc(nota)}</p></details>`;
+  }
+  const rifarla=(repl||risorse||sic||rub||passoUnico)?`<h3 class="uda-sub">Per rifarla</h3>${passoUnico}${repl?`<p class="racconto">${esc(repl)}</p>`:''}${risorse?`<p class="disc-l">Risorse e materiali</p>${risorse}`:''}${sic?`<p class="disc-l">Accessibilità, sicurezza, permessi</p><p>${esc(sic)}</p>`:''}${rub}`:'';
+  const placed=udaImmaginiPiazzate(e);
+  const rest=list=>(list||[]).filter(x=>!x.immagine||!placed.has(x.immagine));
+  const mb=rest(e.materiali_bambini), ma=rest(e.materiali_adulti);
+  const gal=(m,id,h,nota)=>m.length?`<div id="${id}"><h3 class="uda-sub">${h}</h3>${nota?`<p class="provenance">${nota}</p>`:''}<div class="uda-gallery">${udaFig(m)}</div></div>`:'';
+  const reg=(a.registro||[]).map(x=>{ const t=P(x.nota); return `<li><strong>${esc(x.versione||'')}</strong> · ${esc(x.data||'')}${t?` — ${esc(t)}`:''}</li>`; }).join('');
+  const raccontato=e.contributo?raccontatoDaHtml(e):'';
+  const html=`${raccontato}${datiVis.length?`<dl class="scheda">${datiVis.map(([kk,v,nt])=>`<div><dt>${esc(kk)}</dt><dd>${v}${nt?nn(nt):''}</dd></div>`).join('')}</dl>`:''}${vidProp}${fonti?`<h3 class="uda-sub">Fonti</h3>${fonti}`:''}${mat?`<h3 class="uda-sub">Materiali</h3>${mat}`:''}${rifarla}${gal(mb,'materiali-bambini','I materiali dei bambini','')}${gal(ma,'materiali-adulti','Materiali preparati dagli adulti','Non sono prodotti dei bambini: servono a capire come è stata condotta l’esperienza.')}${reg?`<details class="uda-det registro"><summary>Registro delle revisioni</summary><ul class="uda-ul">${reg}</ul></details>`:''}`;
+  const nFonti=(a.fonti||[]).filter(x=>P(x)).length, nMat=mb.length+ma.length;
+  const prev=[e.contributo?origineDi(e):'', e.codice||'', nFonti?plur(nFonti,'fonte','fonti'):'', nMat?plur(nMat,'materiale','materiali'):''].filter(Boolean).join(' · ');
+  return acc('fonti','Fonti e materiali',prev,html);
+}
+function testaScheda(e, data, k, sintesi){
+  const u=e.percorso_uda&&data.find(d=>d.id===e.percorso_uda.id);
+  const s=e.uda_sintesi||{};
+  const qb=quandoBreve(s.quando||e.quando||'');
+  const meta=[String(e.community||'').replace(' · Il paesaggio che sono io',''), (e.eta||[]).join(', '), qb, (e.tappe||[]).length?`percorso · ${e.tappe.length} tappe`:''].filter(Boolean).map(esc).join(' · ');
+  const foto=(e.foto||[]).filter(Boolean);
+  return `<nav class="crumbs" aria-label="Percorso"><a href="archivio.html">Archivio</a><span>›</span>${u?`<a href="esperienza.html?id=${encodeURIComponent(u.id)}">${esc(u.titolo)}</a><span>›</span>`:''}<strong>${esc(e.titolo)}</strong></nav>
+    <header class="scheda-testa">
+      <p class="scheda-etichetta">${etichettaTesta(e)}${meta?`<span class="scheda-meta">${meta}</span>`:''}</p>
+      <h1 class="page-title scheda-titolo">${esc(e.titolo)}</h1>
       ${e.sottotitolo?`<p class="uda-sottotitolo">${esc(e.sottotitolo)}</p>`:''}
       ${udaTappaNav(e,data)}
-      ${CANTIERE_SEGNO?segnoLavorazione():''}
-      ${(e.foto||[]).filter(Boolean).length?`<div class="detail-gallery">${(e.foto||[]).filter(Boolean).map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>`:''}
-      <p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">${esc(e.aula)}</a>${(e.aule_collegate||[]).length?` <span class="muted">· e altre ${e.aule_collegate.length} aule collegate</span>`:''}</p>
-      <p class="tags">${esc((e.eta||[]).join(' · '))}${(e.gruppo||[]).length?' / '+esc(e.gruppo.map(g=>groupLabels[g]||g).join(' · ')):''}${(e.discipline||[]).length?'<br>'+esc(e.discipline.join(' · ')):''}</p>
-      <p class="provenance">${prov.filter(Boolean).join(' · ')}</p>
-    </div>
-    ${toc.length>1?`<nav class="uda-toc" aria-label="Sezioni della scheda">${toc.map(([id,l])=>`<a href="#${id}">${l}</a>`).join('')}</nav>`:''}`;
-  return head+body;
+      ${foto.length?`<div class="detail-gallery scheda-foto">${foto.map((x,i)=>`<figure class="detail-photo"><img src="${esc(x)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="${i?'lazy':'eager'}"></figure>`).join('')}</div>`:''}
+      ${sintesi}
+      ${CANTIERE_SEGNO?segnoScheda():''}
+    </header>`;
+}
+function renderUda(e, data){
+  CANTIERE_SEGNO=!!((e.da_completare||[]).length || e.voci_in_verifica);
+  const k={tappa:tipoScheda(e)==='tappa', proposta:e.stato==='proposta' && !e.contributo, contributo:!!e.contributo};
+  const sintesi=sezSintesi(e,k);
+  const voci=[sezRacconto(e,k), sezTappe(e,data,k), sezLuogo(e,k), sezVoci(e,k), sezCompiti(e,k), sezValutazione(e,k), sezLettura(e,k), sezFonti(e,k)].join('');
+  return `${testaScheda(e,data,k,sintesi)}<div class="acc-lista">${voci}</div><p class="scheda-cta"><a class="btn" href="racconta.html">Racconta anche tu questa esperienza</a></p>`;
+}
+// Contributi approvati (fuori dal modello): stessa pagina. Voci nel formato «Nome, ruolo: «frase»» scritto dal modulo.
+const RUOLI_VOCE={'bambino o bambina':'b','bambino':'b','bambina':'b','docente':'a','abitante':'a','custode':'a'};
+function voceContributo(riga){
+  const m=String(riga).match(/^\s*([^:«»]{1,90}?)\s*:\s*(.+)$/);
+  let chi='', ruolo='', testo=String(riga).trim();
+  if(m){ const parti=m[1].split(/\s*,\s*/); const last=(parti[parti.length-1]||'').toLowerCase(); if(RUOLI_VOCE[last]){ ruolo=last; parti.pop(); } chi=parti.join(', '); testo=m[2].trim(); }
+  testo=testo.replace(/^«\s*/,'').replace(/\s*»$/,'');
+  return {chi, ruolo, testo, adulto:RUOLI_VOCE[ruolo]==='a'};
+}
+function renderContributo(e, data){
+  CANTIERE_SEGNO=!!(e.da_completare||[]).length;
+  const k={tappa:false, proposta:false, contributo:true};
+  const descr=P(e.descrizione);
+  const righe=[['Dove',esc(e.aula||'')],['Chi',esc([e.classe,e.scuola].filter(Boolean).join(' · '))]].filter(([,v])=>v);
+  const sintesi=`<section class="sintesi" id="sintesi" aria-labelledby="sintesi-h"><h2 class="sintesi-h" id="sintesi-h">In sintesi</h2>${descr?`<p class="sintesi-testo">${esc(descr)}</p>`:''}${righe.length?`<dl class="sintesi-dl">${righe.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>`:''}<p class="sintesi-azioni"><a class="btn" href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa</a><a class="btn btn-alt" href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula</a></p></section>`;
+  const racconto=sezRacconto(e,k);
+  const vv=(e.voci_bambini||[]).map(voceContributo).filter(x=>x.testo);
+  let voci='';
+  if(vv.length){
+    const hasB=vv.some(x=>!x.adulto), hasA=vv.some(x=>x.adulto);
+    const corpo=`${hasB&&hasA?`<p class="voci-filtri" role="group" aria-label="Filtra le voci"><button type="button" data-f="" aria-pressed="true">Tutti</button><button type="button" data-f="b" aria-pressed="false">Bambini</button><button type="button" data-f="a" aria-pressed="false">Adulti</button></p>`:''}<div class="voci-griglia">${vv.map(x=>`<div class="voce-box" data-r="${x.adulto?'a':'b'}"><p class="voce-ruolo">${esc((t=>t.charAt(0).toUpperCase()+t.slice(1))([x.chi, x.ruolo].filter(Boolean).join(' · ')||'Voce'))}</p><blockquote class="voce${x.adulto?' voce-adulto':''}"><p>«${esc(x.testo)}»</p></blockquote></div>`).join('')}</div>`;
+    const nb=vv.filter(x=>!x.adulto).length, na=vv.length-nb;
+    voci=acc('voci','Voci della comunità',[nb?plur(nb,'voce di bambini','voci di bambini'):'', na?plur(na,'voce di adulti','voci di adulti'):''].filter(Boolean).join(' · '),corpo);
+  }
+  const lett=P(e.lettura_pedagogica), man=udaManifesto(e);
+  const lettura=(lett||man)?acc('lettura','Lettura pedagogica','',`${lett?`<p class="racconto">${esc(lett)}</p>`:''}${man}`):'';
+  const materiali=P(e.materiali);
+  const fontiHtml=`${raccontatoDaHtml(e)}${e.quando?`<dl class="scheda"><div><dt>Quando</dt><dd>${esc(e.quando)}</dd></div></dl>`:''}${materiali?`<p class="racconto">${esc(materiali)}</p>`:''}${e.fonte_volume?`<p class="source">${esc(P(e.fonte_volume))}</p>`:''}${(e.links||[]).map(l=>`<p>${extLink(l.url,(l.label||l.url)+' ↗')}</p>`).join('')}${e.estratto_scheda?`<details class="uda-det"><summary>Estratto dalla scheda pubblicata</summary><p class="racconto">${esc(e.estratto_scheda)}</p></details>`:''}`;
+  const fonti=acc('fonti','Fonti e materiali',origineDi(e),fontiHtml);
+  return `${testaScheda(e,data,k,sintesi)}<div class="acc-lista">${racconto}${voci}${lettura}${fonti}</div><p class="scheda-cta"><a class="btn" href="racconta.html">Racconta anche tu questa esperienza</a></p>`;
+}
+// Apertura e chiusura delle voci; indirizzo #sezione → arriva già aperta; filtri delle voci; stampa tutta aperta.
+function apriVoce(s, on){
+  const b=s.querySelector(':scope > .acc-h > .acc-btn'), c=s.querySelector(':scope > .acc-corpo');
+  if(!b||!c) return;
+  b.setAttribute('aria-expanded', String(on)); c.hidden=!on; s.classList.toggle('aperta', on);
+}
+function attivaScheda(root){
+  root.addEventListener('click', ev=>{
+    const b=ev.target.closest('.acc-btn');
+    if(b){ const s=b.closest('.acc'); apriVoce(s, b.getAttribute('aria-expanded')!=='true'); return; }
+    const l=ev.target.closest('a[href^="#"]');
+    if(l){ const el=document.getElementById(l.getAttribute('href').slice(1)); const s=el&&el.closest('.acc'); if(s) apriVoce(s, true); }
+    const f=ev.target.closest('.voci-filtri button');
+    if(f){ const box=f.closest('.acc-corpo'); const v=f.dataset.f; box.querySelectorAll('.voci-filtri button').forEach(x=>x.setAttribute('aria-pressed', String(x===f))); box.querySelectorAll('.voce-box').forEach(x=>{ x.hidden=!!v && x.dataset.r!==v; }); }
+  });
+  const daIndirizzo=()=>{
+    let h=''; try{ h=decodeURIComponent(location.hash.slice(1)); }catch{ return; }
+    if(!h) return;
+    const el=document.getElementById(SEZ_ALIAS[h]||h);
+    if(!el || !root.contains(el)) return;
+    const s=el.closest('.acc'); if(s) apriVoce(s, true);
+    requestAnimationFrame(()=>el.scrollIntoView({block:'start'}));
+  };
+  window.addEventListener('hashchange', daIndirizzo);
+  daIndirizzo();
+  let chiusi=[];
+  window.addEventListener('beforeprint', ()=>{ chiusi=[...root.querySelectorAll('details:not([open])')]; chiusi.forEach(d=>d.open=true); });
+  window.addEventListener('afterprint', ()=>{ chiusi.forEach(d=>d.open=false); chiusi=[]; });
 }
 
 window.initEspPage = async function(){
@@ -831,45 +1060,9 @@ window.initEspPage = async function(){
     const e = data.find(x => x.id === id);
     if(!e){ root.innerHTML = '<p class="notice">Esperienza non trovata in archivio.</p>'; return; }
     document.title = `${e.titolo} · La Strada dei Bambini`;
-    if (e.modello) { root.innerHTML = renderUda(e, data); return; }
-    // Schede fuori dal modello integrato (contributi approvati): le sezioni vuote non si mostrano
-    CANTIERE_SEGNO=!!(e.da_completare||[]).length;
-    const s = e.scheda_uda || {};
-    const sk = Object.entries(s).map(([k,v])=>[k,P(v)]).filter(([,v])=>v);
-    const voci = (e.voci_bambini||[]).map(v=>`<blockquote class="voce"><p>«${esc(v)}»</p></blockquote>`).join('');
-    const videos = e.videos || [];
-    const racconto = P(e.racconto), lettura = P(e.lettura_pedagogica), descr = P(e.descrizione), materiali = P(e.materiali);
-    if(!racconto && e.stato!=='proposta') CANTIERE_SEGNO=true;
-    const corpo = `
-      ${videos.length ? `<section class="detail-block"><h2>Video</h2>${videoBlocks(videos)}</section>` : ''}
-      <section class="detail-block">
-        <h2>In sintesi</h2>
-        ${descr?`<p>${esc(descr)}</p>`:''}
-        <p><a href="aula.html?id=${encodeURIComponent(e.aula_id)}">Scheda dell’aula →</a> · <a href="mappa.html?aula=${encodeURIComponent(e.aula_id)}">Vedi sulla mappa →</a></p>
-      </section>
-      ${sk.length ? `<section class="detail-block"><h2>Scheda UDA</h2><dl class="scheda">${sk.map(([k,v])=>`<div><dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></section>` : ''}
-      ${racconto ? `<section class="detail-block"><h2>Racconto</h2><p class="racconto">${esc(racconto)}</p></section>` : (e.stato==='proposta' ? '<section class="detail-block"><h2>Racconto</h2><p class="muted">Proposta: non c’è ancora un racconto di prova svolta.</p></section>' : '')}
-      ${voci ? `<section class="detail-block"><h2>Voci dei bambini</h2>${voci}</section>` : ''}
-      ${lettura ? `<section class="detail-block"><h2>Lettura pedagogica</h2><p class="racconto">${esc(lettura)}</p>${udaManifesto(e)}</section>` : (udaManifesto(e)?`<section class="detail-block"><h2>Lettura pedagogica</h2>${udaManifesto(e)}</section>`:'')}
-      ${(materiali || e.fonte_volume || (e.links||[]).length || e.estratto_scheda) ? `<section class="detail-block">
-        <h2>Materiali e fonti</h2>
-        ${materiali?`<p class="racconto">${esc(materiali)}</p>`:''}
-        ${e.fonte_volume ? `<p class="source">${esc(P(e.fonte_volume))}</p>` : ''}
-        ${(e.links||[]).map(l=>`<p><a target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.label)} ↗</a></p>`).join('')}
-        ${e.estratto_scheda ? `<details><summary>Estratto dalla scheda pubblicata</summary><p class="racconto">${esc(e.estratto_scheda)}</p></details>` : ''}
-      </section>` : ''}`;
-    root.innerHTML = `
-      <nav class="crumbs" aria-label="Percorso"><a href="archivio.html">Archivio</a><span>›</span><strong>${esc(e.titolo)}</strong></nav>
-      <div class="page-head">
-        <p class="kicker">${etichettaScheda(e)} · ${esc(e.community)}</p>
-        <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">${esc(e.titolo)}</h1>
-        <p>${esc(e.aula)}${e.percorso?` · ${esc(e.percorso)}`:''}</p>
-        <p class="tags">${esc((e.eta||[]).join(' · '))} / ${esc((e.gruppo||[]).map(g=>groupLabels[g]||g).join(' · '))}<br>${esc((e.discipline||[]).join(' · '))}</p>
-        ${e.contributo?raccontatoDaHtml(e):`<p class="provenance">${esc(P(e.provenienza))}</p>`}
-        ${CANTIERE_SEGNO?segnoLavorazione():''}
-      </div>
-      ${(e.foto||[]).length ? `<div class="detail-gallery">${e.foto.map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(e.titolo)} · foto ${i+1}" loading="lazy"></figure>`).join('')}</div>` : ''}
-      ${corpo}`;
+    root.innerHTML = e.modello ? renderUda(e, data) : renderContributo(e, data);
+    root.classList.add('scheda-pagina');
+    attivaScheda(root);
   }catch(err){
     console.error(err);
     root.innerHTML = '<p class="notice">Non è stato possibile caricare i dati dell’esperienza.</p>';

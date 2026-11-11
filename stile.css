@@ -502,3 +502,120 @@ table.archive tr.solo-tappe td{opacity:.85}
 .tappe-det{margin:6px 0 0 4px}
 .tappe-det summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--green);padding:4px 0}
 .tappe-det ol,.tappe-det ul{margin-top:6px}
+
+/* Scheda a voci a comparsa · etichette di testata · filtri dell'Archivio in due righe · 11/11/2026 (v12) */
+.badge.vissuta{background:var(--green);color:#fff;border:1px solid var(--green)}
+.badge.tappa{background:#fff;color:var(--green);border:1px solid var(--green)}
+.badge.proposta{background:#ECEBE7;color:#555;border:1px solid #D6D3CB}
+.badge.tappa.proposta{background:#fff;color:#555;border:1px solid #BDB9AE}
+.sugg{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;line-height:1.3;padding:1px 7px;border:1px dashed #8A8A7A;border-radius:999px;color:#555;background:transparent;vertical-align:middle;cursor:help;font-family:var(--sans);text-transform:none}
+.page-shell.scheda-pagina{max-width:908px;gap:0}
+.scheda-testa{display:flex;flex-direction:column;gap:12px;padding:8px 0 20px}
+.scheda-etichetta{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.scheda-meta{font-size:13px;color:var(--muted)}
+.scheda-titolo{font-weight:400!important;font-size:clamp(28px,4vw,42px)!important;margin:0}
+.uda-sottotitolo{margin:0}
+.sintesi{display:flex;flex-direction:column;gap:10px;padding:16px 0 0}
+.sintesi-h{margin:0;font-family:var(--serif);font-size:20px;font-weight:600}
+.sintesi-testo{margin:0;font-size:16px;line-height:1.6;max-width:65ch}
+.sintesi-dl{margin:0;display:flex;flex-direction:column;gap:6px}
+.sintesi-dl div{display:grid;grid-template-columns:96px 1fr;gap:4px 12px}
+.sintesi-dl dt{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding-top:2px}
+.sintesi-dl dd{margin:0;font-size:15px;line-height:1.5}
+.sintesi-azioni{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 0}
+.btn.btn-alt{background:#fff;color:var(--green)!important;border:1px solid var(--green)}
+.btn.btn-alt:hover{background:#F1F5F2;color:var(--green-dark)!important}
+.scheda-lavorazione{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.scheda-lavorazione a{font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.acc-lista{border-bottom:1px solid var(--line)}
+.acc{border-top:1px solid var(--line);scroll-margin-top:96px}
+.acc-h{margin:0;font:inherit}
+.acc-btn{width:100%;min-height:56px;display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr) 24px;align-items:center;gap:6px 16px;padding:10px 12px;border:0;background:#fff;color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.acc-btn:hover{background:#F4F7F3}
+.acc-t{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.25}
+.acc-p{font-size:13px;color:var(--soft);text-align:right}
+.acc-i{width:10px;height:10px;justify-self:end;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-5px;transition:transform .15s}
+.acc-btn[aria-expanded="true"]{background:#F1F5F2}
+.acc-btn[aria-expanded="true"] .acc-t{color:var(--green)}
+.acc-btn[aria-expanded="true"] .acc-i{transform:rotate(-135deg);margin-top:5px;color:var(--green)}
+.acc-btn:focus-visible{outline:3px solid var(--green);outline-offset:-3px}
+.acc-corpo{padding:8px 12px 24px;display:flex;flex-direction:column;gap:12px;background:#FBFCFA}
+@media (prefers-reduced-motion:reduce){.acc-i{transition:none}}
+.racconto-col{display:flex;flex-direction:column;gap:14px}
+.uda-movimento{max-width:62ch}
+.uda-movimento.con-foto{max-width:none;display:grid;grid-template-columns:minmax(0,62ch) minmax(160px,260px);gap:8px 24px;align-items:start}
+.mov-testo{display:flex;flex-direction:column;gap:6px}
+.mov-foto{display:flex;flex-direction:column;gap:10px}
+.mov-foto .uda-mat img{width:100%;max-height:none}
+.uda-voci-in-mov{margin:6px 0 4px 24px}
+.filo{list-style:none;counter-reset:filo;margin:0;padding:0;position:relative}
+.filo li{counter-increment:filo;position:relative;padding:0 0 16px 44px}
+.filo li::before{content:counter(filo);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--green);color:var(--green);font-weight:600;font-size:13px;display:grid;place-items:center;z-index:1}
+.filo li::after{content:"";position:absolute;left:15px;top:30px;bottom:0;border-left:2px solid #CFDCD2}
+.filo li:last-child::after{display:none}
+.filo-nome{margin:4px 0 2px;font-weight:600;font-size:15px}
+.filo-riga{margin:0;font-size:14px;line-height:1.5;color:#333;max-width:65ch}
+.filo .uda-chips{margin:6px 0 0}
+.disc-elenco{margin:0;font-size:15px}
+.disc-tab{display:flex;flex-direction:column}
+.disc-riga{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:6px 20px;padding:10px 0;border-top:1px dashed var(--line)}
+.disc-nome{margin:0;font-weight:600;font-size:15px}
+.disc-riga.solo{grid-template-columns:1fr}
+.disc-riga.solo .disc-nome{font-weight:500}
+.disc-l{margin:4px 0 2px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.voci-filtri{display:flex;gap:6px;flex-wrap:wrap;margin:0}
+.voci-filtri button{min-height:36px;padding:4px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;font:inherit;font-size:13px;cursor:pointer}
+.voci-filtri button[aria-pressed="true"]{border-color:var(--green);color:var(--green);font-weight:600}
+.voci-griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.voce-box{display:flex;flex-direction:column;gap:4px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.voce-box[hidden]{display:none}
+.voce-ruolo{margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.val-blocco p{margin:4px 0 0;font-size:15px;line-height:1.55;max-width:65ch}
+.scheda-cta{margin:24px 0 8px}
+.registro{margin-top:8px}
+/* Archivio: filtri in due righe */
+#archive-filters{display:flex;flex-direction:column;gap:0}
+.filtri-vista,.filtri-altri{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.filtri-altri{padding:12px;margin-bottom:8px;background:var(--wash);border-radius:8px}
+.filtri-altri[hidden]{display:none}
+.field-altri{flex:0 0 auto}
+.altri-btn{min-height:44px;display:inline-flex;align-items:center;gap:10px;padding:0 16px;border:1px solid var(--field);border-radius:6px;background:#fff;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.altri-btn:hover{border-color:var(--green)}
+.altri-btn[aria-expanded="true"]{border-color:var(--green);color:var(--green)}
+.altri-btn[aria-expanded="true"] .acc-i{transform:rotate(-135deg);margin-top:5px}
+.altri-n{font-weight:600;color:var(--green)}
+@media (max-width:700px){
+  .acc-btn{grid-template-columns:minmax(0,1fr) 24px;padding:10px 4px}
+  .acc-t{font-size:18px}
+  .acc-p{grid-column:1;grid-row:2;text-align:left}
+  .acc-i{grid-column:2;grid-row:1 / span 2}
+  .acc-corpo{padding:8px 4px 20px}
+  .sintesi-azioni{flex-direction:column}
+  .sintesi-azioni .btn{width:100%}
+  .sintesi-dl div{grid-template-columns:80px 1fr}
+  .uda-movimento.con-foto{grid-template-columns:1fr}
+  .uda-voci-in-mov{margin-left:12px}
+  .disc-riga{grid-template-columns:1fr}
+  .field-altri,.altri-btn{width:100%}
+  .altri-btn{justify-content:space-between}
+}
+@media print{
+  .site-header,.site-footer,.sintesi-azioni,.scheda-cta,.voci-filtri,.acc-i{display:none!important}
+  .acc-corpo[hidden]{display:flex!important}
+  .acc-btn{min-height:0;background:#fff!important}
+  .acc-t{color:#000!important}
+  .voce-box[hidden]{display:flex!important}
+  .acc{break-inside:auto}
+  .acc-h{break-after:avoid}
+  iframe{display:none}
+}
+/* Contribuisci: invito del passo 03 e voci con il ruolo */
+.invito{margin:0 0 4px;font-size:14px;line-height:1.5;color:#333}
+.voci-intro{margin:0;font-size:13px}
+.voce-top{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:10px}
+.voce-campo{display:flex;flex-direction:column;gap:4px}
+.voce-campo label{font-size:12px;color:var(--muted)}
+.voce-row select,.voce-row textarea{min-height:44px;padding:8px 12px;border:1px solid var(--field);border-radius:6px;font-size:16px;background:#fff;font-family:inherit;width:100%}
+.voce-row textarea{min-height:64px;resize:vertical}
+.voce-row .voce-avviso{margin:0}
+@media (max-width:520px){.voce-top{grid-template-columns:1fr}}

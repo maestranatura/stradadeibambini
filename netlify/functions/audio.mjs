@@ -34,12 +34,12 @@ export default async (req) => {
   }
 
   if (req.method === "GET") {
-    // Lettura privata: coordinatrice (ADMIN_TOKEN), AUDIO_READ_TOKEN, o community manager per la sua comunità.
+    // Lettura privata: responsabile (ADMIN_TOKEN), AUDIO_READ_TOKEN, o community manager per la sua comunità.
     const user = who(req, { allowAudioToken: true });
     if (!user) return json({ error: "Accesso riservato" }, 403);
     const key = url.searchParams.get("key") || "";
     if (url.searchParams.get("list")) {
-      if (user.community) return json({ error: "Solo la coordinatrice" }, 403);
+      if (user.community) return json({ error: "Solo il responsabile" }, 403);
       const { blobs } = await store.list({ prefix: "meta/" });
       return json(blobs.map(b => b.key.replace(/^meta\//, "").replace(/\.json$/, "")));
     }
