@@ -18293,6 +18293,2251 @@
     "estratto_scheda": "L’UDA in sintesi SR-UDA-2S-01 · Seconda secondaria di primo grado · Progetto 1 · 8 novembre 2026 STATO: PROPOSTA. Data dell’attività: da concordare. Voci degli alunni, osservazioni dei docenti e materiali prodotti: da raccogliere . La data di versione riguarda il progetto, non una prova già svolta. Luogo nell’atlante: Duomo / Athenaion Quando Da concordare; nessuna data di uscita o di verifica assegnata. Dove Esterno della cattedrale e Piazza Duomo, da una sosta concordata; aula per lettura e revisione del dossier. Chi Una seconda secondaria pilota; docenti di storia, italiano e arte, eventuali collaboratori e revisore da individuare. Discipline coinvolte Storia dell’età moderna (asse portante), Italiano, Arte e immagine, Geografia urbana, Educazione civica. Prodotti finali attesi Dossier con tre colonne — vedo / documento / ipotizzo —, linea del tempo documentata e didascalia per il sussidiario locale. Non ancora prodotti. Competenze chiave UE Alfabetica funzionale; cittadinanza; consapevolezza ed espressione culturali; personale/sociale e imparare a imparare. Progettare prima della prova Domanda generativa Quanto del passato di una facciata possiamo ricostruire guardandola, e quando ci serve un documento? Obiettivi osservabili Storia Collocare il sisma del 1693 nell’età moderna e usare una testimonianza mediata dalla ricerca per distinguere evento, danno e trasformazione. Italiano Parafrasare una fonte senza attribuirle ciò che non dice; distinguere osservazione, citazione e ipotesi. Arte Descrivere dettagli visibili e riconoscere che non bastano da soli a datarli o attri"
   },
   {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.comune.siracusa.it/vivere-il-comune/luoghi/fonte-aretusa",
+        "label": "Comune di Siracusa · Fonte Aretusa"
+      },
+      {
+        "url": "https://museodelpapiro.it/",
+        "label": "Museo del Papiro Corrado Basile · Progetto Scuola"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Nomi, discipline e accordi dei docenti; data e itinerario dell’uscita.",
+      "Verifica in loco di sosta sicura, ombra, spazio per la classe e accessibilità: il Comune indica un luogo aperto al pubblico, non certifica le condizioni per un intero gruppo classe.",
+      "Scelta della breve versione del mito e, se si osservano papiri, delle schede del Museo da portare, con i relativi diritti.",
+      "Voci degli alunni, osservazioni dei docenti e materiali prodotti: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza alfabetica funzionale",
+      "Competenza in scienze",
+      "Competenza in materia di consapevolezza ed espressione culturali"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Che cosa vediamo qui, che cosa ci viene raccontato, e che cosa vorremmo verificare?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti. Non sono esiti già osservati.",
+      "competenze": [
+        {
+          "competenza": "Scienze · osservare e porre domande",
+          "abilita": [
+            "Osservare acqua, sponda e vegetazione visibile senza prelevare né assaggiare",
+            "Formulare almeno una domanda su ciò che non si può concludere a vista"
+          ],
+          "conoscenze": [
+            "Differenza tra acqua dolce e mare, come fatto da osservare e non da gustare",
+            "Una sorgente è un luogo da descrivere, non ancora un modello idrogeologico completo"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Scienze, scuola primaria: sviluppa atteggiamenti di curiosità e modi di guardare il mondo che lo stimolano a cercare spiegazioni di quello che vede succedere. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Italiano · ascoltare e scrivere una didascalia",
+          "abilita": [
+            "Ascoltare una breve versione del mito scelta dal docente",
+            "Scrivere una didascalia che non mescoli osservazione e racconto"
+          ],
+          "conoscenze": [
+            "Testo descrittivo breve",
+            "Differenza tra «vedo», «mi raccontano» e «vorrei verificare»"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Italiano, scuola primaria: scrive testi corretti nell’ortografia, chiari e coerenti, legati all’esperienza e alle diverse occasioni di scrittura. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Geografia · orientarsi in un luogo vicino",
+          "abilita": [
+            "Riconoscere la posizione della fonte rispetto al mare e all’isola, da un punto concordato"
+          ],
+          "conoscenze": [
+            "Ortigia come isola unita alla terraferma; la fonte come luogo nominabile su una pianta semplice"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Geografia, scuola primaria: l’alunno si orienta nello spazio circostante e sulle carte geografiche, utilizzando riferimenti topologici e punti cardinali. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Arrivo al bordo sicuro",
+          "attivita": "La classe si ferma soltanto nel punto esterno concordato. Il docente ricorda che il Comune presenta la Fonte come luogo aperto al pubblico: ciò non basta, da solo, a garantire ombra, spazio e accessibilità per un intero gruppo. Non si scende nell’invaso e non si tocca l’acqua.",
+          "discipline": [
+            "Geografia",
+            "Educazione civica"
+          ],
+          "tempi": "un’uscita, prima parte",
+          "fonte": "Comune di Siracusa, scheda Fonte Aretusa (luogo aperto al pubblico, Largo Aretusa; ultimo aggiornamento letto: 21 dicembre 2023)."
+        },
+        {
+          "titolo": "Fase 2 · Tre colonne sul foglio",
+          "attivita": "Ogni bambino, o ogni piccolo gruppo, divide un foglio in vedo / mi raccontano / vorrei verificare. Si annota soltanto ciò che si può indicare con il dito o con una domanda.",
+          "discipline": [
+            "Scienze",
+            "Italiano"
+          ],
+          "tempi": "sul posto"
+        },
+        {
+          "titolo": "Fase 3 · Il mito, senza farlo diventare una prova",
+          "attivita": "Il docente legge una breve versione del racconto di Aretusa e Alfeo, dichiarandone la fonte. Si chiede che cosa, di quel racconto, non può essere usato come spiegazione della sorgente. Il testo latino di Cicerone, riprodotto nella scheda comunale, resta una risorsa per l’adulto, non una lettura obbligatoria della terza.",
+          "discipline": [
+            "Italiano",
+            "Arte e immagine"
+          ],
+          "tempi": "sul posto o in aula, subito dopo",
+          "fonte": "Comune di Siracusa, scheda Fonte Aretusa: il Comune riporta la descrizione ciceroniana di una sorgente d’acqua dolce separata dal mare da un’opera in pietra, e una sintesi del mito."
+        },
+        {
+          "titolo": "Fase 4 · Una didascalia verificabile",
+          "attivita": "In classe si ricompone una didascalia breve. Se lungo il bordo sono visibili papiri, si potranno osservare senza raccolta, con l’eventuale aiuto di schede del Museo del Papiro già predisposte; questa osservazione non è obbligatoria se le piante non sono visibili o il materiale non è disponibile.",
+          "discipline": [
+            "Italiano",
+            "Scienze",
+            "Arte e immagine"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Fogli a tre colonne e matite",
+        "Pianta semplice di Ortigia preparata dal docente, senza copiare grafiche di terzi non autorizzate",
+        "Breve testo del mito, con fonte dichiarata",
+        "Eventuali schede del Museo del Papiro, con diritti verificati"
+      ],
+      "sicurezza": "Sosta solo sul bordo esterno sicuro, lontano dal traffico e dall’acqua. Nessun prelievo, assaggio o discesa nell’invaso. Il Comune indica un luogo aperto al pubblico: accessibilità, ombra, recinzioni e spazio per la classe restano da verificare prima dell’uscita, insieme al percorso di arrivo."
+    },
+    "movimenti": [
+      {
+        "titolo": "Arrivare e fermarsi dove si può stare",
+        "testo": "Si propone di raggiungere la Fonte Aretusa da Largo Aretusa e di sostare soltanto in un punto esterno già concordato. La scheda del Comune presenta la fonte come luogo aperto al pubblico, in Ortigia: è un dato utile, non una certificazione delle condizioni per una classe. Prima di uscire restano da vedere, con i docenti, dove ci si ferma, come si arriva e che cosa non è accessibile.",
+        "fonte": "Comune di Siracusa, scheda «Fonte Aretusa»."
+      },
+      {
+        "titolo": "Tre colonne, nessuna conclusione affrettata",
+        "testo": "Sul bordo, il lavoro non è «scoprire il segreto della fonte». Si propone di scrivere in tre colonne ciò che si vede, ciò che viene raccontato e ciò che si vorrebbe verificare. Una domanda onesta — per esempio sul rapporto tra l’acqua della vasca e il mare lì accanto — vale più di una spiegazione inventata sul posto."
+      },
+      {
+        "titolo": "Ascoltare un mito senza farne una prova",
+        "testo": "Il docente potrà leggere una breve versione del racconto di Aretusa, ninfa che, secondo la tradizione ripresa anche dalla scheda comunale, sarebbe giunta a Ortigia e qui sarebbe divenuta fonte; Alfeo l’avrebbe seguita sotto il mare. Si invitano i bambini a tenere quel racconto nella colonna «mi raccontano». Non si chiede loro di decidere se il mito «è vero»: si chiede di non usarlo come se fosse già una spiegazione scientifica della sorgente."
+      },
+      {
+        "titolo": "Una didascalia che si possa controllare",
+        "testo": "In classe, a partire dai fogli, si propone di scrivere una didascalia breve, da appendere o da mettere in un quaderno collettivo. Dovrà restare visibile la differenza tra osservazione, racconto e domanda aperta. I papiri, se visibili dal punto di sosta, potranno essere disegnati senza essere toccati; in ogni caso le parole e i disegni degli alunni restano da raccogliere dopo la prova, con il consenso delle famiglie."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "terza-fonte-aretusa",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-12",
+    "aula": "Fonte Aretusa",
+    "titolo": "Acqua dolce accanto al mare",
+    "sottotitolo": "Osservare una sorgente, ascoltare un mito, tenere aperte le domande",
+    "codice": "SR-UDA-3P-02",
+    "eta": [
+      "primaria III-V"
+    ],
+    "discipline": [
+      "scienze",
+      "italiano",
+      "geografia",
+      "arte",
+      "educazione civica"
+    ],
+    "tipo_aula": "01 · I regni di natura",
+    "descrizione": "Fonte Aretusa: distinguere ciò che si vede, ciò che il mito racconta e ciò che resta da verificare, senza confondere il racconto con una spiegazione scientifica della sorgente.",
+    "materiali": "Materiali da preparare: foglio a tre colonne (vedo / mi raccontano / vorrei verificare); breve versione del mito scelta dal docente; eventuale scheda del Museo del Papiro. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-3P-02 · 11 novembre 2026 · non sperimentata",
+    "scheda_uda": {
+      "quando": "Da concordare; la data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Fonte Aretusa, Largo Aretusa, Ortigia: bordo esterno sicuro da concordare. Aula per la didascalia finale, se necessario.",
+      "chi": "Una terza primaria pilota; docenti e accompagnatori da individuare.",
+      "discipline": "Scienze, Italiano, Geografia, Arte e immagine, Educazione civica",
+      "prodotto": "Didascalia verificabile (vedo / mi raccontano / vorrei verificare)"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; la data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Fonte Aretusa, Largo Aretusa, Ortigia: bordo esterno sicuro da concordare; aula scolastica per l’eventuale chiusura.",
+      "chi": "Una terza primaria pilota; docenti e accompagnatori da individuare.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda comunale della Fonte; eventuale materiale del Museo del Papiro, da concordare. Nessun incontro con esperti è già organizzato.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, con un’uscita e una rielaborazione in classe",
+      "discipline": [
+        "Scienze",
+        "Italiano",
+        "Geografia",
+        "Arte e immagine",
+        "Educazione civica"
+      ],
+      "prodotti_intermedi": [
+        "Foglio a tre colonne compilato sul posto",
+        "Disegno di osservazione dal bordo sicuro"
+      ],
+      "prodotto_finale": "Didascalia collettiva o individuale verificabile, che distingue ciò che si è visto, ciò che è stato raccontato e ciò che resta da verificare. Non ancora prodotta.",
+      "competenze_chiave": [
+        "Competenza alfabetica funzionale",
+        "Competenza in scienze",
+        "Competenza in materia di consapevolezza ed espressione culturali"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: didascalia verificabile a tre colonne. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Osservare senza prelevare",
+            "ambito": "Scienze",
+            "descrittori": [
+              "Nomina un elemento se guidato",
+              "Annota qualcosa di visibile",
+              "Compila le tre colonne con almeno un’osservazione e una domanda",
+              "Spiega perché alcune domande restano aperte"
+            ]
+          },
+          {
+            "dimensione": "Distinguere racconto e osservazione",
+            "ambito": "Italiano",
+            "descrittori": [
+              "Ascolta il racconto",
+              "Ripete un dettaglio del mito",
+              "Scrive una didascalia che non mescola le colonne",
+              "Spiega a un compagno che cosa è racconto e che cosa è osservazione"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova. Non è una lettura di un vissuto già avvenuto.",
+      "testo": "Questa proposta adatta alla terza primaria un gesto già presente nel volume del Salento: fermarsi in un luogo vicino, nominarlo e scrivere per un destinatario che non c’era. Qui il destinatario è chi leggerà la didascalia. Il punto delicato è metodologico: il mito di Aretusa è parte della memoria del luogo, non la prova di un percorso sotterraneo. Kolb è usato come bussola ricorsiva (osservare, distinguere, scrivere, tornare a chiedere), non come sequenza che garantisce un risultato.",
+      "kolb": "Esperienza concreta al bordo della fonte; osservazione riflessiva sulle tre colonne; concettualizzazione della differenza tra racconto e dato; sperimentazione attiva nella didascalia. Ipotesi di proposta, non ciclo già verificato.",
+      "gardner": "Lente progettuale, non diagnosi: spaziale (posizione fonte-mare), linguistica (didascalia), naturalistica (osservazione senza prelievo), interpersonale (lavoro sul foglio condiviso).",
+      "play_motifs": "Esplorazione guidata in un luogo pubblico; non si autorizzano raccolte, discese o costruzioni.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Scienze, Italiano e Geografia della scuola primaria, da validare con i docenti. Non si anticipano come obblighi di terza i traguardi di fine ciclo.",
+      "ue": "Alfabetica funzionale; scienze; consapevolezza ed espressione culturali. Raccordi dichiarati attraverso il compito, non elenco ornamentale."
+    },
+    "lettura_pedagogica": "Questa proposta adatta alla terza primaria un gesto già presente nel volume del Salento: fermarsi in un luogo vicino, nominarlo e scrivere per un destinatario che non c’era. Qui il destinatario è chi leggerà la didascalia. Il punto delicato è metodologico: il mito di Aretusa è parte della memoria del luogo, non la prova di un percorso sotterraneo. Kolb è usato come bussola ricorsiva (osservare, distinguere, scrivere, tornare a chiedere), non come sequenza che garantisce un risultato.",
+    "apparato": {
+      "fonti": [
+        "Comune di Siracusa, scheda «Fonte Aretusa», Largo Aretusa: luogo aperto al pubblico; riporta il passo di Cicerone (In Verrem II, IV, 118) su una sorgente d’acqua dolce separata dal mare da un’opera in pietra, e una sintesi del mito di Aretusa e Alfeo. Ultimo aggiornamento letto: 21 dicembre 2023. https://www.comune.siracusa.it/vivere-il-comune/luoghi/fonte-aretusa",
+        "Museo del Papiro Corrado Basile, Siracusa: Progetto Scuola, collezioni e pubblicazioni, da consultare per eventuali schede sulla pianta, senza prelievi sul campo. https://museodelpapiro.it/",
+        "Gianluca Savarino, Siracusa, archeologia e cultura di una città antica, tesi di dottorato, Sapienza 2011, lettura selettiva delle fonti letterarie sulla fonte (Cicerone, Diodoro, Virgilio, Strabone): risorsa per l’adulto, non testo della classe. https://iris.uniroma1.it/handle/11573/917785",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci (documento di lavoro del progetto): categorie 01, 02, 03, 08, 12. Non si distribuisce il documento."
+      ],
+      "materiali": [
+        "Da preparare: fogli a tre colonne, pianta semplice di Ortigia, breve testo del mito con fonte.",
+        "Attesi, non ancora esistenti: didascalie e disegni degli alunni.",
+        "Nessuna fotografia di copertina in questa scheda: nel repo non risultano immagini libere di questo luogo, e non se ne aggiungono di terzi senza licenza verificata."
+      ],
+      "replicare": "Serve un punto di sosta esterno già visto, una regola chiara (non si tocca l’acqua, non si raccoglie), un foglio che obblighi a distinguere osservazione e racconto, e una versione breve del mito con la fonte dichiarata. Se il bordo non è praticabile, la stessa distinzione si può fare in aula su immagini e testi autorizzati, rinviando l’uscita.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.comune.siracusa.it/tipi_luogo/piazza",
+        "label": "Comune di Siracusa · Piazza Archimede e Fontana di Diana"
+      },
+      {
+        "url": "https://www.smarteducationunescosicilia.it/siracusa/la-fontana-di-diana-in-piazza-archimede/",
+        "label": "SmartEducationUnescoSicilia · La fontana di Diana in Piazza Archimede"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Nomi e discipline dei docenti; data dell’uscita e punto di sosta in piazza, lontano dal traffico.",
+      "Le coordinate sulla mappa sono un punto rappresentativo della fontana, già dichiarato approssimato.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza alfabetica funzionale",
+      "Competenza in materia di cittadinanza"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Come fa una fontana del 1906 a raccontare una storia molto più antica?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti.",
+      "competenze": [
+        {
+          "competenza": "Arte e immagine · leggere un monumento",
+          "abilita": [
+            "Riconoscere alcune figure attraverso attributi visibili (per esempio arco e cane, se osservabili dal punto di sosta)",
+            "Ordinare le figure in una sequenza narrativa"
+          ],
+          "conoscenze": [
+            "La fontana è opera di Giulio Moschetti, 1906, secondo la scheda comunale della piazza",
+            "Il soggetto è la leggenda di Aretusa, non un documento dell’età greca"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Arte e immagine, scuola primaria: l’alunno osserva, esplora, descrive e forma immagini e oggetti. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Storia · distinguere tempi diversi",
+          "abilita": [
+            "Separare la data del monumento dal tempo del racconto che esso figura"
+          ],
+          "conoscenze": [
+            "Un soggetto antico può essere scolpito in un’epoca moderna"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Storia, scuola primaria: usa fonti di diverso tipo e sa produrre informazioni su fatti ed eventi. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Italiano · didascalia",
+          "abilita": [
+            "Scrivere una didascalia breve per ogni immagine della sequenza"
+          ],
+          "conoscenze": [
+            "La didascalia dice che cosa si vede e, se serve, da quale fonte viene il nome del personaggio"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Italiano, scuola primaria: scrive testi legati all’esperienza. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Guardare dalla piazza, non dalla vasca",
+          "attivita": "Sosta in un punto concordato, lontano da vasca e carreggiata. Si osserva la fontana intera prima di nominare i personaggi.",
+          "discipline": [
+            "Arte e immagine",
+            "Educazione civica"
+          ],
+          "tempi": "un’uscita, prima parte"
+        },
+        {
+          "titolo": "Fase 2 · Attributi e nomi",
+          "attivita": "Con una scheda muta preparata dal docente, si provano a riconoscere le figure. I nomi (Diana, Aretusa, Alfeo, figure marine) si introducono solo dopo aver descritto ciò che si vede, e si dichiarano come letture proposte dalle schede consultate, non come scoperte spontanee già avvenute.",
+          "discipline": [
+            "Arte e immagine",
+            "Italiano"
+          ],
+          "tempi": "sul posto",
+          "fonte": "Comune di Siracusa, pagina delle piazze: al centro di Piazza Archimede «spicca la bella fontana di Diana dello scultore piceno Giulio Moschetti del 1906 che narra la leggenda di Aretusa». Dettagli figurativi di supporto: scheda SmartEducationUnescoSicilia."
+        },
+        {
+          "titolo": "Fase 3 · Dal monumento alla sequenza",
+          "attivita": "In piazza o in classe si dispone una sequenza di riquadri: che cosa succede, secondo il racconto, e che cosa invece appartiene al monumento (data, materiale, piazza). Non si entra nella vasca e non si toccano le sculture.",
+          "discipline": [
+            "Italiano",
+            "Storia",
+            "Arte e immagine"
+          ],
+          "tempi": "sul posto e in classe"
+        },
+        {
+          "titolo": "Fase 4 · Una data e un racconto",
+          "attivita": "Si chiude chiedendo esplicitamente: il 1906 è la data della storia o della fontana? La risposta attesa è un ragionamento, non una formula imparata. Eventuale osservazione di simmetrie o ripetizioni nella vasca resta un arricchimento, non un obiettivo di geometria formale.",
+          "discipline": [
+            "Storia",
+            "Matematica"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Schede mute dei personaggi, originali",
+        "Fogli per la sequenza illustrata",
+        "La scheda comunale e, per l’adulto, la scheda SmartEducationUnescoSicilia"
+      ],
+      "sicurezza": "Piazza urbana con traffico e transito pedonale. Sosta compatta, lontano dalla vasca e dalla carreggiata. Non salire sul monumento, non entrare in acqua, non toccare le sculture. Punto di ritrovo e regole da concordare prima."
+    },
+    "movimenti": [
+      {
+        "titolo": "Una piazza, una fontana, una data",
+        "testo": "Si propone di arrivare in Piazza Archimede e di guardare prima l’insieme: la vasca, le figure, i palazzi intorno, il movimento della piazza. Il Comune attribuisce la fontana allo scultore Giulio Moschetti e la data al 1906, e precisa che l’opera narra la leggenda di Aretusa. Questa data va tenuta ferma: è la data del monumento, non del mito.",
+        "fonte": "Comune di Siracusa, «Tipo di luogo: Piazza», voce Piazza Archimede."
+      },
+      {
+        "titolo": "Prima descrivere, poi nominare",
+        "testo": "Prima di distribuire i nomi, si invita a dire che cosa si vede: una figura con arco e cane, una figura più bassa, altre figure nell’acqua. I nomi — Diana (Artemide), Aretusa, Alfeo, figure marine — potranno arrivare dalle schede preparate dal docente, che si appoggiano anche alla scheda educativa di SmartEducationUnescoSicilia. Non si chiede alla classe di «indovinare» un’iconografia già scritta altrove."
+      },
+      {
+        "titolo": "Mettere il racconto in ordine",
+        "testo": "Con matite e riquadri si propone di ricostruire una sequenza: chi fugge, chi protegge, chi insegue, dove finisce l’acqua. Ogni riquadro avrà una didascalia breve. Se la classe ha già lavorato alla Fonte Aretusa, si potrà confrontare lo stesso racconto in due luoghi diversi — una sorgente viva e una fontana del 1906 — senza ripetere le stesse frasi già scritte là."
+      },
+      {
+        "titolo": "Non confondere i tempi",
+        "testo": "La chiusura proposta è una domanda, non un quiz: questa fontana è antica, o antica è la storia che racconta? Si aspetta che i bambini usino la data del 1906 e ciò che hanno visto, non che ripetano una definizione. Parole e disegni restano da raccogliere dopo la prova."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "terza-fontana-diana",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-16",
+    "aula": "Piazza Archimede / Fontana di Diana",
+    "titolo": "Un mito in una fontana moderna",
+    "sottotitolo": "Riconoscere i personaggi e distinguere il racconto antico dal monumento del 1906",
+    "codice": "SR-UDA-3P-03",
+    "eta": [
+      "primaria III-V"
+    ],
+    "discipline": [
+      "arte",
+      "italiano",
+      "storia",
+      "matematica",
+      "educazione civica"
+    ],
+    "tipo_aula": "02 · Luoghi mitici e fondativi",
+    "descrizione": "Piazza Archimede: leggere la Fontana di Diana come monumento del 1906 che racconta un mito antico, senza confondere la data della scultura con l’età del racconto.",
+    "materiali": "Materiali da preparare: schede mute dei personaggi; foglio per la sequenza del racconto. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-3P-03 · 11 novembre 2026 · non sperimentata",
+    "scheda_uda": {
+      "quando": "Da concordare; la data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Piazza Archimede, Ortigia, intorno alla Fontana di Diana: sosta esterna sicura, senza avvicinarsi alla vasca.",
+      "chi": "Una terza primaria pilota; docenti e accompagnatori da individuare.",
+      "discipline": "Arte e immagine, Italiano, Storia, Matematica, Educazione civica",
+      "prodotto": "Sequenza illustrata con didascalie"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; la data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Piazza Archimede, Ortigia, intorno alla Fontana di Diana; aula per completare la sequenza, se serve.",
+      "chi": "Una terza primaria pilota; docenti e accompagnatori da individuare.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda comunale della piazza; scheda educativa SmartEducationUnescoSicilia, da usare come supporto e non come testo da copiare.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, con un’uscita in piazza",
+      "discipline": [
+        "Arte e immagine",
+        "Italiano",
+        "Storia",
+        "Matematica",
+        "Educazione civica"
+      ],
+      "prodotti_intermedi": [
+        "Elenco dei personaggi riconosciuti dagli attributi visibili",
+        "Schizzi dal bordo sicuro"
+      ],
+      "prodotto_finale": "Sequenza illustrata con didascalie: personaggi riconosciuti e distinzione tra racconto antico e monumento del 1906. Non ancora prodotta.",
+      "competenze_chiave": [
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza alfabetica funzionale",
+        "Competenza in materia di cittadinanza"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: sequenza illustrata con didascalie. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Leggere le figure",
+            "ambito": "Arte e immagine",
+            "descrittori": [
+              "Indica una figura se guidato",
+              "Descrive un attributo visibile",
+              "Collega alcune figure a una sequenza",
+              "Spiega a un compagno come ha riconosciuto un personaggio"
+            ]
+          },
+          {
+            "dimensione": "Distinguere monumento e racconto",
+            "ambito": "Storia / Italiano",
+            "descrittori": [
+              "Ascolta la data del monumento",
+              "Ripete che la fontana è del 1906",
+              "Scrive didascalie che non datano il mito al 1906",
+              "Spiega la differenza tra soggetto e data dell’opera"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova.",
+      "testo": "La fontana permette un lavoro già caro al volume del Salento: passare da ciò che si vede a una storia, senza far diventare la storia una prova. Per una terza, il nodo non è l’iconografia completa, ma la differenza di tempo: un monumento moderno può raccontare un mito antico. Se la classe visita anche la Fonte Aretusa, i due luoghi si parlano; restano tuttavia due schede distinte, con prodotti e domande proprie.",
+      "kolb": "Osservazione in piazza; riflessione sugli attributi; concettualizzazione della differenza tra data dell’opera e tempo del racconto; sequenza illustrata come sperimentazione. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: spaziale e figurativa (composizione), linguistica (didascalie), logico-matematica (eventuali simmetrie, senza formalismo prematuro).",
+      "play_motifs": "Piccoli mondi e racconto per immagini; nessuna raccolta né contatto con l’acqua della vasca.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Arte e immagine, Italiano e Storia della scuola primaria, da validare con i docenti.",
+      "ue": "Consapevolezza ed espressione culturali; alfabetica funzionale; cittadinanza (uso rispettoso di uno spazio pubblico)."
+    },
+    "lettura_pedagogica": "La fontana permette un lavoro già caro al volume del Salento: passare da ciò che si vede a una storia, senza far diventare la storia una prova. Per una terza, il nodo non è l’iconografia completa, ma la differenza di tempo: un monumento moderno può raccontare un mito antico. Se la classe visita anche la Fonte Aretusa, i due luoghi si parlano; restano tuttavia due schede distinte, con prodotti e domande proprie.",
+    "apparato": {
+      "fonti": [
+        "Comune di Siracusa, «Tipo di luogo: Piazza», voce Piazza Archimede: fontana di Diana di Giulio Moschetti, 1906, che narra la leggenda di Aretusa. https://www.comune.siracusa.it/tipi_luogo/piazza",
+        "SmartEducationUnescoSicilia, «La fontana di Diana in Piazza Archimede»: scheda educativa sui personaggi e sulla composizione; fonte di supporto, non scheda comunale. https://www.smarteducationunescosicilia.it/siracusa/la-fontana-di-diana-in-piazza-archimede/",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 02 e 06. Non si distribuisce il documento."
+      ],
+      "materiali": [
+        "Da preparare: schede mute originali, fogli per la sequenza.",
+        "Attesi, non ancora esistenti: sequenze illustrate e didascalie degli alunni.",
+        "Nessuna fotografia di copertina in questa scheda: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Serve una sosta sicura in piazza, una scheda muta che non anticipi tutti i nomi, e una chiusura esplicita sulla data del monumento. Se la piazza non è praticabile, si può lavorare in aula su immagini con diritti verificati, rinviando l’osservazione diretta.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.comune.siracusa.it/vivere-il-comune/luoghi/fonte-aretusa",
+        "label": "Comune di Siracusa · Fonte Aretusa"
+      },
+      {
+        "url": "https://museodelpapiro.it/",
+        "label": "Museo del Papiro Corrado Basile · Progetto Scuola"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Nomi e discipline dei docenti delle due quarte; data, eventuale turno e punto di sosta.",
+      "Eventuale differenziazione A/B: da concordare, non già assegnata.",
+      "Verifica di sosta, ombra, spazio e accessibilità. Nessuna accessibilità universale è dichiarata.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza in scienze",
+      "Competenza alfabetica funzionale",
+      "Competenza in materia di cittadinanza"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Come si racconta questo luogo a chi non c’è, senza far passare il mito per una prova scientifica?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti.",
+      "competenze": [
+        {
+          "competenza": "Geografia · carte e orientamento",
+          "abilita": [
+            "Orientare una carta Sicilia–Mediterraneo usando riferimenti visibili dal punto di sosta",
+            "Localizzare la fonte e distinguerla da altri luoghi già noti di Ortigia"
+          ],
+          "conoscenze": [
+            "Punti cardinali, legenda, differenza tra un luogo e il suo segnale sulla carta"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Geografia, scuola primaria: l’alunno si orienta nello spazio circostante e sulle carte geografiche, utilizzando riferimenti topologici, punti cardinali e coordinate geografiche. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Scienze · modello e domanda",
+          "abilita": [
+            "Distinguere osservazione, ipotesi e ciò che richiede altre fonti",
+            "Formulare domande su sorgente, falda e mare senza assaggiare né prelevare"
+          ],
+          "conoscenze": [
+            "Acqua dolce e mare come fatti da osservare; un mito non è un modello idrogeologico"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Scienze, scuola primaria: esplora i fenomeni con un approccio scientifico, formula domande e proposte di esperimento. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Italiano · testi informativi brevi",
+          "abilita": [
+            "Scrivere due testi brevi con destinatario reale (chi passerà davanti a un eventuale pannello)"
+          ],
+          "conoscenze": [
+            "Testo informativo breve; differenza tra racconto mitico e domanda scientifica"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Italiano, scuola primaria: scrive testi corretti, chiari e coerenti, legati all’esperienza e alle diverse occasioni di scrittura. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Orientare la carta",
+          "attivita": "Dal bordo esterno sicuro si orienta una carta Sicilia–Mediterraneo con riferimenti visibili (mare, isolotto, direzione della piazza). Si localizza la fonte. I pannelli già presenti sul luogo, se ci sono, si confrontano senza darli per invariati o completi.",
+          "discipline": [
+            "Geografia"
+          ],
+          "tempi": "un’uscita, prima parte"
+        },
+        {
+          "titolo": "Fase 2 · Osservare e chiedere",
+          "attivita": "Si annotano osservazioni su acqua, sponda e eventuale vegetazione visibile, e almeno due domande che non si possono chiudere a vista (per esempio sul percorso dell’acqua). Niente prelievi né assaggi.",
+          "discipline": [
+            "Scienze"
+          ],
+          "tempi": "sul posto"
+        },
+        {
+          "titolo": "Fase 3 · Due pannelli, due registri",
+          "attivita": "In aula, o su tavolette sul posto se le condizioni lo consentono, si producono due prototipi su carta: un breve testo sul mito, con fonte dichiarata, e un breve testo di osservazioni e domande. Nessun cartello viene installato. Non si copiano grafiche di tesi o di altri progetti.",
+          "discipline": [
+            "Italiano",
+            "Arte e immagine",
+            "Educazione civica"
+          ],
+          "tempi": "in classe",
+          "fonte": "Per il mito e per la descrizione antica della sorgente: scheda del Comune di Siracusa, «Fonte Aretusa», già citata nella scheda della terza. Qui non si ripete il testo, si usa come fonte da dichiarare sul pannello."
+        },
+        {
+          "titolo": "Fase 4 · Prova di leggibilità",
+          "attivita": "Un gruppo prova a capire luogo e distinzione mito/domande dal foglio di un altro gruppo. Si annota che cosa non era chiaro. L’accessibilità cognitiva è una domanda da verificare, non un risultato già raggiunto.",
+          "discipline": [
+            "Italiano",
+            "Educazione civica"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Carta Sicilia–Mediterraneo preparata dal docente, originale o di uso lecito",
+        "Fogli per i due pannelli-prototipo",
+        "Scheda comunale, da citare e non da copiare integralmente sui fogli dei bambini"
+      ],
+      "sicurezza": "Come per la proposta della terza sullo stesso luogo: solo bordo esterno sicuro; niente acqua, prelievi o discese. Accessibilità, ombra e spazio per due classi o per turni restano da verificare. Le due quarte non hanno turni già assegnati."
+    },
+    "movimenti": [
+      {
+        "titolo": "Mettere la fonte sulla carta",
+        "testo": "Si propone, per le due quarte insieme o in turni da concordare, di arrivare alla Fonte Aretusa con una carta già in mano. Il primo lavoro non è il mito: è orientare il foglio, trovare il mare, trovare Ortigia, segnare il punto in cui si sta. Se sul luogo ci sono già scritte o pannelli, si potranno leggere come oggetti da confrontare, non come testi da copiare o come prove che il luogo sia accessibile a tutti."
+      },
+      {
+        "titolo": "Domande che l’acqua non chiude da sola",
+        "testo": "Dal bordo si annota ciò che si vede — il recinto, il rapporto con il porto, eventuale vegetazione — e almeno una domanda che richiede altre fonti o un modello da costruire in classe. Non si assaggia l’acqua e non si raccoglie nulla. Un mito di percorso sotterraneo, se emerge, resta nella colonna delle storie, non in quella delle conclusioni."
+      },
+      {
+        "titolo": "Due pannelli, nessun cartello sul posto",
+        "testo": "In classe si propone di scrivere due testi brevi, su carta: uno racconta il mito dichiarando da dove è preso; l’altro elenca osservazioni e domande scientifiche. Sono prototipi per un destinatario che non è stato alla fonte. Non si installa nulla e non si usano grafiche già disegnate in altre ricerche. La scheda del Comune, che riporta anche il testo di Cicerone, può essere la fonte dichiarata del primo pannello: il testo latino non è un obbligo di lettura per la quarta."
+      },
+      {
+        "titolo": "Far leggere il foglio a qualcun altro",
+        "testo": "Un altro gruppo, o un’altra quarta se i tempi lo consentiranno, prova a capire dal solo foglio dove si trova il luogo e che cosa è racconto o domanda. Si annotano le incomprensioni. Parole, disegni e prove di leggibilità restano da raccogliere dopo l’uscita, con il consenso delle famiglie."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "quarte-fonte-aretusa",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-12",
+    "aula": "Fonte Aretusa",
+    "titolo": "Mito, carta e domande scientifiche",
+    "sottotitolo": "Orientarsi, raccontare, e tenere aperte le domande sull’acqua",
+    "codice": "SR-UDA-4P-02",
+    "eta": [
+      "primaria III-V"
+    ],
+    "discipline": [
+      "geografia",
+      "scienze",
+      "italiano",
+      "arte",
+      "educazione civica"
+    ],
+    "tipo_aula": "01 · I regni di natura",
+    "descrizione": "Fonte Aretusa, per le due quarte pilota: localizzare la fonte su una carta, distinguere un pannello sul mito e un pannello di osservazioni e domande scientifiche. Prototipi su carta, non cartelli da installare.",
+    "materiali": "Materiali da preparare: carta Sicilia–Mediterraneo; fogli per due pannelli-prototipo. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-4P-02 · 11 novembre 2026 · non sperimentata · base comune alle due quarte pilota",
+    "scheda_uda": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Fonte Aretusa, Largo Aretusa, Ortigia: sosta esterna sicura da concordare; aula per i pannelli.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare.",
+      "discipline": "Geografia, Scienze, Italiano, Arte e immagine, Educazione civica",
+      "prodotto": "Due pannelli-prototipo su carta e una localizzazione su carta"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Fonte Aretusa, Largo Aretusa, Ortigia; aula per i pannelli.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare. Eventuale differenziazione A/B da concordare, non già assegnata.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda comunale della Fonte; eventuale materiale del Museo del Papiro, da concordare.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, base comune alle due quarte pilota",
+      "discipline": [
+        "Geografia (principale)",
+        "Scienze",
+        "Italiano",
+        "Arte e immagine",
+        "Educazione civica"
+      ],
+      "prodotti_intermedi": [
+        "Carta orientata con la fonte localizzata",
+        "Elenco di osservazioni e di domande ancora aperte"
+      ],
+      "prodotto_finale": "Due pannelli brevi, su carta: uno sul mito, uno su osservazioni e domande scientifiche, con una localizzazione della fonte su una carta Sicilia–Mediterraneo. Solo prototipi, nessun cartello installato. Non ancora prodotti.",
+      "competenze_chiave": [
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza in scienze",
+        "Competenza alfabetica funzionale",
+        "Competenza in materia di cittadinanza"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: due pannelli-prototipo e localizzazione su carta. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Orientarsi e localizzare",
+            "ambito": "Geografia",
+            "descrittori": [
+              "Riconosce il mare sulla carta se guidato",
+              "Segna un punto, anche incerto",
+              "Orienta la carta e localizza la fonte con un riferimento visibile",
+              "Spiega a un compagno come ha orientato la carta"
+            ]
+          },
+          {
+            "dimensione": "Tenere distinti mito e domande",
+            "ambito": "Italiano / Scienze",
+            "descrittori": [
+              "Ascolta i due registri",
+              "Scrive almeno una frase in ciascun pannello",
+              "Produce due testi che non si mescolano",
+              "Spiega perché una domanda resta aperta"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova.",
+      "testo": "Rispetto alla proposta della terza sulla stessa fonte, la quarta sposta il baricentro sulla carta e su due testi con destinatario. Resta il divieto metodologico di far diventare il mito una prova idrogeologica. L’idea di un pittogramma o di un pannello più leggibile nasce da una domanda di accessibilità cognitiva, non da un esito già misurato e non dalla copia di un progetto di tesi. Le due quarte condividono la base; una eventuale variante A/B andrà dichiarata solo se i docenti la sceglieranno.",
+      "kolb": "Orientamento sul posto; osservazione e domande; concettualizzazione dei due registri; prototipi e prova di leggibilità. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: spaziale (carta), linguistica (due testi), naturalistica (osservazione), interpersonale (prova di leggibilità).",
+      "play_motifs": "Esplorazione e piccola progettazione; nessun intervento sul luogo reale.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Geografia, Scienze e Italiano della scuola primaria, da validare con i docenti. Non si impone un’unità intera sul Mediterraneo antico.",
+      "ue": "Consapevolezza culturale; scienze; alfabetica funzionale; cittadinanza (comunicare un luogo pubblico in modo onesto e leggibile)."
+    },
+    "lettura_pedagogica": "Rispetto alla proposta della terza sulla stessa fonte, la quarta sposta il baricentro sulla carta e su due testi con destinatario. Resta il divieto metodologico di far diventare il mito una prova idrogeologica. L’idea di un pittogramma o di un pannello più leggibile nasce da una domanda di accessibilità cognitiva, non da un esito già misurato e non dalla copia di un progetto di tesi. Le due quarte condividono la base; una eventuale variante A/B andrà dichiarata solo se i docenti la sceglieranno.",
+    "apparato": {
+      "fonti": [
+        "Comune di Siracusa, scheda «Fonte Aretusa»: luogo aperto al pubblico, Largo Aretusa; passo di Cicerone e sintesi del mito. Ultimo aggiornamento letto: 21 dicembre 2023. https://www.comune.siracusa.it/vivere-il-comune/luoghi/fonte-aretusa",
+        "Museo del Papiro Corrado Basile: Progetto Scuola, collezioni e pubblicazioni. https://museodelpapiro.it/",
+        "Gianluca Savarino, tesi aperta Sapienza 2011, fonti letterarie sulla fonte: risorsa per l’adulto. https://iris.uniroma1.it/handle/11573/917785",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 01, 02, 03, 08, 12."
+      ],
+      "materiali": [
+        "Da preparare: carta Sicilia–Mediterraneo, fogli per i due pannelli.",
+        "Attesi, non ancora esistenti: prototipi, localizzazioni, annotazioni di leggibilità.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Non installare nulla. Tenere due registri distinti. Dichiarare la fonte del mito. Se il bordo non è praticabile, si può fare in aula la parte sui testi e rinviare l’orientamento sul posto. La proposta della terza sulla stessa aula non va fusa con questa: ha un prodotto e una domanda diversi.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.pietromarchese.it/opera/archimede-opera-unica",
+        "label": "Pietro Marchese · pagina dell’opera Archimede"
+      },
+      {
+        "url": "https://livesicilia.it/siracusa-omaggia-archimede-inaugurata-una-statua-ad-ortigia/",
+        "label": "LiveSicilia · cronaca dell’inaugurazione, 13 marzo 2016"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Nomi e discipline dei docenti; data e punto di sosta sul rivellino, lontano dal traffico dei ponti.",
+      "Modello didattico dello Stomachion scelto dal docente (14 pezzi, quadrato di partenza): da preparare a scuola, senza pretendere che il basamento reale sia un puzzle da smontare.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza personale, sociale e capacità di imparare a imparare"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Se sposto i pezzi e il disegno cambia, perché posso dire che l’area è la stessa?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti. Archimede è un arricchimento matematico, non un’unità storica obbligatoria sulla Grecia.",
+      "competenze": [
+        {
+          "competenza": "Matematica · equivalenza di area",
+          "abilita": [
+            "Ricomporre un quadrato e almeno un’altra figura con le stesse sagome",
+            "Argomentare, con parole o un confronto diretto, che l’area totale non cambia"
+          ],
+          "conoscenze": [
+            "Figure piane, scomposizione e ricomposizione",
+            "Lo Stomachion, o loculus di Archimede, come gioco di quattordici pezzi associato dalla tradizione ad Archimede e ripreso, secondo gli autori, nel basamento del monumento"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Matematica, scuola primaria: riconosce e utilizza rappresentazioni diverse di oggetti matematici e descrive figure in base a caratteristiche geometriche. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Arte e storia · un monumento contemporaneo",
+          "abilita": [
+            "Distinguere la figura dello scienziato, il basamento e la commemorazione pubblica del 2016"
+          ],
+          "conoscenze": [
+            "Opera di Pietro Marchese e Virginia Rossello, inaugurata il 13 marzo 2016 all’ingresso di Ortigia, secondo la pagina dell’autore e la cronaca dell’inaugurazione"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Arte e immagine e Storia, scuola primaria: osserva e descrive; riconosce elementi significativi del passato e della memoria del proprio ambiente. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Guardare il monumento, non scalarlo",
+          "attivita": "Sosta sicura sul rivellino. Si osserva la statua e il basamento, si annota che cosa si vede e che cosa non si può concludere (biografia antica, «invenzioni» attribuite a vista, misure professionali). Non si cammina sulle lastre come se fossero un gioco e non si toccano le pietre per spostarle.",
+          "discipline": [
+            "Arte e immagine",
+            "Storia",
+            "Educazione civica"
+          ],
+          "tempi": "un’uscita, prima parte",
+          "fonte": "Pietro Marchese, pagina dell’opera: il monumento è al rivellino del ponte Umbertino e si sviluppa anche attraverso l’interazione con lo Stomachion o loculus archimedeo. LiveSicilia, 13 marzo 2016: inaugurazione e basamento che riproduce lo Stomachion."
+        },
+        {
+          "titolo": "Fase 2 · Le sagome arrivano da scuola",
+          "attivita": "Su tavolette portate dalla scuola si ricompone un quadrato e almeno un’altra figura con lo stesso set di pezzi. Si fotografano o si disegnano due composizioni. Il basamento reale non è un puzzle da smontare e non è detto che ogni taglio visibile coincida con un pezzo del gioco didattico.",
+          "discipline": [
+            "Matematica",
+            "Tecnologia"
+          ],
+          "tempi": "sul posto o, se troppo esposto, in aula subito dopo"
+        },
+        {
+          "titolo": "Fase 3 · Perché l’area non cambia",
+          "attivita": "In cerchio o in classe si chiede di argomentare l’equivalenza: i pezzi sono gli stessi, dunque l’area totale è la stessa, anche se il contorno cambia. Non si introduce un formalismo prematuro e non si attribuisce ai bambini una dimostrazione archimedea.",
+          "discipline": [
+            "Matematica",
+            "Italiano"
+          ],
+          "tempi": "in classe"
+        },
+        {
+          "titolo": "Fase 4 · Commemorazione e biografia",
+          "attivita": "Si torna, brevemente, sul monumento come fatto contemporaneo: una città che nel 2016 ha dedicato un’opera pubblica ad Archimede. Si distingue questa commemorazione da ciò che possiamo dire, con altre fonti, della figura antica. Non è l’inizio di un’unità intera sulla Grecia.",
+          "discipline": [
+            "Storia",
+            "Arte e immagine"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Set di sagome dello Stomachion in carta o cartoncino, una per gruppo, preparato a scuola",
+        "Tavolette o fogli di appoggio; matite; eventuale macchina fotografica della scuola, senza volti di minori"
+      ],
+      "sicurezza": "Luogo di transito all’ingresso di Ortigia, tra i ponti, esposto e vicino al traffico. Sosta compatta, lontano dal bordo verso l’acqua e dalla carreggiata. Non salire sul basamento, non spostare lastre, non usare il monumento come gioco. Se il vento o il transito lo impediscono, l’osservazione è breve e il lavoro sulle sagome si fa a scuola."
+    },
+    "movimenti": [
+      {
+        "titolo": "Un ingresso, una figura, un basamento",
+        "testo": "Si propone di fermarsi all’ingresso di Ortigia, sul rivellino del ponte Umbertino, e di guardare il monumento prima di aprire le sagome. Secondo la pagina dello scultore Pietro Marchese, l’opera — realizzata con l’architetta Virginia Rossello — non è solo una figura di Archimede: il monumento si sviluppa anche nel rapporto con lo Stomachion, il «gioco» di figure associato alla tradizione archimedea. La cronaca dell’inaugurazione, il 13 marzo 2016, descrive un bronzo su un basamento che riprende quel gioco. Si annota ciò che si vede, e si lascia aperto ciò che una sola occhiata non può provare.",
+        "fonte": "Pietro Marchese, pagina dell’opera «Archimede»; LiveSicilia, cronaca dell’inaugurazione del 13 marzo 2016."
+      },
+      {
+        "titolo": "I pezzi stanno sulle tavolette, non sul monumento",
+        "testo": "Le sagome arrivano da scuola. Si propone di ricomporre prima un quadrato, poi almeno un’altra figura, fotografando o disegnando le due composizioni. Il basamento non si smonta e non si usa come scacchiera. Il modello didattico aiuta a pensare l’equivalenza; non è una misura del monumento reale."
+      },
+      {
+        "titolo": "La stessa area, un disegno diverso",
+        "testo": "La domanda da portare in cerchio è semplice: se i pezzi non si aggiungono e non si tolgono, perché l’area dovrebbe cambiare quando cambia il contorno? Si ascoltano le formulazioni dei bambini, senza anticiparle qui. Non si chiede una dimostrazione antica e non si confonde questo gioco con il principio del galleggiamento o con la leggenda degli specchi ustori, che appartengono ad altri discorsi, da non mescolare in questa uscita."
+      },
+      {
+        "titolo": "Una commemorazione del 2016",
+        "testo": "Si chiude ricordando che il monumento è un fatto contemporaneo: una scelta pubblica recente, non una statua «di Archimede» arrivata dall’antichità. Eventuali approfondimenti biografici restano a scelta dei docenti e non sono il prodotto di questa UDA. Parole e composizioni restano da raccogliere dopo la prova."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "quarte-monumento-archimede",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-17",
+    "aula": "Monumento ad Archimede, ingresso di Ortigia",
+    "titolo": "L’area non cambia",
+    "sottotitolo": "Un monumento contemporaneo e un gioco di figure equivalenti",
+    "codice": "SR-UDA-4P-03",
+    "eta": [
+      "primaria III-V"
+    ],
+    "discipline": [
+      "matematica",
+      "tecnologia",
+      "arte",
+      "storia"
+    ],
+    "tipo_aula": "05 · Luoghi di transizione e confine",
+    "descrizione": "Monumento ad Archimede, all’ingresso di Ortigia: osservare il basamento che richiama lo Stomachion e ricomporre sagome di carta per argomentare l’equivalenza di area. Base comune alle due quarte pilota.",
+    "materiali": "Materiali da preparare: sagome di carta dello Stomachion su tavolette portate da scuola; non si usano le pietre del monumento. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-4P-03 · 11 novembre 2026 · non sperimentata · base comune alle due quarte pilota",
+    "scheda_uda": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati.",
+      "dove": "Monumento ad Archimede, rivellino del ponte Umbertino, ingresso di Ortigia: sosta esterna sicura. Aula per il lavoro sulle sagome, se il luogo è troppo esposto.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare.",
+      "discipline": "Matematica, Tecnologia, Arte e immagine, Storia",
+      "prodotto": "Due composizioni dello Stomachion di carta e una breve argomentazione sull’area"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Monumento ad Archimede, rivellino del ponte Umbertino, ingresso di Ortigia; aula se il sito non consente il lavoro sulle sagome.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare. Eventuale differenziazione A/B da concordare, non già assegnata.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Pagina dell’opera a firma dello scultore; cronaca dell’inaugurazione. Nessun incontro con gli autori è già organizzato.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, base comune alle due quarte pilota",
+      "discipline": [
+        "Matematica (principale)",
+        "Tecnologia",
+        "Arte e immagine",
+        "Storia"
+      ],
+      "prodotti_intermedi": [
+        "Schizzo o fotografia di osservazione del monumento, senza volti riconoscibili di minori",
+        "Elenco di ciò che si può e non si può concludere guardando la statua"
+      ],
+      "prodotto_finale": "Due composizioni fotografiche (o disegnate) di uno Stomachion di carta, con una breve argomentazione sul perché l’area totale non cambia. Non ancora prodotte. Le pietre del monumento non si usano come materiale di gioco.",
+      "competenze_chiave": [
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza personale, sociale e capacità di imparare a imparare"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: due composizioni dello Stomachion di carta e argomentazione sull’area. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Ricomporre e argomentare l’area",
+            "ambito": "Matematica",
+            "descrittori": [
+              "Mette i pezzi con una guida",
+              "Ricomposizione parziale di una figura",
+              "Ottiene due composizioni e dice che i pezzi sono gli stessi",
+              "Argomenta perché l’area totale non cambia"
+            ]
+          },
+          {
+            "dimensione": "Leggere il monumento come fatto contemporaneo",
+            "ambito": "Arte / Storia",
+            "descrittori": [
+              "Riconosce la statua",
+              "Descrive statua e basamento",
+              "Colloca l’inaugurazione nel presente e non nell’antichità",
+              "Spiega che cosa si può e non si può concludere guardando l’opera"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova.",
+      "testo": "Il monumento offre un ingresso concreto all’equivalenza di area, senza pretendere che la quarta «faccia Archimede». Il gesto — spostare pezzi, confrontare, dire perché l’area è la stessa — è vicino al modo in cui, nel volume del Salento, un’esperienza corporea diventa un concetto. Il limite è altrettanto importante: le pietre del monumento non sono materiale didattico, e la biografia antica non diventa il centro nascosto della scheda.",
+      "kolb": "Osservazione del monumento; manipolazione delle sagome; concettualizzazione dell’equivalenza; ritorno sulla commemorazione contemporanea. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: logico-matematica e spaziale (sagome), corporeo-cinestetica (ricomposizione), visiva (lettura dell’opera).",
+      "play_motifs": "Piccoli mondi e composizione; il gioco è sulle sagome portate da scuola, non sul monumento.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Matematica e Arte e immagine della scuola primaria, da validare con i docenti. Non si impone un’unità storica sulla Grecia classica.",
+      "ue": "Competenza matematica e in scienze, tecnologie e ingegneria; consapevolezza culturale; imparare a imparare."
+    },
+    "lettura_pedagogica": "Il monumento offre un ingresso concreto all’equivalenza di area, senza pretendere che la quarta «faccia Archimede». Il gesto — spostare pezzi, confrontare, dire perché l’area è la stessa — è vicino al modo in cui, nel volume del Salento, un’esperienza corporea diventa un concetto. Il limite è altrettanto importante: le pietre del monumento non sono materiale didattico, e la biografia antica non diventa il centro nascosto della scheda.",
+    "apparato": {
+      "fonti": [
+        "Pietro Marchese, pagina dell’opera «Archimede»: monumento al rivellino del ponte Umbertino, realizzato con Virginia Rossello, vincitori di un concorso di idee; il monumento si sviluppa anche nel rapporto con lo Stomachion o loculus archimedeo. https://www.pietromarchese.it/opera/archimede-opera-unica",
+        "LiveSicilia, «Siracusa omaggia Archimede», cronaca dell’inaugurazione del 13 marzo 2016: bronzo su basamento che riproduce lo Stomachion. https://livesicilia.it/siracusa-omaggia-archimede-inaugurata-una-statua-ad-ortigia/",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 05 e 06."
+      ],
+      "materiali": [
+        "Da preparare: sagome dello Stomachion, tavolette, fogli.",
+        "Attesi, non ancora esistenti: composizioni, argomentazioni, eventuali fotografie senza volti di minori.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Osservazione breve e rispettosa del monumento; lavoro matematico sulle sagome, non sulle pietre. Se il rivellino è impraticabile, si può mostrare una fotografia con diritti verificati e fare tutta la ricomposizione a scuola, dichiarando che manca l’osservazione diretta.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://museodelpapiro.it/",
+        "label": "Museo del Papiro Corrado Basile · Progetto Scuola"
+      },
+      {
+        "url": "https://sit.provincia.siracusa.it/old/oasi.php",
+        "label": "Libero Consorzio di Siracusa · Oasi e riserve (pagina di archivio, da riconfermare)"
+      },
+      {
+        "url": "https://iris.uniroma1.it/handle/11573/917785",
+        "label": "Savarino 2011 · tesi aperta, voce sulla fonte Kyanê (risorsa per l’adulto)"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Punto preciso e autorizzato di osservazione: il punto sulla mappa è rappresentativo, non è ancora un’aula confermata.",
+      "Accesso, sponde percorribili, ombra, servizi e regole del gestore o dell’eventuale riserva: da verificare prima di ogni uscita.",
+      "Nomi e discipline dei docenti; data e mezzo di trasporto.",
+      "Scelta dei testi e delle carte sul Nilo, con diritti e livello adeguato alla quarta.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in scienze",
+      "Competenza in materia di cittadinanza",
+      "Competenza alfabetica funzionale",
+      "Competenza in materia di consapevolezza ed espressione culturali"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Che cosa possiamo davvero confrontare, e che cosa no, tra questo fiume e un grande fiume di cui abbiamo solo le fonti?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti. Il confronto Ciane–Nilo è un’analogia didattica, non un’identità storica o geografica.",
+      "competenze": [
+        {
+          "competenza": "Geografia e scienze · leggere un ambiente fluviale",
+          "abilita": [
+            "Dal punto autorizzato distinguere elementi naturali e interventi umani",
+            "Osservare la vegetazione riparia senza prelievi, anche con foto ripetute se consentite"
+          ],
+          "conoscenze": [
+            "Fiume, sponde, piana; il papiro come pianta da osservare, non da raccogliere"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Geografia e Scienze, scuola primaria: riconosce gli aspetti fisici e antropici di un paesaggio; osserva e descrive. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Storia · analogia, non identità",
+          "abilita": [
+            "Mettere accanto osservazioni locali e informazioni sul Nilo tratte da fonti dichiarate",
+            "Indicare almeno due analogie e due differenze, senza trasferire al Ciane piene, colture o organizzazioni sociali non provate"
+          ],
+          "conoscenze": [
+            "Un fiume può essere risorsa e ambiente da tutelare; le civiltà del Nilo non si «rispecchiano» automaticamente qui"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Storia, scuola primaria: usa fonti di diverso tipo e comprende avvenimenti e trasformazioni. Proposta di raccordo, da validare con i docenti. Non è un’unità completa sulle civiltà fluviali."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Solo un punto autorizzato",
+          "attivita": "Prima dell’uscita i docenti individuano e verificano un punto preciso di osservazione. Il punto oggi sulla mappa è rappresentativo del corso e del papireto, non una sosta già validata. Se l’accesso manca, l’attività si fa in aula su immagini e carte lecite, dichiarando il limite.",
+          "discipline": [
+            "Geografia",
+            "Educazione civica"
+          ],
+          "tempi": "preparazione e, se possibile, un’uscita"
+        },
+        {
+          "titolo": "Fase 2 · Guardare questo fiume",
+          "attivita": "Dal punto autorizzato si compilano tre elementi naturali, tre interventi umani visibili e il disegno di una pianta, senza raccolta. Il Ciane contemporaneo non è una testimonianza diretta della preistoria.",
+          "discipline": [
+            "Scienze",
+            "Geografia",
+            "Arte e immagine"
+          ],
+          "tempi": "sul posto"
+        },
+        {
+          "titolo": "Fase 3 · La seconda colonna arriva dalle fonti, non dal paesaggio",
+          "attivita": "In aula si apre la colonna sul Nilo, solo con testi e carte portati dal docente. Si cercano analogie e differenze (acqua, sponda, usi, scala). È esplicitamente vietato attribuire al Ciane ciò che appartiene ad altre fonti.",
+          "discipline": [
+            "Storia",
+            "Geografia",
+            "Italiano"
+          ],
+          "tempi": "in classe"
+        },
+        {
+          "titolo": "Fase 4 · Tutela e parole precise",
+          "attivita": "Si chiude su una domanda di civica: che cosa significa tutelare un habitat fluviale qui e ora. Eventuali notizie sul papiro come pianta e come supporto scrittorio possono arrivare dalle schede del Museo del Papiro, senza trasformare l’uscita in un laboratorio di manifattura e senza prelievi.",
+          "discipline": [
+            "Educazione civica",
+            "Scienze"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Scheda a due colonne",
+        "Carte e testi sul Nilo, fonti dichiarate, livello adeguato",
+        "Eventuali schede del Museo del Papiro, con diritti verificati"
+      ],
+      "sicurezza": "Ambiente fluviale: sponde, acqua, vegetazione, eventuale percorso non interamente percorribile. Solo un punto autorizzato; niente immersioni, barche improvvisate, raccolte di piante o avvicinamento non accompagnato all’acqua. Mezzo di trasporto, autorizzazioni e regole del gestore da verificare. La pagina di archivio del Libero Consorzio su oasi e riserve è una pista, non una conferma attuale delle condizioni di visita."
+    },
+    "movimenti": [
+      {
+        "titolo": "Prima il punto, poi il fiume",
+        "testo": "Questa aula, sulla mappa, è un riferimento al corso del Ciane e al papireto, non ancora una sosta scolastica confermata. Si propone di uscire soltanto se i docenti avranno individuato un punto di osservazione autorizzato, sicuro e raggiungibile. Se quel punto manca, il confronto si può preparare in classe, dichiarando che manca l’osservazione diretta. Non tutte le rive sono percorribili."
+      },
+      {
+        "titolo": "Ciò che questo fiume lascia vedere",
+        "testo": "Dal punto autorizzato il lavoro è descrittivo: acqua, sponda, piante, segni di presenza umana. Si disegna una pianta visibile senza staccarla. Il paesaggio di oggi non «dimostra» un mito e non è una prova del Paleolitico. Le tradizioni letterarie sulla fonte Kyanê restano una risorsa per l’adulto, non un testo da far divenire leggenda di classe senza mediazione."
+      },
+      {
+        "titolo": "La colonna del Nilo non sta sulle sponde",
+        "testo": "Si propone una tabella a due colonne. A sinistra, soltanto ciò che si è potuto osservare o documentare qui. A destra, soltanto ciò che i testi e le carte sul Nilo, portati dal docente, permettono di dire. Poi due analogie e due differenze, scritte in modo che non si possa scambiare un fiume per l’altro. Non si trasferiscono al Ciane piene, colture o forme sociali che appartengono ad altre fonti."
+      },
+      {
+        "titolo": "Tutelare, non raccogliere",
+        "testo": "La chiusura proposta è civica e scientifica insieme: che cosa si protegge in un ambiente fluviale, e perché una pianta non si porta a scuola. Il Museo del Papiro può aiutare a conoscere la pianta e la storia del supporto scrittorio, in un momento distinto, senza farne il prodotto di questa uscita. Parole e tabelle restano da raccogliere dopo la prova."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "quarte-ciane",
+    "percorso": "Territorio",
+    "aula_id": "01-siracusa-28",
+    "aula": "Fiume Ciane e papireto",
+    "titolo": "Due fiumi, due colonne",
+    "sottotitolo": "Osservare il Ciane e confrontarlo con il Nilo senza farne la stessa storia",
+    "codice": "SR-UDA-4P-04",
+    "eta": [
+      "primaria III-V"
+    ],
+    "discipline": [
+      "geografia",
+      "storia",
+      "scienze",
+      "educazione civica",
+      "italiano"
+    ],
+    "tipo_aula": "01 · I regni di natura",
+    "descrizione": "Fiume Ciane e papireto: dal punto di osservazione autorizzato, confrontare ciò che si vede con ciò che si sa del Nilo da altre fonti. Analogia, non identità. Base comune alle due quarte pilota.",
+    "materiali": "Materiali da preparare: scheda a due colonne; carte e testi sul Nilo scelti dal docente, con fonti dichiarate. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-4P-04 · 11 novembre 2026 · non sperimentata · base comune alle due quarte pilota",
+    "scheda_uda": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati.",
+      "dove": "Fiume Ciane e papireto: soltanto un punto di osservazione autorizzato, ancora da individuare. Alternativa in aula se l’accesso non è praticabile.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare.",
+      "discipline": "Geografia, Storia, Scienze, Educazione civica, Italiano",
+      "prodotto": "Tabella a due colonne con analogie e differenze esplicite"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; le due quarte non hanno date o turni già assegnati. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Fiume Ciane e papireto, punto di osservazione autorizzato ancora da individuare; aula per la tabella e per i testi sul Nilo.",
+      "chi": "Le due quarte pilota, con le stesse consegne di base; docenti e accompagnatori da individuare. Eventuale differenziazione A/B da concordare, non già assegnata.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Eventuale gestore o guida della riserva, da concordare; schede del Museo del Papiro. Nessun accordo è già stato preso.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, base comune alle due quarte pilota",
+      "discipline": [
+        "Geografia",
+        "Storia",
+        "Scienze",
+        "Educazione civica",
+        "Italiano"
+      ],
+      "prodotti_intermedi": [
+        "Elenco di elementi naturali e interventi umani visibili dal punto autorizzato",
+        "Disegno di una pianta visibile, senza prelievo"
+      ],
+      "prodotto_finale": "Tabella a due colonne — ciò che si può osservare al Ciane e ciò che si sa del Nilo da fonti portate dal docente — con almeno due analogie e due differenze esplicite. Non ancora prodotta.",
+      "competenze_chiave": [
+        "Competenza in scienze",
+        "Competenza in materia di cittadinanza",
+        "Competenza alfabetica funzionale",
+        "Competenza in materia di consapevolezza ed espressione culturali"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: tabella a due colonne con analogie e differenze esplicite. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Osservare un ambiente fluviale",
+            "ambito": "Geografia / Scienze",
+            "descrittori": [
+              "Nomina acqua o piante se guidato",
+              "Elenca alcuni elementi visibili",
+              "Distingue elementi naturali e interventi umani",
+              "Spiega i limiti di ciò che si può dire dal solo punto di sosta"
+            ]
+          },
+          {
+            "dimensione": "Confrontare senza identificare",
+            "ambito": "Storia / Italiano",
+            "descrittori": [
+              "Ascolta le due colonne",
+              "Copia o riprende un’informazione sul Nilo",
+              "Scrive analogie e differenze tenendo separate le fonti",
+              "Spiega perché analogia non significa identità"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova.",
+      "testo": "Il rischio di questa UDA è la falsa identità: far diventare il Ciane «il nostro Nilo». Il dispositivo delle due colonne serve proprio a impedirla. È un’applicazione, in quarta, dell’idea che il piccolo è via verso il grande soltanto se il piccolo resta se stesso. L’uscita, inoltre, è condizionata: senza un punto autorizzato non c’è aula, e la scheda resta onestamente una proposta.",
+      "kolb": "Osservazione (se il punto esiste); classificazione; confronto con fonti sul Nilo; formulazione di analogie e differenze. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: naturalistica e spaziale (paesaggio), linguistica (tabella), interpersonale (confronto in gruppo).",
+      "play_motifs": "Collezionare osservazioni, non piante; esplorazione solo nel punto autorizzato.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Geografia, Scienze, Storia ed Educazione civica della scuola primaria, da validare con i docenti. Non sostituisce un percorso organico sulle civiltà fluviali.",
+      "ue": "Scienze; cittadinanza; alfabetica funzionale; consapevolezza culturale."
+    },
+    "lettura_pedagogica": "Il rischio di questa UDA è la falsa identità: far diventare il Ciane «il nostro Nilo». Il dispositivo delle due colonne serve proprio a impedirla. È un’applicazione, in quarta, dell’idea che il piccolo è via verso il grande soltanto se il piccolo resta se stesso. L’uscita, inoltre, è condizionata: senza un punto autorizzato non c’è aula, e la scheda resta onestamente una proposta.",
+    "apparato": {
+      "fonti": [
+        "Museo del Papiro Corrado Basile, Siracusa: Progetto Scuola, collezioni e pubblicazioni. https://museodelpapiro.it/",
+        "Libero Consorzio di Siracusa, pagina di archivio «Oasi e riserve»: pista istituzionale, da riconfermare perché può non riflettere le condizioni attuali di visita. https://sit.provincia.siracusa.it/old/oasi.php",
+        "Gianluca Savarino, tesi aperta Sapienza 2011, voce sulla fonte Kyanê e fonti letterarie (Diodoro, Cicerone): risorsa per l’adulto, non testo della quarta. https://iris.uniroma1.it/handle/11573/917785",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 01, 02, 03. Il punto GPS è rappresentativo; non è un’aula già autorizzata."
+      ],
+      "materiali": [
+        "Da preparare: scheda a due colonne, carte e testi sul Nilo, eventuale materiale del Museo del Papiro.",
+        "Attesi, non ancora esistenti: tabelle, disegni, elenchi di osservazione.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Non uscire senza un punto autorizzato. Non raccogliere piante. Non identificare Ciane e Nilo. Se l’uscita non è possibile, dichiararlo e lavorare solo sulle fonti, senza fingere un’osservazione sul campo.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.smarteducationunescosicilia.it/siracusa/la-giudecca/",
+        "label": "SmartEducationUnescoSicilia · La Giudècca"
+      },
+      {
+        "url": "https://whc.unesco.org/en/list/1200/",
+        "label": "UNESCO · Siracusa e le necropoli rupestri di Pantalica"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Tratto di vie e piazzette da validare con i docenti (lunghezza, sosta, traffico, rispetto dei residenti).",
+      "Nomi e discipline dei docenti; data dell’uscita.",
+      "Eventuali testimoni o referenti del quartiere: solo con accordo e consenso, non già organizzati.",
+      "Il miqweh e gli interni restano risorse collegate, non parte automatica di questa aula all’aperto.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in materia di cittadinanza",
+      "Competenza alfabetica funzionale",
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza personale, sociale e capacità di imparare a imparare"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Che cosa, di una presenza e di un’espulsione, possiamo ancora leggere in un quartiere che nel frattempo è cambiato?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012 per il primo ciclo, da validare con i docenti. L’uso in seconda secondaria è un adattamento, non un modello di secondaria già documentato nel volume del Salento.",
+      "competenze": [
+        {
+          "competenza": "Storia · una data nel quadro europeo",
+          "abilita": [
+            "Collocare l’espulsione del 1492 nel quadro dei domini della monarchia iberica, con fonte dichiarata",
+            "Distinguere presenza documentata, memoria e trasformazioni successive"
+          ],
+          "conoscenze": [
+            "Secondo la scheda SmartEducationUnescoSicilia, la comunità ebraica abitò in particolare la Giudècca fino al 1492, quando Isabella e Ferdinando II d’Aragona ordinarono l’espulsione degli ebrei dai loro domini, tra cui la Sicilia"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Storia, secondaria di primo grado: si informa usando fonti; conosce aspetti essenziali della storia europea e italiana, con apertura al Mediterraneo. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Educazione civica e italiano · pluralismo e parole precise",
+          "abilita": [
+            "Usare un lessico che non confonda memoria, stereotipo e documento",
+            "Scrivere una didascalia argomentata, con fonti"
+          ],
+          "conoscenze": [
+            "Libertà religiosa, discriminazione, diritti; il quartiere odierno non è una ricostruzione del passato"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012 e Linee guida per l’educazione civica: cittadinanza, rispetto delle differenze, uso responsabile delle fonti. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Geografia · toponimi e funzioni attuali",
+          "abilita": [
+            "Costruire una carta semplice del tratto percorso, con funzioni odierne e toponimi accertati"
+          ],
+          "conoscenze": [
+            "Uno stesso tessuto urbano può aver cambiato nomi, usi e abitanti"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Geografia, secondaria di primo grado: legge e interpreta carte e paesaggi. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Un tratto breve, già visto",
+          "attivita": "I docenti convalidano un breve percorso pedonale (vie e piazzette), con punti di sosta che non invadano ingressi privati né creino assembramenti. Non si entra in edifici se non con un accordo a parte; il miqweh, in particolare, non è parte automatica di questa aula all’aperto.",
+          "discipline": [
+            "Geografia",
+            "Educazione civica"
+          ],
+          "tempi": "preparazione e un’uscita"
+        },
+        {
+          "titolo": "Fase 2 · Tre tracce di oggi",
+          "attivita": "Lungo il tratto si annotano tre tracce attuali (insegna, toponimo, uso, edificio visibile dall’esterno). Si distingue ciò che si vede da ciò che si ipotizza.",
+          "discipline": [
+            "Geografia",
+            "Italiano"
+          ],
+          "tempi": "sul posto"
+        },
+        {
+          "titolo": "Fase 3 · La scheda sul 1492",
+          "attivita": "In aula, o in una sosta già preparata, si legge una scheda breve sull’espulsione del 1492, fondata sulla pagina SmartEducationUnescoSicilia e su eventuali altre fonti scelte dal docente. Si costruisce una linea essenziale e si segna che cosa la fonte permette, e che cosa non permette, di concludere sul quartiere di oggi.",
+          "discipline": [
+            "Storia",
+            "Italiano"
+          ],
+          "tempi": "in classe",
+          "fonte": "SmartEducationUnescoSicilia, «La Giudècca»."
+        },
+        {
+          "titolo": "Fase 4 · Una didascalia in tre registri",
+          "attivita": "Ogni alunno, o ogni gruppo, scrive un testo breve articolato in presenza documentata / memoria / trasformazioni successive. Eventuali interviste a residenti o artigiani solo con consenso, e solo come fonte orale dichiarata, non come prova automatica del passato.",
+          "discipline": [
+            "Italiano",
+            "Educazione civica",
+            "Storia"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Pianta del tratto, originale",
+        "Scheda sul 1492 con fonti dichiarate",
+        "Quaderno di annotazione in tre registri"
+      ],
+      "sicurezza": "Tessuto residenziale e commerciale, vicoli, eventuale affollamento. Gruppo compatto, rispetto di case e negozi, niente ingresso non autorizzato, attenzione a scalini e stretti. Il miqweh e altri interni, se si vorranno visitare, richiedono un accordo e una scheda distinti. Nessuna ricerca di «tracce nascoste» in proprietà private."
+    },
+    "movimenti": [
+      {
+        "titolo": "Camminare in un quartiere che è di oggi",
+        "testo": "Si propone un breve tratto a piedi, già visto dai docenti, fra vie e piazzette della Giudecca. Il quartiere è abitato e lavorato: si entra come ospiti, non come ispettori. Prima di ogni nome antico si guarda che cosa c’è adesso. Gli interni — e in particolare il miqweh, bagno rituale descritto in più schede educative — non fanno parte automatica di questa aula all’aperto."
+      },
+      {
+        "titolo": "Tre tracce, nessuna caccia al reperto",
+        "testo": "Lungo il percorso si invitano gli alunni ad annotare tre tracce visibili: un toponimo, un uso, un edificio visto dall’esterno. Si scrive anche ciò che non si può sapere stando in strada. Non si cerca una «prova» del passato dietro ogni porta."
+      },
+      {
+        "titolo": "Una data, e i suoi limiti",
+        "testo": "In classe si legge, con fonte dichiarata, che la comunità ebraica abitò in particolare questo quartiere fino al 1492, quando, secondo la scheda SmartEducationUnescoSicilia, i sovrani Isabella e Ferdinando II d’Aragona ordinarono l’espulsione degli ebrei dai loro domini, tra cui la Sicilia. Quella pagina osserva anche che molte tracce materiali sembrano in parte scomparse, e che il quartiere ha lasciato spazio ad altre costruzioni e attività. È proprio questo il punto da lavorare: una data documentata non restituisce da sola il tessuto di oggi.",
+        "fonte": "SmartEducationUnescoSicilia, «La Giudècca»."
+      },
+      {
+        "titolo": "Presenza, memoria, trasformazioni",
+        "testo": "Il prodotto atteso è un testo breve in tre registri. Non si chiede una commozione già scritta, né una ricostruzione completa della comunità ebraica siracusana. Si chiede di non confondere ciò che una fonte permette di dire, ciò che si ricorda o si racconta, e ciò che il quartiere è diventato. Parole e carte restano da raccogliere dopo la prova, con il consenso delle famiglie."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "seconda-giudecca",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-14",
+    "aula": "Giudecca, vie e piazzette",
+    "titolo": "1492: presenza, memoria, trasformazioni",
+    "sottotitolo": "Un quartiere, una data, e ciò che oggi si può ancora leggere in strada",
+    "codice": "SR-UDA-2S-02",
+    "eta": [
+      "secondaria"
+    ],
+    "discipline": [
+      "storia",
+      "geografia",
+      "educazione civica",
+      "italiano"
+    ],
+    "tipo_aula": "05 · Luoghi di transizione e confine",
+    "descrizione": "Giudecca di Ortigia: percorrere un breve tratto validato, annotare tracce attuali e confrontarle con l’espulsione del 1492, distinguendo presenza documentata, memoria e trasformazioni successive.",
+    "materiali": "Materiali da preparare: pianta del tratto, scheda sul 1492 con fonti dichiarate. Il miqweh non è l’aula all’aperto di questa proposta. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-2S-02 · 11 novembre 2026 · non sperimentata",
+    "scheda_uda": {
+      "quando": "Da concordare; nessuna data di uscita assegnata.",
+      "dove": "Giudecca, vie e piazzette di Ortigia: breve tratto validato da concordare. Aula per la didascalia.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti da individuare.",
+      "discipline": "Storia, Geografia, Educazione civica, Italiano",
+      "prodotto": "Didascalia o breve testo su presenza, memoria e trasformazioni"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; nessuna data di uscita assegnata. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Giudecca, vie e piazzette di Ortigia, breve tratto validato da concordare; aula per il testo.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti di storia, italiano, geografia ed educazione civica da individuare.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda educativa SmartEducationUnescoSicilia sulla Giudècca; eventuali referenti da concordare. Nessun intervista è già organizzata.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, per la seconda secondaria di primo grado (adattamento del modello Salento, documentato per infanzia e primaria)",
+      "discipline": [
+        "Storia (asse portante)",
+        "Geografia",
+        "Educazione civica",
+        "Italiano"
+      ],
+      "prodotti_intermedi": [
+        "Annotazione di tre tracce attuali lungo il tratto",
+        "Linea del tempo essenziale intorno al 1492"
+      ],
+      "prodotto_finale": "Didascalia (o breve testo) che distingue presenza documentata, memoria e trasformazioni successive, a partire da tre tracce osservate lungo un tratto validato e dal confronto con una scheda sul 1492. Non ancora prodotta.",
+      "competenze_chiave": [
+        "Competenza in materia di cittadinanza",
+        "Competenza alfabetica funzionale",
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza personale, sociale e capacità di imparare a imparare"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: didascalia o testo breve in tre registri (presenza, memoria, trasformazioni). Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella secondaria di primo grado queste griglie restano osservative e formative, distinte dalla valutazione periodica e finale della scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Usare una fonte e una data",
+            "ambito": "Storia",
+            "descrittori": [
+              "Colloca il 1492 se guidato",
+              "Riprende un’informazione dalla scheda",
+              "Usa la fonte senza farle dire ciò che non dice",
+              "Collega la data al quadro dei domini iberici e ai limiti della prova sul quartiere attuale"
+            ]
+          },
+          {
+            "dimensione": "Osservare e scrivere con tre registri",
+            "ambito": "Italiano / Educazione civica",
+            "descrittori": [
+              "Annota una traccia se guidato",
+              "Elenca tracce e un elemento della scheda",
+              "Scrive un testo che distingue i tre registri",
+              "Argomenta perché una traccia odierna non è, da sola, una prova del 1492"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova. Adattamento del modello Salento alla seconda secondaria.",
+      "testo": "Il volume del Salento è pensato per l’infanzia e la primaria: qui se ne adatta il gesto — uscire, annotare, scrivere per distinguere — a un tema di storia europea e di civica che appartiene alla secondaria. Il rischio è doppio: o trasformare il quartiere in un museo immaginario, o ridurre il 1492 a una targa. I tre registri (presenza, memoria, trasformazioni) servono a tenere insieme rispetto e prova. Eventuali voci di residenti, se ci saranno, andranno raccolte con consenso e non presentate come voci degli alunni.",
+      "kolb": "Percorso e annotazione; lettura della scheda; concettualizzazione dei tre registri; scrittura. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale, non diagnosi: spaziale (carta del tratto), linguistica e interpersonale (testo e, solo se concordato, ascolto), esistenziale come domanda etica, non come etichetta.",
+      "play_motifs": "Esplorazione urbana guidata; non si applicano motivi di «caccia» o raccolta in un quartiere abitato.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Storia, Geografia, Italiano ed Educazione civica del primo ciclo, da validare con i docenti. Il 1492 si colloca nel quadro europeo dell’età moderna, senza anticipare un programma intero di classe terza.",
+      "ue": "Cittadinanza; alfabetica funzionale; consapevolezza culturale; imparare a imparare."
+    },
+    "lettura_pedagogica": "Il volume del Salento è pensato per l’infanzia e la primaria: qui se ne adatta il gesto — uscire, annotare, scrivere per distinguere — a un tema di storia europea e di civica che appartiene alla secondaria. Il rischio è doppio: o trasformare il quartiere in un museo immaginario, o ridurre il 1492 a una targa. I tre registri (presenza, memoria, trasformazioni) servono a tenere insieme rispetto e prova. Eventuali voci di residenti, se ci saranno, andranno raccolte con consenso e non presentate come voci degli alunni.",
+    "apparato": {
+      "fonti": [
+        "SmartEducationUnescoSicilia, «La Giudècca»: quartiere della comunità ebraica a Ortigia; permanenza fino al 1492; provvedimento di Isabella e Ferdinando II d’Aragona; trasformazioni successive. https://www.smarteducationunescosicilia.it/siracusa/la-giudecca/",
+        "UNESCO, Siracusa e le necropoli rupestri di Pantalica. https://whc.unesco.org/en/list/1200/",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Linee guida per l’insegnamento dell’educazione civica, D.M. 183/2024, da usare come raccordo, non come rubrica già compilata.",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 05, 12 e ferita del luogo, da trattare con misura e senza spettacolarizzazione."
+      ],
+      "materiali": [
+        "Da preparare: pianta del tratto, scheda sul 1492, quaderno in tre registri.",
+        "Attesi, non ancora esistenti: annotazioni, carte, didascalie.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata; in ogni caso niente volti riconoscibili."
+      ],
+      "replicare": "Validare il tratto prima. Non entrare nel miqweh o in altri interni senza un accordo distinto. Dichiarare le fonti. Distinguere tre registri. Se un’intervista non è possibile, la scheda resta completa comunque.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www2.regione.sicilia.it/beniculturali/dirbenicult/carabinieri/cennisiracusa.html",
+        "label": "Regione Siciliana · Cenni storici su Castello Maniace"
+      },
+      {
+        "url": "https://whc.unesco.org/en/list/1200/",
+        "label": "UNESCO · Siracusa e le necropoli rupestri di Pantalica"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Punto di osservazione esterno autorizzato; eventuale accesso all’interno da verificare e da tenere distinto da questa aula all’aperto.",
+      "Scelta di una pianta o di uno schema storico con diritti e data dichiarati.",
+      "Nomi e discipline dei docenti; data dell’uscita.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza in materia di cittadinanza",
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+      "Competenza alfabetica funzionale"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Che cosa ci dice la posizione di questo edificio, e che cosa invece possiamo datare soltanto con un documento?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012, da validare con i docenti. La fase sveva è ripresa del Medioevo, non l’asse principale obbligatorio della seconda; la Camera reginale può fare da ponte verso l’età moderna.",
+      "competenze": [
+        {
+          "competenza": "Storia e geografia · un edificio nel Mediterraneo",
+          "abilita": [
+            "Collocare il castello sulla punta di Ortigia, all’imboccatura del Porto Grande, e interpretare la posizione",
+            "Usare una scheda istituzionale per distinguere fasi senza dedurle dalla sola forma di una pietra"
+          ],
+          "conoscenze": [
+            "Secondo la scheda della Regione Siciliana, il nome richiama Giorgio Maniace (1038) e l’edificio fu trasformato in castello da Federico II tra il 1232 e il 1240; tra il 1305 e il 1536, periodo in cui Siracusa fu sede della Camera reginale, il castello ospitò alcune regine; la struttura conobbe adattamenti, terremoti (1542 e 1693) e altri usi successivi"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Storia e Geografia, secondaria di primo grado: usa fonti; colloca fatti e paesaggi in un quadro italiano, europeo e mediterraneo. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Matematica e tecnologia · pianta e trasformazioni",
+          "abilita": [
+            "Confrontare una pianta o uno schema documentato con lo skyline visibile dal punto autorizzato",
+            "Segnare con convenzioni diverse ciò che è documentato e ciò che resta incerto"
+          ],
+          "conoscenze": [
+            "La scheda regionale descrive una struttura di 51 metri per lato; ogni misura va trattata come dato di una fonte, da non rilevare in proprio sul monumento senza autorizzazione"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Matematica e Tecnologia, primo ciclo: rappresenta figure e dati; interpreta piante e modelli. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · Arrivo e posizione",
+          "attivita": "Dal punto esterno autorizzato si osserva il rapporto tra edificio, costa e porto. Non si entra se l’accesso non è stato concordato; questa UDA è pensata per l’esterno.",
+          "discipline": [
+            "Geografia",
+            "Educazione civica"
+          ],
+          "tempi": "un’uscita, prima parte"
+        },
+        {
+          "titolo": "Fase 2 · La pianta e l’occhio",
+          "attivita": "Si confronta una pianta o uno schema datato, portato dal docente, con ciò che si vede. Si usano colori o segni diversi per le parti di cui esiste una documentazione di fase, e un punto interrogativo per ciò che non è databile a vista. Non si deduce una fase dalla sola forma di una pietra.",
+          "discipline": [
+            "Storia",
+            "Matematica",
+            "Tecnologia"
+          ],
+          "tempi": "sul posto e in classe",
+          "fonte": "Regione Siciliana, «Cenni storici» su Castello Maniace."
+        },
+        {
+          "titolo": "Fase 3 · Istituzioni, senza identificarle con quelle di oggi",
+          "attivita": "In classe si colloca, come ponte verso l’età moderna, il periodo della Camera reginale indicato dalla scheda regionale (1305–1536). Si confronta, senza identificarle, un’istituzione storica e le istituzioni attuali. La fase sveva resta un ripasso possibile, non il programma intero della seconda.",
+          "discipline": [
+            "Storia",
+            "Educazione civica",
+            "Geografia"
+          ],
+          "tempi": "in classe"
+        },
+        {
+          "titolo": "Fase 4 · Una pianta annotata",
+          "attivita": "Si mette in pulito lo schizzo o la pianta annotata, con fonte della base cartografica, legenda e limiti. Eventuali approfondimenti (per esempio gli arieti bronzei ricordati in letteratura e oggi non necessariamente visibili sul posto) restano opzionali e dichiarati come tali.",
+          "discipline": [
+            "Tecnologia",
+            "Storia",
+            "Italiano"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Pianta o schema storico con fonte e diritti verificati",
+        "Matite colorate o convenzioni condivise per fasi e incertezze",
+        "Scheda regionale, da citare e non da copiare per intero"
+      ],
+      "sicurezza": "Punta esposta, pietre, vento, eventuale dislivello e transito. Solo punto esterno autorizzato; niente arrampicate, merli, scogliera o sosta in carreggiata. L’ingresso all’edificio, gli orari e i biglietti vanno verificati a parte e non sono presupposti da questa scheda. Dopo eventi sismici o lavori, le condizioni vanno riconfermate."
+    },
+    "movimenti": [
+      {
+        "titolo": "La punta prima del palazzo",
+        "testo": "Si propone di arrivare alla punta meridionale di Ortigia e di fermarsi in un punto esterno già concordato. Prima di nominare Federico II o le regine, si guarda dove si è: l’isola, il Porto Grande, il mare come soglia. La posizione è già una fonte, se la si descrive senza farla diventare una strategia militare ricostruita a memoria."
+      },
+      {
+        "titolo": "Ciò che l’occhio non data",
+        "testo": "Con una pianta o uno schema portato dal docente, si confronta ciò che è documentato e ciò che si vede. Un muro può essere stato riparato, tamponato, adattato. La scheda della Regione Siciliana ricorda, fra l’altro, terremoti e trasformazioni di uso: è un invito alla prudenza, non una lista da spuntare pietra per pietra. Si segna anche ciò che resta incerto.",
+        "fonte": "Regione Siciliana, «Cenni storici» su Castello Maniace."
+      },
+      {
+        "titolo": "Un ponte verso l’età moderna",
+        "testo": "In classe, la stessa scheda istituzionale permette di collocare il periodo in cui Siracusa fu sede della Camera reginale (1305–1536) e il castello ospitò alcune regine. È un ponte possibile verso l’età moderna, non una ricostruzione completa delle istituzioni. La fase sveva — la trasformazione in castello attribuita a Federico II tra il 1232 e il 1240 — può essere ripassata, ma non è l’asse obbligatorio di questa seconda."
+      },
+      {
+        "titolo": "Una pianta che dichiara i propri limiti",
+        "testo": "Il prodotto atteso è una pianta annotata o uno schizzo pulito, con legenda: ciò che una fonte documenta, ciò che si è visto, ciò che non si può datare a vista. Non si chiede una restituzione architettonica. Parole e disegni restano da raccogliere dopo la prova."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "seconda-maniace",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-13",
+    "aula": "Castello Maniace",
+    "titolo": "Guardare il porto dalla punta",
+    "sottotitolo": "Posizione, pianta e istituzioni, senza datare a vista ogni pietra",
+    "codice": "SR-UDA-2S-03",
+    "eta": [
+      "secondaria"
+    ],
+    "discipline": [
+      "storia",
+      "geografia",
+      "matematica",
+      "tecnologia",
+      "educazione civica"
+    ],
+    "tipo_aula": "05 · Luoghi di transizione e confine",
+    "descrizione": "Castello Maniace, dall’esterno: leggere la posizione sulla punta di Ortigia e confrontare una pianta documentata con ciò che si vede, distinguendo fasi e ciò che non è databile a vista.",
+    "materiali": "Materiali da preparare: pianta storica o schema con fonte e data, da usare come confronto, non come verità unica. L’interno del castello è una visita distinta, da autorizzare a parte. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-2S-03 · 11 novembre 2026 · non sperimentata",
+    "scheda_uda": {
+      "quando": "Da concordare; nessuna data di uscita assegnata.",
+      "dove": "Castello Maniace, punta meridionale di Ortigia: soltanto un punto esterno autorizzato. Aula per il confronto con la pianta.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti da individuare.",
+      "discipline": "Storia, Geografia, Matematica, Tecnologia, Educazione civica",
+      "prodotto": "Pianta annotata o schizzo con fasi documentate e limiti del «a vista»"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; nessuna data di uscita assegnata. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Castello Maniace, punta meridionale di Ortigia, punto esterno autorizzato; aula per la pianta annotata.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti di storia, geografia e discipline affini da individuare.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda istituzionale della Regione Siciliana; eventuale gestore del monumento, da concordare. Nessun ingresso è già prenotato.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, per la seconda secondaria di primo grado (adattamento del modello Salento)",
+      "discipline": [
+        "Storia",
+        "Geografia",
+        "Matematica",
+        "Tecnologia",
+        "Educazione civica"
+      ],
+      "prodotti_intermedi": [
+        "Annotazioni sulla posizione rispetto a costa e porto",
+        "Elenco di ciò che la pianta documenta e di ciò che l’occhio non data"
+      ],
+      "prodotto_finale": "Pianta annotata o schizzo dal punto esterno autorizzato, con colori diversi per forme documentate come medievali o moderne e con l’indicazione esplicita di ciò che non è databile a vista. Non ancora prodotta.",
+      "competenze_chiave": [
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza in materia di cittadinanza",
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+        "Competenza alfabetica funzionale"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: pianta annotata o schizzo con fasi documentate e limiti del «a vista». Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella secondaria di primo grado queste griglie restano osservative e formative, distinte dalla valutazione periodica e finale della scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Leggere la posizione e una fonte",
+            "ambito": "Geografia / Storia",
+            "descrittori": [
+              "Riconosce il mare o il porto se guidato",
+              "Descrive la posizione con un riferimento",
+              "Usa la scheda istituzionale per collocare almeno una fase",
+              "Spiega perché una fase non si deduce da una sola pietra"
+            ]
+          },
+          {
+            "dimensione": "Annotare una pianta con convenzioni",
+            "ambito": "Matematica / Tecnologia",
+            "descrittori": [
+              "Copia un contorno se guidato",
+              "Segna alcune parti visibili",
+              "Usa convenzioni per documentato e incerto",
+              "Compila una legenda e dichiara la fonte della base"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova. Adattamento del modello Salento alla seconda secondaria.",
+      "testo": "L’aula è la soglia: un edificio che sta fra terra e mare, fra un racconto medievale e usi successivi. Per una seconda, il valore non è «fare i federiciani», ma imparare a non datare a vista. È lo stesso gesto della scheda già pubblicata sul Duomo e il 1693 — distinguere ciò che si vede e ciò che si documenta — portato su un’altra punta di Ortigia, con un’attenzione nuova alla posizione geografica.",
+      "kolb": "Osservazione della posizione; confronto pianta-occhio; concettualizzazione dei limiti del «a vista»; pianta annotata. Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: spaziale e logico-matematica (pianta), linguistica (legenda), corporeo-cinestetica (arrivo e sosta).",
+      "play_motifs": "Esplorazione controllata; nessuna arrampicata o «conquista» del monumento.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012, Storia, Geografia, Matematica e Tecnologia del primo ciclo, da validare con i docenti. La Camera reginale è un ponte, non un capitolo nazionale obbligatorio intero.",
+      "ue": "Consapevolezza culturale; cittadinanza; competenza matematica, scientifica e tecnologica; alfabetica funzionale."
+    },
+    "lettura_pedagogica": "L’aula è la soglia: un edificio che sta fra terra e mare, fra un racconto medievale e usi successivi. Per una seconda, il valore non è «fare i federiciani», ma imparare a non datare a vista. È lo stesso gesto della scheda già pubblicata sul Duomo e il 1693 — distinguere ciò che si vede e ciò che si documenta — portato su un’altra punta di Ortigia, con un’attenzione nuova alla posizione geografica.",
+    "apparato": {
+      "fonti": [
+        "Regione Siciliana, Nucleo Tutela Patrimonio Culturale, «Cenni storici» su Castello Maniace: nome da Giorgio Maniace (1038); trasformazione in castello da Federico II tra il 1232 e il 1240; struttura di 51 metri per lato, all’imboccatura del Porto Grande; Camera reginale 1305–1536; terremoti del 1542 e del 1693 e usi successivi. È una sintesi istituzionale, non una monografia. https://www2.regione.sicilia.it/beniculturali/dirbenicult/carabinieri/cennisiracusa.html",
+        "UNESCO, Siracusa e le necropoli rupestri di Pantalica. https://whc.unesco.org/en/list/1200/",
+        "Gianluca Savarino, tesi aperta Sapienza 2011, riferimenti al castello e agli arieti: risorsa per l’adulto, non oggetto obbligatorio dell’uscita. https://iris.uniroma1.it/handle/11573/917785",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 05, 06, 07."
+      ],
+      "materiali": [
+        "Da preparare: pianta o schema con fonte, convenzioni grafiche, scheda regionale.",
+        "Attesi, non ancora esistenti: piante annotate e schizzi.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Lavorare dall’esterno se l’interno non è accessibile. Non datare a vista. Dichiarare la fonte della pianta. Se la punta non è praticabile, si può fare il confronto in aula su immagini lecite, dichiarando il limite.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
+    "community": "Siracusa",
+    "stato": "proposta",
+    "gruppo": [
+      "classe"
+    ],
+    "links": [
+      {
+        "url": "https://www.comune.siracusa.it/vivere-il-comune/luoghi/comune-di-siracusa",
+        "label": "Comune di Siracusa · Palazzo del Senato, sede principale del Comune"
+      },
+      {
+        "url": "https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "label": "MIM · Indicazioni nazionali 2012, D.M. 254"
+      }
+    ],
+    "videos": [],
+    "racconto": "",
+    "voci_bambini": [],
+    "fonte_volume": "Proposta UDA Siracusa, 11 novembre 2026. Fonti ufficiali o aperte elencate nell’apparato. Nessuna prova di classe documentata.",
+    "da_completare": [
+      "Punto di sosta in Piazza Duomo, da coordinare anche con le altre proposte che usano la piazza.",
+      "Nomi e discipline dei docenti; data dell’uscita. Eventuale incontro con un amministratore: solo se concordato, non già organizzato.",
+      "Chiarire l’accesso: questa UDA è pensata per l’esterno; atrio, saloni e sotterranei richiedono un accordo distinto.",
+      "Voci, osservazioni e materiali degli alunni: da raccogliere con consenso."
+    ],
+    "modello": "uda-integrata-v1",
+    "versione": "v1 · 11 novembre 2026",
+    "documentazione": "proposta di progetto, nessuna uscita della scuola documentata",
+    "competenze_ue": [
+      "Competenza in materia di cittadinanza",
+      "Competenza in materia di consapevolezza ed espressione culturali",
+      "Competenza alfabetica funzionale",
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria"
+    ],
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Che cosa resta, e che cosa non può restare, quando lo stesso edificio passa da un’istituzione storica a un Comune di oggi?",
+        "stato": "proposta di raccordo, da validare con i docenti"
+      },
+      "competenze_stato": "Proposta di raccordo alle Indicazioni nazionali 2012 e alle Linee guida di educazione civica, da validare con i docenti.",
+      "competenze": [
+        {
+          "competenza": "Educazione civica e storia · istituzioni a confronto",
+          "abilita": [
+            "Riconoscere, da una fonte istituzionale, alcuni organi del Comune attuale (sindaco, giunta, consiglio) senza inventarne le competenze",
+            "Confrontarli con il Senato storico descritto dalla stessa scheda comunale, elencando almeno due differenze e senza identificare le due rappresentanze"
+          ],
+          "conoscenze": [
+            "Secondo la scheda del Comune, il palazzo, detto anche Palazzo Vermexio, fu commissionato all’architetto Giovanni Vermexio per sostituire l’antica sede della Camera reginale e divenne palazzo del Senato cittadino; è oggi sede degli uffici del sindaco e del municipio. La stessa pagina indica, in passi diversi, gli intervalli 1629–1633 e 1629–1634: la discrepanza si dichiara, non si risolve a vista"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012 e Linee guida per l’educazione civica: conoscenza delle istituzioni e della convivenza civile; uso delle fonti. Proposta di raccordo, da validare con i docenti."
+          ]
+        },
+        {
+          "competenza": "Arte e matematica · leggere una facciata",
+          "abilita": [
+            "Disegnare o inquadrare la facciata con una griglia, osservando ritmi, ordini e successive modifiche descritte dalla fonte",
+            "Non entrare nei sotterranei: i resti di un tempio ionico del VI secolo a.C., ricordati dalla scheda comunale, non sono l’aula all’aperto"
+          ],
+          "conoscenze": [
+            "Composizione di una facciata; un edificio può essere stato alterato (la scheda comunale ricorda, fra l’altro, un attico ottocentesco e un accorpamento successivo)"
+          ],
+          "traguardi": [
+            "Indicazioni nazionali 2012, Arte e immagine e Matematica, primo ciclo: osserva e rappresenta; utilizza convenzioni e rapporti. Proposta di raccordo, da validare con i docenti."
+          ]
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "Fase 1 · La facciata dalla piazza",
+          "attivita": "Sosta concordata in Piazza Duomo, senza ostacolare transito e accessi. Si osserva e si disegna o si inquadra la facciata con una griglia. Non si entra se non c’è un accordo distinto.",
+          "discipline": [
+            "Arte e immagine",
+            "Matematica",
+            "Educazione civica"
+          ],
+          "tempi": "un’uscita, prima parte"
+        },
+        {
+          "titolo": "Fase 2 · Che cosa dice la scheda del Comune",
+          "attivita": "Si legge, in piazza o in aula, la scheda istituzionale: autore, funzione originaria, funzione attuale, trasformazioni dichiarate. Si annota anche la discrepanza di date presente nella stessa pagina, come esempio di fonte da interrogare, non da «correggere» a memoria.",
+          "discipline": [
+            "Storia",
+            "Italiano"
+          ],
+          "tempi": "sul posto o in classe",
+          "fonte": "Comune di Siracusa, scheda «Palazzo del Senato sede principale del Comune»."
+        },
+        {
+          "titolo": "Fase 3 · Due istituzioni, due colonne",
+          "attivita": "Si affiancano una colonna sul Senato storico, nei limiti di ciò che la fonte permette, e una colonna sul Comune attuale (sindaco, giunta, consiglio), con una fonte istituzionale aggiornata. Si scrivono almeno due differenze. Non si identifica la rappresentanza seicentesca con la democrazia contemporanea.",
+          "discipline": [
+            "Educazione civica",
+            "Storia",
+            "Italiano"
+          ],
+          "tempi": "in classe"
+        },
+        {
+          "titolo": "Fase 4 · Domande, non interviste già fatte",
+          "attivita": "Se i docenti lo riterranno utile, si potranno preparare alcune domande per un eventuale incontro con chi amministra la città. L’incontro non è parte già organizzata di questa proposta; il prodotto resta completo anche senza.",
+          "discipline": [
+            "Educazione civica",
+            "Italiano"
+          ],
+          "tempi": "in classe"
+        }
+      ],
+      "risorse": [
+        "Griglia per il disegno o l’inquadratura",
+        "Scheda comunale del palazzo, stampata o letta in modo lecito",
+        "Fonte istituzionale sugli organi del Comune attuale, da aggiornare al momento dell’uso"
+      ],
+      "sicurezza": "Piazza monumentale, transito, eventuale affollamento. Sosta compatta, senza ostruire ingressi del municipio né la cattedrale. Questa UDA non prevede la visita dei sotterranei né dei saloni interni. Coordinare l’uso della piazza con le altre proposte (Piazza Duomo, Duomo) se coincidono i giorni."
+    },
+    "movimenti": [
+      {
+        "titolo": "Un palazzo che è ancora un ufficio",
+        "testo": "Si propone di sostare in Piazza Duomo, di fronte al palazzo che il Comune presenta come sede principale del municipio, e di guardare prima la facciata: ritmi, piani, successive aggiunte visibili. È un edificio in funzione, non un fondale. Non si entra: atrio, saloni e resti archeologici sottostanti, ricordati dalla scheda comunale, non sono questa aula all’aperto."
+      },
+      {
+        "titolo": "Una fonte, e una piccola incertezza",
+        "testo": "La scheda istituzionale attribuisce l’edificio a Giovanni Vermexio, lo collega alla sostituzione dell’antica sede della Camera reginale e ne racconta il ruolo di palazzo del Senato, poi di municipio. Nella stessa pagina compaiono, in passi diversi, gli intervalli 1629–1633 e 1629–1634. Si propone di annotare la discrepanza invece di scegliere in fretta una data «giusta»: è una lezione sul modo di usare una fonte, non un errore da nascondere.",
+        "fonte": "Comune di Siracusa, scheda «Palazzo del Senato sede principale del Comune» (ultimo aggiornamento letto: 14 marzo 2024)."
+      },
+      {
+        "titolo": "Due colonne, nessuna identificazione",
+        "testo": "In classe si affiancano il Senato storico, nei limiti di ciò che la fonte permette di dire, e gli organi del Comune di oggi. Il prodotto chiede almeno due differenze. Non si dice che «è lo stesso potere in un altro secolo». Si può, se i docenti lo vorranno, preparare domande per un amministratore: restano domande, non un incontro già fissato."
+      },
+      {
+        "titolo": "La griglia e il foglio insieme",
+        "testo": "Si mette in pulito il disegno o l’inquadratura della facciata, con la griglia, e lo si affianca alla scheda di confronto. Il lavoro visivo non è un ornamento: obbliga a stare davanti a un edificio preciso mentre si parlano istituzioni astratte. Parole e disegni restano da raccogliere dopo la prova."
+      }
+    ],
+    "racconto_nota": "Questa scheda è una proposta: nessuna uscita o prova di classe è ancora documentata. Il racconto descrive ciò che si potrà fare, non un vissuto già avvenuto.",
+    "voci": [],
+    "voci_nota": "Da raccogliere durante la prova, con il consenso delle famiglie. Nessuna frase è inventata o trasferita da altre comunità.",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "foto": [],
+    "id": "seconda-vermexio",
+    "percorso": "Ortigia",
+    "aula_id": "01-siracusa-11",
+    "aula": "Palazzo Vermexio, esterno",
+    "titolo": "Lo stesso palazzo, due istituzioni",
+    "sottotitolo": "Guardare la facciata del municipio e non confondere il Senato storico con il Comune di oggi",
+    "codice": "SR-UDA-2S-04",
+    "eta": [
+      "secondaria"
+    ],
+    "discipline": [
+      "educazione civica",
+      "storia",
+      "arte",
+      "matematica",
+      "italiano"
+    ],
+    "tipo_aula": "07 · Architetture simboliche e sacre",
+    "descrizione": "Palazzo Vermexio, esterno, in Piazza Duomo: leggere la facciata della sede municipale e confrontare, senza identificarle, le istituzioni del Senato storico e del Comune attuale.",
+    "materiali": "Materiali da preparare: griglia per il disegno della facciata; due schede istituzionali (fonte comunale e, se utile, altra fonte dichiarata). L’interno, i sotterranei e il tempio ionico non sono l’aula all’aperto. Tracce degli alunni da raccogliere dopo la prova.",
+    "provenienza": "Proposta · scheda UDA Siracusa SR-UDA-2S-04 · 11 novembre 2026 · non sperimentata",
+    "scheda_uda": {
+      "quando": "Da concordare; nessuna data di uscita assegnata.",
+      "dove": "Palazzo Vermexio, esterno, Piazza Duomo 4, Ortigia: sosta concordata in piazza. Aula per il confronto istituzionale.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti da individuare.",
+      "discipline": "Educazione civica, Storia, Arte e immagine, Matematica, Italiano",
+      "prodotto": "Facciata in griglia e scheda di confronto fra due istituzioni"
+    },
+    "uda_sintesi": {
+      "quando": "Da concordare; nessuna data di uscita assegnata. La data di versione riguarda il progetto, non una prova già svolta.",
+      "dove": "Palazzo Vermexio, esterno, Piazza Duomo, Ortigia; aula per la scheda di confronto.",
+      "chi": "Una seconda secondaria di primo grado pilota; docenti di educazione civica, storia e arte da individuare.",
+      "docenti": [
+        {
+          "nome": "Da raccogliere",
+          "ruolo": "nomi e discipline da individuare con la scuola"
+        }
+      ],
+      "risorse_esterne": "Scheda comunale del Palazzo del Senato. Eventuale incontro con chi amministra la città: da concordare, non già organizzato.",
+      "tipologia": "UDA interdisciplinare di proposta, place-based, per la seconda secondaria di primo grado (adattamento del modello Salento)",
+      "discipline": [
+        "Educazione civica (asse portante)",
+        "Storia",
+        "Arte e immagine",
+        "Matematica",
+        "Italiano"
+      ],
+      "prodotti_intermedi": [
+        "Schizzo della facciata con una griglia",
+        "Elenco di organi del Comune attuale, da fonte istituzionale"
+      ],
+      "prodotto_finale": "Disegno o inquadratura della facciata con una griglia, affiancato da una scheda di confronto fra il Senato storico e il Comune attuale, con almeno due differenze esplicite e senza identificare le due istituzioni. Non ancora prodotto.",
+      "competenze_chiave": [
+        "Competenza in materia di cittadinanza",
+        "Competenza in materia di consapevolezza ed espressione culturali",
+        "Competenza alfabetica funzionale",
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria"
+      ]
+    },
+    "valutazione": {
+      "stato": "Non applicabile finché non esiste una prova documentata con una classe. Rubrica in forma di proposta di raccordo, da validare con i docenti.",
+      "prodotto": "Prodotto atteso, non ancora esistente: disegno o inquadratura della facciata e scheda di confronto fra due istituzioni. Criteri da concordare con i docenti.",
+      "processo": "non applicabile finché non esiste una prova documentata con una classe",
+      "metacognizione": "non applicabile finché non esiste una prova documentata con una classe",
+      "rubrica": {
+        "stato": "proposta di raccordo, da validare con i docenti; nella secondaria di primo grado queste griglie restano osservative e formative, distinte dalla valutazione periodica e finale della scuola",
+        "livelli": [
+          "Inizia, con guida",
+          "Prova, con qualche aiuto",
+          "Fa da sé",
+          "Spiega e trasferisce"
+        ],
+        "indicatori": [
+          {
+            "dimensione": "Confrontare due istituzioni senza identificarle",
+            "ambito": "Educazione civica / Storia",
+            "descrittori": [
+              "Riconosce che il palazzo è sede del Comune",
+              "Elenca un organo attuale o un tratto storico",
+              "Scrive almeno due differenze con fonte",
+              "Spiega perché rappresentanza antica e Comune di oggi non coincidono"
+            ]
+          },
+          {
+            "dimensione": "Osservare e rappresentare la facciata",
+            "ambito": "Arte / Matematica",
+            "descrittori": [
+              "Schizza un contorno se guidato",
+              "Segna alcuni ritmi o aperture",
+              "Usa una griglia in modo riconoscibile",
+              "Collega una modifica visibile o documentata alla fonte"
+            ]
+          }
+        ]
+      },
+      "nota": "Griglie osservative e formative, con livelli descrittivi e non voti. Nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 (che sostituisce l’OM 172/2020) e i criteri deliberati dal collegio; nella secondaria di primo grado la valutazione periodica e finale resta quella prevista dall’ordinamento, distinta da queste griglie. Nessun esito è già assegnato."
+    },
+    "lettura": {
+      "stato": "Ipotesi di proposta, da sottoporre a osservazione durante la prova. Adattamento del modello Salento alla seconda secondaria.",
+      "testo": "Piazza Duomo è già al centro di una proposta pubblicata per la terza e di una per la seconda sul Duomo e il 1693. Questa scheda non le ripete: sposta lo sguardo sul palazzo civico e sul rischio, tipico dell’educazione civica, di far scivolare il passato nel presente. Il gesto resta quello del volume del Salento — guardare un luogo vicino, poi scrivere per distinguere — applicato a un’istituzione viva.",
+      "kolb": "Osservazione della facciata; lettura della scheda comunale; concettualizzazione del confronto istituzionale; prodotto a due facciate (disegno e scheda). Ipotesi, non ciclo verificato.",
+      "gardner": "Lente progettuale: spaziale e visiva (facciata), linguistica (confronto), interpersonale (eventuali domande a un amministratore).",
+      "play_motifs": "Nessun motivo di gioco si impone in una piazza istituzionale; l’esplorazione è osservazione guidata.",
+      "indicazioni": "Raccordo proposto alle Indicazioni nazionali 2012 e alle Linee guida per l’educazione civica (D.M. 183/2024), da validare con i docenti.",
+      "ue": "Cittadinanza; consapevolezza culturale; alfabetica funzionale; competenza matematica e tecnologica (rappresentazione)."
+    },
+    "lettura_pedagogica": "Piazza Duomo è già al centro di una proposta pubblicata per la terza e di una per la seconda sul Duomo e il 1693. Questa scheda non le ripete: sposta lo sguardo sul palazzo civico e sul rischio, tipico dell’educazione civica, di far scivolare il passato nel presente. Il gesto resta quello del volume del Salento — guardare un luogo vicino, poi scrivere per distinguere — applicato a un’istituzione viva.",
+    "apparato": {
+      "fonti": [
+        "Comune di Siracusa, scheda «Palazzo del Senato sede principale del Comune», Piazza Duomo 4: Giovanni Vermexio; sostituzione dell’antica sede della Camera reginale; sede del Senato e oggi del municipio; resti di un tempio ionico del VI secolo a.C. nei sotterranei (non aula all’aperto); la stessa pagina indica, in passi diversi, 1629–1633 e 1629–1634; menziona trasformazioni successive (attico del 1870, accorpamento del Novecento). Ultimo aggiornamento letto: 14 marzo 2024. https://www.comune.siracusa.it/vivere-il-comune/luoghi/comune-di-siracusa",
+        "MIUR, Indicazioni nazionali 2012, D.M. 254. https://www.mim.gov.it/documents/20182/51310/DM%2B254_2012.pdf",
+        "Linee guida per l’insegnamento dell’educazione civica, D.M. 183/2024, da usare come raccordo.",
+        "Casertano–Rossetto, Mappe Genius Loci: categorie 07 e 16."
+      ],
+      "materiali": [
+        "Da preparare: griglia, scheda comunale, fonte sugli organi attuali.",
+        "Attesi, non ancora esistenti: disegni o inquadrature, schede di confronto, eventuali domande per un incontro.",
+        "Nessuna copertina fotografica: manca un’immagine libera e di licenza verificata nel repo."
+      ],
+      "replicare": "Restare all’esterno se l’interno non è accordato. Dichiarare la discrepanza di date invece di nasconderla. Non identificare Senato storico e Comune attuale. Coordinare la sosta in piazza con le altre UDA che la usano.",
+      "registro": [
+        {
+          "versione": "v1",
+          "data": "11 novembre 2026",
+          "nota": "Prima scheda nel modello integrato delle 99 UDA già pubblicate. Stato: proposta. Nessuna prova di classe documentata; voci, date, docenti e materiali degli alunni da raccogliere. Fonti ufficiali o aperte, citate una sola volta."
+        }
+      ]
+    }
+  },
+  {
     "id": "valdo-58-castagno",
     "community": "Valdobbiadene",
     "percorso": "Aule all'aperto Saccol e Santo Stefano",
