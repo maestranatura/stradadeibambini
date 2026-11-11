@@ -59,6 +59,7 @@
 /package.json     /404.html  404!
 /package-lock.json /404.html 404!
 /netlify.toml     /404.html  404!
+/genius-loci/strumenti/*  /404.html  404!
 
 # SPA-ish query pages stay as real files; 404 fallback
 /*    /404.html  404

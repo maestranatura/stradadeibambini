@@ -39,3 +39,6 @@
 /site.webmanifest
   Cache-Control: public, max-age=86400
   Content-Type: application/manifest+json; charset=utf-8
+
+/genius-loci/*
+  X-Robots-Tag: noindex, nofollow, noarchive
