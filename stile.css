@@ -619,3 +619,9 @@ table.archive tr.solo-tappe td{opacity:.85}
 .voce-row textarea{min-height:64px;resize:vertical}
 .voce-row .voce-avviso{margin:0}
 @media (max-width:520px){.voce-top{grid-template-columns:1fr}}
+
+/* Menu a 390 px: con Genius Loci le voci non stanno più in una riga */
+@media (max-width:430px){
+  .site-nav{gap:6px 11px;font-size:13px;flex-wrap:wrap}
+  .site-nav a.contrib{padding:6px 9px;font-size:13px}
+}
