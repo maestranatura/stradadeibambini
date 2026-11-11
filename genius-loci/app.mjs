@@ -72,7 +72,7 @@ async function chiedi(domanda) {
   body.innerHTML = rispostaHtml(res);
   body.querySelectorAll('.gl-suggerimenti button').forEach(b => b.addEventListener('click', () => chiedi(b.textContent)));
   q.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (llm.abilitato && res.risultati.length) faseDue(domanda, res, body);
+  if (llm.abilitato) faseDue(domanda, res, body); // il server cerca anche nei documenti interni
 }
 
 // ---------- fase 2 (spenta finché il server non risponde abilitato=true) ----------
@@ -85,11 +85,19 @@ async function faseDue(domanda, res, body) {
     if (!r.ok || !j.risposta) throw new Error(j.errore || 'non disponibile');
     // [S1] → rimando alla scheda numero 1 se è fra quelle mostrate; il testo è sempre escapato.
     const ids = new Map(res.risultati.map((x, i) => [x.titolo, i + 1]));
+    const interne = []; // documenti interni del team: citati con titolo e autore, senza link
     const html = esc(j.risposta).replace(/\[S(\d+)\]/g, (m, k) => {
       const f = (j.fonti || [])[Number(k) - 1]; const n = f && ids.get(f.titolo);
-      return n ? `<a class="cita" href="#fonte-${n}">[${n}]</a>` : (f && f.url ? `<a class="cita" href="${esc(f.url)}">[${esc(k)}]</a>` : '');
+      if (n) return `<a class="cita" href="#fonte-${n}">[${n}]</a>`;
+      if (f && f.url) return `<a class="cita" href="${esc(f.url)}">[${esc(k)}]</a>`;
+      if (f && f.tipo === 'documento') {
+        let i = interne.indexOf(f) + 1; if (!i) { interne.push(f); i = interne.length; }
+        return `<span class="cita" title="${esc(f.titolo)}">[d${i}]</span>`;
+      }
+      return '';
     }).split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
-    box.innerHTML = html + '<p class="gl-fonte">Risposta scritta da un modello linguistico solo a partire dalle schede qui sotto. Controlla sempre la scheda.</p>';
+    const doc = interne.length ? `<p class="gl-fonte">Documenti del team consultati (non pubblicati sul sito): ${interne.map((f, i) => `[d${i + 1}] ${esc(f.titolo)}${f.autore ? ` — ${esc(f.autore)}` : ''}`).join('; ')}.</p>` : '';
+    box.innerHTML = html + doc + '<p class="gl-fonte">Risposta scritta da un modello linguistico solo a partire dalle schede e dai documenti indicati. Controlla sempre la scheda.</p>';
   } catch (e) {
     box.innerHTML = '<p class="gl-fonte">La risposta scritta non è disponibile adesso: qui sotto trovi le schede pertinenti.</p>';
   }
