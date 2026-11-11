@@ -30,7 +30,8 @@ Regole applicate:
     entrano SOLO come rielaborazioni (rielaborati/*.md), mai come testo originale;
   - via email, numeri di telefono, codici fiscali, link, righe con nomi di acquirenti (filigrane);
   - via le righe con budget, prezzi, preventivi, cifre in euro;
-  - nomi da anonimizzare per documento (campo «anonimizza»);
+  - nomi da anonimizzare per documento (campo «anonimizza») e righe da togliere (campo «togli_righe»,
+    es. testi di terzi citati per intero dentro un documento del team);
   - Mappe Genius Loci / Mappe fondative: tolti i passi già presenti in metodo.txt (dedup_metodo);
   - nessuna immagine.
 """
@@ -238,6 +239,8 @@ def main():
             if not src.exists(): mancanti.append(doc['file']); continue
             raw = estrai(src)
         if doc.get('anonimizza'): anonimizzati[doc['id']] = list(doc['anonimizza'])
+        for rx in doc.get('togli_righe', []):  # es. testi di terzi citati per intero (poesie, albi)
+            raw = re.sub(r'^.*(' + rx + r').*$', '', raw, flags=re.M)
         raw = ripulisci(raw, doc.get('anonimizza'))
         # blocchi per slide/pagina
         blocchi = re.split(r'\n?§(?:SLIDE|PAGINA) \d+\n|\f?\[pagina \d+\]\n?|\f?## Slide(?:-immagine)? \d+\n', raw)
