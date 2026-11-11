@@ -1,5 +1,5 @@
 // Chi sta chiamando? Token in "Authorization: Bearer …" (o ?token= per compatibilità).
-// ADMIN_TOKEN  → coordinatrice, tutte le comunità.
+// ADMIN_TOKEN  → responsabile, tutte le comunità.
 // COMMUNITY_TOKENS (JSON {"Valdobbiadene":"…"}) → community manager, solo la sua comunità (pronto, non ancora usato).
 import { timingSafeEqual } from "node:crypto";
 
@@ -14,7 +14,7 @@ export function tokenFrom(req) {
 export function who(req, { allowAudioToken = false } = {}) {
   const t = tokenFrom(req);
   if (!t) return null;
-  if (process.env.ADMIN_TOKEN && eq(t, process.env.ADMIN_TOKEN)) return { role: "coordinatrice", community: null };
+  if (process.env.ADMIN_TOKEN && eq(t, process.env.ADMIN_TOKEN)) return { role: "responsabile", community: null };
   if (allowAudioToken && process.env.AUDIO_READ_TOKEN && eq(t, process.env.AUDIO_READ_TOKEN)) return { role: "ascolto", community: null };
   let map = {};
   try { map = JSON.parse(process.env.COMMUNITY_TOKENS || "{}"); } catch {}

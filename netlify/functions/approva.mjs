@@ -1,5 +1,5 @@
 // API privata della pagina /approva/: elenco dei contributi, Approva / Scarta / Modifica testo / Ritira / Elimina.
-// Solo con token (ADMIN_TOKEN = coordinatrice; COMMUNITY_TOKENS = community manager limitati alla loro comunità).
+// Solo con token (ADMIN_TOKEN = responsabile; COMMUNITY_TOKENS = community manager limitati alla loro comunità).
 import { getStore } from "@netlify/blobs";
 import { who, canSee, json } from "../lib/auth.mjs";
 import { parseHttpsUrl } from "../lib/https-url.mjs";
@@ -26,13 +26,13 @@ export function pubblico(r) {
 
 async function arricchisci(st, r) {
   const audio = [];
-  const add = async (key, tipo, nome) => {
+  const add = async (key, tipo, nome, ruolo) => {
     const meta = await st.a.get(`meta/${key}.json`, { type: "json" });
     const testo = await st.a.get(`${key}.txt`, { type: "text" });
-    audio.push({ key, tipo, nome: nome || "", durata: meta?.durata || null, trascrizione: testo || null, stato_trascrizione: meta?.trascrizione || "da trascrivere", errore: meta?.errore || null });
+    audio.push({ key, tipo, nome: nome || "", ruolo: ruolo || "", durata: meta?.durata || null, trascrizione: testo || null, stato_trascrizione: meta?.trascrizione || "da trascrivere", errore: meta?.errore || null });
   };
   if (r.audio_racconto) await add(r.audio_racconto, "racconto");
-  for (const v of r.audio_voci || []) await add(v.key, "voce", v.nome);
+  for (const v of r.audio_voci || []) await add(v.key, "voce", v.nome, v.ruolo);
   return { ...r, titolo_proposto: titoloDi(r), audio };
 }
 
@@ -72,7 +72,7 @@ export default async (req) => {
   const azione = body.azione;
 
   if (azione === "pulisci_orfani") {
-    if (user.community) return json({ error: "Solo la coordinatrice" }, 403);
+    if (user.community) return json({ error: "Solo il responsabile" }, 403);
     const minAge = Math.max(0, Number(body.minAgeMinutes ?? 60)) * 60000;
     const usati = new Set();
     for (const b of (await st.c.list({ prefix: "c/" })).blobs) {
@@ -135,7 +135,7 @@ export default async (req) => {
   else if (azione === "scarta") { r.stato = "scartato"; log("scartato"); await setPubblico(st, r, false); }
   else if (azione === "ritira") { r.stato = "da approvare"; delete r.approvato; log("ritirato dal sito"); await setPubblico(st, r, false); }
   else if (azione === "elimina") {
-    if (user.community) return json({ error: "Solo la coordinatrice" }, 403);
+    if (user.community) return json({ error: "Solo il responsabile" }, 403);
     await setPubblico(st, r, false);
     for (const k of [r.audio_racconto, ...(r.audio_voci || []).map(v => v.key)].filter(Boolean)) { await st.a.delete(k); await st.a.delete(`meta/${k}.json`); await st.a.delete(`${k}.txt`); }
     for (const k of r.foto || []) await st.f.delete(k);
