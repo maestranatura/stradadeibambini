@@ -654,7 +654,6 @@ window.initAulaPage = async function(){
 
 // --- Modello UDA integrato (Salento + curriculum mapping) · v1, 10 novembre 2026 ---
 // v2, 11 novembre 2026: tipi UDA / Tappa / Proposta, cantiere nascosto, tre voci del manifesto.
-const UDA_LIVELLI_DEFAULT=['Inizia, con guida','Prova, con qualche aiuto','Fa da sé','Spiega e trasferisce'];
 // Tre voci del manifesto, facoltative: compaiono solo se compilate (campi in cima alla scheda in esperienze.json)
 const MANIFESTO_VOCI=[
   ['ferita_cura','Ferita e cura'],
@@ -888,7 +887,7 @@ function sezCompiti(e, k){
   const n=a=>(a||[]).length;
   return acc('compiti','Compiti',[n(c.dati)?`${n(c.dati)} dati`:'', n(c.suggeriti)?`${n(c.suggeriti)} suggeriti`:'', n(c.luogo)?`${n(c.luogo)} per il luogo`:''].filter(Boolean).join(' · '),html);
 }
-// Valutazione partecipata: blocchi di testo descrittivi, senza tabella né scala a livelli (la rubrica va in Fonti e materiali).
+// Valutazione partecipata: blocchi di testo descrittivi, senza tabella né scala a livelli. Le rubriche restano nei dati, non in pagina.
 function sezValutazione(e, k){
   if(k.proposta || k.tappa) return '';
   const v=e.valutazione||{};
@@ -906,7 +905,7 @@ function sezValutazione(e, k){
 }
 // Lettura pedagogica: testo, cornici (Kolb, Gardner, Play Motifs, Indicazioni), competenze chiave europee, tre voci del manifesto.
 function sezLettura(e, k){
-  if(k.tappa) return '';
+  if(k.tappa || k.proposta) return '';
   const l=e.lettura||{}, s=e.uda_sintesi||{};
   let sugg=false;
   const paras=String(l.testo||e.lettura_pedagogica||'').split(/\n\n+/).map(x=>{ const r=SG(x); if(r.sugg) sugg=true; return r.t; }).filter(Boolean).map(x=>`<p class="racconto">${esc(x)}</p>`).join('');
@@ -947,14 +946,8 @@ function sezFonti(e, k){
   const movProp=(k.proposta && !k.tappa)?(e.movimenti||[]).filter(x=>P(x.testo)):[];
   const passoUnico=(movProp.length===1 && !((p.fasi||[]).length>=2))?`<h3 class="uda-sub">${esc(P(movProp[0].titolo)||'Come si può fare')}</h3>${udaParagrafi(movProp[0].testo)}`:'';
   const vidProp=(k.proposta && (e.videos||[]).length)?`<h3 class="uda-sub">Video</h3>${P(e.videos_nota)?`<p class="muted">${esc(P(e.videos_nota))}</p>`:''}${videoBlocks(e.videos)}`:'';
-  const r=(e.valutazione||{}).rubrica;
-  let rub='';
-  if(!k.tappa && !k.proposta && r && (r.indicatori||[]).length){
-    const livelli=(r.livelli)||UDA_LIVELLI_DEFAULT; const rs=SG(r.stato||'');
-    const nota=P((e.valutazione||{}).nota)||'Griglie osservative e formative, non una pagella: nella primaria i giudizi sintetici periodici e finali seguono l’OM 3/2025 e i criteri deliberati dalla scuola.';
-    rub=`<details class="uda-det"><summary>Rubrica osservativa${rs.sugg?' '+suggBadge():''}${rs.t?` <span class="uda-stato">${esc(rs.t)}</span>`:''}</summary><div class="table-scroll"><table class="uda-rubrica"><thead><tr><th>Dimensione</th>${livelli.map(l=>`<th>${esc(l)}</th>`).join('')}</tr></thead><tbody>${r.indicatori.map(i=>`<tr><th scope="row">${esc(i.dimensione)}${i.ambito?`<br><span class="muted">${esc(i.ambito)}</span>`:''}</th>${(i.descrittori||[]).map(d=>`<td>${esc(P(d))}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="provenance">${esc(nota)}</p></details>`;
-  }
-  const rifarla=(repl||risorse||sic||rub||passoUnico)?`<h3 class="uda-sub">Per rifarla</h3>${passoUnico}${repl?`<p class="racconto">${esc(repl)}</p>`:''}${risorse?`<p class="disc-l">Risorse e materiali</p>${risorse}`:''}${sic?`<p class="disc-l">Accessibilità, sicurezza, permessi</p><p>${esc(sic)}</p>`:''}${rub}`:'';
+  // Le rubriche/scale a livelli restano in esperienze.json e non si mostrano in pagina.
+  const rifarla=(repl||risorse||sic||passoUnico)?`<h3 class="uda-sub">Per rifarla</h3>${passoUnico}${repl?`<p class="racconto">${esc(repl)}</p>`:''}${risorse?`<p class="disc-l">Risorse e materiali</p>${risorse}`:''}${sic?`<p class="disc-l">Accessibilità, sicurezza, permessi</p><p>${esc(sic)}</p>`:''}`:'';
   const placed=udaImmaginiPiazzate(e);
   const rest=list=>(list||[]).filter(x=>!x.immagine||!placed.has(x.immagine));
   const mb=rest(e.materiali_bambini), ma=rest(e.materiali_adulti);
