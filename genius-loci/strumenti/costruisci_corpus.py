@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Costruisce la base di conoscenza PRIVATA della fase 2 di «Parla con il Genius Loci».
 
-La base NON è pubblica e NON sta nel repository (che è pubblico). Lo script scrive nella cartella
-privata la versione CIFRATA (AES-256-GCM) corpus.cifrato.json; attiva_fase2.mjs la carica in
-Netlify Blobs (store «genius-loci-privato», chiave «corpus»). La funzione la legge da Blobs e la
-decifra in memoria con la variabile d'ambiente GENIUS_LOCI_CORPUS_CHIAVE.
+La base NON è pubblica: il repository è pubblico, quindi nel repo entra solo la versione CIFRATA
+(AES-256-GCM) in netlify/genius-loci-dati/corpus.cifrato.json (copia anche nella cartella privata).
+La funzione Netlify la decifra in memoria con la variabile d'ambiente GENIUS_LOCI_CORPUS_CHIAVE.
 Senza corpus o senza chiave la funzione usa solo l'indice pubblico.
 
 Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius-loci-privato:
@@ -16,8 +15,8 @@ Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius
                          progetto Siracusa senza cifre), con intestazione di metadati
     metodo.txt           testo del PDF Mappe Genius Loci (pdftotext -layout)
     corpus.json          USCITA in chiaro (facoltativa, --chiaro), resta solo nella cartella privata
-    corpus.cifrato.json  USCITA cifrata, da caricare in Netlify Blobs con attiva_fase2.mjs
-    sorgenti-private.cifrato.json  copia cifrata di manifest e rielaborati (backup, anche in Blobs)
+    corpus.cifrato.json  USCITA cifrata, copiata anche in netlify/genius-loci-dati/ (bundle della funzione)
+    sorgenti-private.cifrato.json  copia cifrata di manifest e rielaborati (backup, anche nel repo)
 
 Uso (dalla radice del repo):
     python3 genius-loci/strumenti/costruisci_corpus.py --privato /workspace/genius-loci-privato [--ocr]
@@ -297,7 +296,10 @@ def main():
 
     from collections import Counter
     print(f'{len(passi)} passi da {len(conteggi)} documenti ·', dict(Counter(p['tipo_fonte'] for p in passi)))
-    print('scritto', USCITA, f'{USCITA.stat().st_size/1024:.0f} KB (cifrato) e', BACKUP, '→ caricarli con genius-loci/strumenti/attiva_fase2.mjs')
+    import shutil
+    dati = ROOT / 'netlify' / 'genius-loci-dati'; dati.mkdir(parents=True, exist_ok=True)
+    for f in (USCITA, BACKUP): shutil.copyfile(f, dati / f.name)
+    print('scritto', USCITA, f'{USCITA.stat().st_size/1024:.0f} KB (cifrato) e', BACKUP, '→ copiati in', dati.relative_to(ROOT))
     if mancanti: print('MANCANO (scaricarli/rigenerarli e rilanciare):', *mancanti, sep='\n  ')
 
 if __name__ == '__main__':

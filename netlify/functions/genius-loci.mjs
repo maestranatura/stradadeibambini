@@ -6,10 +6,10 @@
 // RAG: il server NON si fida dei testi mandati dal browser. Rifà la stessa ricerca della fase 1
 // (genius-loci/cerca.mjs sull'indice PUBBLICO genius-loci/indice.json: UDA, aule, estratti del metodo)
 // e, se c'è la chiave, anche sulla base PRIVATA (materiali del team, metodo completo, rielaborazioni
-// di opere e libri di testo). La base privata NON è nel repository: sta cifrata (AES-256-GCM) in
-// Netlify Blobs (store «genius-loci-privato», chiave «corpus», caricata con
-// genius-loci/strumenti/attiva_fase2.mjs) e viene decifrata solo in memoria. Al modello vanno solo i
-// passi trovati. Le fonti private si citano con titolo e autore, mai con link a Drive.
+// di opere e libri di testo). La base privata è cifrata (AES-256-GCM) in
+// netlify/genius-loci-dati/corpus.cifrato.json, entra nel bundle della funzione (non è servita come
+// file: /netlify/* risponde 404) e viene decifrata solo in memoria con GENIUS_LOCI_CORPUS_CHIAVE.
+// Al modello vanno solo i passi trovati. Le fonti private si citano con titolo e autore, mai con link a Drive.
 // Comunità non ancora attivate (genius-loci/comunita-nascoste.json): né cercate né citate.
 //
 // Variabili d'ambiente (solo nomi; i valori si mettono nel pannello Netlify, mai nel codice):
@@ -27,6 +27,7 @@ import { getStore } from "@netlify/blobs";
 import { createHash, createDecipheriv } from "node:crypto";
 import { inflateSync } from "node:zlib";
 import dati from "../../genius-loci/indice.json" with { type: "json" };
+import corpusCifrato from "../genius-loci-dati/corpus.cifrato.json" with { type: "json" };
 import NASCOSTE from "../../genius-loci/comunita-nascoste.json" with { type: "json" };
 import { preparaIndice, cerca, capisci, COMUNITA } from "../../genius-loci/cerca.mjs";
 
@@ -138,14 +139,7 @@ export function indiceDaCifrato(cifrato, chiave) {
   } catch { return null; } // chiave sbagliata o file alterato: solo indice pubblico
 }
 export async function indicePrivato() {
-  if (ixPrivato !== undefined) return ixPrivato;
-  const chiave = env("GENIUS_LOCI_CORPUS_CHIAVE", "");
-  let cifrato = null;
-  if (chiave) {
-    try { cifrato = await getStore({ name: "genius-loci-privato", consistency: "strong" }).get("corpus", { type: "json" }); } catch { cifrato = null; }
-  }
-  ixPrivato = indiceDaCifrato(cifrato, chiave);
-  if (!ixPrivato) setTimeout(() => { ixPrivato = undefined; }, 60000).unref?.(); // riprova fra un minuto
+  if (ixPrivato === undefined) ixPrivato = indiceDaCifrato(corpusCifrato, env("GENIUS_LOCI_CORPUS_CHIAVE", ""));
   return ixPrivato;
 }
 

@@ -50,30 +50,23 @@ Variabili d'ambiente (Netlify → Site configuration → Environment variables; 
 | `GENIUS_LOCI_PASSI` | `8` | passi passati al modello (max 12) |
 | `GENIUS_LOCI_CORPUS_CHIAVE` | *(segreta)* | chiave base64 della base privata; senza, la fase 2 usa solo l'indice pubblico |
 
-### Accensione (script, nessun valore stampato)
+### Accensione
 
-```
-# prova a secco: dice cosa farebbe e quali valori mancano (solo "presente"/"MANCANTE")
-NETLIFY_AUTH_TOKEN=… MISTRAL_API_KEY=… node genius-loci/strumenti/attiva_fase2.mjs --prova-mistral
-# esecuzione: carica la base cifrata in Blobs e imposta le variabili (contesto production)
-NETLIFY_AUTH_TOKEN=… MISTRAL_API_KEY=… node genius-loci/strumenti/attiva_fase2.mjs --esegui
-# poi rifare il deploy. Opzioni: --spento, --contesti production,deploy-preview, --solo-blobs, --solo-env
-```
-
-Il token e la chiave Mistral si leggono solo dall'ambiente, la chiave del corpus solo da `CHIAVE_CORPUS`
-nella cartella privata. Spegnere: `GENIUS_LOCI_ABILITATO=false` dal pannello e nuovo deploy.
+Le variabili si impostano dal pannello Netlify (o dal connettore Netlify), contesto production, con
+`GENIUS_LOCI_API_KEY` e `GENIUS_LOCI_CORPUS_CHIAVE` come segrete; poi nuovo deploy. Spegnere:
+`GENIUS_LOCI_ABILITATO=false` e nuovo deploy.
 
 ## Base di conoscenza privata (fase 2)
 
 Il repository è pubblico, quindi i documenti interni **non** sono nel repo né sul sito, nemmeno cifrati.
 
-- `corpus.cifrato.json` — passi (materiali del team a testo completo, metodo completo, rielaborazioni con parole
-  nostre di opere di terzi e dei libri di testo, sintesi del progetto Siracusa senza cifre) cifrati con
-  AES-256-GCM. Sta nella cartella privata e in **Netlify Blobs** (store `genius-loci-privato`, chiave `corpus`):
-  la funzione lo legge da lì e lo decifra solo in memoria con `GENIUS_LOCI_CORPUS_CHIAVE`. Blobs non è
-  raggiungibile da URL pubblici.
-- `sorgenti-private.cifrato.json` — copia cifrata degli input scritti a mano (manifest e rielaborazioni), per
-  rigenerare la base anche su un altro computer; anche in Blobs (chiave `sorgenti-private`).
+- `netlify/genius-loci-dati/corpus.cifrato.json` — passi (materiali del team a testo completo, metodo completo,
+  rielaborazioni con parole nostre di opere di terzi e dei libri di testo, sintesi del progetto Siracusa senza
+  cifre) cifrati con AES-256-GCM. La funzione li importa nel bundle e li decifra solo in memoria con
+  `GENIUS_LOCI_CORPUS_CHIAVE`. `/netlify/*` risponde comunque 404 (vedi `_redirects`). Chiave ruotata l'11/11/2026:
+  le copie precedenti nello storico git usano una chiave non più valida.
+- `netlify/genius-loci-dati/sorgenti-private.cifrato.json` — copia cifrata degli input scritti a mano
+  (manifest e rielaborazioni), per poter rigenerare la base anche su un altro computer.
 - Le fonti private si citano con titolo e autore, **mai** con link a Drive; nel frontend appaiono come
   «Documenti del team consultati».
 
@@ -83,11 +76,10 @@ Rigenerare (cartella privata fuori dal repo, es. `/workspace/genius-loci-privato
 python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina   # se mancano manifest/rielaborati
 # scaricare da Drive i file del manifest in DIR/sorgenti/<drive_id>.<ext> (lo script elenca i mancanti)
 python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ocr          # --ocr: rifà l'OCR se serve
-NETLIFY_AUTH_TOKEN=… node genius-loci/strumenti/attiva_fase2.mjs --solo-blobs --esegui   # ricarica in Blobs
 ```
 
 Lo script estrae il testo (pdftotext, python-pptx, python-docx; OCR con rapidocr per i file fatti di immagini),
 toglie email, telefoni, codici fiscali, link, filigrane con nomi di acquirenti, righe con budget e prezzi,
 anonimizza i nomi indicati nel manifest, scarta i passi delle Mappe Genius Loci già presenti nel metodo e
 si ferma se il controllo privacy finale trova qualcosa. Una chiave nuova si crea con `--nuova-chiave`
-(poi va rimessa su Netlify con `attiva_fase2.mjs --solo-env --esegui` e la base va ricaricata).
+(poi va rimessa nella variabile su Netlify e serve un nuovo deploy).
