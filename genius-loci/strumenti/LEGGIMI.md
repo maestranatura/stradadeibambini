@@ -18,7 +18,7 @@ Regole già nel codice:
 - ogni scheda mostra Vissuta / Proposta;
 - se non trova niente di pertinente lo dice e propone domande alternative.
 
-## Fase 2 (pronta, SPENTA) — Mistral Small 4
+## Fase 2 (ACCESA dall'11/11/2026) — Mistral Small 4
 
 `netlify/functions/genius-loci.mjs` → `/api/genius-loci`.
 - `GET` risponde `{abilitato:false}` finché le variabili non sono impostate: il frontend resta in fase 1.
@@ -69,6 +69,29 @@ Il repository è pubblico, quindi i documenti interni **non** sono nel repo né 
   (manifest e rielaborazioni), per poter rigenerare la base anche su un altro computer.
 - Le fonti private si citano con titolo e autore, **mai** con link a Drive; nel frontend appaiono come
   «Documenti del team consultati».
+- Ogni passo ha `tipo_base`: `metodo` (metodo, manifesto, opere rielaborate), `contenuti` (Indicazioni nazionali,
+  programmi dei libri di testo), `esperienza` (materiali di una comunità o di un'esperienza). `tipo_fonte` resta il
+  tipo di documento (team, rielaborato, libro di testo, normativa, manifesto).
+
+### Indicazioni nazionali e manifesto (testi pubblici dentro la base privata)
+
+- `normativa.py` scarica dal sito del MIM e divide parola per parola: Indicazioni 2012 (DM 254/2012), «Indicazioni
+  nazionali e nuovi scenari» 2018, Indicazioni 2025 (DM 221/2025, GU n. 21 del 27/01/2026) e la nota MIM prot. 1312
+  del 12/03/2026 sulle decorrenze. Ogni passo ha `versione`, `ordine`, `classe`, `disciplina`/`campo_esperienza`,
+  `sezione_tipo` (premessa, traguardi — nel 2025 «competenze attese» —, obiettivi, conoscenze) e il link al PDF.
+  Si tolgono solo a capo, numeri di pagina e intestazioni: traguardi e obiettivi restano identici al PDF.
+- Il manifesto in otto punti si legge dalla home (`index.html`, `#manifesto`), `tipo_base` metodo.
+- La funzione tiene le Indicazioni in un **indice separato** e le usa solo se la domanda parla di traguardi,
+  obiettivi, competenze, curricolo o Indicazioni: così non coprono le schede. Sceglie i passi per disciplina, ordine
+  e classe (quarta → obiettivi di quinta; prima/seconda → obiettivi di terza). Nel prompt ogni traguardo/obiettivo
+  ha un codice `[T1]`…; il modello sceglie i codici e il server li sostituisce con il testo ufficiale
+  («può concorrere a «…» (Indicazioni 2012, geografia, traguardi al termine della scuola primaria) [S8]»), al massimo
+  4 (2 per versione). Le citazioni tra «…» non identiche alla fonte vengono sostituite con la frase intera o tolte.
+
+```
+python3 genius-loci/strumenti/normativa.py --privato DIR                 # PDF ufficiali → DIR/normativa/passi-normativa.json
+python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna  # rifà solo Indicazioni e manifesto sulla base cifrata
+```
 
 Rigenerare (cartella privata fuori dal repo, es. `/workspace/genius-loci-privato`, con `CHIAVE_CORPUS`):
 

@@ -18,10 +18,21 @@ Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius
     corpus.cifrato.json  USCITA cifrata, copiata anche in netlify/genius-loci-dati/ (bundle della funzione)
     sorgenti-private.cifrato.json  copia cifrata di manifest e rielaborati (backup, anche nel repo)
 
+Tipo di base (campo «tipo_base» di ogni passo): «metodo» (metodo, manifesto, opere rielaborate),
+«contenuti» (Indicazioni nazionali, programmi dei libri di testo), «esperienza» (materiali legati a una
+comunità o a un'esperienza vissuta/proposta). «tipo_fonte» resta il tipo di documento (team, rielaborato…).
+
+Testi pubblici (manifest con «sorgente»):
+  «passi»      passi già divisi in un JSON (es. normativa/passi-normativa.json, creato da normativa.py:
+               Indicazioni nazionali 2012 e 2025 parola per parola, con versione, ordine, classe, disciplina)
+  «manifesto»  i punti del manifesto letti dalla home (index.html, sezione #manifesto)
+
 Uso (dalla radice del repo):
     python3 genius-loci/strumenti/costruisci_corpus.py --privato /workspace/genius-loci-privato [--ocr]
     python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --nuova-chiave   # solo la prima volta
     python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina     # rimette manifest e rielaborati da DIR/sorgenti-private.cifrato.json
+    python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna       # rifà SOLO i documenti «passi» e «manifesto»
+                                       # partendo dalla base cifrata esistente (non servono i sorgenti di Drive)
 
 Scaricare i sorgenti: per ogni voce del manifest con drive_id, scaricare il file da Drive
 («Scarica», oppure lo strumento DownloadFile di Grok Bot) e salvarlo come sorgenti/<drive_id>.<ext>.
@@ -154,6 +165,37 @@ def lista(v):
     if not v: return []
     return [x.strip() for x in v.split(',')] if isinstance(v, str) else list(v)
 
+# ---------------- tipo di base e testi pubblici ----------------
+def tipo_base(p):
+    if p.get('tipo_base'): return p['tipo_base']
+    if p.get('tipo_fonte') in ('libro di testo', 'normativa'): return 'contenuti'
+    if p.get('stato') or p.get('comunita'): return 'esperienza'
+    return 'metodo'
+
+def passi_pubblici(doc, priv):
+    """Documenti pubblici del manifest: «passi» (JSON già diviso) o «manifesto» (dalla home)."""
+    if doc['sorgente'] == 'passi':
+        f = priv / doc['file']
+        if not f.exists(): return None
+        out = []
+        for i, p in enumerate(json.loads(f.read_text())['passi']):
+            p = dict(p); p['id'] = f"n{i}"; p['ref'] = p.get('ref') or doc['id']; p['tipo_base'] = doc.get('tipo_base') or tipo_base(p)
+            out.append(p)
+        return out
+    if doc['sorgente'] == 'manifesto':
+        import html as H
+        f = ROOT / doc['file']
+        m = re.search(r'<section[^>]*id="manifesto".*?</section>', f.read_text(), re.S)
+        if not m: return None
+        out = []
+        for i, (tit, corpo) in enumerate(re.findall(r'<h2>(.*?)</h2>\s*<p>(.*?)</p>', m.group(0), re.S)):
+            tit, corpo = H.unescape(re.sub(r'<[^>]+>', '', tit)).strip(), H.unescape(re.sub(r'<[^>]+>', '', corpo)).strip()
+            out.append({'id': f'm{i}', 'tipo': 'documento', 'ref': doc['id'], 'titolo': doc['titolo'], 'autore': doc.get('autore'),
+                        'tipo_fonte': 'manifesto', 'tipo_base': 'metodo', 'url': doc.get('url'), 'sezione': tit,
+                        'testo': f'{tit}\n{corpo}', 'fonte': doc['titolo']})
+        return out
+    return None
+
 # ---------------- cifratura ----------------
 def cifra(dati_bytes, chiave):
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -181,6 +223,7 @@ def main():
     ap.add_argument('--nuova-chiave', action='store_true')
     ap.add_argument('--ripristina', action='store_true')
     ap.add_argument('--chiaro', action='store_true', help='scrive anche corpus.json in chiaro nella cartella privata')
+    ap.add_argument('--aggiorna', action='store_true', help='rifà solo i documenti pubblici («passi», «manifesto») sulla base cifrata esistente')
     a = ap.parse_args()
     priv = a.privato
     USCITA, BACKUP = priv / 'corpus.cifrato.json', priv / 'sorgenti-private.cifrato.json'
@@ -199,6 +242,17 @@ def main():
         return
 
     man = json.loads((priv / 'manifest.json').read_text())
+    pubblici = [d for d in man['documenti'] if d['sorgente'] in ('passi', 'manifesto')]
+    if a.aggiorna:
+        vecchio = json.loads(decifra(json.loads(USCITA.read_text()), chiave))
+        rifatti = {d['id'] for d in pubblici}
+        passi = [p for p in vecchio['passi'] if p['ref'].split(':')[0] not in rifatti and p.get('tipo') != 'normativa']
+        for p in passi: p['tipo_base'] = tipo_base(p)
+        for d in pubblici:
+            nuovi = passi_pubblici(d, priv)
+            if nuovi is None: sys.exit(f"Manca {d['file']} per {d['id']}")
+            passi += nuovi
+        return scrivi(a, priv, chiave, passi, USCITA, BACKUP, [], len({p['ref'].split(':')[0] for p in passi}))
     metodo_testo = ''
     passi, mancanti, anonimizzati, conteggi = [], [], {}, {}
 
@@ -286,6 +340,15 @@ def main():
         print('ATTENZIONE, controllo privacy:', problemi[:20])
         if any(n.startswith(('email', 'codice', 'filigrana', 'nome', 'cifre')) for _, n in problemi): sys.exit(1)
 
+    # 4) testi pubblici: Indicazioni nazionali (passi già divisi) e manifesto della home
+    for p in passi: p['tipo_base'] = tipo_base(p)
+    for d in pubblici:
+        nuovi = passi_pubblici(d, priv)
+        if nuovi is None: mancanti.append(d['file']); continue
+        passi += nuovi
+    scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, len(conteggi) + len(pubblici))
+
+def scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, n_doc):
     corpus = {'versione': 1, 'passi': passi}
     if a.chiaro: (priv / 'corpus.json').write_text(json.dumps(corpus, ensure_ascii=False, indent=0))
     USCITA.write_text(json.dumps(cifra(json.dumps(corpus, ensure_ascii=False, separators=(',', ':')).encode(), chiave)))
@@ -295,7 +358,7 @@ def main():
     BACKUP.write_text(json.dumps(cifra(json.dumps(arch, ensure_ascii=False).encode(), chiave)))
 
     from collections import Counter
-    print(f'{len(passi)} passi da {len(conteggi)} documenti ·', dict(Counter(p['tipo_fonte'] for p in passi)))
+    print(f'{len(passi)} passi da {n_doc} documenti ·', dict(Counter(p['tipo_fonte'] for p in passi)), '·', dict(Counter(p['tipo_base'] for p in passi)))
     import shutil
     dati = ROOT / 'netlify' / 'genius-loci-dati'; dati.mkdir(parents=True, exist_ok=True)
     for f in (USCITA, BACKUP): shutil.copyfile(f, dati / f.name)
