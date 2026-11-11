@@ -28,6 +28,20 @@ export default async (req, context) => {
   const audioRacconto = AUDIO_RE.test(d.audio_racconto || "") ? d.audio_racconto : "";
   const foto = (parseJSON(d.foto_keys, []) || []).filter(k => FOTO_RE.test(k)).slice(0, 60);
   const lat = Number(d.lat), lon = Number(d.lon);
+  const consensoPrivacy = on(d.consenso_privacy) || (on(d.consenso_genitori) && on(d.volti_non_riconoscibili));
+  if (!consensoPrivacy) {
+    console.log("contributo rifiutato: manca il consenso");
+    return new Response("manca il consenso", { status: 400 });
+  }
+  const consensoQuando = (() => {
+    const raw = s(d.consenso_quando, 40);
+    const t = Date.parse(raw);
+    if (!Number.isFinite(t)) return new Date().toISOString();
+    // accetta solo un orario non futuro e non più vecchio di un giorno
+    const now = Date.now();
+    if (t > now + 60_000 || t < now - 86_400_000) return new Date().toISOString();
+    return new Date(t).toISOString();
+  })();
   const rec = {
     id, stato: "da approvare", ricevuto: p.created_at || new Date().toISOString(),
     community: s(d.comunita, 80), aula_id: s(d.aula_id, 80), luogo_nome: s(d.luogo_nome, 160),
@@ -37,7 +51,7 @@ export default async (req, context) => {
     numero: s(d.numero, 10), accompagnatori: s(d.accompagnatori, 300),
     racconto: s(d.racconto, 8000), voci: s(d.voci, 4000), voci_elenco: vociElenco, video: s(d.video, 2000).split(/\s+/).filter(u => /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//.test(u)).slice(0, 10),
     audio_racconto: audioRacconto, audio_voci: audioVoci, foto,
-    consensi: { genitori: on(d.consenso_genitori), volti_non_riconoscibili: on(d.volti_non_riconoscibili), licenza_aperta: on(d.licenza_aperta) },
+    consensi: { genitori: true, volti_non_riconoscibili: true, licenza_aperta: on(d.licenza_aperta), privacy: true, quando: consensoQuando },
     autore: s(d.autore, 120), email: s(d.email, 160),
     netlify_submission_id: s(p.id, 40), notifica: { stato: "in corso" }, storia: [{ quando: new Date().toISOString(), cosa: "ricevuto" }],
   };
