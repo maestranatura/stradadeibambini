@@ -547,12 +547,15 @@ function udaMovimenti(e){
 
 function udaVoci(e){
   const v=e.voci||[];
-  const bimbi=v.filter(x=>x.chi!=='adulto' && udaVocePubblicabile(x));
-  const adulti=v.filter(x=>x.chi==='adulto' && udaVocePubblicabile(x));
+  const nv=t=>String(t||'').toLowerCase().replace(/[^a-zàèéìòù]/g,'');
+  const giaNelRacconto=new Set((e.movimenti||[]).flatMap(x=>(x.voci||[]).filter(udaVocePubblicabile).map(y=>nv(y.testo))));
+  const bimbi=v.filter(x=>x.chi!=='adulto' && udaVocePubblicabile(x) && !giaNelRacconto.has(nv(x.testo)));
+  const adulti=v.filter(x=>x.chi==='adulto' && udaVocePubblicabile(x) && !giaNelRacconto.has(nv(x.testo)));
   const pend=!!(e.voci_in_verifica || (e.movimenti||[]).some(x=>x.voci_in_verifica) || (e.voci||[]).some(x=>x&&!udaVocePubblicabile(x)));
   const nelRacconto=(e.movimenti||[]).some(x=>(x.voci||[]).some(udaVocePubblicabile));
   let html=`<section class="detail-block" id="voci"><h2>Le voci dei bambini</h2>`;
-  if(bimbi.length){ if(nelRacconto) html+=`<p class="muted">Le stesse parole compaiono nel racconto, accanto al movimento in cui sono nate.</p>`; html+=bimbi.map(udaVoce).join(''); }
+  if(bimbi.length){ if(nelRacconto) html+=`<p class="muted">Altre parole dei bambini sono nel racconto, accanto al movimento in cui sono nate.</p>`; html+=bimbi.map(udaVoce).join(''); }
+  else if(nelRacconto) html+=`<p class="muted">Le parole dei bambini sono nel <a href="#racconto">racconto</a>, accanto al movimento in cui sono nate.</p>`;
   else if(!pend) html+=`<p class="muted">${esc((e.voci_nota && e.voci_nota!=='Trascrizioni in verifica.')?e.voci_nota:(e.stato==='proposta'?'Da raccogliere durante la prova, con il consenso delle famiglie.':'Non trascritte nelle fonti: da raccogliere con i docenti.'))}</p>`;
   html+=udaNotaTrascrizioni(pend);
   if(e.voci_nota && e.voci_nota!=='Trascrizioni in verifica.' && (bimbi.length||pend||adulti.length)) html+=`<p class="provenance">${esc(e.voci_nota)}</p>`;
