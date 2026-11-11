@@ -91,6 +91,10 @@ for e in esperienze:
     lt = lt or e.get('lettura_pedagogica')
     for chunk in split(clean(lt)):
         add(**base, sezione='Lettura pedagogica', testo=chunk)
+    # Tre voci del manifesto (facoltative, vuote finché non si compilano con fonti reali)
+    for campo, lab in (('ferita_cura', 'Ferita e cura'), ('stare_bene', 'Cosa fa stare bene qui'), ('strato_digitale', 'Strato digitale')):
+        for chunk in split(clean(e.get(campo))):
+            add(**base, sezione=lab, testo=chunk)
     app = e.get('apparato') or {}
     if isinstance(app, dict) and app.get('replicare'):
         for chunk in split(clean(app['replicare'])):
