@@ -461,3 +461,44 @@ tr.group-row td{background:var(--wash);font-size:13px;color:#333;padding-top:18p
 
 /* Link e fonti lunghe non devono allargare la pagina su telefono */
 .detail-block li, .detail-block p, .detail-block a, .provenance { overflow-wrap: anywhere; }
+
+/* Tipi di scheda (UDA · Tappa · Proposta), tappe sotto il percorso, segno «Scheda in lavorazione» · 11/11/2026 */
+.badge.tappa{background:#E8EEF6;color:#2B4A6F}
+.badge.tappa.proposta{background:#F1E8D8;color:#6B5320}
+.badge.lavorazione{background:#F3EFE6;color:#6B5320;border:1px dashed #C9B27A}
+.perc-meta{display:inline-block;margin:0 8px 0 6px;font-size:12px;color:var(--muted);font-weight:500}
+.scheda-lavorazione{margin:10px 0 0;font-size:14px;line-height:1.5}
+.tappe-toggle{display:inline-flex;align-items:center;gap:4px;margin:8px 0 4px;padding:6px 12px;min-height:36px;font:inherit;font-size:13px;font-weight:600;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:999px;cursor:pointer}
+.tappe-toggle:hover{border-color:var(--green)}
+.tappe-toggle:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.tt-icon{display:inline-block;width:1em;text-align:center}
+table.archive tr.tappa-row td{background:#FAFBF8;padding-top:10px;padding-bottom:10px}
+table.archive tr.tappa-row td.c-titolo{padding-left:32px;border-left:3px solid #DCE5D8}
+table.archive tr.solo-tappe td{opacity:.85}
+.tappa-nav{margin:14px 0 10px;padding:14px 16px;background:var(--wash);border-left:4px solid #2B4A6F;border-radius:6px}
+.tappa-nav p{margin:4px 0}
+.tappa-nav .kicker{margin:0 0 2px}
+.tappa-nav-links{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-size:14px;margin-top:8px!important}
+.tappa-nav-all{font-weight:600}
+.uda-manifesto{margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
+.numeri-strada{font-size:15px;color:#333}
+@media (max-width:700px){
+  table.archive{min-width:0;font-size:14px}
+  table.archive thead{display:none}
+  table.archive tr{display:block;padding:12px 2px;border-bottom:1px solid var(--line)}
+  table.archive td{display:block;border:0;padding:2px 0}
+  table.archive td.c-eta,table.archive td.c-disc,table.archive td.c-prov{display:none}
+  table.archive td.c-aula,table.archive td.c-com{display:inline;font-size:13px;color:var(--muted)}
+  table.archive td.c-aula::after{content:" · "}
+  table.archive tr.group-row{padding:0;border:0}
+  table.archive tr.group-row td{display:block;padding:14px 10px}
+  table.archive tr.tappa-row{margin-left:12px;padding-left:10px;border-left:3px solid #DCE5D8;background:#FAFBF8}
+  table.archive tr.tappa-row td{background:transparent}
+  table.archive tr.tappa-row td.c-titolo{padding-left:0;border-left:0}
+  table.archive tr[hidden]{display:none}
+  .tappa-nav-links{flex-direction:column}
+}
+.perc-list>li{margin-bottom:10px}
+.tappe-det{margin:6px 0 0 4px}
+.tappe-det summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--green);padding:4px 0}
+.tappe-det ol,.tappe-det ul{margin-top:6px}
