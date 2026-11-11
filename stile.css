@@ -458,3 +458,6 @@ tr.group-row td{background:var(--wash);font-size:13px;color:#333;padding-top:18p
   .uda-gallery{grid-template-columns:repeat(2,1fr)}
   .uda-domanda p{font-size:16px}
 }
+
+/* Link e fonti lunghe non devono allargare la pagina su telefono */
+.detail-block li, .detail-block p, .detail-block a, .provenance { overflow-wrap: anywhere; }
