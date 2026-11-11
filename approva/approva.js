@@ -84,6 +84,7 @@
       <h2 class="t-view">${esc(it.titolo||it.titolo_proposto)}</h2><input class="ap-title t-edit" hidden value="${esc(it.titolo||it.titolo_proposto)}" aria-label="Titolo"></div>
       <div class="ap-meta">
         <div><span>Chi scrive</span>${esc(it.autore||'—')}</div>
+        <div><span>Email</span>${it.email?`<a href="mailto:${esc(it.email)}">${esc(it.email)}</a>`:'—'}</div>
         <div><span>Classe · scuola</span>${esc([it.classe,it.scuola].filter(Boolean).join(' · ')||'—')}</div>
         <div><span>Sito o pagina della scuola</span><span class="t-view">${linkView(it.sito_scuola)}</span><input class="t-edit sito-edit" hidden type="text" inputmode="url" maxlength="500" value="${esc(it.sito_scuola||'')}" placeholder="https:// · vuoto per rimuovere" aria-label="Sito o pagina della scuola"></div>
         <div><span>Profilo di chi scrive</span><span class="t-view">${linkView(it.profilo)}</span><input class="t-edit profilo-edit" hidden type="text" inputmode="url" maxlength="500" value="${esc(it.profilo||'')}" placeholder="https:// · vuoto per rimuovere" aria-label="Profilo di chi scrive"></div>

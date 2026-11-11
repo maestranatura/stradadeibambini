@@ -3,6 +3,7 @@
 // Nulla viene pubblicato: la pubblicazione avviene solo da /approva/.
 import { getStore } from "@netlify/blobs";
 import { normalizeHttpsUrl } from "../lib/https-url.mjs";
+import { emailValida } from "../lib/email.mjs";
 
 const AUDIO_RE = /^\d{4}-\d{2}-\d{2}\/[0-9a-f-]{36}\.(m4a|webm|ogg|mp3|wav)$/;
 const FOTO_RE = /^\d{4}-\d{2}-\d{2}\/[0-9a-f-]{36}\.(jpg|png|webp)$/;
@@ -33,6 +34,11 @@ export default async (req, context) => {
     console.log("contributo rifiutato: manca il consenso");
     return new Response("manca il consenso", { status: 400 });
   }
+  const email = emailValida(d.email);
+  if (!email) {
+    console.log("contributo rifiutato: email assente o non valida");
+    return new Response("email non valida", { status: 400 });
+  }
   const consensoQuando = (() => {
     const raw = s(d.consenso_quando, 40);
     const t = Date.parse(raw);
@@ -52,7 +58,7 @@ export default async (req, context) => {
     racconto: s(d.racconto, 8000), voci: s(d.voci, 4000), voci_elenco: vociElenco, video: s(d.video, 2000).split(/\s+/).filter(u => /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//.test(u)).slice(0, 10),
     audio_racconto: audioRacconto, audio_voci: audioVoci, foto,
     consensi: { genitori: true, volti_non_riconoscibili: true, licenza_aperta: on(d.licenza_aperta), privacy: true, quando: consensoQuando },
-    autore: s(d.autore, 120), email: s(d.email, 160),
+    autore: s(d.autore, 120), email,
     netlify_submission_id: s(p.id, 40), notifica: { stato: "in corso" }, storia: [{ quando: new Date().toISOString(), cosa: "ricevuto" }],
   };
   const store = getStore({ name: "contributi", consistency: "strong" });
@@ -74,6 +80,7 @@ export default async (req, context) => {
     "È arrivato un nuovo contributo alla Strada dei Bambini. Non è pubblicato: aspetta la tua approvazione.",
     "",
     `Chi: ${rec.autore || "—"}${rec.classe || rec.scuola ? ` · ${[rec.classe, rec.scuola].filter(Boolean).join(", ")}` : ""}`,
+    rec.email ? `Email: ${rec.email}` : null,
     rec.sito_scuola ? `Sito o pagina della scuola: ${rec.sito_scuola}` : null,
     rec.profilo ? `Profilo: ${rec.profilo}` : null,
     `Dove: ${rec.luogo_nome || "luogo nuovo"}${rec.community ? ` (${rec.community})` : ""}${rec.aula_id ? "" : " · luogo nuovo"}`,

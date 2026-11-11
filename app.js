@@ -1,6 +1,12 @@
 'use strict';
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const MAX_HTTPS_URL=500;
+const EMAIL_RE=/^[A-Z0-9._%+'’-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+function emailValida(v){
+  const e=String(v??'').trim();
+  if(e.length<5||e.length>160||/\s/.test(e)||!EMAIL_RE.test(e)) return '';
+  return e;
+}
 function parseHttpsUrl(raw, max=MAX_HTTPS_URL){
   const t=String(raw??'').trim();
   if(!t) return {ok:true,url:''};
@@ -330,6 +336,15 @@ async function init(){
       if(!profOk.ok){ alert('«Il tuo profilo»: inserisci un indirizzo https:// valido, oppure lascia il campo vuoto. Non inserire link a profili o foto di bambini.'); $('#profilo').focus(); return; }
       if($('#sito_scuola')) $('#sito_scuola').value=sitoOk.url;
       if($('#profilo')) $('#profilo').value=profOk.url;
+      const emailEl=$('#email');
+      const email=emailValida(emailEl&&emailEl.value);
+      if(!email){
+        if(emailEl){ emailEl.setCustomValidity('Inserisci un’email valida. Non viene pubblicata: serve solo per ricontattarti.'); emailEl.reportValidity(); emailEl.focus(); emailEl.addEventListener('input',()=>emailEl.setCustomValidity(''),{once:true}); }
+        else alert('Inserisci un’email valida. Non viene pubblicata: serve solo per ricontattarti.');
+        return;
+      }
+      emailEl.value=email;
+      if($('#autore') && !$('#autore').value.trim()){ $('#autore').reportValidity(); $('#autore').focus(); return; }
       const cons=$('#consenso-privacy');
       if(!cons || !cons.checked){ if(cons){ cons.focus(); cons.reportValidity(); } else alert('Per inviare serve la dichiarazione su privacy, minori e foto.'); return; }
       const quandoEl=$('#f-consenso-quando'); if(quandoEl) quandoEl.value=new Date().toISOString();
