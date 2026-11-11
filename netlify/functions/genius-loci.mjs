@@ -344,6 +344,33 @@ export function ripulisci(testo) {
   return t.trim();
 }
 
+// Conteggi giornalieri: si tengono 30 giorni, poi si cancellano (impronte IP e totali).
+const GIORNI_CONTEGGI = 30;
+export function dataMenoGiorni(iso, n) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  dt.setUTCDate(dt.getUTCDate() - n);
+  return dt.toISOString().slice(0, 10);
+}
+export function dataDellaChiave(key) {
+  const m = String(key).match(/(?:^|\/)(\d{4}-\d{2}-\d{2})(?=\/|$)/);
+  return m ? m[1] : null;
+}
+async function pulisciConteggiVecchi(store, giorno) {
+  const marker = `pulizia/${giorno}`;
+  if (await store.get(marker, { type: "text" })) return { fatta: false };
+  const cutoff = dataMenoGiorni(giorno, GIORNI_CONTEGGI);
+  let tolti = 0;
+  for (const prefix of ["giorno/", "ip/", "pulizia/"]) {
+    const { blobs } = await store.list({ prefix });
+    for (const b of blobs) {
+      const d = dataDellaChiave(b.key);
+      if (d && d < cutoff) { await store.delete(b.key); tolti++; }
+    }
+  }
+  await store.set(marker, "ok");
+  return { fatta: true, cutoff, tolti };
+}
 async function controllaLimiti(cfg, req, context) {
   const store = getStore({ name: "genius-loci-limiti", consistency: "strong" });
   const giorno = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
@@ -355,13 +382,19 @@ async function controllaLimiti(cfg, req, context) {
   if (nG >= cfg.limiteGiorno) return { ok: false, motivo: "Per oggi il Genius Loci ha risposto a tutte le domande previste. Riprova domani." };
   if (nI >= cfg.limiteIp) return { ok: false, motivo: "Hai già fatto molte domande oggi. Riprova domani." };
   await Promise.all([store.setJSON(kG, { n: nG + 1 }), store.setJSON(kI, { n: nI + 1 })]);
+  // Pulizia una volta al giorno, dopo aver aggiornato i conteggi di oggi (non si toccano).
+  try { await pulisciConteggiVecchi(store, giorno); } catch {}
   return { ok: true };
 }
 
 let ix = null;
 export default async (req, context) => {
   const cfg = configurazione();
-  if (req.method === "GET") return json(cfg.pronto ? { abilitato: true, limiteIp: cfg.limiteIp } : { abilitato: false });
+  if (req.method === "GET") {
+    const giorno = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+    try { await pulisciConteggiVecchi(getStore({ name: "genius-loci-limiti", consistency: "strong" }), giorno); } catch {}
+    return json(cfg.pronto ? { abilitato: true, limiteIp: cfg.limiteIp } : { abilitato: false });
+  }
   if (req.method !== "POST") return json({ errore: "metodo non ammesso" }, 405);
   if (!cfg.pronto) return json({ abilitato: false, errore: "La risposta scritta non è attiva." }, 503);
   let domanda = "";
