@@ -14,9 +14,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .site-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:24px 48px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:30}
 .brand{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink)!important;text-decoration:none}
 .site-nav{display:flex;gap:32px;font-size:15px;font-weight:500}
-.site-nav a{color:#555;padding-bottom:4px;border-bottom:2px solid transparent}
-.site-nav a:hover{color:var(--ink)}
-.site-nav a.active{color:var(--ink);border-bottom-color:var(--green)}
+.site-nav a,.site-nav .nav-contatti-btn{color:#555;padding-bottom:4px;border-bottom:2px solid transparent}
+.site-nav a:hover,.site-nav .nav-contatti-btn:hover{color:var(--ink)}
+.site-nav a.active,.site-nav .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);border-bottom-color:var(--green)}
 .hero-photo{width:100%;height:min(520px,70vw);object-fit:cover}
 .intro{padding:72px 48px;max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 .kicker{margin:0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);font-weight:600}
@@ -44,7 +44,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .invite-copy,.invite-partners{display:flex;flex-direction:column;gap:12px;flex:1 1 300px}
 .invite-partners{font-size:14px;color:var(--muted);line-height:1.6;gap:8px}
 .invite-partners strong{color:var(--ink)}
-.site-footer{border-top:1px solid var(--line);padding:24px 48px;font-size:13px;color:var(--soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.site-footer{border-top:1px solid var(--line);padding:24px 48px;font-size:13px;color:var(--soft);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px 24px}
 .page-shell{padding:48px;max-width:1180px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:28px}
 .page-head p{margin:0;font-size:16px;color:var(--muted);max-width:65ch}
 .filter-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
@@ -620,10 +620,38 @@ table.archive tr.solo-tappe td{opacity:.85}
 .voce-row .voce-avviso{margin:0}
 @media (max-width:520px){.voce-top{grid-template-columns:1fr}}
 
-/* Menu a 390 px: con Genius Loci le voci non stanno più in una riga */
+
+/* Contatti: pannello nel menu e blocco «Seguici» nel footer */
+.nav-contatti{position:relative;display:flex;align-items:center}
+.site-nav .nav-contatti-btn{appearance:none;background:none;border:0;cursor:pointer;font:inherit;font-weight:500;padding-left:0;padding-right:0}
+.contatti-panel[hidden]{display:none!important}
+.contatti-panel{position:absolute;top:calc(100% + 8px);right:0;z-index:40;min-width:230px;max-width:min(300px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(27,27,27,.12);padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left}
+.contatti-panel p{margin:0;font-size:14px;font-weight:400;line-height:1.5;color:#333}
+.contatti-titolo{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--ink)!important}
+.site-nav .contatti-panel a{color:var(--green);padding:0;border-bottom:0;font-weight:500}
+.site-nav .contatti-panel a:hover{color:var(--green-dark)}
+.footer-seguici{display:flex;flex-direction:column;gap:2px;line-height:1.5}
+.footer-seguici-t{margin:0;font-weight:600;color:var(--ink)}
+.footer-seguici p{margin:0}
+.thanks-seguici{margin:4px 0 0;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.thanks-seguici .footer-seguici-t{font-family:var(--serif);font-size:18px}
+.gl-top{position:relative}
+.gl-top-actions{display:flex;align-items:center;gap:14px;margin-left:auto}
+.gl-top .nav-contatti-btn{appearance:none;background:none;border:0;cursor:pointer;font:inherit;font-size:15px;font-weight:500;color:#555;padding:0 0 2px;border-bottom:2px solid transparent}
+.gl-top .nav-contatti-btn:hover,.gl-top .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);border-bottom-color:var(--green)}
+.gl-top .contatti-panel a{color:var(--green)}
+
+/* Menu compatto sotto 430 px: testata in colonna, voci a capo, etichetta lunga su due righe */
+@media (max-width:700px){
+  /* Pannello ancorato alla testata, così non esce a sinistra se Contatti va a capo */
+  .nav-contatti{position:static}
+  .contatti-panel{left:16px;right:16px;top:calc(100% + 6px);min-width:0;max-width:none}
+}
 @media (max-width:430px){
-  .site-nav{gap:6px 11px;font-size:13px;flex-wrap:wrap}
+  .site-header{flex-direction:column;align-items:flex-start;gap:10px;padding:14px 16px}
+  .site-nav{width:100%;gap:8px 10px;font-size:13px;flex-wrap:wrap;row-gap:8px}
   .site-nav a.contrib{padding:6px 9px;font-size:13px}
+  .site-nav a.nav-gl{max-width:11.2em;line-height:1.25}
 }
 
 /* Informativa privacy */
