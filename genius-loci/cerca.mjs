@@ -52,7 +52,7 @@ const SINONIMI = {
   orto: 'semina coltivare piante',
 };
 
-const COMUNITA = [
+export const COMUNITA = [
   { nome: 'Siracusa', re: /\b(siracusa|ortigia|neapolis|siracusan\w*)\b/ },
   { nome: 'Valdobbiadene', re: /\b(valdobbiadene|bigolino|saccol|santo stefano|san vito|san pietro di barbozza|barbozza)\b/ },
   { nome: 'Salento', re: /\b(salento|botrugno|nociglia|supersano|san cassiano|salentin\w*)\b/ },

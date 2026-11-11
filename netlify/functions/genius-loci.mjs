@@ -5,18 +5,19 @@
 //
 // RAG: il server NON si fida dei testi mandati dal browser. Rifà la stessa ricerca della fase 1
 // (genius-loci/cerca.mjs sull'indice PUBBLICO genius-loci/indice.json: UDA, aule, estratti del metodo)
-// e, se c'è la chiave, anche sulla base PRIVATA (netlify/genius-loci-dati/corpus.cifrato.json:
-// materiali del team, metodo completo, rielaborazioni di opere e libri di testo). Al modello vanno
-// solo i passi trovati. La base privata è cifrata (AES-256-GCM) nel bundle della funzione e viene
-// decifrata solo in memoria; non è mai servita come file. Le fonti private si citano con titolo e
-// autore, mai con link a Drive.
+// e, se c'è la chiave, anche sulla base PRIVATA (materiali del team, metodo completo, rielaborazioni
+// di opere e libri di testo). La base privata NON è nel repository: sta cifrata (AES-256-GCM) in
+// Netlify Blobs (store «genius-loci-privato», chiave «corpus», caricata con
+// genius-loci/strumenti/attiva_fase2.mjs) e viene decifrata solo in memoria. Al modello vanno solo i
+// passi trovati. Le fonti private si citano con titolo e autore, mai con link a Drive.
+// Comunità non ancora attivate (genius-loci/comunita-nascoste.json): né cercate né citate.
 //
 // Variabili d'ambiente (solo nomi; i valori si mettono nel pannello Netlify, mai nel codice):
 //   GENIUS_LOCI_ABILITATO          "true" per accendere (qualsiasi altro valore = spento)
 //   GENIUS_LOCI_PROVIDER           "openai-compatibile" (OpenAI, Gemini, Mistral, Groq, OpenRouter…) | "anthropic"
 //   GENIUS_LOCI_API_KEY            chiave del provider scelto
-//   GENIUS_LOCI_MODELLO            nome del modello (es. quello indicato dal provider)
-//   GENIUS_LOCI_BASE_URL           solo per openai-compatibile: base dell'API, es. https://api.openai.com/v1
+//   GENIUS_LOCI_MODELLO            nome del modello (predefinito mistral-small-2603, Mistral Small 4)
+//   GENIUS_LOCI_BASE_URL           solo per openai-compatibile: base dell'API (predefinito https://api.mistral.ai/v1)
 //   GENIUS_LOCI_MAX_TOKENS         token massimi di risposta (predefinito 500)
 //   GENIUS_LOCI_LIMITE_GIORNALIERO domande al giorno su tutto il sito (predefinito 200)
 //   GENIUS_LOCI_LIMITE_IP          domande al giorno per indirizzo IP (predefinito 15)
@@ -26,8 +27,8 @@ import { getStore } from "@netlify/blobs";
 import { createHash, createDecipheriv } from "node:crypto";
 import { inflateSync } from "node:zlib";
 import dati from "../../genius-loci/indice.json" with { type: "json" };
-import corpusCifrato from "../genius-loci-dati/corpus.cifrato.json" with { type: "json" };
-import { preparaIndice, cerca } from "../../genius-loci/cerca.mjs";
+import NASCOSTE from "../../genius-loci/comunita-nascoste.json" with { type: "json" };
+import { preparaIndice, cerca, capisci, COMUNITA } from "../../genius-loci/cerca.mjs";
 
 const env = (k, d) => (globalThis.Netlify?.env?.get?.(k) ?? process.env[k] ?? d);
 const num = (k, d) => { const v = parseInt(env(k, ""), 10); return Number.isFinite(v) && v > 0 ? v : d; };
@@ -38,8 +39,8 @@ function configurazione() {
   const provider = env("GENIUS_LOCI_PROVIDER", "openai-compatibile");
   const cfg = {
     acceso: env("GENIUS_LOCI_ABILITATO", "") === "true",
-    provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", ""),
-    baseUrl: (env("GENIUS_LOCI_BASE_URL", "") || "").replace(/\/+$/, ""),
+    provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", "") || "mistral-small-2603",
+    baseUrl: (env("GENIUS_LOCI_BASE_URL", "") || "https://api.mistral.ai/v1").replace(/\/+$/, ""),
     maxTokens: Math.min(num("GENIUS_LOCI_MAX_TOKENS", 500), 1500),
     limiteGiorno: num("GENIUS_LOCI_LIMITE_GIORNALIERO", 200),
     limiteIp: num("GENIUS_LOCI_LIMITE_IP", 15),
@@ -49,7 +50,17 @@ function configurazione() {
   return cfg;
 }
 
-export const PROMPT_SISTEMA = `Sei il Genius Loci della Strada dei Bambini, un sussidiario vivo di aule all'aperto e unità di apprendimento (UDA) costruite con le comunità educanti di Siracusa, del Salento e di Valdobbiadene, e con le esperienze del team (Scuola del Fiume a Zenson di Piave, Nido Madonna delle Grazie a Volon di Zevio, Monte Lerno).
+// Comunità citate nel prompt: quelle nascoste si tolgono da sole (svuotare comunita-nascoste.json per riattivarle).
+const COMUNITA_PROMPT = ["Valdobbiadene", "Salento", "Druento", "Siracusa"].filter(c => !NASCOSTE.includes(c));
+const elenco = a => a.length > 1 ? a.slice(0, -1).join(", ") + " e " + a.at(-1) : a.join("");
+const RE_NASCOSTE = NASCOSTE.map(n => COMUNITA.find(c => c.nome === n)?.re || new RegExp(n.toLowerCase()));
+export function nascosto(p) {
+  if (NASCOSTE.includes(p.comunita)) return true;
+  const t = (p.titolo || "") + " " + (p.testo || "");
+  return RE_NASCOSTE.some(re => re.test(t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")));
+}
+
+export const PROMPT_SISTEMA = `Sei il Genius Loci della Strada dei Bambini, un sussidiario vivo di aule all'aperto e unità di apprendimento (UDA) costruite con le comunità educanti (${elenco(COMUNITA_PROMPT)}) e con le esperienze del team (Scuola del Fiume a Zenson di Piave, Nido Madonna delle Grazie a Volon di Zevio, Monte Lerno).
 Rispondi in italiano, con frasi semplici e calde, rivolgendoti a insegnanti, genitori e ragazzi.
 
 Regole che non puoi mai violare:
@@ -119,15 +130,23 @@ export function decifraCorpus(obj, chiaveB64) {
 }
 
 let ixPrivato; // undefined = non ancora provato, null = non disponibile
-export function indicePrivato(chiave = env("GENIUS_LOCI_CORPUS_CHIAVE", ""), cifrato = corpusCifrato) {
-  if (ixPrivato !== undefined && arguments.length === 0) return ixPrivato;
-  let ix = null;
+export function indiceDaCifrato(cifrato, chiave) {
   try {
-    const corpus = chiave ? decifraCorpus(cifrato, chiave) : null;
-    if (corpus?.passi?.length) ix = preparaIndice({ passi: corpus.passi, schede: [], aule: [] });
-  } catch { ix = null; } // chiave sbagliata o file alterato: si continua con il solo indice pubblico
-  if (arguments.length === 0) ixPrivato = ix;
-  return ix;
+    const corpus = chiave && cifrato ? decifraCorpus(cifrato, chiave) : null;
+    const passi = (corpus?.passi || []).filter(p => !nascosto(p)); // comunità nascoste: fuori dal recupero
+    return passi.length ? preparaIndice({ passi, schede: [], aule: [] }) : null;
+  } catch { return null; } // chiave sbagliata o file alterato: solo indice pubblico
+}
+export async function indicePrivato() {
+  if (ixPrivato !== undefined) return ixPrivato;
+  const chiave = env("GENIUS_LOCI_CORPUS_CHIAVE", "");
+  let cifrato = null;
+  if (chiave) {
+    try { cifrato = await getStore({ name: "genius-loci-privato", consistency: "strong" }).get("corpus", { type: "json" }); } catch { cifrato = null; }
+  }
+  ixPrivato = indiceDaCifrato(cifrato, chiave);
+  if (!ixPrivato) setTimeout(() => { ixPrivato = undefined; }, 60000).unref?.(); // riprova fra un minuto
+  return ixPrivato;
 }
 
 export async function chiamaModello(cfg, domanda, ctx) {
@@ -147,7 +166,9 @@ export async function chiamaModello(cfg, domanda, ctx) {
       messages: [{ role: "system", content: PROMPT_SISTEMA }, { role: "user", content: utente }] }) });
   if (!r.ok) throw new Error(`provider ${r.status}`);
   const j = await r.json();
-  return (j.choices?.[0]?.message?.content || "").trim();
+  const c = j.choices?.[0]?.message?.content;
+  // Mistral Small 4 con ragionamento attivo restituisce una lista di blocchi: teniamo solo il testo
+  return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
 }
 
 async function controllaLimiti(cfg, req, context) {
@@ -175,9 +196,12 @@ export default async (req, context) => {
   if (domanda.length < 3) return json({ errore: "Domanda vuota." }, 400);
   const lim = await controllaLimiti(cfg, req, context);
   if (!lim.ok) return json({ errore: lim.motivo }, 429);
+  if (NASCOSTE.includes(capisci(domanda).comunita))
+    return json({ risposta: "Non lo so: questa comunità non è ancora attiva sul sito. Prova con un altro luogo, una classe o un tema.", fonti: [] });
   ix = ix || preparaIndice(dati);
   const res = cerca(ix, domanda, { max: 5 });
-  const ixP = indicePrivato();
+  res.risultati = res.risultati.filter(r => !nascosto(r));
+  const ixP = await indicePrivato();
   const resP = ixP ? cerca(ixP, domanda, { max: 4, comunitaMorbida: true }) : null;
   if (!res.risultati.length && !resP?.risultati.length) return json({ risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] });
   const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 });

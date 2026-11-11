@@ -18,39 +18,62 @@ Regole già nel codice:
 - ogni scheda mostra Vissuta / Proposta;
 - se non trova niente di pertinente lo dice e propone domande alternative.
 
-## Fase 2 (pronta, SPENTA)
+## Fase 2 (pronta, SPENTA) — Mistral Small 4
 
 `netlify/functions/genius-loci.mjs` → `/api/genius-loci`.
 - `GET` risponde `{abilitato:false}` finché le variabili non sono impostate: il frontend resta in fase 1.
-- `POST {domanda}`: rifà la stessa ricerca lato server, manda al modello solo quei passi con un prompt di sistema
-  che obbliga a citare [S1], [S2]…, a dire «non lo so», a non inventare voci dei bambini, a distinguere vissuta/proposta.
-- Limiti: giornaliero globale e per IP (IP salvato solo come hash giornaliero) in Netlify Blobs `genius-loci-limiti`; max token.
+- `POST {domanda}`: rifà la stessa ricerca lato server (indice pubblico + base privata), manda al modello solo quei
+  passi con un prompt di sistema che obbliga a citare [S1], [S2]…, a dire «non lo so», a non inventare voci dei
+  bambini, a distinguere vissuta/proposta.
+- Modello predefinito: `mistral-small-2603` (Mistral Small 4, API compatibile OpenAI su `https://api.mistral.ai/v1`;
+  listino Mistral a novembre 2026: 0,15 $/M token in ingresso, 0,60 $/M in uscita). Una domanda ≈ 5–6k token in
+  ingresso + ≤500 in uscita ≈ 0,001 $; 200 domande/giorno ≈ 0,25 $/giorno al massimo.
+- Limiti: 200 domande al giorno sul sito e 15 per IP (IP salvato solo come hash giornaliero) in Netlify Blobs
+  `genius-loci-limiti`; max token.
+- **Comunità nascoste** (`genius-loci/comunita-nascoste.json`, oggi `["Siracusa"]`, insieme a `COMUNITA_NASCOSTE` in
+  `app.js`): l'indice pubblico non le contiene, la funzione scarta i passi privati e i risultati che le nominano,
+  risponde «non lo so» alle domande su di esse e le toglie dal prompt. Per riattivarne una: toglierla da entrambe le
+  liste, rigenerare l'indice (`costruisci_indice.py`) e rifare il deploy (la base privata non va ricaricata).
 
 Variabili d'ambiente (Netlify → Site configuration → Environment variables; nessun valore nel codice):
 
-| Nome | Esempio di valore | Note |
+| Nome | Valore | Note |
 |---|---|---|
 | `GENIUS_LOCI_ABILITATO` | `true` | qualsiasi altro valore = spento |
-| `GENIUS_LOCI_PROVIDER` | `openai-compatibile` oppure `anthropic` | OpenAI-compatibile copre Mistral, Gemini, OpenAI, Groq, OpenRouter |
-| `GENIUS_LOCI_BASE_URL` | `https://api.mistral.ai/v1` | solo per openai-compatibile |
-| `GENIUS_LOCI_MODELLO` | `mistral-small-2603` | nome del modello del provider |
-| `GENIUS_LOCI_API_KEY` | *(segreta)* | da impostare solo nel pannello Netlify |
+| `GENIUS_LOCI_PROVIDER` | `openai-compatibile` | oppure `anthropic` |
+| `GENIUS_LOCI_BASE_URL` | `https://api.mistral.ai/v1` | predefinito se assente |
+| `GENIUS_LOCI_MODELLO` | `mistral-small-2603` | predefinito se assente |
+| `GENIUS_LOCI_API_KEY` | *(segreta)* | chiave Mistral |
 | `GENIUS_LOCI_MAX_TOKENS` | `500` | massimo 1500 |
 | `GENIUS_LOCI_LIMITE_GIORNALIERO` | `200` | domande al giorno su tutto il sito |
 | `GENIUS_LOCI_LIMITE_IP` | `15` | domande al giorno per IP |
 | `GENIUS_LOCI_PASSI` | `8` | passi passati al modello (max 12) |
 | `GENIUS_LOCI_CORPUS_CHIAVE` | *(segreta)* | chiave base64 della base privata; senza, la fase 2 usa solo l'indice pubblico |
 
+### Accensione (script, nessun valore stampato)
+
+```
+# prova a secco: dice cosa farebbe e quali valori mancano (solo "presente"/"MANCANTE")
+NETLIFY_AUTH_TOKEN=… MISTRAL_API_KEY=… node genius-loci/strumenti/attiva_fase2.mjs --prova-mistral
+# esecuzione: carica la base cifrata in Blobs e imposta le variabili (contesto production)
+NETLIFY_AUTH_TOKEN=… MISTRAL_API_KEY=… node genius-loci/strumenti/attiva_fase2.mjs --esegui
+# poi rifare il deploy. Opzioni: --spento, --contesti production,deploy-preview, --solo-blobs, --solo-env
+```
+
+Il token e la chiave Mistral si leggono solo dall'ambiente, la chiave del corpus solo da `CHIAVE_CORPUS`
+nella cartella privata. Spegnere: `GENIUS_LOCI_ABILITATO=false` dal pannello e nuovo deploy.
+
 ## Base di conoscenza privata (fase 2)
 
-Il repository è pubblico, quindi i documenti interni **non** sono mai in chiaro nel repo né sul sito.
+Il repository è pubblico, quindi i documenti interni **non** sono nel repo né sul sito, nemmeno cifrati.
 
-- `netlify/genius-loci-dati/corpus.cifrato.json` — passi (materiali del team a testo completo, metodo completo,
-  rielaborazioni con parole nostre di opere di terzi e dei libri di testo, sintesi del progetto Siracusa senza
-  cifre) cifrati con AES-256-GCM. La funzione li importa nel bundle e li decifra solo in memoria con
-  `GENIUS_LOCI_CORPUS_CHIAVE`. `/netlify/*` risponde comunque 404 (vedi `_redirects`).
-- `netlify/genius-loci-dati/sorgenti-private.cifrato.json` — copia cifrata degli input scritti a mano
-  (manifest e rielaborazioni), per poter rigenerare la base anche su un altro computer.
+- `corpus.cifrato.json` — passi (materiali del team a testo completo, metodo completo, rielaborazioni con parole
+  nostre di opere di terzi e dei libri di testo, sintesi del progetto Siracusa senza cifre) cifrati con
+  AES-256-GCM. Sta nella cartella privata e in **Netlify Blobs** (store `genius-loci-privato`, chiave `corpus`):
+  la funzione lo legge da lì e lo decifra solo in memoria con `GENIUS_LOCI_CORPUS_CHIAVE`. Blobs non è
+  raggiungibile da URL pubblici.
+- `sorgenti-private.cifrato.json` — copia cifrata degli input scritti a mano (manifest e rielaborazioni), per
+  rigenerare la base anche su un altro computer; anche in Blobs (chiave `sorgenti-private`).
 - Le fonti private si citano con titolo e autore, **mai** con link a Drive; nel frontend appaiono come
   «Documenti del team consultati».
 
@@ -60,10 +83,11 @@ Rigenerare (cartella privata fuori dal repo, es. `/workspace/genius-loci-privato
 python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina   # se mancano manifest/rielaborati
 # scaricare da Drive i file del manifest in DIR/sorgenti/<drive_id>.<ext> (lo script elenca i mancanti)
 python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ocr          # --ocr: rifà l'OCR se serve
+NETLIFY_AUTH_TOKEN=… node genius-loci/strumenti/attiva_fase2.mjs --solo-blobs --esegui   # ricarica in Blobs
 ```
 
 Lo script estrae il testo (pdftotext, python-pptx, python-docx; OCR con rapidocr per i file fatti di immagini),
 toglie email, telefoni, codici fiscali, link, filigrane con nomi di acquirenti, righe con budget e prezzi,
 anonimizza i nomi indicati nel manifest, scarta i passi delle Mappe Genius Loci già presenti nel metodo e
 si ferma se il controllo privacy finale trova qualcosa. Una chiave nuova si crea con `--nuova-chiave`
-(poi va copiata nella variabile su Netlify e la base va rigenerata).
+(poi va rimessa su Netlify con `attiva_fase2.mjs --solo-env --esegui` e la base va ricaricata).

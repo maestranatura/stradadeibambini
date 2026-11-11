@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Costruisce la base di conoscenza PRIVATA della fase 2 di «Parla con il Genius Loci».
 
-La base NON è pubblica: il repository è pubblico, quindi nel repo entra solo la versione
-CIFRATA (AES-256-GCM) in netlify/genius-loci-dati/corpus.cifrato.json. La funzione Netlify la
-decifra in memoria con la chiave della variabile d'ambiente GENIUS_LOCI_CORPUS_CHIAVE.
-Senza chiave la funzione usa solo l'indice pubblico.
+La base NON è pubblica e NON sta nel repository (che è pubblico). Lo script scrive nella cartella
+privata la versione CIFRATA (AES-256-GCM) corpus.cifrato.json; attiva_fase2.mjs la carica in
+Netlify Blobs (store «genius-loci-privato», chiave «corpus»). La funzione la legge da Blobs e la
+decifra in memoria con la variabile d'ambiente GENIUS_LOCI_CORPUS_CHIAVE.
+Senza corpus o senza chiave la funzione usa solo l'indice pubblico.
 
 Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius-loci-privato:
     manifest.json        elenco dei documenti con metadati e regole (vedi sotto)
@@ -14,12 +15,14 @@ Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius
     rielaborati/*.md     sintesi scritte con parole nostre (opere di terzi, libri di testo,
                          progetto Siracusa senza cifre), con intestazione di metadati
     metodo.txt           testo del PDF Mappe Genius Loci (pdftotext -layout)
-    corpus.json          USCITA in chiaro, resta solo nella cartella privata
+    corpus.json          USCITA in chiaro (facoltativa, --chiaro), resta solo nella cartella privata
+    corpus.cifrato.json  USCITA cifrata, da caricare in Netlify Blobs con attiva_fase2.mjs
+    sorgenti-private.cifrato.json  copia cifrata di manifest e rielaborati (backup, anche in Blobs)
 
 Uso (dalla radice del repo):
     python3 genius-loci/strumenti/costruisci_corpus.py --privato /workspace/genius-loci-privato [--ocr]
     python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --nuova-chiave   # solo la prima volta
-    python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina     # rimette manifest e rielaborati dal backup cifrato
+    python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina     # rimette manifest e rielaborati da DIR/sorgenti-private.cifrato.json
 
 Scaricare i sorgenti: per ogni voce del manifest con drive_id, scaricare il file da Drive
 («Scarica», oppure lo strumento DownloadFile di Grok Bot) e salvarlo come sorgenti/<drive_id>.<ext>.
@@ -42,8 +45,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from testi import clean, split, metodo_chunks  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-USCITA = ROOT / 'netlify' / 'genius-loci-dati' / 'corpus.cifrato.json'
-BACKUP = ROOT / 'netlify' / 'genius-loci-dati' / 'sorgenti-private.cifrato.json'
 
 # ---------------- estrazione testo ----------------
 def estrai(path):
@@ -180,8 +181,10 @@ def main():
     ap.add_argument('--ocr', action='store_true', help='rifà l’OCR dei documenti con sorgente «ocr» se manca ocr/<id>.txt')
     ap.add_argument('--nuova-chiave', action='store_true')
     ap.add_argument('--ripristina', action='store_true')
+    ap.add_argument('--chiaro', action='store_true', help='scrive anche corpus.json in chiaro nella cartella privata')
     a = ap.parse_args()
     priv = a.privato
+    USCITA, BACKUP = priv / 'corpus.cifrato.json', priv / 'sorgenti-private.cifrato.json'
     if a.nuova_chiave:
         f = priv / 'CHIAVE_CORPUS'
         if f.exists(): sys.exit('CHIAVE_CORPUS esiste già: non la sovrascrivo.')
@@ -285,8 +288,7 @@ def main():
         if any(n.startswith(('email', 'codice', 'filigrana', 'nome', 'cifre')) for _, n in problemi): sys.exit(1)
 
     corpus = {'versione': 1, 'passi': passi}
-    (priv / 'corpus.json').write_text(json.dumps(corpus, ensure_ascii=False, indent=0))
-    USCITA.parent.mkdir(parents=True, exist_ok=True)
+    if a.chiaro: (priv / 'corpus.json').write_text(json.dumps(corpus, ensure_ascii=False, indent=0))
     USCITA.write_text(json.dumps(cifra(json.dumps(corpus, ensure_ascii=False, separators=(',', ':')).encode(), chiave)))
     # backup cifrato degli input scritti a mano (manifest + rielaborati)
     arch = {'file': {'manifest.json': (priv / 'manifest.json').read_text()}}
@@ -295,7 +297,7 @@ def main():
 
     from collections import Counter
     print(f'{len(passi)} passi da {len(conteggi)} documenti ·', dict(Counter(p['tipo_fonte'] for p in passi)))
-    print('scritto', USCITA.relative_to(ROOT), f'{USCITA.stat().st_size/1024:.0f} KB (cifrato) e', BACKUP.relative_to(ROOT))
+    print('scritto', USCITA, f'{USCITA.stat().st_size/1024:.0f} KB (cifrato) e', BACKUP, '→ caricarli con genius-loci/strumenti/attiva_fase2.mjs')
     if mancanti: print('MANCANO (scaricarli/rigenerarli e rilanciare):', *mancanti, sep='\n  ')
 
 if __name__ == '__main__':
