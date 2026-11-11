@@ -52,7 +52,7 @@ function card(r, i) {
 function rispostaHtml(res) {
   const intro = `<p class="gl-intro ${res.intro.tipo === 'vuoto' ? 'vuoto' : ''}">${esc(res.intro.testo)}</p>`;
   if (!res.risultati.length) {
-    return intro + `<ul class="gl-suggerimenti" aria-label="Prova con">${SUGGERIMENTI.map(s => `<li><button type="button">${esc(s)}</button></li>`).join('')}</ul>`;
+    return (llm.abilitato ? '<div class="gl-llm" hidden></div>' : '') + intro + `<ul class="gl-suggerimenti" aria-label="Prova con">${SUGGERIMENTI.map(s => `<li><button type="button">${esc(s)}</button></li>`).join('')}</ul>`;
   }
   return intro + `<div class="gl-llm" hidden></div><ol class="gl-cards">${res.risultati.map(card).join('')}</ol>`;
 }
@@ -97,7 +97,7 @@ async function faseDue(domanda, res, body) {
       return '';
     }).split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
     const doc = interne.length ? `<p class="gl-fonte">Documenti del team consultati (non pubblicati sul sito): ${interne.map((f, i) => `[d${i + 1}] ${esc(f.titolo)}${f.autore ? ` — ${esc(f.autore)}` : ''}`).join('; ')}.</p>` : '';
-    box.innerHTML = html + doc + '<p class="gl-fonte">Risposta scritta da un modello linguistico solo a partire dalle schede e dai documenti indicati. Controlla sempre la scheda.</p>';
+    box.innerHTML = html + doc + '<p class="gl-fonte">Risposta scritta da un modello linguistico. Le frasi con il numero [n] vengono dalle schede e dai documenti indicati; le «Idee» sono suggerimenti generali, da verificare sul tuo territorio. Controlla sempre la scheda.</p>';
   } catch (e) {
     box.innerHTML = '<p class="gl-fonte">La risposta scritta non è disponibile adesso: qui sotto trovi le schede pertinenti.</p>';
   }
