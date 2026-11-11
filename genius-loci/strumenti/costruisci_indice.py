@@ -7,42 +7,19 @@ Uso (dalla radice del repo):
 Fonti:
   - esperienze.json  (UDA: descrizione, scheda, movimenti, voci VERIFICATE, lettura, replicare)
   - luoghi.geojson   (aule con un testo proprio)
-  - metodo.txt       (Mappe Genius Loci, testo estratto dal PDF; facoltativo)
+  - metodo.txt       (Mappe Genius Loci: qui solo un estratto breve per capitolo; il testo
+                      completo va nella base privata, vedi costruisci_corpus.py)
 
-Regole: si indicizza solo testo già presente nelle fonti; le voci dei bambini entrano solo se
+Regole: si indicizza solo testo già presente nelle fonti (contenuti del sito + estratti brevi del metodo); le voci dei bambini entrano solo se
 `verificata` è vera e la scheda non ha `voci_in_verifica`; nessun testo viene riscritto.
 """
-import argparse, json, re, unicodedata
+import argparse, json, re, sys, unicodedata
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from testi import clean, split, metodo_chunks, estratto_breve  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'genius-loci' / 'indice.json'
-MAX = 900  # caratteri per passo
-
-def clean(s):
-    if not s: return ''
-    s = re.sub(r'\[\[(?:[^\]|]*\|)?([^\]]*)\]\]', r'\1', str(s))   # [[url|testo]] -> testo
-    s = re.sub(r'\[([^\]]+)\]\((?:[^)]+)\)', r'\1', s)              # [testo](url)
-    s = re.sub(r'https?://\S+', '', s)
-    s = s.replace('**', '').replace('*', '')
-    s = re.sub(r'[ \t]+', ' ', s)
-    s = re.sub(r'\n{2,}', '\n', s)
-    return s.strip()
-
-def split(text, max_len=MAX):
-    """Divide in pezzi di paragrafi interi (mai frasi tagliate a metà se evitabile)."""
-    paras = [p.strip() for p in re.split(r'\n+', text) if p.strip()]
-    out, cur = [], ''
-    for p in paras:
-        if len(p) > max_len:  # paragrafo lungo: per frasi
-            for s in re.split(r'(?<=[.!?»])\s+', p):
-                if cur and len(cur) + len(s) + 1 > max_len: out.append(cur); cur = ''
-                cur = (cur + ' ' + s).strip()
-            continue
-        if cur and len(cur) + len(p) + 1 > max_len: out.append(cur); cur = ''
-        cur = (cur + '\n' + p).strip()
-    if cur: out.append(cur)
-    return out
 
 def comunita_breve(c):
     if not c: return ''
@@ -138,74 +115,18 @@ for f in feat:
         classi=p.get('classi'), categoria=cat, luogo=p.get('area') or p.get('percorso'), aula_id=p['id'],
         sezione='Aula', testo=(txt if has_text else '') + '\n' + extra)
 
-# ---------- Metodo ----------
-def metodo_chunks(path):
-    L = Path(path).read_text().split('\n')
-    def left(l):
-        m = re.search(r'\S(\s{12,})\S', l)
-        if m and m.start(1) > 30: return l[:m.start(1) + 1].rstrip()
-        if re.match(r'^\s{40,}', l): return ''
-        return l.rstrip()
-    pages, cur = [], []
-    for l in L:
-        if l.startswith('Mappe Genius Loci'):
-            pages.append(cur); cur = []; continue
-        if re.fullmatch(r'\s+(\d{2}|[IVX]+)\s*', l) and any(x.strip() for x in cur):
-            pages.append(cur); cur = []
-        cur.append(left(l))
-    pages.append(cur)
-    out = []
-    for pg in pages[1:]:
-        lines = [x for x in pg]
-        nonempty = [x.strip() for x in lines if x.strip()]
-        if not nonempty: continue
-        num = ''
-        if re.fullmatch(r'(\d{2}|[IVX]+)', nonempty[0]): num = nonempty.pop(0)
-        if not nonempty: continue
-        title = nonempty.pop(0)
-        sub = ''
-        if nonempty and len(nonempty[0]) <= 110 and re.search(r'[.»?!]$', nonempty[0]) and not nonempty[0].startswith('Fonti:'):
-            sub = nonempty.pop(0)
-        if title in ('Il survey in sintesi', 'Riferimenti') or title.startswith('▪'): continue
-        if not sub and len(title) > 60: continue  # pagina-immagine senza titolo vero
-        # prosa: unisci righe in paragrafi, scarta Fonti e righe da diagramma
-        body, fonti, para = [], '', []
-        started = False
-        for x in lines:
-            s = x.strip()
-            if s in (num, title, sub) and not started: continue
-            if s.startswith('Fonti:'): fonti = s; break
-            if s.startswith('▪'): continue
-            if not s:
-                if para and re.search(r'[.!?»]$', para[-1]): body.append(' '.join(para)); para = []
-                continue
-            if len(s) < 25 and not para: continue
-            started = True
-            if para and len(para[-1]) > 60 and not re.search(r'[.!?»:;]$', para[-1]) and s[:1].islower():
-                para.append(s)
-            elif para and not re.search(r'[.!?»]$', para[-1]):
-                para.append(s)
-            else:
-                if para: body.append(' '.join(para)); para = []
-                para.append(s)
-        if para: body.append(' '.join(para))
-        text = '\n'.join(b for b in body if len(b) > 40)
-        text = re.sub(r'(\w)- (\w)', r'\1\2', text)
-        if len(text) < 150: continue
-        out.append((f"{num} · {title}" if re.fullmatch(r'\d{2}', num) else title, sub, text, fonti))
-    return out
-
 ap = argparse.ArgumentParser()
 ap.add_argument('--metodo', default='/workspace/metodo.txt')
 a = ap.parse_args()
 n_met = 0
+# Metodo: nell'indice PUBBLICO entra solo un estratto breve (prime frasi) per ogni capitolo.
+# Il testo completo sta nella base privata della fase 2 (costruisci_corpus.py, cifrata).
 if Path(a.metodo).exists():
     for title, sub, text, fonti in metodo_chunks(a.metodo):
-        for chunk in split(text):
-            add(tipo='metodo', ref=re.sub(r'[^a-z0-9]+', '-', unicodedata.normalize('NFKD', title.lower()).encode('ascii','ignore').decode()).strip('-'),
-                titolo=title, sezione=sub or 'Mappe Genius Loci', testo=chunk,
-                fonte='Mappe Genius Loci (D. Casertano, A. Rossetto)' + (' · ' + fonti[7:].strip() if fonti else ''))
-            n_met += 1
+        add(tipo='metodo', ref=re.sub(r'[^a-z0-9]+', '-', unicodedata.normalize('NFKD', title.lower()).encode('ascii','ignore').decode()).strip('-'),
+            titolo=title, sezione=sub or 'Mappe Genius Loci', testo=estratto_breve(text), estratto=True,
+            fonte='Mappe Genius Loci (D. Casertano, A. Rossetto), estratto' + (' · ' + fonti[7:].strip() if fonti else ''))
+        n_met += 1
 
 OUT.write_text(json.dumps({'versione': 1, 'schede': schede, 'aule': aule, 'passi': passi},
                           ensure_ascii=False, separators=(',', ':')))

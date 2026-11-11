@@ -4,7 +4,12 @@
 // POST /api/genius-loci  { domanda }  → { risposta, fonti:[{n,titolo,url,stato,tipo}] }
 //
 // RAG: il server NON si fida dei testi mandati dal browser. Rifà la stessa ricerca della fase 1
-// (genius-loci/cerca.mjs sull'indice genius-loci/indice.json) e passa al modello solo quei passi.
+// (genius-loci/cerca.mjs sull'indice PUBBLICO genius-loci/indice.json: UDA, aule, estratti del metodo)
+// e, se c'è la chiave, anche sulla base PRIVATA (netlify/genius-loci-dati/corpus.cifrato.json:
+// materiali del team, metodo completo, rielaborazioni di opere e libri di testo). Al modello vanno
+// solo i passi trovati. La base privata è cifrata (AES-256-GCM) nel bundle della funzione e viene
+// decifrata solo in memoria; non è mai servita come file. Le fonti private si citano con titolo e
+// autore, mai con link a Drive.
 //
 // Variabili d'ambiente (solo nomi; i valori si mettono nel pannello Netlify, mai nel codice):
 //   GENIUS_LOCI_ABILITATO          "true" per accendere (qualsiasi altro valore = spento)
@@ -16,9 +21,12 @@
 //   GENIUS_LOCI_LIMITE_GIORNALIERO domande al giorno su tutto il sito (predefinito 200)
 //   GENIUS_LOCI_LIMITE_IP          domande al giorno per indirizzo IP (predefinito 15)
 //   GENIUS_LOCI_PASSI              quanti passi passare al modello (predefinito 8)
+//   GENIUS_LOCI_CORPUS_CHIAVE      chiave (base64, 32 byte) per decifrare la base privata; senza, solo indice pubblico
 import { getStore } from "@netlify/blobs";
-import { createHash } from "node:crypto";
+import { createHash, createDecipheriv } from "node:crypto";
+import { inflateSync } from "node:zlib";
 import dati from "../../genius-loci/indice.json" with { type: "json" };
+import corpusCifrato from "../genius-loci-dati/corpus.cifrato.json" with { type: "json" };
 import { preparaIndice, cerca } from "../../genius-loci/cerca.mjs";
 
 const env = (k, d) => (globalThis.Netlify?.env?.get?.(k) ?? process.env[k] ?? d);
@@ -41,7 +49,7 @@ function configurazione() {
   return cfg;
 }
 
-export const PROMPT_SISTEMA = `Sei il Genius Loci della Strada dei Bambini, un sussidiario vivo di aule all'aperto e unità di apprendimento (UDA) costruite con le comunità educanti di Siracusa, del Salento e di Valdobbiadene.
+export const PROMPT_SISTEMA = `Sei il Genius Loci della Strada dei Bambini, un sussidiario vivo di aule all'aperto e unità di apprendimento (UDA) costruite con le comunità educanti di Siracusa, del Salento e di Valdobbiadene, e con le esperienze del team (Scuola del Fiume a Zenson di Piave, Nido Madonna delle Grazie a Volon di Zevio, Monte Lerno).
 Rispondi in italiano, con frasi semplici e calde, rivolgendoti a insegnanti, genitori e ragazzi.
 
 Regole che non puoi mai violare:
@@ -53,25 +61,73 @@ Regole che non puoi mai violare:
 6. Non inventare docenti, date, nomi di scuole, prodotti o risultati. Se un dato nelle fonti è incerto o «da completare», dillo.
 7. Ammetti l'incertezza: se le fonti sono parziali, dillo («le schede ne parlano solo in parte»).
 8. Non descrivere né identificare bambini. Niente dati personali.
-9. Al massimo 180 parole. Niente elenchi lunghi: rimanda alle schede.`;
+9. Al massimo 180 parole. Niente elenchi lunghi: rimanda alle schede.
+10. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
+11. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
+12. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate.`;
 
-export function contesto(ix, res) {
+function etichetta(r) {
+  if (r.tipo === "uda") return `UDA ${r.stato === "vissuta" ? "VISSUTA" : "PROPOSTA"}`;
+  if (r.tipo === "aula") return "AULA";
+  if (!r.privato) return "METODO Mappe Genius Loci (estratto)";
+  if (r.tipo === "metodo") return "METODO Mappe Genius Loci (testo completo)";
+  if (r.tipo_fonte === "libro di testo") return "PROGRAMMA (dai libri di testo, rielaborato)";
+  if (r.tipo_fonte === "rielaborato") return "RIELABORAZIONE (sintesi con parole nostre)";
+  return `MATERIALE DEL TEAM${r.stato === "vissuta" ? " — VISSUTA" : r.stato === "proposta" ? " — PROPOSTA" : ""}`;
+}
+
+// gruppi = [{ ix, res, privato }]
+export function contesto(...gruppi) {
+  if (gruppi.length === 2 && gruppi[0]?.passi && gruppi[1]?.risultati) gruppi = [{ ix: gruppi[0], res: gruppi[1] }]; // firma vecchia (ix, res)
   const fonti = []; const blocchi = [];
-  const passi = [];
-  for (const r of res.risultati) {
-    const ids = [...(r.passi || [])];
-    const breve = r.tipo === "uda" && ix.passi.find(x => x.ref === r.ref && x.sezione === "In breve");
-    if (breve && !ids.includes(breve.id)) ids.push(breve.id);
-    for (const id of ids) { const p = ix.passi.find(x => x.id === id); if (p) passi.push({ r, p }); }
-  }
-  for (const { r, p } of passi) {
-    let n = fonti.findIndex(f => f.titolo === r.titolo) + 1;
-    if (!n) { fonti.push({ n: fonti.length + 1, titolo: r.titolo, url: r.url || null, stato: r.stato || null, tipo: r.tipo }); n = fonti.length; }
-    const etichetta = r.tipo === "uda" ? `UDA ${r.stato === "vissuta" ? "VISSUTA" : "PROPOSTA"}` : r.tipo === "aula" ? "AULA" : "METODO Mappe Genius Loci";
-    const meta = [r.comunita, (r.eta || []).join(", "), r.classi, (r.discipline || []).join(", ")].filter(Boolean).join(" · ");
-    blocchi.push(`[S${n}] ${etichetta} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${p.testo}`);
+  for (const { ix, res, privato, budget = 8000 } of gruppi) {
+    if (!ix || !res) continue;
+    let usati = 0;
+    for (const r0 of res.risultati) {
+      const r = { ...r0, privato: !!privato };
+      const ids = [...(r.passi || [])];
+      const breve = r.tipo === "uda" && ix.passi.find(x => x.ref === r.ref && x.sezione === "In breve");
+      if (breve && !ids.includes(breve.id)) ids.push(breve.id);
+      for (const id of ids.slice(0, privato ? 2 : 3)) {
+        const p = ix.passi.find(x => x.id === id); if (!p) continue;
+        if (usati + p.testo.length > budget) break;
+        usati += p.testo.length;
+        let n = fonti.findIndex(f => f.titolo === r.titolo) + 1;
+        if (!n) {
+          fonti.push(privato
+            ? { n: fonti.length + 1, titolo: r.titolo, autore: r.autore || null, url: null, stato: r.stato || null, tipo: "documento", tipo_fonte: r.tipo_fonte || (r.tipo === "metodo" ? "team" : null) }
+            : { n: fonti.length + 1, titolo: r.titolo, url: r.url || null, stato: r.stato || null, tipo: r.tipo });
+          n = fonti.length;
+        }
+        const meta = [r.comunita, (r.eta || []).join(", "), r.classi, (r.discipline || []).join(", "), privato && r.autore ? `autore: ${r.autore}` : ""].filter(Boolean).join(" · ");
+        blocchi.push(`[S${n}] ${etichetta(r)} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${p.testo}`);
+      }
+    }
   }
   return { fonti, testo: blocchi.join("\n\n---\n\n") };
+}
+
+// ---------- base privata cifrata ----------
+export function decifraCorpus(obj, chiaveB64) {
+  const chiave = Buffer.from(String(chiaveB64 || "").trim(), "base64");
+  if (chiave.length !== 32 || !obj?.iv || !obj?.dati) return null;
+  const buf = Buffer.from(obj.dati, "base64");
+  const d = createDecipheriv("aes-256-gcm", chiave, Buffer.from(obj.iv, "base64"));
+  d.setAuthTag(buf.subarray(buf.length - 16));
+  const chiaro = Buffer.concat([d.update(buf.subarray(0, buf.length - 16)), d.final()]);
+  return JSON.parse(inflateSync(chiaro).toString("utf8"));
+}
+
+let ixPrivato; // undefined = non ancora provato, null = non disponibile
+export function indicePrivato(chiave = env("GENIUS_LOCI_CORPUS_CHIAVE", ""), cifrato = corpusCifrato) {
+  if (ixPrivato !== undefined && arguments.length === 0) return ixPrivato;
+  let ix = null;
+  try {
+    const corpus = chiave ? decifraCorpus(cifrato, chiave) : null;
+    if (corpus?.passi?.length) ix = preparaIndice({ passi: corpus.passi, schede: [], aule: [] });
+  } catch { ix = null; } // chiave sbagliata o file alterato: si continua con il solo indice pubblico
+  if (arguments.length === 0) ixPrivato = ix;
+  return ix;
 }
 
 export async function chiamaModello(cfg, domanda, ctx) {
@@ -121,10 +177,12 @@ export default async (req, context) => {
   if (!lim.ok) return json({ errore: lim.motivo }, 429);
   ix = ix || preparaIndice(dati);
   const res = cerca(ix, domanda, { max: 5 });
-  if (!res.risultati.length) return json({ risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] });
-  const ctx = contesto(ix, res);
+  const ixP = indicePrivato();
+  const resP = ixP ? cerca(ixP, domanda, { max: 4, comunitaMorbida: true }) : null;
+  if (!res.risultati.length && !resP?.risultati.length) return json({ risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] });
+  const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 });
   try {
-    const risposta = await chiamaModello(cfg, domanda, ctx.testo.slice(0, 14000));
+    const risposta = await chiamaModello(cfg, domanda, ctx.testo.slice(0, 15000));
     return json({ risposta: risposta || "Non lo so.", fonti: ctx.fonti });
   } catch (e) {
     return json({ errore: "Il servizio di risposta scritta non ha risposto." }, 502);

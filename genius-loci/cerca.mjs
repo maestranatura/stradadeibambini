@@ -17,7 +17,9 @@ aperto aperta all fuori esterno outdoor primaria elementare elementari secondari
 prima seconda terza quarta quinta primo secondo terzo quarto quinto grado anno
 detto dette detti dicono dice hanno scritto raccontato parole voci voce frasi frase
 genius loci sito strada sull sullo nell nello dell dello dall dallo coll quel quei bell tutto tutti tutte
-qualcuno ognuno lui fatta fatte avete hanno serve servono funziona`.split(/\s+/).filter(Boolean));
+qualcuno ognuno lui fatta fatte avete hanno serve servono funziona
+cos studia studiare studiano studio collegare collego collegarla collegarle svolta svolto svolge svolgere leggere
+quali quale idee`.split(/\s+/).filter(Boolean));
 
 // Sinonimi semplici: la parola cercata richiama anche queste (peso ridotto).
 const SINONIMI = {
@@ -54,6 +56,10 @@ const COMUNITA = [
   { nome: 'Siracusa', re: /\b(siracusa|ortigia|neapolis|siracusan\w*)\b/ },
   { nome: 'Valdobbiadene', re: /\b(valdobbiadene|bigolino|saccol|santo stefano|san vito|san pietro di barbozza|barbozza)\b/ },
   { nome: 'Salento', re: /\b(salento|botrugno|nociglia|supersano|san cassiano|salentin\w*)\b/ },
+  // esperienze del team presenti solo nella base privata della fase 2
+  { nome: 'Zenson di Piave', re: /\b(zenson)\b/ },
+  { nome: 'Volon di Zevio', re: /\b(zevio|volon)\b/ },
+  { nome: 'Buddusò', re: /\b(budduso|pattada)\b/ },
 ];
 
 const DISCIPLINE = ['arte','storia','italiano','geografia','educazione civica','scienze','matematica','musica','tecnologia','educazione motoria','motoria','campi di esperienza','educazione alimentare'];
@@ -88,7 +94,7 @@ export function capisci(domanda) {
   } else if ((m = q.match(/\b(terza|quarta|quinta|3a|4a|5a)\b/))) {
     out.classe = 'primaria III-V'; out.classeEtichetta = `${m[1]} primaria`; out.numeroClasse = m[1];
   } else if ((m = q.match(/\b(prima|seconda|1a|2a)\s+(primaria|elementare|classe)\b/)) || (m = q.match(/\bclasse\s+(prima|seconda)\b/))) {
-    out.classe = 'primaria I-II'; out.classeEtichetta = `${m[1]} primaria`;
+    out.classe = 'primaria I-II'; out.classeEtichetta = `${m[1]} primaria`; out.numeroClasse = m[1];
   } else if (/\b(primaria|elementare|elementari)\b/.test(q)) {
     out.classe = 'primaria'; out.classeEtichetta = 'primaria';
   } else if (/\b(infanzia|materna|asilo|sezione|5 anni|cinque anni)\b/.test(q)) {
@@ -169,7 +175,8 @@ function codiceClassePreciso(sc, cap) { // SR-UDA-3P-01 → terza primaria
 }
 
 // ---------- ricerca ----------
-export function cerca(ix, domanda, { max = 5 } = {}) {
+export function cerca(ix, domanda, { max = 5, comunitaMorbida = false } = {}) {
+  // comunitaMorbida (base privata): i passi senza comunità (metodo, programma, opere) restano validi
   const cap = capisci(domanda);
   const termini = cap.termini;
   const pesati = [];
@@ -179,8 +186,7 @@ export function cerca(ix, domanda, { max = 5 } = {}) {
 
   const candidati = [];
   for (const p of ix.passi) {
-    if (cap.comunita && p.tipo !== 'metodo' && p.comunita !== cap.comunita) continue;
-    if (cap.comunita && p.tipo === 'metodo') continue;
+    if (cap.comunita && p.comunita !== cap.comunita && !(comunitaMorbida && !p.comunita)) continue;
     if (p.voce && cap.intento !== 'voci') continue;
     let s = 0; const coperti = new Set(); const trovati = new Set();
     for (const [t, w, origine] of pesati) {
@@ -191,7 +197,8 @@ export function cerca(ix, domanda, { max = 5 } = {}) {
     const soloFiltri = !termini.length && !cap.discipline.length;
     if (soloFiltri) s = (0.5 + Math.min(p.testo.length, 600) / 1200) * (p.sezione === 'In breve' || p.tipo === 'aula' ? 1 : 0.5) * (cap.intento === 'aula' && p.tipo === 'aula' ? (ix.aule.get(p.ref)?.uda?.length ? 2.2 : 1.6) : 1);
     if (s <= 0) continue;
-    if (cap.discipline.length && p.tipo === 'uda') s *= (p.discipline || []).some(d => cap.discipline.includes(d)) ? 1.5 : 0.5;
+    if (cap.discipline.length && (p.tipo === 'uda' || p.tipo_fonte === 'libro di testo')) s *= (p.discipline || []).some(d => cap.discipline.includes(d)) ? 1.5 : 0.5;
+    if (p.tipo_fonte === 'libro di testo' && cap.numeroClasse) s *= String(p.classe) === ({ prima: '1', seconda: '2', terza: '3', quarta: '4', quinta: '5' }[cap.numeroClasse] || cap.numeroClasse[0]) ? 2.5 : 0.3;
     if (cap.intento === 'aula') s *= p.tipo === 'aula' ? 1.8 : (p.tipo === 'uda' ? 1 : 0.3);
     if (cap.intento === 'metodo') s *= p.tipo === 'metodo' ? 2.2 : 0.6;
     if (cap.intento === 'voci') s *= p.voce ? 2 : (p.tipo === 'uda' ? 1 : 0.2);
@@ -218,7 +225,7 @@ export function cerca(ix, domanda, { max = 5 } = {}) {
   }
   let lista = [...gruppi.values()];
   const nTermini = new Set([...termini, ...cap.discipline.flatMap(d => radici(d))]).size;
-  const soglia = nTermini <= 2 ? nTermini : Math.ceil(nTermini * 0.67);
+  const soglia = nTermini <= 2 ? (cap.intento === 'metodo' ? 1 : nTermini) : Math.ceil(nTermini * 0.67);
   lista = lista.filter(g => !nTermini || g.coperti.size >= soglia);
   lista.sort((a, b) => b.punteggio - a.punteggio);
   if (lista.length) { const top = lista[0].punteggio; lista = lista.filter(g => g.punteggio >= top * 0.22); }
@@ -247,7 +254,8 @@ function scheda(ix, g, cap) {
       estratto: estratto(p.testo.split('\n').filter(l => !/^(Categoria|Classi|Area):/.test(l)).join('\n') || p.testo, g.trovati),
       url: `/aula.html?id=${encodeURIComponent(p.ref)}`, mappa: `/mappa.html?aula=${encodeURIComponent(p.ref)}`, passi: passiId };
   }
-  return { ...base, estratto: estratto(p.testo, g.trovati), passi: passiId };
+  return { ...base, autore: p.autore, tipo_fonte: p.tipo_fonte, stato: p.stato, eta: p.eta, discipline: p.discipline, ref: p.ref,
+    estratto: estratto(p.testo, g.trovati), passi: passiId };
 }
 
 // estratto vero (~260 caratteri) attorno alla zona con più parole trovate
