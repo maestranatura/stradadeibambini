@@ -2,6 +2,8 @@
 //
 // GET  /api/genius-loci  → { abilitato: false }  (oppure true, con i limiti)  — il frontend usa l'LLM solo se true
 // POST /api/genius-loci  { domanda }  → { risposta, fonti:[{n,titolo,url,stato,tipo}] }
+// Ambito: outdoor education, didattica esperienziale, educazione al luogo; idee per adattare il metodo al proprio territorio.
+// Se la ricerca trova poco, passa al modello fonti di metodo generali; le domande fuori tema le declina il modello.
 //
 // RAG: il server NON si fida dei testi mandati dal browser. Rifà la stessa ricerca della fase 1
 // (genius-loci/cerca.mjs sull'indice PUBBLICO genius-loci/indice.json: UDA, aule, estratti del metodo)
@@ -18,7 +20,7 @@
 //   GENIUS_LOCI_API_KEY            chiave del provider scelto
 //   GENIUS_LOCI_MODELLO            nome del modello (predefinito mistral-small-2603, Mistral Small 4)
 //   GENIUS_LOCI_BASE_URL           solo per openai-compatibile: base dell'API (predefinito https://api.mistral.ai/v1)
-//   GENIUS_LOCI_MAX_TOKENS         token massimi di risposta (predefinito 500)
+//   GENIUS_LOCI_MAX_TOKENS         token massimi di risposta (predefinito 700)
 //   GENIUS_LOCI_LIMITE_GIORNALIERO domande al giorno su tutto il sito (predefinito 200)
 //   GENIUS_LOCI_LIMITE_IP          domande al giorno per indirizzo IP (predefinito 15)
 //   GENIUS_LOCI_PASSI              quanti passi passare al modello (predefinito 8)
@@ -42,7 +44,7 @@ function configurazione() {
     acceso: env("GENIUS_LOCI_ABILITATO", "") === "true",
     provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", "") || "mistral-small-2603",
     baseUrl: (env("GENIUS_LOCI_BASE_URL", "") || "https://api.mistral.ai/v1").replace(/\/+$/, ""),
-    maxTokens: Math.min(num("GENIUS_LOCI_MAX_TOKENS", 500), 1500),
+    maxTokens: Math.min(num("GENIUS_LOCI_MAX_TOKENS", 700), 1500),
     limiteGiorno: num("GENIUS_LOCI_LIMITE_GIORNALIERO", 200),
     limiteIp: num("GENIUS_LOCI_LIMITE_IP", 15),
     passi: Math.min(num("GENIUS_LOCI_PASSI", 8), 12),
@@ -64,19 +66,52 @@ export function nascosto(p) {
 export const PROMPT_SISTEMA = `Sei il Genius Loci della Strada dei Bambini, un sussidiario vivo di aule all'aperto e unità di apprendimento (UDA) costruite con le comunità educanti (${elenco(COMUNITA_PROMPT)}) e con le esperienze del team (Scuola del Fiume a Zenson di Piave, Nido Madonna delle Grazie a Volon di Zevio, Monte Lerno).
 Rispondi in italiano, con frasi semplici e calde, rivolgendoti a insegnanti, genitori e ragazzi.
 
+DI COSA PARLI. Rispondi su: outdoor education e scuola all'aperto, didattica esperienziale, educazione al luogo e al territorio locale (place-based education), mappe di comunità, uscite e osservazione dell'ambiente, e su come collegare tutto questo al curricolo. Su questi temi puoi usare anche la tua conoscenza pedagogica generale, oltre alle FONTI.
+Se chi scrive insegna in un altro luogo, aiutalo ad adattare al SUO territorio le esperienze e il metodo della Strada dei Bambini: prendi ispirazione dalle FONTI (citandole) e proponi idee concrete e prudenti (un primo sopralluogo, sicurezza e autorizzazioni per le uscite, osservare e disegnare, fare mappe, cercare i custodi del luogo).
+Se la domanda è fuori da questi temi (ricette, attualità, sport, compiti o argomenti generici…), declina con gentilezza in una o due frasi, senza rispondere nel merito e senza le due parti qui sotto, e ricorda su cosa puoi aiutare. Non citare fonti in quel caso.
+
 Regole che non puoi mai violare:
-1. Rispondi SOLO usando le FONTI qui sotto. Non usare conoscenze esterne su luoghi, persone, date o fatti.
-2. Cita sempre la scheda da cui prendi un'informazione con il segno [S1], [S2]… subito dopo la frase.
-3. Se le fonti non contengono la risposta, dillo chiaramente: «Non lo so: nelle schede del sito non c'è» e suggerisci come riformulare la domanda (un luogo, una classe, un tema).
-4. Non inventare MAI parole dei bambini. Puoi riportare una frase dei bambini solo se nella fonte è marcata «VOCE VERIFICATA», tra «caporali», identica, con la sua citazione. Non parafrasarla come se l'avessero detta.
+1. Tieni separate due cose, sempre in questo ordine.
+   (a) «Dalle nostre schede:» — un paragrafo con ciò che dicono le FONTI; ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
+   (b) «Idee per il tuo territorio:» (oppure «Idee generali:» se non si parla di un luogo preciso) — i tuoi suggerimenti generali, al massimo 4 righe che iniziano con «– ». In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
+   Metti la parte (b) solo se chi scrive chiede come fare, cosa fare o insegna altrove; per una domanda su una nostra esperienza basta la parte (a). Non attribuire mai alle FONTI ciò che non c'è scritto.
+2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
+3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
+4. Non inventare MAI parole dei bambini. Puoi riportare una frase dei bambini solo se nella fonte è marcata «VOCE VERIFICATA», tra «caporali», identica, con la sua citazione. Non parafrasarla come se l'avessero detta. Se ti chiedono che cosa hanno detto i bambini e non ci sono voci verificate, dillo chiaramente, senza citare fonti per questa frase. Nelle idee non scrivere frasi tra virgolette messe in bocca a bambini o persone.
 5. Distingui sempre: «vissuta» = esperienza fatta davvero con una classe; «proposta» = idea ancora da provare. Non scrivere mai che una proposta «è stata fatta» o che «i bambini hanno scoperto».
-6. Non inventare docenti, date, nomi di scuole, prodotti o risultati. Se un dato nelle fonti è incerto o «da completare», dillo.
-7. Ammetti l'incertezza: se le fonti sono parziali, dillo («le schede ne parlano solo in parte»).
-8. Non descrivere né identificare bambini. Niente dati personali.
-9. Al massimo 180 parole. Niente elenchi lunghi: rimanda alle schede.
-10. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
-11. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
-12. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate.`;
+6. Se la domanda chiede un fatto preciso sulle nostre comunità e le fonti non lo contengono, dillo («Non lo so: nelle schede del sito non c'è») e suggerisci come riformulare la domanda (un luogo, una classe, un tema). Se le fonti sono parziali, dillo.
+7. Non descrivere né identificare bambini. Niente dati personali.
+8. Al massimo 220 parole. Testo semplice, senza markdown: niente asterischi, grassetti o titoli con #. Chiudi, se serve, con una riga che rimanda alle schede citate.
+9. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
+10. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
+11. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate. Anche dalle altre fonti non copiare brani lunghi.
+12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.`;
+
+// Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
+// così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
+const ANCORE_PUBBLICHE = ["genius loci survey"];
+const ANCORE_PRIVATE = ["genius loci survey", "ciclo di Kolb", "decalogo scuole naturali", "mapmaking sense of place", "dirty teaching learning outdoors"];
+function unisci(dest, res, max) {
+  for (const r of res?.risultati || []) {
+    if (dest.risultati.length >= max) break;
+    if (!dest.risultati.some(x => x.titolo === r.titolo) && !nascosto(r)) dest.risultati.push(r);
+  }
+}
+export function fontiDiMetodo(ix, ixP, domanda, res, resP) {
+  const pub = { risultati: [...(res?.risultati || [])] };
+  const pri = { risultati: [...(resP?.risultati || [])] };
+  // 1) parole della domanda prese una alla volta (parco, fiume, bosco…), solo se non troppo comuni
+  const termini = capisci(domanda).termini.filter(t => t.length > 3);
+  for (const t of termini.slice(0, 8)) {
+    const raro = i => i && (i.df.get(t) || 0) > 0 && (i.df.get(t) || 0) / i.N < 0.06;
+    if (raro(ix)) unisci(pub, cerca(ix, t, { max: 1 }), 3);
+    if (ixP && raro(ixP)) unisci(pri, cerca(ixP, t, { max: 1, comunitaMorbida: true }), 3);
+  }
+  // 2) il metodo della Strada dei Bambini
+  for (const q of ANCORE_PUBBLICHE) unisci(pub, cerca(ix, q, { max: 1 }), 4);
+  if (ixP) for (const q of ANCORE_PRIVATE) unisci(pri, cerca(ixP, q, { max: 1, comunitaMorbida: true }), 6);
+  return { res: pub, resP: ixP ? pri : null };
+}
 
 function etichetta(r) {
   if (r.tipo === "uda") return `UDA ${r.stato === "vissuta" ? "VISSUTA" : "PROPOSTA"}`;
@@ -143,8 +178,8 @@ export async function indicePrivato() {
   return ixPrivato;
 }
 
-export async function chiamaModello(cfg, domanda, ctx) {
-  const utente = `FONTI\n\n${ctx}\n\nDOMANDA\n${domanda}`;
+export async function chiamaModello(cfg, domanda, ctx, generali = false) {
+  const utente = `${generali ? "FONTI DI METODO GENERALI (la ricerca non ha trovato schede sul tema preciso della domanda)" : "FONTI"}\n\n${ctx}\n\nDOMANDA\n${domanda}`;
   const ctrl = AbortSignal.timeout(20000);
   if (cfg.provider === "anthropic") {
     const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal: ctrl,
@@ -163,6 +198,15 @@ export async function chiamaModello(cfg, domanda, ctx) {
   const c = j.choices?.[0]?.message?.content;
   // Mistral Small 4 con ragionamento attivo restituisce una lista di blocchi: teniamo solo il testo
   return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
+}
+
+// [S1, S2] o [S1,S3] → [S1][S2] (il sito collega solo [S1]); nella parte «Idee…» (suggerimenti generali) niente citazioni.
+export function ripulisci(testo) {
+  let t = String(testo || "").replace(/\[S(\d+(?:\s*[,;]\s*S?\d+)+)\]/g, (m, g) => g.split(/\s*[,;]\s*/).map(x => `[S${x.replace(/^S/, "")}]`).join(""));
+  t = t.replace(/\*\*([^*]+)\*\*/g, "$1");
+  const i = t.search(/Idee (per il tuo territorio|generali)\s*:/i);
+  if (i >= 0) t = t.slice(0, i) + t.slice(i).replace(/\s*\[S\d+\]/g, "");
+  return t.trim();
 }
 
 async function controllaLimiti(cfg, req, context) {
@@ -190,21 +234,34 @@ export default async (req, context) => {
   if (domanda.length < 3) return json({ errore: "Domanda vuota." }, 400);
   const lim = await controllaLimiti(cfg, req, context);
   if (!lim.ok) return json({ errore: lim.motivo }, 429);
+  const out = await rispondi(cfg, domanda);
+  return out.errore ? json({ errore: out.errore }, out.status || 500) : json(out);
+};
+
+// Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
+export async function rispondi(cfg, domanda) {
   if (NASCOSTE.includes(capisci(domanda).comunita))
-    return json({ risposta: "Non lo so: questa comunità non è ancora attiva sul sito. Prova con un altro luogo, una classe o un tema.", fonti: [] });
+    return { risposta: "Non lo so: questa comunità non è ancora attiva sul sito. Prova con un altro luogo, una classe o un tema.", fonti: [] };
   ix = ix || preparaIndice(dati);
-  const res = cerca(ix, domanda, { max: 5 });
+  let res = cerca(ix, domanda, { max: 5 });
   res.risultati = res.risultati.filter(r => !nascosto(r));
   const ixP = await indicePrivato();
-  const resP = ixP ? cerca(ixP, domanda, { max: 4, comunitaMorbida: true }) : null;
-  if (!res.risultati.length && !resP?.risultati.length) return json({ risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] });
+  let resP = ixP ? cerca(ixP, domanda, { max: 4, comunitaMorbida: true }) : null;
+  if (resP) resP.risultati = resP.risultati.filter(r => !nascosto(r));
+  // Poche schede trovate: aggiungo fonti di metodo, il modello darà idee generali (o declinerà se fuori tema).
+  const trovati = res.risultati.length + (resP?.risultati.length || 0);
+  const generali = trovati === 0;
+  if (trovati < 3) ({ res, resP } = fontiDiMetodo(ix, ixP, domanda, res, resP));
+  if (!res.risultati.length && !resP?.risultati.length) return { risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] };
   const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 });
   try {
-    const risposta = await chiamaModello(cfg, domanda, ctx.testo.slice(0, 15000));
-    return json({ risposta: risposta || "Non lo so.", fonti: ctx.fonti });
+    const risposta = ripulisci(await chiamaModello(cfg, domanda, ctx.testo.slice(0, 15000), generali));
+    // risposta di rifiuto (fuori tema): niente fonti mostrate
+    const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
+    return { risposta: risposta || "Non lo so.", fonti };
   } catch (e) {
-    return json({ errore: "Il servizio di risposta scritta non ha risposto." }, 502);
+    return { errore: "Il servizio di risposta scritta non ha risposto.", status: 502 };
   }
-};
+}
 
 export const config = { path: "/api/genius-loci" };
