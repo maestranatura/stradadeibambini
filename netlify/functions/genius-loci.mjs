@@ -90,7 +90,8 @@ Regole che non puoi mai violare:
 11. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate. Anche dalle altre fonti non copiare brani lunghi.
 12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.
 13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo la parte (a) e prima delle idee scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati all'esperienza della domanda. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nella parte (a) non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
-14. Il «MANIFESTO della Strada dei Bambini» è il testo pubblico della home: citalo con [S…] come le altre fonti.`;
+14. Il «MANIFESTO della Strada dei Bambini» è il testo pubblico della home: citalo con [S…] come le altre fonti.
+15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Alla fine della risposta, dopo le idee, aggiungi esattamente questa riga: «Vuoi portare la Strada dei Bambini a [città]? Scrivici a info@scuolenaturali.it» (per una regione usa «in»). Non aggiungere questo invito se la domanda riguarda una delle nostre comunità già attive.`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -406,10 +407,168 @@ export default async (req, context) => {
   return out.errore ? json({ errore: out.errore }, out.status || 500) : json(out);
 };
 
+// Invito a scriverci se la domanda nomina un luogo senza schede recensite.
+// Comunità attive e esperienze del team: niente invito. Comunità nascoste: come una città non recensita.
+export const EMAIL_CONTATTO = "info@scuolenaturali.it";
+const LUOGHI_EXTRA = [
+  { nome: "Druento", re: /\b(druento)\b/, attiva: true },
+  { nome: "Monte Lerno", re: /\b(monte lerno)\b/, attiva: true },
+  { nome: "Via Francigena", re: /\b((via )?francigena)\b/, attiva: true },
+];
+const REGIONI = [
+  ["Valle d'Aosta", "valle d aosta|val d aosta"],
+  ["Piemonte", "piemonte"],
+  ["Lombardia", "lombardia"],
+  ["Liguria", "liguria"],
+  ["Veneto", "veneto"],
+  ["Trentino-Alto Adige", "trentino alto adige"],
+  ["Trentino", "trentino"],
+  ["Alto Adige", "alto adige|sudtirolo"],
+  ["Friuli-Venezia Giulia", "friuli venezia giulia"],
+  ["Friuli", "friuli"],
+  ["Emilia-Romagna", "emilia romagna"],
+  ["Toscana", "toscana"],
+  ["Umbria", "umbria"],
+  ["Marche", "marche"],
+  ["Lazio", "lazio"],
+  ["Abruzzo", "abruzzo"],
+  ["Molise", "molise"],
+  ["Campania", "campania"],
+  ["Puglia", "puglia"],
+  ["Basilicata", "basilicata"],
+  ["Calabria", "calabria"],
+  ["Sicilia", "sicilia"],
+  ["Sardegna", "sardegna"],
+];
+const CITTA = `torino milano genova venezia trieste bologna firenze perugia ancona roma
+campobasso napoli bari potenza catanzaro palermo cagliari aosta trento bolzano
+verona padova vicenza treviso rovigo belluno udine pordenone gorizia novara
+alessandria asti cuneo vercelli biella verbania como varese lecco sondrio bergamo
+brescia pavia cremona mantova lodi monza savona imperia pisa livorno lucca siena
+arezzo pistoia prato grosseto terni pesaro urbino macerata fermo viterbo rieti
+latina frosinone pescara chieti teramo isernia caserta salerno avellino benevento
+foggia andria barletta trani taranto brindisi lecce matera cosenza crotone messina
+catania trapani agrigento caltanissetta enna ragusa sassari nuoro oristano olbia
+parma piacenza ferrara ravenna forli cesena rimini prato empoli viareggio
+imola faenza carpi sassuolo fano jesi senigallia foligno spoleto guidonia pomezia
+tivoli velletri aprilia civitavecchia acerra casoria afragola pozzuoli portici
+ercolano aversa scafati battipaglia nola altamura molfetta bitonto monopoli
+ostuni fasano gallipoli nardo casarano maglie otranto trani cerignola sansevero
+manfredonia grottaglie manduria moncalieri cinisello
+legnano vigevano conegliano montebelluna`.split(/\s+/).filter(Boolean);
+const CITTA_COMPOSTE = [
+  ["L'Aquila", "all aquila|dell aquila|l aquila"],
+  ["La Spezia", "la spezia"],
+  ["Reggio Emilia", "reggio emilia"],
+  ["Reggio Calabria", "reggio calabria"],
+  ["Ascoli Piceno", "ascoli piceno|ascoli"],
+  ["Massa Carrara", "massa carrara"],
+  ["Vibo Valentia", "vibo valentia"],
+  ["Lamezia Terme", "lamezia terme|lamezia"],
+  ["Giugliano", "giugliano"],
+  ["Torre del Greco", "torre del greco"],
+  ["Castellammare di Stabia", "castellammare"],
+  ["Cava de' Tirreni", "cava de tirreni"],
+  ["Civitanova Marche", "civitanova marche|civitanova"],
+  ["Sesto San Giovanni", "sesto san giovanni"],
+  ["Busto Arsizio", "busto arsizio"],
+  ["San Severo", "san severo"],
+  ["Martina Franca", "martina franca"],
+  ["Vittorio Veneto", "vittorio veneto"],
+  ["Forlì", "forli"],
+];
+const LUOGO_STOP = new Set(`scuola classe classi primaria secondaria aperta aperto parco parchi fiume fiumi
+bosco boschi mare territorio territori paese paesi luogo luoghi quartiere quartieri montagna montagne
+campagna citta comune comuni centro chiesa piazza strada aula aule giardino orto valle valli collina
+colline lago laghi torrente monti alpi appennini nord sud est ovest zona area regione province provincia
+circolo istituto plesso sezione media medie elementare elementari materna asilo universita liceo casa
+famiglia natura ambiente aria acqua storia tema argomento esperienza uscite uscita giro gita attivita
+seconda terza quarta quinta prima grado anno anni ciclo curricolo programma metodo pedagogia didattica
+infanzia mattina pomeriggio serata italia italian europe europa nazionale`.split(/\s+/).filter(Boolean));
+const reLista = (voci, flags = "") => new RegExp(`\\b(?:${voci})\\b`, flags);
+const REGIONI_RE = REGIONI.map(([nome, alt]) => [nome, reLista(alt)]);
+const CITTA_RE = [
+  ...CITTA_COMPOSTE.map(([nome, alt]) => [nome, reLista(alt)]),
+  ...CITTA.filter(c => !CITTA_COMPOSTE.some(([, alt]) => alt.split("|").includes(c)))
+    .sort((a, b) => b.length - a.length)
+    .map(nome => [nome.replace(/\b\w/g, c => c.toUpperCase()), reLista(nome)]),
+];
+const REGIONI_NORM = new Set(REGIONI.map(([n]) => normalizza(n)));
+
+function titoloLuogo(s) {
+  const piccoli = new Set(["di", "del", "della", "dei", "de", "da", "e"]);
+  return String(s || "").trim().split(/\s+/).filter(Boolean).map((w, i) => {
+    const low = w.toLowerCase();
+    if (i > 0 && piccoli.has(low)) return low;
+    return low.charAt(0).toUpperCase() + low.slice(1);
+  }).join(" ");
+}
+
+function preposizioneLuogo(nome) {
+  const n = normalizza(nome);
+  if (n === "aquila" || n === "l aquila") return { prep: "all’", nome: "Aquila" };
+  if (n === "marche") return { prep: "nelle ", nome: "Marche" };
+  if (REGIONI_NORM.has(n) || n === "salento") return { prep: "in ", nome };
+  if (/^[aeiouàèéìòù]/i.test(nome)) return { prep: "ad ", nome };
+  return { prep: "a ", nome };
+}
+
+function notaLuogo(nome, attiva, nascosta, daElenco) {
+  return { nome, attiva: !!attiva, nascosta: !!nascosta, daElenco: !!daElenco };
+}
+
+export function luoghiDellaDomanda(domanda) {
+  const q = " " + normalizza(domanda) + " ";
+  const out = [];
+  const visto = new Set();
+  const aggiungi = l => { const k = normalizza(l.nome); if (!k || visto.has(k)) return; visto.add(k); out.push(l); };
+  for (const c of COMUNITA) {
+    if (!c.re.test(q)) continue;
+    aggiungi(notaLuogo(c.nome, !NASCOSTE.includes(c.nome), NASCOSTE.includes(c.nome), true));
+  }
+  for (const c of LUOGHI_EXTRA) {
+    if (c.re.test(q)) aggiungi(notaLuogo(c.nome, c.attiva, false, true));
+  }
+  for (const [nome, re] of REGIONI_RE) if (re.test(q)) aggiungi(notaLuogo(nome, false, false, true));
+  for (const [nome, re] of CITTA_RE) if (re.test(q)) aggiungi(notaLuogo(nome, false, false, true));
+  // «insegno a / abito a / vivo a» anche per un comune non in elenco, se non è una parola vuota
+  const reVerbo = /\b(?:insegno|insegniamo|abito|abita|vivo|viviamo|lavoro|lavoriamo|stiamo|siamo|scrivo|scrive)\s+(?:a|ad|in|da)\s+(?:l['’]|la |il |lo )?(?!un |una |uno )([a-zàèéìòù]+(?:\s+[a-zàèéìòù]+){0,2})\b/g;
+  const piana = normalizza(domanda);
+  let m;
+  while ((m = reVerbo.exec(piana))) {
+    const grezzo = m[1].trim();
+    if (!grezzo || grezzo.split(" ").every(w => LUOGO_STOP.has(w) || w.length < 4)) continue;
+    const pezzi = grezzo.split(" ").filter(w => !LUOGO_STOP.has(w) && w.length >= 3);
+    if (!pezzi.length) continue;
+    aggiungi(notaLuogo(titoloLuogo(pezzi.join(" ")), false, false, false));
+  }
+  return out;
+}
+
+export function luogoDaInvitare(domanda) {
+  const luoghi = luoghiDellaDomanda(domanda);
+  if (!luoghi.length || luoghi.some(l => l.attiva)) return null;
+  return luoghi.find(l => !l.attiva) || null;
+}
+
+export function fraseInvito(luogo) {
+  const { prep, nome } = preposizioneLuogo(luogo.nome);
+  return `Vuoi portare la Strada dei Bambini ${prep}${nome}? Scrivici a ${EMAIL_CONTATTO}.`;
+}
+
+export function aggiungiInvito(risposta, domanda) {
+  const luogo = luogoDaInvitare(domanda);
+  if (!luogo) return risposta;
+  const testo = String(risposta || "").trim();
+  if (!testo) return risposta;
+  if (/info@scuolenaturali\.it/i.test(testo) || /vuoi portare la strada dei bambini/i.test(testo)) {
+    return testo.replace(/info@scuolenaturali\.it\.?\s*$/i, EMAIL_CONTATTO + ".");
+  }
+  return `${testo}\n\n${fraseInvito(luogo)}`;
+}
+
 // Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
 export async function rispondi(cfg, domanda) {
-  if (NASCOSTE.includes(capisci(domanda).comunita))
-    return { risposta: "Non lo so: questa comunità non è ancora attiva sul sito. Prova con un altro luogo, una classe o un tema.", fonti: [] };
   ix = ix || preparaIndice(dati);
   let res = cerca(ix, domanda, { max: 5 });
   res.risultati = res.risultati.filter(r => !nascosto(r));
@@ -420,17 +579,19 @@ export async function rispondi(cfg, domanda) {
   const trovati = res.risultati.length + (resP?.risultati.length || 0);
   const generali = trovati === 0;
   if (trovati < 3) ({ res, resP } = fontiDiMetodo(ix, ixP, domanda, res, resP));
-  if (!res.risultati.length && !resP?.risultati.length) return { risposta: "Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", fonti: [] };
+  if (!res.risultati.length && !resP?.risultati.length) {
+    return { risposta: aggiungiInvito("Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", domanda), fonti: [] };
+  }
   // Indicazioni nazionali: dopo le schede, con un budget loro (solo se la domanda parla di curricolo)
   const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda);
   const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 },
     { ix: ixN, res: resN, privato: true, budget: 7000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, resN ? 22000 : 15000), generali);
-    const risposta = verificaCitazioni(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti, ctx.testiNorm);
+    const risposta = aggiungiInvito(verificaCitazioni(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
-    return { risposta: risposta || "Non lo so.", fonti };
+    return { risposta: risposta || aggiungiInvito("Non lo so.", domanda), fonti };
   } catch (e) {
     return { errore: "Il servizio di risposta scritta non ha risposto.", status: 502 };
   }

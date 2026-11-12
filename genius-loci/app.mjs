@@ -95,7 +95,8 @@ async function faseDue(domanda, res, body) {
         return `<span class="cita" title="${esc(f.titolo)}">[d${i}]</span>`;
       }
       return '';
-    }).split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+    }).replace(/\binfo@scuolenaturali\.it\b/g, '<a href="mailto:info@scuolenaturali.it">info@scuolenaturali.it</a>')
+      .split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
     const doc = interne.length ? `<p class="gl-fonte">Documenti del team consultati (non pubblicati sul sito): ${interne.map((f, i) => `[d${i + 1}] ${esc(f.titolo)}${f.autore ? ` — ${esc(f.autore)}` : ''}`).join('; ')}.</p>` : '';
     box.innerHTML = html + doc + '<p class="gl-fonte">Risposta scritta da un modello linguistico. Le frasi con il numero [n] vengono dalle schede e dai documenti indicati; le «Idee» sono suggerimenti generali, da verificare sul tuo territorio. Controlla sempre la scheda.</p>';
   } catch (e) {
