@@ -663,6 +663,9 @@ table.archive tr.solo-tappe td{opacity:.85}
   .nav-primarie,.nav-secondarie{flex-wrap:nowrap;align-items:center;max-width:100%}
   .site-nav a,.site-nav .nav-contatti-btn{white-space:nowrap;flex:none;align-items:center}
   .site-nav a.nav-gl{max-width:none;line-height:inherit}
+  /* In riga 2 il padding/bordo sotto faceva sembrare Contatti la voce attiva e lo disallineava da Contribuisci. */
+  .nav-secondarie .nav-contatti-btn{padding:0;border-bottom:0;align-items:center}
+  .nav-secondarie .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--green)}
   .site-nav a.contrib{padding:7px 12px;font-size:14px}
 }
 @media (max-width:430px){
