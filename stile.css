@@ -13,7 +13,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .prototype{padding:8px 24px;text-align:center;background:var(--wash);color:var(--muted);font-size:12px;letter-spacing:.02em;border-bottom:1px solid var(--line)}
 .site-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:24px 48px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:30}
 .brand{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink)!important;text-decoration:none}
-.site-nav{display:flex;gap:32px;font-size:15px;font-weight:500}
+.site-nav{display:flex;align-items:center;--nav-gap:32px;gap:var(--nav-gap);font-size:15px;font-weight:500}
+.nav-primarie,.nav-secondarie{display:flex;align-items:center;gap:var(--nav-gap)}
 .site-nav a,.site-nav .nav-contatti-btn{color:#555;padding-bottom:4px;border-bottom:2px solid transparent}
 .site-nav a:hover,.site-nav .nav-contatti-btn:hover{color:var(--ink)}
 .site-nav a.active,.site-nav .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);border-bottom-color:var(--green)}
@@ -107,7 +108,7 @@ legend{font-family:var(--serif);font-size:22px;font-weight:600;padding:0 12px 0 
 .leaflet-tooltip.community-tip{font-family:var(--sans);font-size:12px;font-weight:600;border:0;border-radius:6px;padding:6px 8px;box-shadow:0 1px 3px rgba(0,0,0,.15);background:#fff}
 @media(max-width:850px){
   .site-header,.intro,.principles,.story,.invite,.site-footer,.page-shell{padding-left:20px;padding-right:20px}
-  .site-nav{gap:18px}
+  .site-nav{--nav-gap:18px}
   .story-photos,.timeline,.two{grid-template-columns:1fr}
   .map-pane{min-height:480px}
   #map{margin:0 12px 12px;min-height:420px}
@@ -116,7 +117,6 @@ legend{font-family:var(--serif);font-size:22px;font-weight:600;padding:0 12px 0 
   .map-float{right:24px;bottom:24px}
 }
 
-.nav-gl-breve{display:none}
 .site-nav a.contrib{color:#fff!important;background:var(--green);border-bottom:0!important;border-radius:6px;padding:8px 14px}
 .site-nav a.contrib:hover{background:var(--green-dark);color:#fff!important}
 .manifesto-block{padding:0 48px 72px;max-width:880px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:36px}
@@ -145,7 +145,7 @@ legend{font-family:var(--serif);font-size:22px;font-weight:600;padding:0 12px 0 
 @media(max-width:850px){
   .manifesto-block,.award,.videos{padding-left:20px;padding-right:20px}
   .video-grid{grid-template-columns:1fr}
-  .site-nav{gap:10px;align-items:center}
+  .site-nav{--nav-gap:10px;align-items:center}
   .site-nav a.contrib{padding:7px 12px;font-size:14px}
 }
 
@@ -204,7 +204,7 @@ legend{font-family:var(--serif);font-size:22px;font-weight:600;padding:0 12px 0 
 #place-panel img{height:140px}
 @media (max-width:700px){
   .site-header{padding:16px 20px}
-  .site-nav{gap:16px;font-size:14px}
+  .site-nav{--nav-gap:16px;font-size:14px}
   .intro,.story,.invite,.videos-inner,.award-inner,.voci-section,.page-shell{padding-left:20px;padding-right:20px}
   .community-grid{padding:0 20px 48px}
   .scheda div{grid-template-columns:1fr}
@@ -652,22 +652,22 @@ table.archive tr.solo-tappe td{opacity:.85}
 .gl-top .nav-contatti-btn:hover,.gl-top .nav-contatti-btn[aria-expanded="true"]{color:var(--ink);border-bottom-color:var(--green)}
 .gl-top .contatti-panel a{color:var(--green)}
 
-/* Menu mobile: voci su una riga ciascuna, allineate, niente sbordo. Sotto 700 px etichetta breve «Genius Loci». */
+/* Menu mobile: riga 1 Racconto · Mappa · Archivio · Parla con il Genius Loci (etichetta intera, una riga);
+   riga 2 Contatti e Contribuisci, allineati in verticale. */
 @media (max-width:700px){
   /* Pannello ancorato alla testata, così non esce a sinistra se Contatti va a capo */
   .nav-contatti{position:static;align-self:center;align-items:center}
   .contatti-panel{left:16px;right:16px;top:calc(100% + 6px);min-width:0;max-width:none}
-  .site-header{flex-direction:column;align-items:flex-start;gap:10px;padding:16px 20px;overflow-x:clip}
-  .site-nav{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:14px;row-gap:8px}
+  .site-header{flex-direction:column;align-items:flex-start;gap:10px;padding:16px 20px;overflow:visible}
+  .site-nav{width:100%;display:flex;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;--nav-gap:12px;gap:8px;font-size:14px}
+  .nav-primarie,.nav-secondarie{flex-wrap:nowrap;align-items:center;max-width:100%}
   .site-nav a,.site-nav .nav-contatti-btn{white-space:nowrap;flex:none;align-items:center}
   .site-nav a.nav-gl{max-width:none;line-height:inherit}
-  .nav-gl-lungo{display:none}
-  .nav-gl-breve{display:inline}
   .site-nav a.contrib{padding:7px 12px;font-size:14px}
 }
 @media (max-width:430px){
   .site-header{padding:14px 16px}
-  .site-nav{gap:8px 12px;font-size:13px}
+  .site-nav{--nav-gap:8px;font-size:13px}
   .site-nav a.contrib{padding:6px 10px;font-size:13px}
 }
 
