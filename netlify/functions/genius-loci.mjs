@@ -79,7 +79,7 @@ Regole che non puoi mai violare:
 1. Tieni separate due cose, sempre in questo ordine.
    (a) «Dalle nostre schede:» — un paragrafo con ciò che dicono le FONTI; ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
    (b) «Idee per il tuo territorio:» (oppure «Idee generali:» se non si parla di un luogo preciso) — i tuoi suggerimenti generali, al massimo 4 righe che iniziano con «– ». In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
-   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: cita autore e anno e il segno [S…] (per esempio «Kuo e colleghi (2019) [S3]…»). Non mescolarle con «Dalle nostre schede:». Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
+   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte, seguite dal suo segno [S…] (per esempio «Hood e Baumann (2024) [S3]…»). Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non mescolarle con «Dalle nostre schede:»: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
    Metti la parte (b) solo se chi scrive chiede come fare, cosa fare o insegna altrove; per una domanda su una nostra esperienza basta la parte (a). Non attribuire mai alle FONTI ciò che non c'è scritto.
 2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
 3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
@@ -135,6 +135,62 @@ function etichetta(r) {
   return `MATERIALE DEL TEAM${r.stato === "vissuta" ? " — VISSUTA" : r.stato === "proposta" ? " — PROPOSTA" : ""}`;
 }
 
+// «Hood, Baumann (2024)» → «Hood e Baumann (2024)»; tre o più autori → «Kuo e colleghi (2019)».
+const cognome = n => { const t = String(n).trim().split(/\s+/); const k = t.findIndex((w, i) => i > 0 && /^(van|von|de|di|da|del|della|le|la)$/i.test(w)); return k > 0 ? t.slice(k).join(" ") : t[t.length - 1]; };
+export function citaStudio(autore) {
+  const m = String(autore || "").match(/^(.*?)\s*\((\d{4})\)\s*$/); if (!m) return null;
+  const c = m[1].split(/,\s*/).filter(Boolean).map(cognome);
+  return `${c.length === 1 ? c[0] : c.length === 2 ? `${c[0]} e ${c[1]}` : `${c[0]} e colleghi`} (${m[2]})`;
+}
+// Controllo lato server sulla letteratura: (1) le frasi che citano uno studio non restano in «Dalle nostre schede:»,
+// passano nel paragrafo «Dalla letteratura di riferimento:»; (2) ogni frase su un solo studio porta il nome giusto
+// (se nomina l'autore di un altro studio, il nome si corregge; se non nomina nessuno, si aggiunge).
+const escRe = t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+export function separaLetteratura(testo, fonti = []) {
+  const lett = fonti.filter(f => f?.lett && f.cita);
+  if (!lett.length || !testo) return testo;
+  const codiciS = f => [...f.matchAll(/\[S(\d+)\]/g)].map(m => fonti[Number(m[1]) - 1]);
+  const RE_TIT = /^\s*(Dalle nostre schede|Dalla letteratura di riferimento|Idee per il tuo territorio|Idee generali|Traguardi a cui può concorrere)\s*:\s*/i;
+  const parti = []; let cur = { tit: null, righe: [] }; parti.push(cur);
+  for (const riga of testo.split("\n")) {
+    const m = riga.match(RE_TIT);
+    if (m) { cur = { tit: m[1].toLowerCase(), righe: [] }; parti.push(cur); const r = riga.slice(m[0].length); if (r.trim()) cur.righe.push(r); }
+    else cur.righe.push(riga);
+  }
+  const spostate = [];
+  for (const p of parti) if (p.tit === "dalle nostre schede") p.righe = p.righe.map(r => {
+    const frasi = r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/);
+    const resta = frasi.filter(f => { if (codiciS(f).some(x => x?.lett) || lett.some(l => new RegExp(`\\b${escRe(l.cita.split(/ e |\s\(/)[0])}\\b`).test(f))) { spostate.push(f.trim()); return false; } return true; });
+    return resta.join(" ");
+  });
+  let pl = parti.find(p => p.tit === "dalla letteratura di riferimento");
+  if (spostate.length) {
+    if (!pl) { pl = { tit: "dalla letteratura di riferimento", righe: [] }; const k = parti.findIndex(p => p.tit === "dalle nostre schede"); parti.splice(k >= 0 ? k + 1 : 1, 0, pl); }
+    const k = pl.righe.findIndex(r => r.trim());
+    if (k >= 0) pl.righe[k] = spostate.join(" ") + " " + pl.righe[k]; else pl.righe.unshift(spostate.join(" "));
+  }
+  if (pl) pl.righe = pl.righe.map(r => r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/).map(f => {
+    const ls = [...new Set(codiciS(f).filter(x => x?.lett))];
+    if (ls.length !== 1) return f;
+    const giusto = ls[0];
+    for (const altro of lett) if (altro !== giusto) {
+      const c0 = escRe(altro.cita.split(/ e |\s\(/)[0]);
+      f = f.replace(new RegExp(`\\b${c0}(\\s+(e colleghi|et al\\.?|e\\s+[A-ZÀ-Ý][\\wà-ÿ' ]*?))?(\\s*\\(\\d{4}\\))?(?=[\\s,.;:)]|$)`, "g"), giusto.cita);
+    }
+    const g0 = giusto.cita.split(/ e |\s\(/)[0];
+    if (!new RegExp(`\\b${escRe(g0)}\\b`).test(f)) f = f.replace(/\s*(\[S\d+\])/, ` (${giusto.cita.replace(/ \((\d{4})\)$/, ", $1")}) $1`);
+    return f;
+  }).join(" "));
+  const nomi = { "dalle nostre schede": "Dalle nostre schede:", "dalla letteratura di riferimento": "Dalla letteratura di riferimento:", "idee per il tuo territorio": "Idee per il tuo territorio:", "idee generali": "Idee generali:", "traguardi a cui può concorrere": "Traguardi a cui può concorrere:" };
+  const out = [];
+  for (const p of parti) {
+    if (p.tit && !p.righe.some(r => r.trim())) continue; // titolo rimasto vuoto
+    if (p.tit) { out.push(nomi[p.tit]); if (out.length > 1 && out[out.length - 2]?.trim()) out.splice(out.length - 1, 0, ""); }
+    out.push(...p.righe);
+  }
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 // gruppi = [{ ix, res, privato }]
 export function contesto(...gruppi) {
   if (gruppi.length === 2 && gruppi[0]?.passi && gruppi[1]?.risultati) gruppi = [{ ix: gruppi[0], res: gruppi[1] }]; // firma vecchia (ix, res)
@@ -170,7 +226,8 @@ export function contesto(...gruppi) {
             return `[T${codici.length}] ${l.replace(/^[–-]\s*/, "")}`;
           }).join("\n");
         }
-        blocchi.push(`[S${n}] ${etichetta(r)} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${testo}`);
+        if (r.tipo_fonte === "letteratura") { fonti[n - 1].lett = true; fonti[n - 1].cita = citaStudio(r.autore); }
+        blocchi.push(`[S${n}] ${etichetta(r)}${r.tipo_fonte === "letteratura" && fonti[n - 1].cita ? `\nCITA COME: ${fonti[n - 1].cita}` : ""} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${testo}`);
       }
     }
   }
@@ -601,7 +658,7 @@ export async function rispondi(cfg, domanda) {
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 7000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 22000 : 15000) + (conL ? 4000 : 0)), generali);
-    const risposta = aggiungiInvito(verificaCitazioni(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti, ctx.testiNorm), domanda);
+    const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
     return { risposta: risposta || aggiungiInvito("Non lo so.", domanda), fonti };
