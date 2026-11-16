@@ -16,6 +16,8 @@
 // Nella base privata ci sono anche testi PUBBLICI: le Indicazioni nazionali 2012 e 2025 (tipo «normativa»,
 // tipo_base «contenuti», indice separato: entrano solo se la domanda parla di traguardi, obiettivi,
 // competenze, curricolo o Indicazioni, così non coprono le schede) e il manifesto della home (tipo_base «metodo»).
+// Letteratura di riferimento (tipo_fonte e tipo_base «letteratura»): schede nostre su articoli e tesi ad accesso aperto,
+// citate a parte («Dalla letteratura di riferimento:») con autore e anno; il link è il DOI, non Drive.
 //
 // Variabili d'ambiente (solo nomi; i valori si mettono nel pannello Netlify, mai nel codice):
 //   GENIUS_LOCI_ABILITATO          "true" per accendere (qualsiasi altro valore = spento)
@@ -77,6 +79,7 @@ Regole che non puoi mai violare:
 1. Tieni separate due cose, sempre in questo ordine.
    (a) «Dalle nostre schede:» — un paragrafo con ciò che dicono le FONTI; ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
    (b) «Idee per il tuo territorio:» (oppure «Idee generali:» se non si parla di un luogo preciso) — i tuoi suggerimenti generali, al massimo 4 righe che iniziano con «– ». In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
+   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: cita autore e anno e il segno [S…] (per esempio «Kuo e colleghi (2019) [S3]…»). Non mescolarle con «Dalle nostre schede:». Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
    Metti la parte (b) solo se chi scrive chiede come fare, cosa fare o insegna altrove; per una domanda su una nostra esperienza basta la parte (a). Non attribuire mai alle FONTI ciò che non c'è scritto.
 2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
 3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
@@ -85,7 +88,7 @@ Regole che non puoi mai violare:
 6. Se la domanda chiede un fatto preciso sulle nostre comunità e le fonti non lo contengono, dillo («Non lo so: nelle schede del sito non c'è») e suggerisci come riformulare la domanda (un luogo, una classe, un tema). Se le fonti sono parziali, dillo.
 7. Non descrivere né identificare bambini. Niente dati personali.
 8. Al massimo 220 parole. Testo semplice, senza markdown: niente asterischi, grassetti o titoli con #. Chiudi, se serve, con una riga che rimanda alle schede citate.
-9. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
+9. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «LETTERATURA DI RIFERIMENTO» sono studi scientifici di altri autori (articoli e tesi ad accesso aperto) riassunti da noi: non sono esperienze nostre né Indicazioni nazionali; riportane i risultati con prudenza, come li presentano gli autori, ricordando i limiti se pesano. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
 10. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
 11. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate. Anche dalle altre fonti non copiare brani lunghi.
 12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.
@@ -128,6 +131,7 @@ function etichetta(r) {
   if (r.tipo_fonte === "manifesto") return "MANIFESTO della Strada dei Bambini (testo pubblico della home)";
   if (r.tipo_fonte === "libro di testo") return "PROGRAMMA (dai libri di testo, rielaborato)";
   if (r.tipo_fonte === "rielaborato") return "RIELABORAZIONE (sintesi con parole nostre)";
+  if (r.tipo_fonte === "letteratura") return "LETTERATURA DI RIFERIMENTO (studio scientifico ad accesso aperto, sintesi con parole nostre)";
   return `MATERIALE DEL TEAM${r.stato === "vissuta" ? " — VISSUTA" : r.stato === "proposta" ? " — PROPOSTA" : ""}`;
 }
 
@@ -246,15 +250,18 @@ export function decifraCorpus(obj, chiaveB64) {
   return JSON.parse(inflateSync(chiaro).toString("utf8"));
 }
 
-let ixPrivato, ixNormativa; // undefined = non ancora provato, null = non disponibile
+let ixPrivato, ixNormativa, ixLetteratura; // undefined = non ancora provato, null = non disponibile
 // Restituisce l'indice dei materiali (team, metodo, manifesto…); quello delle Indicazioni nazionali va in ixNormativa.
+// La letteratura di riferimento ha un indice suo (come le Indicazioni): al massimo 2 testi per risposta, senza togliere posto alle schede.
 export function indiceDaCifrato(cifrato, chiave) {
-  ixNormativa = null;
+  ixNormativa = null; ixLetteratura = null;
   try {
     const corpus = chiave && cifrato ? decifraCorpus(cifrato, chiave) : null;
     const tutti = (corpus?.passi || []).filter(p => p.tipo === "normativa" || !nascosto(p)); // comunità nascoste: fuori dal recupero
-    const passi = tutti.filter(p => p.tipo !== "normativa"), norm = tutti.filter(p => p.tipo === "normativa");
+    const lett = p => p.tipo_fonte === "letteratura";
+    const passi = tutti.filter(p => p.tipo !== "normativa" && !lett(p)), norm = tutti.filter(p => p.tipo === "normativa"), lettere = tutti.filter(lett);
     if (norm.length) ixNormativa = preparaIndice({ passi: norm, schede: [], aule: [] });
+    if (lettere.length) ixLetteratura = preparaIndice({ passi: lettere, schede: [], aule: [] });
     return passi.length ? preparaIndice({ passi, schede: [], aule: [] }) : null;
   } catch { return null; } // chiave sbagliata o file alterato: solo indice pubblico
 }
@@ -263,6 +270,7 @@ export async function indicePrivato() {
   return ixPrivato;
 }
 export const indiceNormativa = () => ixNormativa || null;
+export const indiceLetteratura = () => ixLetteratura || null;
 
 // ---------- Indicazioni nazionali: solo se la domanda parla di curricolo ----------
 const RE_CURRICOLO = /\b(traguard\w*|obiettiv\w* (di apprendimento|specific\w*)|competenze attese|indicazioni( nazionali| 20(12|25)| ministerial\w*)|curricol\w*|campi? di esperienza|programmi ministeriali|puo concorrere|concorr\w*)\b/;
@@ -584,10 +592,15 @@ export async function rispondi(cfg, domanda) {
   }
   // Indicazioni nazionali: dopo le schede, con un budget loro (solo se la domanda parla di curricolo)
   const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda);
+  // Letteratura di riferimento: fino a 2 testi pertinenti, dopo le schede e prima delle Indicazioni
+  const ixL = indiceLetteratura();
+  const resL = ixL && capisci(domanda).termini.length >= 2 ? cerca(ixL, domanda, { max: 2, comunitaMorbida: true }) : null;
+  if (resL) resL.risultati = resL.risultati.filter(r => !nascosto(r));
+  const conL = !!resL?.risultati.length;
   const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 },
-    { ix: ixN, res: resN, privato: true, budget: 7000 });
+    { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 7000 });
   try {
-    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, resN ? 22000 : 15000), generali);
+    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 22000 : 15000) + (conL ? 4000 : 0)), generali);
     const risposta = aggiungiInvito(verificaCitazioni(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
