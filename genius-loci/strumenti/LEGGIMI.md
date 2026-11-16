@@ -70,8 +70,19 @@ Il repository è pubblico, quindi i documenti interni **non** sono nel repo né 
 - Le fonti private si citano con titolo e autore, **mai** con link a Drive; nel frontend appaiono come
   «Documenti del team consultati».
 - Ogni passo ha `tipo_base`: `metodo` (metodo, manifesto, opere rielaborate), `contenuti` (Indicazioni nazionali,
-  programmi dei libri di testo), `esperienza` (materiali di una comunità o di un'esperienza). `tipo_fonte` resta il
-  tipo di documento (team, rielaborato, libro di testo, normativa, manifesto).
+  programmi dei libri di testo), `esperienza` (materiali di una comunità o di un'esperienza), `letteratura`
+  (letteratura scientifica ad accesso aperto). `tipo_fonte` resta il tipo di documento (team, rielaborato, libro di
+  testo, normativa, manifesto, letteratura).
+
+### Letteratura di riferimento (arricchimento settimanale)
+
+- Una scheda per testo in `DIR/letteratura/<data>-<id>.md` (tema del manifesto, tesi e metodo, cosa serve a chi
+  insegna, limiti, riferimento; intestazione con autori, anno, DOI, link, licenza), scritta con parole nostre, più
+  `registro.md`; nel manifest una voce con `"sorgente": "letteratura"`. Si aggiunge con
+  `costruisci_corpus.py --privato DIR --aggiorna` (non servono i sorgenti di Drive).
+- La funzione tiene questi passi in un indice a parte e ne passa al modello al massimo 2 testi pertinenti, dopo le
+  schede: il modello li cita in un paragrafo «Dalla letteratura di riferimento:» con autore e anno, separati dalle
+  nostre schede e dalle Indicazioni; nel sito il rimando [n] porta al DOI.
 
 ### Indicazioni nazionali e manifesto (testi pubblici dentro la base privata)
 

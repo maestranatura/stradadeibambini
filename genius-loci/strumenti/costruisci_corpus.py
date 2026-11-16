@@ -20,12 +20,17 @@ Cartella privata (fuori dal repo, mai pubblicata), per esempio /workspace/genius
 
 Tipo di base (campo «tipo_base» di ogni passo): «metodo» (metodo, manifesto, opere rielaborate),
 «contenuti» (Indicazioni nazionali, programmi dei libri di testo), «esperienza» (materiali legati a una
-comunità o a un'esperienza vissuta/proposta). «tipo_fonte» resta il tipo di documento (team, rielaborato…).
+comunità o a un'esperienza vissuta/proposta), «letteratura» (letteratura scientifica ad accesso aperto,
+schede scritte con parole nostre: la funzione le cita come «letteratura di riferimento», con il DOI).
+«tipo_fonte» resta il tipo di documento (team, rielaborato…).
 
 Testi pubblici (manifest con «sorgente»):
   «passi»      passi già divisi in un JSON (es. normativa/passi-normativa.json, creato da normativa.py:
                Indicazioni nazionali 2012 e 2025 parola per parola, con versione, ordine, classe, disciplina)
   «manifesto»  i punti del manifesto letti dalla home (index.html, sezione #manifesto)
+Letteratura di riferimento (manifest con «sorgente»: «letteratura»): letteratura/<data>-<id>.md, una scheda per testo
+  (tema, tesi e metodo, cosa serve a chi insegna, limiti, riferimento; intestazione con autori, anno, doi, url,
+  licenza). Si rifà anche con --aggiorna, quindi per aggiungere schede non servono i sorgenti di Drive.
 
 Uso (dalla radice del repo):
     python3 genius-loci/strumenti/costruisci_corpus.py --privato /workspace/genius-loci-privato [--ocr]
@@ -196,6 +201,27 @@ def passi_pubblici(doc, priv):
         return out
     return None
 
+def passi_letteratura(doc, priv):
+    """Schede «letteratura di riferimento» (letteratura/*.md): sintesi nostre di testi scientifici ad accesso aperto."""
+    f = priv / doc['file']
+    if not f.exists(): return None
+    meta, corpo = leggi_md(f)
+    m = {**{k: v for k, v in doc.items() if k in ('titolo', 'autore', 'anno', 'doi', 'url', 'licenza', 'tema')}, **meta}
+    rif = f"Letteratura di riferimento — {m['autore']}, «{m['titolo']}». DOI {m.get('doi', '')}".strip()
+    out = []
+    for s in re.split(r'^## ', corpo, flags=re.M):
+        if not s.strip(): continue
+        tit, _, testo = s.strip().partition('\n')
+        if tit.strip().lower() == 'riferimento': continue  # il riferimento è già nell'intestazione di ogni passo
+        for chunk in split(clean(testo), 1100):
+            out.append({'id': f"l-{doc['id']}-{len(out)}", 'tipo': 'documento', 'ref': doc['id'], 'titolo': m['titolo'], 'autore': m['autore'],
+                        'tipo_fonte': 'letteratura', 'tipo_base': 'letteratura', 'uso': doc.get('uso') or m.get('uso'),
+                        'url': m.get('url'), 'doi': m.get('doi'), 'licenza': m.get('licenza'), 'tema': m.get('tema'),
+                        'sezione': tit.strip()[:120], 'testo': f"{rif}\n{tit.strip()}: {chunk}", 'fonte': f"{m['titolo']} — {m['autore']}"})
+    for p in out:
+        if RE_EMAIL.search(p['testo']): sys.exit(f"email nella scheda {doc['file']}")
+    return out
+
 # ---------------- cifratura ----------------
 def cifra(dati_bytes, chiave):
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -243,13 +269,18 @@ def main():
 
     man = json.loads((priv / 'manifest.json').read_text())
     pubblici = [d for d in man['documenti'] if d['sorgente'] in ('passi', 'manifesto')]
+    letteratura = [d for d in man['documenti'] if d['sorgente'] == 'letteratura']
     if a.aggiorna:
         vecchio = json.loads(decifra(json.loads(USCITA.read_text()), chiave))
-        rifatti = {d['id'] for d in pubblici}
-        passi = [p for p in vecchio['passi'] if p['ref'].split(':')[0] not in rifatti and p.get('tipo') != 'normativa']
+        rifatti = {d['id'] for d in pubblici + letteratura}
+        passi = [p for p in vecchio['passi'] if p['ref'].split(':')[0] not in rifatti and p.get('tipo') != 'normativa' and p.get('tipo_fonte') != 'letteratura']
         for p in passi: p['tipo_base'] = tipo_base(p)
         for d in pubblici:
             nuovi = passi_pubblici(d, priv)
+            if nuovi is None: sys.exit(f"Manca {d['file']} per {d['id']}")
+            passi += nuovi
+        for d in letteratura:
+            nuovi = passi_letteratura(d, priv)
             if nuovi is None: sys.exit(f"Manca {d['file']} per {d['id']}")
             passi += nuovi
         return scrivi(a, priv, chiave, passi, USCITA, BACKUP, [], len({p['ref'].split(':')[0] for p in passi}))
@@ -346,7 +377,12 @@ def main():
         nuovi = passi_pubblici(d, priv)
         if nuovi is None: mancanti.append(d['file']); continue
         passi += nuovi
-    scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, len(conteggi) + len(pubblici))
+    # 5) letteratura di riferimento (schede nostre su testi scientifici ad accesso aperto)
+    for d in letteratura:
+        nuovi = passi_letteratura(d, priv)
+        if nuovi is None: mancanti.append(d['file']); continue
+        passi += nuovi
+    scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, len(conteggi) + len(pubblici) + len(letteratura))
 
 def scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, n_doc):
     corpus = {'versione': 1, 'passi': passi}
@@ -355,6 +391,7 @@ def scrivi(a, priv, chiave, passi, USCITA, BACKUP, mancanti, n_doc):
     # backup cifrato degli input scritti a mano (manifest + rielaborati)
     arch = {'file': {'manifest.json': (priv / 'manifest.json').read_text()}}
     for f in sorted((priv / 'rielaborati').glob('*.md')): arch['file'][f'rielaborati/{f.name}'] = f.read_text()
+    for f in sorted((priv / 'letteratura').glob('*.md')): arch['file'][f'letteratura/{f.name}'] = f.read_text()
     BACKUP.write_text(json.dumps(cifra(json.dumps(arch, ensure_ascii=False).encode(), chiave)))
 
     from collections import Counter
