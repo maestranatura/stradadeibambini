@@ -79,7 +79,7 @@ Regole che non puoi mai violare:
 1. Tieni separate due cose, sempre in questo ordine.
    (a) «Dalle nostre schede:» — un paragrafo con ciò che dicono le FONTI; ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
    (b) «Idee per il tuo territorio:» (oppure «Idee generali:» se non si parla di un luogo preciso) — i tuoi suggerimenti generali, al massimo 4 righe che iniziano con «– ». In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
-   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte, seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non mescolarle con «Dalle nostre schede:»: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
+   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte (senza scrivere «CITA COME»), seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non scrivere il paragrafo «Dalla letteratura di riferimento:» e non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non mescolarle con «Dalle nostre schede:»: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
    Metti la parte (b) solo se chi scrive chiede come fare, cosa fare o insegna altrove; per una domanda su una nostra esperienza basta la parte (a). Non attribuire mai alle FONTI ciò che non c'è scritto.
 2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
 3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
@@ -154,7 +154,7 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
   // studi della nostra letteratura NON presenti tra le fonti di questa risposta: se il modello li nomina, la frase si toglie
   const assenti = tuttiStudi.filter(c => !lett.some(l => l.cita === c)).map(c => c.split(/ e |\s\(/)[0]);
   const inventata = f => assenti.some(c => new RegExp(`\\b${escRe(c)}\\b`).test(f)) && !codiciS(f).some(x => x?.lett);
-  if (!lett.length && !assenti.length) return testo;
+  testo = testo.replace(/CITA COME:\s*/g, "");
   const RE_TIT = /^\s*(Dalle nostre schede|Dalla letteratura di riferimento|Idee per il tuo territorio|Idee generali|Traguardi a cui può concorrere)\s*:\s*/i;
   const parti = []; let cur = { tit: null, righe: [] }; parti.push(cur);
   for (const riga of testo.split("\n")) {
@@ -162,6 +162,8 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
     if (m) { cur = { tit: m[1].toLowerCase(), righe: [] }; parti.push(cur); const r = riga.slice(m[0].length); if (r.trim()) cur.righe.push(r); }
     else cur.righe.push(riga);
   }
+  // senza letteratura tra le fonti il paragrafo non ha base: si toglie (resta il resto della risposta)
+  if (!lett.length) for (const p of parti) if (p.tit === "dalla letteratura di riferimento") p.righe = [];
   const spostate = [];
   for (const p of parti) if (p.tit === "dalle nostre schede") p.righe = p.righe.map(r => {
     const frasi = r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/);
@@ -175,6 +177,7 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
     if (k >= 0) pl.righe[k] = spostate.join(" ") + " " + pl.righe[k]; else pl.righe.unshift(spostate.join(" "));
   }
   if (pl) pl.righe = pl.righe.map(r => r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/).map(f => {
+    if (/\[S\d+\]/.test(f) && codiciS(f).every(x => !x)) return ""; // segno [S…] inesistente
     const ls = [...new Set(codiciS(f).filter(x => x?.lett))];
     if (ls.length !== 1) return f;
     const giusto = ls[0];
