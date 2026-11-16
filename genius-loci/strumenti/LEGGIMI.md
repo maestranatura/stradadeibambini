@@ -30,7 +30,7 @@ Regole già nel codice:
   ingresso + ≤500 in uscita ≈ 0,001 $; 200 domande/giorno ≈ 0,25 $/giorno al massimo.
 - Limiti: 200 domande al giorno sul sito e 15 per IP (IP salvato solo come hash giornaliero) in Netlify Blobs
   `genius-loci-limiti`; max token.
-- **Comunità nascoste** (`genius-loci/comunita-nascoste.json`, oggi `["Siracusa"]`, insieme a `COMUNITA_NASCOSTE` in
+- **Comunità nascoste** (`genius-loci/comunita-nascoste.json`, oggi `[]`, insieme a `COMUNITA_NASCOSTE` in
   `app.js`): l'indice pubblico non le contiene, la funzione scarta i passi privati e i risultati che le nominano,
   risponde «non lo so» alle domande su di esse e le toglie dal prompt. Per riattivarne una: toglierla da entrambe le
   liste, rigenerare l'indice (`costruisci_indice.py`) e rifare il deploy (la base privata non va ricaricata).

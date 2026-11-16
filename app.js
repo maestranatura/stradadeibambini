@@ -185,7 +185,7 @@ function mergeApproved(list, data, geo, communities){
   }
 }
 // Comunità non ancora attivate: restano nei dati ma non si mostrano sul sito
-const COMUNITA_NASCOSTE=['Siracusa'];
+const COMUNITA_NASCOSTE=[];
 function nascondiComunita(data, geo, communities){
   const via=x=>COMUNITA_NASCOSTE.includes(x);
   for(let i=data.length-1;i>=0;i--) if(via(data[i].community)) data.splice(i,1);
