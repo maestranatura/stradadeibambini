@@ -105,7 +105,7 @@ Regole che non puoi mai violare:
 10. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
 11. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate. Anche dalle altre fonti non copiare brani lunghi.
 12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.
-13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo i passi (e dopo l'eventuale letteratura) scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati all'esperienza della domanda. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nel racconto e nei passi non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
+13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo i passi (e dopo l'eventuale letteratura) scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati a ciò che si fa nell'esperienza (osservare, orientarsi, misurare, raccontare, rappresentare…), di almeno 2 discipline diverse quando ce ne sono (al massimo 2 codici della stessa disciplina; per un'uscita sul territorio di solito geografia, scienze, storia, poi le altre se c'entrano) e, a parità, i più brevi e concreti. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nel racconto e nei passi non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
 14. Il «MANIFESTO della Strada dei Bambini» è il testo pubblico della home: citalo con [S…] come le altre fonti.
 15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.`;
 
@@ -338,13 +338,15 @@ export function espandiCodici(testo, codici, fonti = []) {
   const cita = c => `può concorrere a «${c.testo.replace(/[.;]$/, "")}» (Indicazioni ${c.versione}, ${c.disciplina || "indicazioni generali"}, ${sezioneBreve(c.sezione)}) [S${c.n}]`;
   const norm = k => fonti[Number(k) - 1]?.tipo === "normativa";
   const out = []; let parte = "a"; const scelti = [];
+  const perVersione = new Set((codici || []).map(c => c.versione)).size > 1 ? 2 : 4; // con una sola versione, fino a 4
   for (const riga of testo.split("\n")) {
     const mt = riga.match(RE_TITOLO), kt = mt && chiaveTitolo(mt[1]);
     if (kt === "traguardi a cui può concorrere") { parte = "t"; out.push("Traguardi a cui può concorrere:"); continue; }
     if (kt) parte = kt === PARTE_GENERALE ? "i" : "a"; // racconto, passi della scheda, letteratura: come la vecchia parte (a)
     const ks = [...riga.matchAll(/\[T(\d+)\]/g)].map(m => codici?.[Number(m[1]) - 1]).filter(Boolean);
     if (parte === "t") { // solo codici, al massimo 4 (2 per versione), espansi con il testo ufficiale
-      for (const c of ks) if (!scelti.includes(c) && scelti.length < 4 && scelti.filter(x => x.versione === c.versione).length < 2) scelti.push(c);
+      for (const c of ks) if (!scelti.includes(c) && scelti.length < 4 && scelti.filter(x => x.versione === c.versione).length < perVersione
+        && scelti.filter(x => x.disciplina === c.disciplina).length < 2) scelti.push(c);
       if (!ks.length && riga.trim() && !/^\s*[–-]/.test(riga)) out.push(riga); // eventuale frase («nessun traguardo adatto…»)
       continue;
     }
@@ -355,6 +357,24 @@ export function espandiCodici(testo, codici, fonti = []) {
       continue;
     }
     out.push(riga);
+  }
+  // se il modello ha scelto una sola disciplina, aggiungo il codice (testo ufficiale intero) di un'altra disciplina
+  // fra quelli che aveva davanti, il più vicino per parole a ciò che dice la risposta
+  if (scelti.length && scelti.length < 4) {
+    const radiciDi = t => new Set(normalizza(t).split(" ").filter(w => w.length > 4).map(w => w.slice(0, 6)));
+    const risposta = radiciDi(out.join(" "));
+    while (scelti.length < 4 && new Set(scelti.map(c => c.disciplina)).size < 2) {
+      let best = null, bestS = 0.6;
+      for (const c of codici || []) {
+        if (scelti.includes(c) || !c.disciplina || scelti.some(x => x.disciplina === c.disciplina)) continue;
+        if (scelti.filter(x => x.versione === c.versione).length >= perVersione) continue;
+        const r = radiciDi(c.testo), com = [...r].filter(w => risposta.has(w)).length;
+        const sc = com / Math.sqrt(r.size || 1);
+        if (sc > bestS) { bestS = sc; best = c; }
+      }
+      if (!best) break;
+      scelti.push(best);
+    }
   }
   // inserisco le righe scelte subito dopo il titolo «Traguardi a cui può concorrere:»
   const k = out.indexOf("Traguardi a cui può concorrere:");
@@ -429,16 +449,42 @@ let studiL;
 export const studiLetteratura = () => studiL ||= [...new Set((ixLetteratura?.passi || []).map(p => citaStudio(p.autore)).filter(Boolean))];
 
 // ---------- Indicazioni nazionali: solo se la domanda parla di curricolo ----------
-const RE_CURRICOLO = /\b(traguard\w*|obiettiv\w* (di apprendimento|specific\w*)|competenze attese|indicazioni( nazionali| 20(12|25)| ministerial\w*)|curricol\w*|campi? di esperienza|programmi ministeriali|puo concorrere|concorr\w*)\b/;
+const RE_CURRICOLO = /\b(traguard\w*|obiettiv\w* (di apprendimento|specific\w*)|obiettiv\w* (di |della |del |per (la |l )?)?(geografia|storia|scienze|italiano|matematica|arte|musica|tecnologia|inglese|educazione \w+)|competenze attese|indicazioni( nazionali| 20(12|25)| ministerial\w*)|curricol\w*|campi? di esperienza|programmi ministeriali|puo concorrere|concorr\w*)\b/;
 export function chiedeCurricolo(domanda) { return RE_CURRICOLO.test(" " + normalizza(domanda) + " "); }
 const DISC_NORM = { "educazione motoria": "educazione motoria", motoria: "educazione motoria", "educazione fisica": "educazione motoria", inglese: "inglese", tecnologia: "tecnologia", arte: "arte", musica: "musica",
   italiano: "italiano", storia: "storia", geografia: "geografia", matematica: "matematica", scienze: "scienze" };
 // Sceglie i passi ufficiali per disciplina, ordine e classe (testo intero di traguardi/competenze attese e obiettivi).
-export function cercaNormativa(ixN, domanda, { max = 4 } = {}) {
+// Senza una disciplina nominata, per primaria e secondaria si scelgono 2–3 discipline legate all'esperienza:
+// parole della domanda, discipline delle schede trovate, e una base da uscita sul territorio (geografia, scienze, storia).
+const PRIORI_DISCIPLINE = [
+  [/\b(torrent|fium|ruscell|sorgent|acqu|lag[oh]|mare|lagun|bosc|alber|fogli|ort[oi]|giardin|piant|sem[ei]|fior|animal|insett|terr[ae]|suol|rocc|sass|stagion|natur)/, { scienze: 2, geografia: 1 }],
+  [/\b(mapp|territor|paesagg|percors|cammin|uscit|quartier|paes[ei]|citta|orient|confin|carta|luog)/, { geografia: 2, storia: 0.5 }],
+  [/\b(storic|monument|chies|castell|muse|archivi|anzian|nonn|memori|tradizion|mulin|antic|patrimon)/, { storia: 2, arte: 1.5 }],
+  [/\b(disegn|dipint|scult|fotograf|artist|immagin|colori)/, { arte: 1.5 }],
+  [/\b(gioc|moviment|corp[oi]|equilibri|arramp|corsa|correre)/, { "educazione motoria": 1 }],
+  [/\b(raccont|intervist|scriv|scrittur|legg|poesi|fiab|testo|testi)/, { italiano: 1.5 }],
+  [/\b(misur|contar|numer|geometr|area|stima|forme)/, { matematica: 1.5 }],
+  [/\b(costrui|attrezz|strument|material|ricicl|energi)/, { tecnologia: 1 }],
+];
+const BASE_USCITA = { geografia: 1, scienze: 1, storia: 0.5 };
+export function disciplinePertinenti(domanda, disciplineSchede = [], punteggi = new Map()) {
+  const q = " " + normalizza(domanda) + " ", peso = {};
+  const somma = (d, v) => { if (DISC_NORM[d]) peso[DISC_NORM[d]] = (peso[DISC_NORM[d]] || 0) + v; };
+  for (const [d, v] of Object.entries(BASE_USCITA)) somma(d, v);
+  for (const [re, pesi] of PRIORI_DISCIPLINE) if (re.test(q)) for (const [d, v] of Object.entries(pesi)) somma(d, v);
+  const conta = {};
+  for (const d of disciplineSchede) { const k = DISC_NORM[normalizza(d)] || DISC_NORM[d]; if (k) conta[k] = Math.min(1.5, (conta[k] || 0) + 0.5); }
+  for (const [d, v] of Object.entries(conta)) somma(d, v);
+  const maxP = Math.max(0, ...punteggi.values()) || 1;
+  for (const [d, v] of punteggi) if (peso[d] !== undefined || v > 0) peso[d] = (peso[d] || 0) + v / maxP;
+  return Object.entries(peso).filter(([, v]) => v >= 1).sort((a, b) => b[1] - a[1]).map(([d]) => d).slice(0, 3);
+}
+export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [] } = {}) {
   if (!ixN || !chiedeCurricolo(domanda)) return null;
   const cap = capisci(domanda), q = " " + normalizza(domanda) + " ";
   const versioni = /\b2012\b/.test(q) && !/\b2025\b/.test(q) ? ["2012"] : /\b(2025|nuove indicazioni)\b/.test(q) && !/\b2012\b/.test(q) ? ["2025"] : ["2012", "2025"];
-  const disc = [...new Set([...cap.discipline, ...Object.keys(DISC_NORM).filter(d => q.includes(" " + d + " "))].map(d => DISC_NORM[d]).filter(Boolean))];
+  // solo le discipline nominate per intero («geografia», non «storico» per storia) restringono la ricerca
+  const disc = [...new Set(Object.keys(DISC_NORM).filter(d => q.includes(" " + d + " ")).map(d => DISC_NORM[d]))];
   const ordine = !cap.classe ? null : cap.classe === "infanzia" ? "infanzia" : cap.classe === "secondaria" ? "secondaria" : "primaria";
   const n = { prima: 1, seconda: 2, terza: 3, quarta: 4, quinta: 5, "1a": 1, "2a": 2, "3a": 3, "4a": 4, "5a": 5 }[cap.numeroClasse] || null;
   const classeObiettivi = ordine === "primaria" && n ? (n <= 3 ? "primaria 3" : "primaria 5") : ordine === "secondaria" ? "secondaria 3" : null;
@@ -458,7 +504,25 @@ export function cercaNormativa(ixN, domanda, { max = 4 } = {}) {
     return r.risultati.length ? r : null;
   }
   const scelti = [];
-  for (const v of versioni) {
+  const lineaMedia = p => p.testo.length / Math.max(1, p.testo.split("\n").length);
+  const ordina = a => a.sort((x, y) => y.s - x.s || lineaMedia(x.p) - lineaMedia(y.p) || x.p.id.localeCompare(y.p.id, "en", { numeric: true }));
+  if (!disc.length && ordine && ordine !== "infanzia") {
+    // primaria e secondaria senza disciplina nominata: 2–3 discipline pertinenti, per ognuna e per versione
+    // il blocco dei traguardi e poi quello degli obiettivi della classe; prima i traguardi di tutte, così il budget taglia gli obiettivi
+    const classeTr = ordine === "primaria" ? "primaria 5" : "secondaria 3";
+    const punteggi = new Map();
+    for (const p of adatti) punteggi.set(p.disciplina, Math.max(punteggi.get(p.disciplina) || 0, punteggio(p)));
+    const scelte = disciplinePertinenti(domanda, disciplineSchede, punteggi).filter(d => adatti.some(p => p.disciplina === d));
+    const tr = [], ob = [];
+    for (const d of scelte) for (const v of versioni) {
+      const pv = adatti.filter(p => p.versione === v && p.disciplina === d).map(p => ({ p, s: punteggio(p) }));
+      const t = ordina(pv.filter(x => x.p.sezione_tipo === "traguardi" && x.p.classe === classeTr))[0];
+      const o = ordina(pv.filter(x => x.p.sezione_tipo === "obiettivi" && (!classeObiettivi || x.p.classe === classeObiettivi)))[0];
+      if (t) tr.push(t.p); if (o) ob.push(o.p);
+    }
+    scelti.push(...tr, ...ob);
+  }
+  if (!scelti.length) for (const v of versioni) {
     const pv = adatti.filter(p => p.versione === v).map(p => ({ p, s: punteggio(p) }));
     const tr = pv.filter(x => x.p.sezione_tipo === "traguardi" && (!ordine || ordine === "infanzia" || x.p.classe === (ordine === "primaria" ? "primaria 5" : "secondaria 3")));
     const ob = pv.filter(x => x.p.sezione_tipo === "obiettivi" && (!classeObiettivi || x.p.classe === classeObiettivi));
@@ -470,7 +534,7 @@ export function cercaNormativa(ixN, domanda, { max = 4 } = {}) {
     scelti.push(...migliori(tr).slice(0, 2).map(x => x.p), ...migliori(ob).slice(0, 1).map(x => x.p));
   }
   const gruppi = new Map();
-  for (const p of scelti.slice(0, max * 2)) {
+  for (const p of scelti.slice(0, max * 2)) { // max gruppi «titolo · sezione», ognuno di solito con un passo
     const k = `${p.titolo} · ${p.sezione}`;
     if (!gruppi.has(k)) gruppi.set(k, { tipo: "normativa", titolo: k, versione: p.versione, decreto: p.decreto, autore: p.autore, tipo_fonte: "normativa", passi: [] });
     gruppi.get(k).passi.push(p.id);
@@ -872,16 +936,16 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
     return { risposta: aggiungiInvito("Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", domanda), fonti: [] };
   }
   // Indicazioni nazionali: dopo le schede, con un budget loro (solo se la domanda parla di curricolo)
-  const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda);
+  const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda, { disciplineSchede: [...res.risultati, ...(resP?.risultati || [])].slice(0, 4).flatMap(r => r.discipline || []) });
   // Letteratura di riferimento: fino a 2 testi pertinenti, dopo le schede e prima delle Indicazioni
   const ixL = indiceLetteratura();
   const resL = ixL && capisci(domanda).termini.length >= 2 ? cerca(ixL, domanda, { max: 2, comunitaMorbida: true }) : null;
   if (resL) resL.risultati = resL.risultati.filter(r => !nascosto(r));
   const conL = !!resL?.risultati.length;
   const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: 5500 * piu },
-    { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 7000 });
+    { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
-    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 22000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
+    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
     const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
