@@ -76,6 +76,40 @@ async function chiedi(domanda) {
 }
 
 // ---------- fase 2 (spenta finché il server non risponde abilitato=true) ----------
+// Titoli delle parti (come nelle UDA: prima il racconto, poi i passi); una riga che è solo un titolo diventa un titoletto.
+const RE_TITOLO = /^(Il racconto|I passi per il tuo territorio|I passi|Un['’]esperienza che può ispirarti|Dalla letteratura di riferimento|Traguardi a cui può concorrere):$/;
+const NOTA_LLM = '<p class="gl-fonte">Risposta scritta da un modello linguistico. Le frasi con il numero [n] vengono dalle schede e dai documenti indicati; i passi senza numero sono suggerimenti generali, da verificare sul tuo territorio. Controlla sempre la scheda.</p>';
+
+function paragrafoHtml(p) {
+  const righe = p.split('\n'); let titolo = '';
+  const m = righe[0].match(RE_TITOLO);
+  if (m) { titolo = `<h3 class="gl-tit">${m[1]}</h3>`; righe.shift(); }
+  if (!righe.length) return titolo;
+  // passi numerati «1. …» → elenco numerato
+  if (righe.every(r => /^\d+[.)]\s/.test(r))) return titolo + `<ol class="gl-passi">${righe.map(r => `<li>${r.replace(/^\d+[.)]\s+/, '')}</li>`).join('')}</ol>`;
+  return titolo + `<p>${righe.join('<br>')}</p>`;
+}
+
+function rispostaLlmHtml(j, res) {
+  // [S1] → rimando alla scheda numero 1 se è fra quelle mostrate; il testo è sempre escapato.
+  const ids = new Map(res.risultati.map((x, i) => [x.titolo, i + 1]));
+  const interne = []; // documenti interni del team: citati con titolo e autore, senza link
+  const html = esc(j.risposta).replace(/\[S(\d+)\]/g, (m, k) => {
+    const f = (j.fonti || [])[Number(k) - 1]; const n = f && ids.get(f.titolo);
+    if (n) return `<a class="cita" href="#fonte-${n}">[${n}]</a>`;
+    if (f && f.url) return `<a class="cita" href="${esc(f.url)}">[${esc(k)}]</a>`;
+    if (f && f.tipo === 'documento') {
+      let i = interne.indexOf(f) + 1; if (!i) { interne.push(f); i = interne.length; }
+      return `<span class="cita" title="${esc(f.titolo)}">[d${i}]</span>`;
+    }
+    return '';
+  }).replace(/\binfo@scuolenaturali\.it\b/g, '<a href="mailto:info@scuolenaturali.it">info@scuolenaturali.it</a>')
+    .replace(/&#39;/g, "'") // apostrofi leggibili nei titoli (il testo resta escapato)
+    .split(/\n{2,}/).map(paragrafoHtml).join('');
+  const doc = interne.length ? `<p class="gl-fonte">Documenti del team consultati (non pubblicati sul sito): ${interne.map((f, i) => `[d${i + 1}] ${esc(f.titolo)}${f.autore ? ` — ${esc(f.autore)}` : ''}`).join('; ')}.</p>` : '';
+  return html + doc;
+}
+
 async function faseDue(domanda, res, body) {
   const box = body.querySelector('.gl-llm');
   box.hidden = false; box.innerHTML = '<p class="gl-attesa">Il Genius Loci sta leggendo le schede…</p>';
@@ -83,25 +117,33 @@ async function faseDue(domanda, res, body) {
     const r = await fetch('/api/genius-loci', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ domanda }) });
     const j = await r.json();
     if (!r.ok || !j.risposta) throw new Error(j.errore || 'non disponibile');
-    // [S1] → rimando alla scheda numero 1 se è fra quelle mostrate; il testo è sempre escapato.
-    const ids = new Map(res.risultati.map((x, i) => [x.titolo, i + 1]));
-    const interne = []; // documenti interni del team: citati con titolo e autore, senza link
-    const html = esc(j.risposta).replace(/\[S(\d+)\]/g, (m, k) => {
-      const f = (j.fonti || [])[Number(k) - 1]; const n = f && ids.get(f.titolo);
-      if (n) return `<a class="cita" href="#fonte-${n}">[${n}]</a>`;
-      if (f && f.url) return `<a class="cita" href="${esc(f.url)}">[${esc(k)}]</a>`;
-      if (f && f.tipo === 'documento') {
-        let i = interne.indexOf(f) + 1; if (!i) { interne.push(f); i = interne.length; }
-        return `<span class="cita" title="${esc(f.titolo)}">[d${i}]</span>`;
-      }
-      return '';
-    }).replace(/\binfo@scuolenaturali\.it\b/g, '<a href="mailto:info@scuolenaturali.it">info@scuolenaturali.it</a>')
-      .split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
-    const doc = interne.length ? `<p class="gl-fonte">Documenti del team consultati (non pubblicati sul sito): ${interne.map((f, i) => `[d${i + 1}] ${esc(f.titolo)}${f.autore ? ` — ${esc(f.autore)}` : ''}`).join('; ')}.</p>` : '';
-    box.innerHTML = html + doc + '<p class="gl-fonte">Risposta scritta da un modello linguistico. Le frasi con il numero [n] vengono dalle schede e dai documenti indicati; le «Idee» sono suggerimenti generali, da verificare sul tuo territorio. Controlla sempre la scheda.</p>';
+    box.innerHTML = rispostaLlmHtml(j, res) + NOTA_LLM;
+    if (j.approfondimento) aggiungiApprofondisci(box, domanda, j.approfondimento, res);
   } catch (e) {
     box.innerHTML = '<p class="gl-fonte">La risposta scritta non è disponibile adesso: qui sotto trovi le schede pertinenti.</p>';
   }
+}
+
+// «Approfondisci»: una sola volta per risposta, conta come una domanda nei limiti del giorno.
+function aggiungiApprofondisci(box, domanda, gettone, res) {
+  const riga = document.createElement('p'); riga.className = 'gl-appro';
+  riga.innerHTML = '<button type="button" class="gl-appro-btn">Approfondisci</button> <span class="gl-fonte">Una risposta più lunga, con più passi e dettagli dalle schede.</span>';
+  box.append(riga);
+  const btn = riga.querySelector('button');
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    riga.innerHTML = '<span class="gl-attesa">Il Genius Loci sta approfondendo…</span>';
+    try {
+      const r = await fetch('/api/genius-loci', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ domanda, approfondisci: true, gettone }) });
+      const j = await r.json();
+      if (!r.ok || !j.risposta) throw new Error(j.errore || 'non disponibile');
+      const div = document.createElement('div'); div.className = 'gl-approfondita';
+      div.innerHTML = '<h3 class="gl-tit gl-tit-appro">Approfondimento</h3>' + rispostaLlmHtml(j, res);
+      riga.replaceWith(div);
+    } catch (e) {
+      riga.innerHTML = `<span class="gl-fonte">${esc(e.message && e.message !== 'non disponibile' ? e.message : 'L’approfondimento non è disponibile adesso.')}</span>`;
+    }
+  });
 }
 
 form.addEventListener('submit', e => { e.preventDefault(); const v = campo.value; campo.value = ''; grow(); chiedi(v); });

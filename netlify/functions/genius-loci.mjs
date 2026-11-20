@@ -1,7 +1,10 @@
 // «Parla con il Genius Loci» · FASE 2 (LLM) — DISATTIVATA finché non si impostano le variabili d'ambiente.
 //
 // GET  /api/genius-loci  → { abilitato: false }  (oppure true, con i limiti)  — il frontend usa l'LLM solo se true
-// POST /api/genius-loci  { domanda }  → { risposta, fonti:[{n,titolo,url,stato,tipo}] }
+// POST /api/genius-loci  { domanda }  → { risposta, fonti:[{n,titolo,url,stato,tipo}], approfondimento? }
+// POST /api/genius-loci  { domanda, approfondisci:true, gettone }  → risposta più lunga (una volta per risposta, conta nei limiti)
+// Forma della risposta (come le UDA): «Il racconto:» + «I passi:» per le nostre comunità; «Un'esperienza che può ispirarti:»
+// + «I passi per il tuo territorio:» altrove o per domande generali; poi, se servono, letteratura e traguardi.
 // Ambito: outdoor education, didattica esperienziale, educazione al luogo; idee per adattare il metodo al proprio territorio.
 // Se la ricerca trova poco, passa al modello fonti di metodo generali; le domande fuori tema le declina il modello.
 //
@@ -31,7 +34,7 @@
 //   GENIUS_LOCI_PASSI              quanti passi passare al modello (predefinito 8)
 //   GENIUS_LOCI_CORPUS_CHIAVE      chiave (base64, 32 byte) per decifrare la base privata; senza, solo indice pubblico
 import { getStore } from "@netlify/blobs";
-import { createHash, createDecipheriv } from "node:crypto";
+import { createHash, createHmac, createDecipheriv, randomBytes, timingSafeEqual } from "node:crypto";
 import { inflateSync } from "node:zlib";
 import dati from "../../genius-loci/indice.json" with { type: "json" };
 import corpusCifrato from "../genius-loci-dati/corpus.cifrato.json" with { type: "json" };
@@ -73,28 +76,37 @@ Rispondi in italiano, con frasi semplici e calde, rivolgendoti a insegnanti, gen
 
 DI COSA PARLI. Rispondi su: outdoor education e scuola all'aperto, didattica esperienziale, educazione al luogo e al territorio locale (place-based education), mappe di comunità, uscite e osservazione dell'ambiente, e su come collegare tutto questo al curricolo. Su questi temi puoi usare anche la tua conoscenza pedagogica generale, oltre alle FONTI.
 Se chi scrive insegna in un altro luogo, aiutalo ad adattare al SUO territorio le esperienze e il metodo della Strada dei Bambini: prendi ispirazione dalle FONTI (citandole) e proponi idee concrete e prudenti (un primo sopralluogo, sicurezza e autorizzazioni per le uscite, osservare e disegnare, fare mappe, cercare i custodi del luogo).
-Se la domanda è fuori da questi temi (ricette, attualità, sport, compiti o argomenti generici…), declina con gentilezza in una o due frasi, senza rispondere nel merito e senza le due parti qui sotto, e ricorda su cosa puoi aiutare. Non citare fonti in quel caso.
+Se la domanda è fuori da questi temi (ricette, attualità, sport, compiti o argomenti generici…), declina con gentilezza in una o due frasi, senza rispondere nel merito e senza titoli né passi, e ricorda su cosa puoi aiutare. Non citare fonti in quel caso.
 
 Regole che non puoi mai violare:
-1. Tieni separate due cose, sempre in questo ordine.
-   (a) «Dalle nostre schede:» — un paragrafo con ciò che dicono le FONTI; ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
-   (b) «Idee per il tuo territorio:» (oppure «Idee generali:» se non si parla di un luogo preciso) — i tuoi suggerimenti generali, al massimo 4 righe che iniziano con «– ». In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
-   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale in un paragrafo a parte, dopo la parte (a) e prima delle idee, che inizia con «Dalla letteratura di riferimento:»: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte (senza scrivere «CITA COME»), seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non scrivere il paragrafo «Dalla letteratura di riferimento:» e non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non mescolarle con «Dalle nostre schede:»: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti «Dalle nostre schede:».
-   Metti la parte (b) solo se chi scrive chiede come fare, cosa fare o insegna altrove; per una domanda su una nostra esperienza basta la parte (a). Non attribuire mai alle FONTI ciò che non c'è scritto.
+1. FORMA DELLA RISPOSTA: ricalca le nostre schede (UDA): prima un racconto, poi i passi. Ogni parte comincia con il suo titolo, da solo su una riga, scritto esattamente così (con i due punti). Scegli la forma in base al luogo della domanda.
+   (A) La domanda parla di una delle nostre comunità o esperienze del team, o di una nostra scheda, e le FONTI ne parlano:
+   «Il racconto:» — da 4 a 6 frasi narrative in terza persona, prese SOLO dalle FONTI: dove, con quale classe, da quale domanda generativa siamo partiti, che cosa è successo nelle tappe. Ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
+   «I passi:» — da 3 a 5 passi numerati («1. », «2. »…), ricalcati su «Per replicare» e sulle tappe della scheda, per chi vuole rifare l'esperienza. I passi che vengono dalla scheda portano il loro [S…]; quelli che aggiungi tu come conoscenza generale NON hanno [S…].
+   (B) Chi scrive insegna in un luogo che non è tra le nostre comunità ed esperienze, oppure la domanda è generale (nessun luogo, per esempio come fare una mappa di comunità o un'uscita):
+   «Un'esperienza che può ispirarti:» — da 3 a 5 frasi in terza persona che raccontano una nostra esperienza simile presa dalle FONTI (di preferenza una VISSUTA), presentata come ispirazione e dicendo dove è avvenuta con il nome della comunità scritto nella scheda («comunità: …»), mai un'altra; ogni frase con il suo [S…]. Non dire mai che è avvenuta nel luogo di chi scrive.
+   «I passi per il tuo territorio:» — da 3 a 5 passi numerati («1. », «2. »…) su cosa cercare, osservare e fare nel SUO territorio. In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
+   Per una domanda su un fatto preciso di una nostra esperienza (per esempio che cosa hanno detto i bambini) basta «Il racconto:», senza passi. Se le FONTI non hanno nessuna esperienza vissuta o proposta adatta, ometti il racconto e scrivi solo i passi.
+   Nel racconto e nell'esperienza che può ispirarti non aggiungere aggettivi, emozioni, numeri, classi o dettagli che non sono scritti nelle FONTI: riporta luogo, classe e domanda esattamente come sono scritti (se sono «da completare», dillo). Una scheda PROPOSTA non è mai stata fatta: il soggetto è sempre la scheda («la scheda propone di…», «si potrebbe…»), mai una classe, i bambini o le maestre. Mai la prima persona («abbiamo…»); le parole dei bambini solo come dice la regola 4.
+   Ogni passo è una sola frase breve e concreta, al massimo 20 parole.
+   Le esperienze vissute si raccontano al passato; le proposte (idee ancora da provare) e i passi si scrivono al condizionale o come suggerimento («si potrebbe…», «potete…»).
+   Dopo i passi, e SOLO quando servono, possono venire nell'ordine: il paragrafo «Dalla letteratura di riferimento:», la parte «Traguardi a cui può concorrere:» (regola 13) e nient'altro (l'invito della regola 15 lo aggiunge il sito).
+   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale nel paragrafo a parte «Dalla letteratura di riferimento:», dopo i passi: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte (senza scrivere «CITA COME»), seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non scrivere il paragrafo «Dalla letteratura di riferimento:» e non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non mescolarle con il racconto né con i passi: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti il racconto.
+   Non attribuire mai alle FONTI ciò che non c'è scritto.
 2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
 3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
-4. Non inventare MAI parole dei bambini. Puoi riportare una frase dei bambini solo se nella fonte è marcata «VOCE VERIFICATA», tra «caporali», identica, con la sua citazione. Non parafrasarla come se l'avessero detta. Se ti chiedono che cosa hanno detto i bambini e non ci sono voci verificate, dillo chiaramente, senza citare fonti per questa frase. Nelle idee non scrivere frasi tra virgolette messe in bocca a bambini o persone.
+4. Non inventare MAI parole dei bambini. Puoi riportare una frase dei bambini solo se nella fonte è marcata «VOCE VERIFICATA», tra «caporali», identica, con la sua citazione. Non parafrasarla come se l'avessero detta. Se ti chiedono che cosa hanno detto i bambini e non ci sono voci verificate, dillo chiaramente, senza citare fonti per questa frase. Nei passi non scrivere frasi tra virgolette messe in bocca a bambini o persone.
 5. Distingui sempre: «vissuta» = esperienza fatta davvero con una classe; «proposta» = idea ancora da provare. Non scrivere mai che una proposta «è stata fatta» o che «i bambini hanno scoperto».
 6. Se la domanda chiede un fatto preciso sulle nostre comunità e le fonti non lo contengono, dillo («Non lo so: nelle schede del sito non c'è») e suggerisci come riformulare la domanda (un luogo, una classe, un tema). Se le fonti sono parziali, dillo.
 7. Non descrivere né identificare bambini. Niente dati personali.
-8. Al massimo 220 parole. Testo semplice, senza markdown: niente asterischi, grassetti o titoli con #. Chiudi, se serve, con una riga che rimanda alle schede citate.
+8. Al massimo 220 parole in tutto (se la richiesta dice APPROFONDIMENTO, fino a 450 parole): racconto breve e passi brevi. Testo semplice, senza markdown: niente asterischi, grassetti o titoli con #; i titoli sono solo quelli della regola 1.
 9. Ogni fonte ha un'etichetta. «UDA», «AULA» e «METODO (estratto)» sono pagine del sito. «LETTERATURA DI RIFERIMENTO» sono studi scientifici di altri autori (articoli e tesi ad accesso aperto) riassunti da noi: non sono esperienze nostre né Indicazioni nazionali; riportane i risultati con prudenza, come li presentano gli autori, ricordando i limiti se pesano. «MATERIALE DEL TEAM», «METODO (testo completo)», «RIELABORAZIONE» e «PROGRAMMA» sono documenti interni: citali con [S1]… come le altre, nominando titolo e autore se serve, ma senza link e senza inventare indirizzi.
 10. «PROGRAMMA» dice che cosa si studia in una classe e in quale periodo dell'anno: usalo per collegare aule e UDA al curricolo, ma non è un'esperienza fatta. Gli «Agganci» del programma sono proposte.
 11. Le «RIELABORAZIONI» riassumono opere di altri autori: riporta le idee con parole tue e indica l'opera; mai citazioni lunghe, esercizi o attività copiate. Anche dalle altre fonti non copiare brani lunghi.
 12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.
-13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo la parte (a) e prima delle idee scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati all'esperienza della domanda. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nella parte (a) non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
+13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo i passi (e dopo l'eventuale letteratura) scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati all'esperienza della domanda. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nel racconto e nei passi non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
 14. Il «MANIFESTO della Strada dei Bambini» è il testo pubblico della home: citalo con [S…] come le altre fonti.
-15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Alla fine della risposta, dopo le idee, aggiungi esattamente questa riga: «Vuoi portare la Strada dei Bambini a [città]? Scrivici a info@scuolenaturali.it» (per una regione usa «in»). Non aggiungere questo invito se la domanda riguarda una delle nostre comunità già attive.`;
+15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -145,6 +157,22 @@ export function citaStudio(autore) {
 // Controllo lato server sulla letteratura: (1) le frasi che citano uno studio non restano in «Dalle nostre schede:»,
 // passano nel paragrafo «Dalla letteratura di riferimento:»; (2) ogni frase su un solo studio porta il nome giusto
 // (se nomina l'autore di un altro studio, il nome si corregge; se non nomina nessuno, si aggiunge).
+// Titoli delle parti della risposta (ricalcano le UDA: prima il racconto, poi i passi). I vecchi titoli
+// («Dalle nostre schede», «Idee…») si riconoscono ancora e diventano quelli nuovi.
+export const TITOLI = {
+  "il racconto": "Il racconto:", "i passi": "I passi:",
+  "un'esperienza che può ispirarti": "Un'esperienza che può ispirarti:", "i passi per il tuo territorio": "I passi per il tuo territorio:",
+  "dalla letteratura di riferimento": "Dalla letteratura di riferimento:", "traguardi a cui può concorrere": "Traguardi a cui può concorrere:",
+};
+const ALIAS_TITOLI = { "dalle nostre schede": "il racconto", "idee per il tuo territorio": "i passi per il tuo territorio", "idee generali": "i passi per il tuo territorio" };
+export const RE_TITOLO = /^\s*(?:\*\*|#+\s*)?(Il racconto|I passi per il tuo territorio|I passi|Un['’]esperienza che (?:può|puo) ispirarti|Dalla letteratura di riferimento|Traguardi a cui (?:può|puo) concorrere|Dalle nostre schede|Idee per il tuo territorio|Idee generali)(?:\*\*)?\s*(?::\s*(?:\*\*)?\s*|$)/i;
+export function chiaveTitolo(t) {
+  const k = String(t).toLowerCase().replace(/’/g, "'").replace(/\bpuo\b/g, "può").replace(/\s+/g, " ").trim();
+  return ALIAS_TITOLI[k] || k;
+}
+// parti narrative (con [S…] delle schede) e parte di soli suggerimenti generali (senza [S…])
+const PARTI_SCHEDE = new Set(["il racconto", "i passi", "un'esperienza che può ispirarti"]);
+const PARTE_GENERALE = "i passi per il tuo territorio";
 const escRe = t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const codiciSDi = (f, fonti) => [...f.matchAll(/\[S(\d+)\]/g)].map(m => fonti[Number(m[1]) - 1]);
 export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
@@ -155,27 +183,32 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
   const assenti = tuttiStudi.filter(c => !lett.some(l => l.cita === c)).map(c => c.split(/ e |\s\(/)[0]);
   const inventata = f => assenti.some(c => new RegExp(`\\b${escRe(c)}\\b`).test(f)) && !codiciS(f).some(x => x?.lett);
   testo = testo.replace(/CITA COME:\s*/g, "");
-  const RE_TIT = /^\s*(Dalle nostre schede|Dalla letteratura di riferimento|Idee per il tuo territorio|Idee generali|Traguardi a cui può concorrere)\s*:\s*/i;
   const parti = []; let cur = { tit: null, righe: [] }; parti.push(cur);
   for (const riga of testo.split("\n")) {
-    const m = riga.match(RE_TIT);
-    if (m) { cur = { tit: m[1].toLowerCase(), righe: [] }; parti.push(cur); const r = riga.slice(m[0].length); if (r.trim()) cur.righe.push(r); }
+    const m = riga.match(RE_TITOLO);
+    if (m) { cur = { tit: chiaveTitolo(m[1]), righe: [] }; parti.push(cur); const r = riga.slice(m[0].length); if (r.trim()) cur.righe.push(r); }
     else cur.righe.push(riga);
   }
   // senza letteratura tra le fonti il paragrafo non ha base: si toglie (resta il resto della risposta)
   if (!lett.length) for (const p of parti) if (p.tit === "dalla letteratura di riferimento") p.righe = [];
   const spostate = [];
-  for (const p of parti) if (p.tit === "dalle nostre schede") p.righe = p.righe.map(r => {
+  for (const p of parti) if (PARTI_SCHEDE.has(p.tit)) p.righe = p.righe.map(r => {
     const frasi = r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/);
     const resta = frasi.filter(f => { if (codiciS(f).some(x => x?.lett) || lett.some(l => new RegExp(`\\b${escRe(l.cita.split(/ e |\s\(/)[0])}\\b`).test(f))) { spostate.push(f.trim()); return false; } return true; });
     return resta.join(" ");
   });
   let pl = parti.find(p => p.tit === "dalla letteratura di riferimento");
   if (spostate.length) {
-    if (!pl) { pl = { tit: "dalla letteratura di riferimento", righe: [] }; const k = parti.findIndex(p => p.tit === "dalle nostre schede"); parti.splice(k >= 0 ? k + 1 : 1, 0, pl); }
+    if (!pl) { // dopo il racconto e i passi, prima dei traguardi
+      pl = { tit: "dalla letteratura di riferimento", righe: [] };
+      const k = parti.findLastIndex(p => PARTI_SCHEDE.has(p.tit) || p.tit === PARTE_GENERALE);
+      parti.splice(k >= 0 ? k + 1 : 1, 0, pl);
+    }
     const k = pl.righe.findIndex(r => r.trim());
     if (k >= 0) pl.righe[k] = spostate.join(" ") + " " + pl.righe[k]; else pl.righe.unshift(spostate.join(" "));
   }
+  // riga fatta solo del nome di uno studio («Sella e colleghi (2023)»), come un titoletto: si toglie
+  if (pl) pl.righe = pl.righe.filter(r => !lett.some(l => new RegExp(`^\\s*[–-]?\\s*${escRe(l.cita)}\\s*:?\\s*$`).test(r)));
   if (pl) pl.righe = pl.righe.map(r => r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/).map(f => {
     if (/\[S\d+\]/.test(f) && codiciS(f).every(x => !x)) return ""; // segno [S…] inesistente
     const ls = [...new Set(codiciS(f).filter(x => x?.lett))];
@@ -190,11 +223,10 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
     return f;
   }).join(" "));
   if (assenti.length) for (const p of parti) p.righe = p.righe.map(r => r.split(/(?<=[.!?»)\]])\s+(?=[A-ZÀ-Ý«“"(])/).filter(f => !inventata(f)).join(" "));
-  const nomi = { "dalle nostre schede": "Dalle nostre schede:", "dalla letteratura di riferimento": "Dalla letteratura di riferimento:", "idee per il tuo territorio": "Idee per il tuo territorio:", "idee generali": "Idee generali:", "traguardi a cui può concorrere": "Traguardi a cui può concorrere:" };
   const out = [];
   for (const p of parti) {
     if (p.tit && !p.righe.some(r => r.trim())) continue; // titolo rimasto vuoto
-    if (p.tit) { out.push(nomi[p.tit]); if (out.length > 1 && out[out.length - 2]?.trim()) out.splice(out.length - 1, 0, ""); }
+    if (p.tit) { out.push(TITOLI[p.tit] || p.tit); if (out.length > 1 && out[out.length - 2]?.trim()) out.splice(out.length - 1, 0, ""); }
     out.push(...p.righe);
   }
   return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
@@ -209,10 +241,13 @@ export function contesto(...gruppi) {
     let usati = 0;
     for (const r0 of res.risultati) {
       const r = { ...r0, privato: !!privato };
-      const ids = [...(r.passi || [])];
-      const breve = r.tipo === "uda" && ix.passi.find(x => x.ref === r.ref && x.sezione === "In breve");
-      if (breve && !ids.includes(breve.id)) ids.push(breve.id);
-      for (const id of ids.slice(0, privato ? 2 : 3)) {
+      let ids = [...(r.passi || [])];
+      // UDA: i 2 passi trovati migliori, poi «In breve», «Domanda generativa» e «Per replicare» (il racconto e i passi le ricalcano)
+      if (r.tipo === "uda") {
+        const sez = ["In breve", "Domanda generativa", "Per replicare"].map(z => ix.passi.find(x => x.ref === r.ref && x.sezione === z)?.id).filter(Boolean);
+        ids = [...new Set([...ids.slice(0, 2), ...sez, ...ids.slice(2)])];
+      }
+      for (const id of ids.slice(0, privato ? 2 : r.tipo === "uda" ? 5 : 3)) {
         const p = ix.passi.find(x => x.id === id); if (!p) continue;
         if (usati + p.testo.length > budget) break;
         usati += p.testo.length;
@@ -226,7 +261,7 @@ export function contesto(...gruppi) {
         }
         const meta = r.tipo === "normativa"
           ? [p.disciplina, p.ordine === p.classe ? p.ordine : p.classe?.replace(/ (\d)$/, " · classe $1")].filter(Boolean).join(" · ")
-          : [r.comunita, (r.eta || []).join(", "), r.classi, (r.discipline || []).join(", "), privato && r.autore ? `autore: ${r.autore}` : ""].filter(Boolean).join(" · ");
+          : [r.comunita ? `comunità: ${r.comunita}` : "", (r.eta || []).join(", "), r.classi, (r.discipline || []).join(", "), privato && r.autore ? `autore: ${r.autore}` : ""].filter(Boolean).join(" · ");
         let testo = p.testo;
         if (r.tipo === "normativa" && p.sezione_tipo !== "premessa") { // un codice [T…] per ogni traguardo o obiettivo
           testo = p.testo.split("\n").map(l => {
@@ -236,7 +271,8 @@ export function contesto(...gruppi) {
           }).join("\n");
         }
         if (r.tipo_fonte === "letteratura") { fonti[n - 1].lett = true; fonti[n - 1].cita = citaStudio(r.autore); }
-        blocchi.push(`[S${n}] ${etichetta(r)}${r.tipo_fonte === "letteratura" && fonti[n - 1].cita ? `\nCITA COME: ${fonti[n - 1].cita}` : ""} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${testo}`);
+        const avviso = r.tipo === "uda" && r.stato === "proposta" ? "\nATTENZIONE: PROPOSTA, non ancora fatta con una classe: raccontala come idea («la scheda propone…», al condizionale)." : "";
+        blocchi.push(`[S${n}] ${etichetta(r)}${avviso}${r.tipo_fonte === "letteratura" && fonti[n - 1].cita ? `\nCITA COME: ${fonti[n - 1].cita}` : ""} — «${r.titolo}»${meta ? ` (${meta})` : ""}\nSezione: ${p.sezione || ""}${p.voce ? " — VOCE VERIFICATA" : ""}\n${testo}`);
       }
     }
   }
@@ -252,8 +288,9 @@ export function espandiCodici(testo, codici, fonti = []) {
   const norm = k => fonti[Number(k) - 1]?.tipo === "normativa";
   const out = []; let parte = "a"; const scelti = [];
   for (const riga of testo.split("\n")) {
-    if (/^\s*Traguardi a cui può concorrere\s*:/i.test(riga)) { parte = "t"; out.push("Traguardi a cui può concorrere:"); continue; }
-    if (/^\s*Idee (per il tuo territorio|generali)\s*:/i.test(riga)) parte = "i";
+    const mt = riga.match(RE_TITOLO), kt = mt && chiaveTitolo(mt[1]);
+    if (kt === "traguardi a cui può concorrere") { parte = "t"; out.push("Traguardi a cui può concorrere:"); continue; }
+    if (kt) parte = kt === PARTE_GENERALE ? "i" : "a"; // racconto, passi della scheda, letteratura: come la vecchia parte (a)
     const ks = [...riga.matchAll(/\[T(\d+)\]/g)].map(m => codici?.[Number(m[1]) - 1]).filter(Boolean);
     if (parte === "t") { // solo codici, al massimo 4 (2 per versione), espansi con il testo ufficiale
       for (const c of ks) if (!scelti.includes(c) && scelti.length < 4 && scelti.filter(x => x.versione === c.versione).length < 2) scelti.push(c);
@@ -261,7 +298,7 @@ export function espandiCodici(testo, codici, fonti = []) {
       continue;
     }
     if (ks.length || /\[T\d+\]/.test(riga)) continue; // codici fuori posto: la riga si toglie (niente testi ufficiali riscritti)
-    if (parte === "a" && codici?.length) { // nella parte (a) via le frasi che citano solo le Indicazioni
+    if (parte === "a" && codici?.length && !kt) { // nel racconto e nei passi via le frasi che citano solo le Indicazioni
       const frasi = riga.split(/(?<=[.!?])\s+/).filter(f => { const ss = [...f.matchAll(/\[S(\d+)\]/g)].map(m => m[1]); return !ss.length || !ss.every(norm); });
       out.push(frasi.join(" "));
       continue;
@@ -272,9 +309,9 @@ export function espandiCodici(testo, codici, fonti = []) {
   const k = out.indexOf("Traguardi a cui può concorrere:");
   if (k >= 0) {
     if (scelti.length) out.splice(k + 1, 0, ...scelti.map(c => `– ${cita(c)}.`));
-    else if (!out[k + 1]?.trim() || /^\s*Idee/i.test(out[k + 1])) out.splice(k, 1);
+    else if (!out[k + 1]?.trim() || RE_TITOLO.test(out[k + 1])) out.splice(k, 1);
   }
-  return out.join("\n").replace(/\n{3,}/g, "\n\n").replace(/^Dalle nostre schede:\s*\n+(?=Traguardi a cui)/, "");
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").replace(/^(Dalle nostre schede|Il racconto|Un['’]esperienza che può ispirarti):\s*\n+(?=Traguardi a cui)/, "");
 }
 
 // Citazioni delle Indicazioni: il testo tra «…» deve essere identico alla fonte. Se il modello l'ha accorciato
@@ -390,20 +427,24 @@ export function cercaNormativa(ixN, domanda, { max = 4 } = {}) {
   return { risultati: [...gruppi.values()] };
 }
 
-export async function chiamaModello(cfg, domanda, ctx, generali = false) {
-  const utente = `${generali ? "FONTI DI METODO GENERALI (la ricerca non ha trovato schede sul tema preciso della domanda)" : "FONTI"}\n\n${ctx}\n\nDOMANDA\n${domanda}`;
-  const ctrl = AbortSignal.timeout(20000);
+// Approfondimento: stessa forma e stesse regole, risposta più lunga (fino a ~450 parole) e un po' più di fonti.
+export const RICHIESTA_APPROFONDIMENTO = "APPROFONDIMENTO: chi scrive ha già letto la risposta breve e chiede una versione più lunga e dettagliata. Usa la stessa forma (stessi titoli) e TUTTE le stesse regole, ma fino a 450 parole: un racconto più ricco (fino a 8 frasi, con più dettagli presi dalle FONTI, mai inventati) e da 4 a 7 passi più precisi.";
+export const maxTokensDi = (cfg, approfondisci) => approfondisci ? Math.min(cfg.maxTokens * 2, 1600) : cfg.maxTokens;
+export async function chiamaModello(cfg, domanda, ctx, generali = false, approfondisci = false) {
+  const utente = `${generali ? "FONTI DI METODO GENERALI (la ricerca non ha trovato schede sul tema preciso della domanda)" : "FONTI"}\n\n${ctx}\n\nDOMANDA\n${domanda}${approfondisci ? `\n\n${RICHIESTA_APPROFONDIMENTO}` : ""}`;
+  const ctrl = AbortSignal.timeout(approfondisci ? 25000 : 20000);
+  const max_tokens = maxTokensDi(cfg, approfondisci);
   if (cfg.provider === "anthropic") {
     const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal: ctrl,
       headers: { "content-type": "application/json", "x-api-key": cfg.chiave, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: cfg.modello, max_tokens: cfg.maxTokens, temperature: 0.2, system: PROMPT_SISTEMA, messages: [{ role: "user", content: utente }] }) });
+      body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.2, system: PROMPT_SISTEMA, messages: [{ role: "user", content: utente }] }) });
     if (!r.ok) throw new Error(`provider ${r.status}`);
     const j = await r.json();
     return (j.content || []).map(c => c.text || "").join("").trim();
   }
   const r = await fetch(`${cfg.baseUrl}/chat/completions`, { method: "POST", signal: ctrl,
     headers: { "content-type": "application/json", authorization: `Bearer ${cfg.chiave}` },
-    body: JSON.stringify({ model: cfg.modello, max_tokens: cfg.maxTokens, temperature: 0.2,
+    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.2,
       messages: [{ role: "system", content: PROMPT_SISTEMA }, { role: "user", content: utente }] }) });
   if (!r.ok) throw new Error(`provider ${r.status}`);
   const j = await r.json();
@@ -412,12 +453,16 @@ export async function chiamaModello(cfg, domanda, ctx, generali = false) {
   return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
 }
 
-// [S1, S2] o [S1,S3] → [S1][S2] (il sito collega solo [S1]); nella parte «Idee…» (suggerimenti generali) niente citazioni.
+// [S1, S2] o [S1,S3] → [S1][S2] (il sito collega solo [S1]); nei «I passi per il tuo territorio» (suggerimenti generali) niente citazioni.
 export function ripulisci(testo) {
   let t = String(testo || "").replace(/\[S(\d+(?:\s*[,;]\s*S?\d+)+)\]/g, (m, g) => g.split(/\s*[,;]\s*/).map(x => `[S${x.replace(/^S/, "")}]`).join(""));
-  t = t.replace(/\*\*([^*]+)\*\*/g, "$1");
-  const i = t.search(/Idee (per il tuo territorio|generali)\s*:/i);
-  if (i >= 0) t = t.slice(0, i) + t.slice(i).replace(/\s*\[S\d+\]/g, "");
+  t = t.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/(^|[\s(«])\*([^*\n]+)\*(?=[\s.,;:!?)»]|$)/gm, "$1$2");
+  let generale = false;
+  t = t.split("\n").filter(riga => !/vuoi portare la strada dei bambini|^\s*[–-]?\s*(scrivici a\s*)?info@scuolenaturali\.it\.?\s*$/i.test(riga)).map(riga => {
+    const m = riga.match(RE_TITOLO);
+    if (m) generale = chiaveTitolo(m[1]) === PARTE_GENERALE;
+    return generale ? riga.replace(/\s*\[S\d+\]/g, "") : riga;
+  }).join("\n");
   return t.trim();
 }
 
@@ -438,7 +483,7 @@ async function pulisciConteggiVecchi(store, giorno) {
   if (await store.get(marker, { type: "text" })) return { fatta: false };
   const cutoff = dataMenoGiorni(giorno, GIORNI_CONTEGGI);
   let tolti = 0;
-  for (const prefix of ["giorno/", "ip/", "pulizia/"]) {
+  for (const prefix of ["giorno/", "ip/", "pulizia/", "approfondito/"]) {
     const { blobs } = await store.list({ prefix });
     for (const b of blobs) {
       const d = dataDellaChiave(b.key);
@@ -464,6 +509,22 @@ async function controllaLimiti(cfg, req, context) {
   return { ok: true };
 }
 
+// «Approfondisci»: un solo approfondimento per risposta. Ogni risposta con fonti porta un gettone firmato
+// (giorno, numero casuale, domanda); il gettone vale fino al giorno dopo e una volta sola (segno in Blobs «approfondito/…»).
+const firmaGettone = (cfg, giorno, nonce, domanda) => createHmac("sha256", "genius-loci-approfondisci|" + cfg.chiave)
+  .update(`${giorno}|${nonce}|${normalizza(domanda)}`).digest("base64url").slice(0, 32);
+export function creaGettone(cfg, domanda, giorno = oggiRoma()) {
+  const nonce = randomBytes(9).toString("base64url");
+  return `${giorno}.${nonce}.${firmaGettone(cfg, giorno, nonce, domanda)}`;
+}
+export function verificaGettone(cfg, domanda, gettone, oggi = oggiRoma()) {
+  const m = String(gettone || "").match(/^(\d{4}-\d{2}-\d{2})\.([\w-]{12})\.([\w-]{32})$/);
+  if (!m || (m[1] !== oggi && m[1] !== dataMenoGiorni(oggi, 1))) return null;
+  const atteso = Buffer.from(firmaGettone(cfg, m[1], m[2], domanda)), dato = Buffer.from(m[3]);
+  return atteso.length === dato.length && timingSafeEqual(atteso, dato) ? { giorno: m[1], nonce: m[2] } : null;
+}
+const oggiRoma = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+
 let ix = null;
 export default async (req, context) => {
   const cfg = configurazione();
@@ -474,13 +535,27 @@ export default async (req, context) => {
   }
   if (req.method !== "POST") return json({ errore: "metodo non ammesso" }, 405);
   if (!cfg.pronto) return json({ abilitato: false, errore: "La risposta scritta non è attiva." }, 503);
-  let domanda = "";
-  try { domanda = String((await req.json()).domanda || "").trim().slice(0, 300); } catch {}
+  let domanda = "", corpo = {};
+  try { corpo = (await req.json()) || {}; domanda = String(corpo.domanda || "").trim().slice(0, 300); } catch {}
   if (domanda.length < 3) return json({ errore: "Domanda vuota." }, 400);
+  const approfondisci = corpo.approfondisci === true;
+  let segno = null;
+  if (approfondisci) { // conta come una domanda nei limiti; una volta sola per risposta
+    const g = verificaGettone(cfg, domanda, corpo.gettone);
+    if (!g) return json({ errore: "Approfondimento non disponibile per questa risposta: rifai la domanda." }, 400);
+    segno = `approfondito/${g.giorno}/${g.nonce}`;
+    if (await getStore({ name: "genius-loci-limiti", consistency: "strong" }).get(segno, { type: "text" })) return json({ errore: "Questa risposta è già stata approfondita." }, 409);
+  }
   const lim = await controllaLimiti(cfg, req, context);
   if (!lim.ok) return json({ errore: lim.motivo }, 429);
-  const out = await rispondi(cfg, domanda);
-  return out.errore ? json({ errore: out.errore }, out.status || 500) : json(out);
+  if (segno) await getStore({ name: "genius-loci-limiti", consistency: "strong" }).set(segno, "1");
+  const out = await rispondi(cfg, domanda, { approfondisci });
+  if (out.errore) { // il modello non ha risposto: l'approfondimento si può riprovare
+    if (segno) try { await getStore({ name: "genius-loci-limiti", consistency: "strong" }).delete(segno); } catch {}
+    return json({ errore: out.errore }, out.status || 500);
+  }
+  if (!approfondisci && out.fonti?.length) out.approfondimento = creaGettone(cfg, domanda);
+  return json(out);
 };
 
 // Invito a scriverci se la domanda nomina un luogo senza schede recensite.
@@ -644,12 +719,13 @@ export function aggiungiInvito(risposta, domanda) {
 }
 
 // Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
-export async function rispondi(cfg, domanda) {
+export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   ix = ix || preparaIndice(dati);
-  let res = cerca(ix, domanda, { max: 5 });
+  const piu = approfondisci ? 1.5 : 1; // approfondimento: un po' più di passi delle schede
+  let res = cerca(ix, domanda, { max: approfondisci ? 6 : 5 });
   res.risultati = res.risultati.filter(r => !nascosto(r));
   const ixP = await indicePrivato();
-  let resP = ixP ? cerca(ixP, domanda, { max: 4, comunitaMorbida: true }) : null;
+  let resP = ixP ? cerca(ixP, domanda, { max: approfondisci ? 5 : 4, comunitaMorbida: true }) : null;
   if (resP) resP.risultati = resP.risultati.filter(r => !nascosto(r));
   // Poche schede trovate: aggiungo fonti di metodo, il modello darà idee generali (o declinerà se fuori tema).
   const trovati = res.risultati.length + (resP?.risultati.length || 0);
@@ -665,10 +741,10 @@ export async function rispondi(cfg, domanda) {
   const resL = ixL && capisci(domanda).termini.length >= 2 ? cerca(ixL, domanda, { max: 2, comunitaMorbida: true }) : null;
   if (resL) resL.risultati = resL.risultati.filter(r => !nascosto(r));
   const conL = !!resL?.risultati.length;
-  const ctx = contesto({ ix, res, budget: resP?.risultati.length ? 8000 : 13000 }, { ix: ixP, res: resP, privato: true, budget: 5500 },
+  const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: 5500 * piu },
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 7000 });
   try {
-    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 22000 : 15000) + (conL ? 4000 : 0)), generali);
+    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 22000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
     const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(ripulisci(grezza), ctx.codici, ctx.fonti), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
