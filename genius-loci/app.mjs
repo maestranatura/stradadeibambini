@@ -10,8 +10,11 @@ const SUGGERIMENTI = ['Aule a Valdobbiadene per la primaria', 'UDA di matematica
 let indice = null, llm = { abilitato: false };
 const pronto = fetch('/genius-loci/indice.json?v=1').then(r => r.json()).then(d => { indice = preparaIndice(d); });
 // Fase 2: il motore LLM si attiva solo se l'endpoint risponde {abilitato:true}. In locale o spento: si resta in fase 1.
-fetch('/api/genius-loci', { headers: { accept: 'application/json' } })
+// Una sola richiesta di stato (GET, non conta come domanda). Chi arriva con ?q= aspetta questa risposta (al massimo 5 s)
+// prima di decidere se chiedere a Mistral, così anche i link diretti hanno la risposta scritta.
+const statoLlm = fetch('/api/genius-loci', { headers: { accept: 'application/json' } })
   .then(r => r.ok ? r.json() : null).then(j => { if (j && j.abilitato === true) llm = j; }).catch(() => {});
+const attendiStato = () => Promise.race([statoLlm, new Promise(r => setTimeout(r, 5000))]);
 
 function marcato(testo, trovati) {
   return evidenzia(testo, trovati).map(x => x.mark ? `<mark>${esc(x.t)}</mark>` : esc(x.t)).join('');
@@ -66,7 +69,7 @@ async function chiedi(domanda) {
   a.innerHTML = `<img src="/favicon.svg?v=1" alt=""><div class="gl-a-body"><p class="gl-attesa">Cerco nelle schede…</p></div>`;
   thread.append(q, a);
   const url = new URL(location.href); url.searchParams.set('q', domanda); history.replaceState(null, '', url);
-  await pronto;
+  await Promise.all([pronto, attendiStato()]);
   const res = cerca(indice, domanda, { max: 5 });
   const body = a.querySelector('.gl-a-body');
   body.innerHTML = rispostaHtml(res);
