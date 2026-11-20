@@ -334,19 +334,21 @@ export function contesto(...gruppi) {
 const sezioneBreve = s => String(s || "").replace(/^Traguardi (per lo sviluppo|di sviluppo) dell[ae] competenz[ae]/i, "traguardi")
   .replace(/^Competenze attese/i, "competenze attese").replace(/^Obiettivi specifici di apprendimento/i, "obiettivi specifici")
   .replace(/^Obiettivi di apprendimento/i, "obiettivi").replace(/^Obiettivi specifici/i, "obiettivi specifici").replace(/\s*\(.*$/, "").trim();
-export function espandiCodici(testo, codici, fonti = []) {
+export function espandiCodici(testo, codici, fonti = [], domanda = "") {
   const cita = c => `può concorrere a «${c.testo.replace(/[.;]$/, "")}» (Indicazioni ${c.versione}, ${c.disciplina || "indicazioni generali"}, ${sezioneBreve(c.sezione)}) [S${c.n}]`;
   const norm = k => fonti[Number(k) - 1]?.tipo === "normativa";
-  const out = []; let parte = "a"; const scelti = [];
+  const out = []; let parte = "a"; const scelti = [], proposti = [];
   const perVersione = new Set((codici || []).map(c => c.versione)).size > 1 ? 2 : 4; // con una sola versione, fino a 4
+  // con almeno 2 discipline davanti, 1 solo codice per disciplina: il modello tende a sceglierne 2 di geografia
+  const discCand = new Set((codici || []).map(c => c.disciplina).filter(Boolean));
+  const perDisc = discCand.size >= 2 ? 1 : 2;
   for (const riga of testo.split("\n")) {
     const mt = riga.match(RE_TITOLO), kt = mt && chiaveTitolo(mt[1]);
     if (kt === "traguardi a cui può concorrere") { parte = "t"; out.push("Traguardi a cui può concorrere:"); continue; }
     if (kt) parte = kt === PARTE_GENERALE ? "i" : "a"; // racconto, passi della scheda, letteratura: come la vecchia parte (a)
     const ks = [...riga.matchAll(/\[T(\d+)\]/g)].map(m => codici?.[Number(m[1]) - 1]).filter(Boolean);
     if (parte === "t") { // solo codici, al massimo 4 (2 per versione), espansi con il testo ufficiale
-      for (const c of ks) if (!scelti.includes(c) && scelti.length < 4 && scelti.filter(x => x.versione === c.versione).length < perVersione
-        && scelti.filter(x => x.disciplina === c.disciplina).length < 2) scelti.push(c);
+      for (const c of ks) if (!proposti.includes(c)) proposti.push(c);
       if (!ks.length && riga.trim() && !/^\s*[–-]/.test(riga)) out.push(riga); // eventuale frase («nessun traguardo adatto…»)
       continue;
     }
@@ -358,27 +360,63 @@ export function espandiCodici(testo, codici, fonti = []) {
     }
     out.push(riga);
   }
-  // se il modello ha scelto una sola disciplina, aggiungo il codice (testo ufficiale intero) di un'altra disciplina
-  // fra quelli che aveva davanti, il più vicino per parole a ciò che dice la risposta
-  // se la domanda chiedeva i traguardi (ci sono codici) ma il modello ha dimenticato la parte, la aggiungo io
-  // con 3 codici di discipline diverse, scelti allo stesso modo
+  // Il sito completa in modo deterministico: fino a 3 codici (o tanti quante le discipline) di discipline diverse.
+  // Per ogni disciplina che manca si prende il codice più vicino per parole alla domanda e alla risposta; contano anche
+  // le parole della domanda e del racconto (torrente, orto → scienze, geografia; mulini, anziani, monumento → storia):
+  // una disciplina senza questi segnali entra solo se finora ce n'è una sola.
+  // Se la domanda chiedeva i traguardi (ci sono codici) ma il modello ha dimenticato la parte, la aggiungo io allo stesso modo.
   const dimenticata = codici?.some(c => c.disciplina) && !out.includes("Traguardi a cui può concorrere:");
   if (dimenticata) out.push("", "Traguardi a cui può concorrere:");
-  if ((scelti.length || dimenticata) && scelti.length < 4) {
-    const radiciDi = t => new Set(normalizza(t).split(" ").filter(w => w.length > 4).map(w => w.slice(0, 6)));
-    const risposta = radiciDi(out.join(" "));
-    while (scelti.length < 4 && (new Set(scelti.map(c => c.disciplina)).size < 2 || (dimenticata && scelti.length < 3))) {
-      let best = null, bestS = 0.45;
+  const obiettivo = perDisc === 1 ? Math.min(3, discCand.size) : 2;
+  const radiciDi = t => new Set(normalizza(t).split(" ").filter(w => w.length > 4).map(w => w.slice(0, 6)));
+  const kp = out.findIndex(r => /^I passi/.test(r));
+  const racconto = (kp > 0 ? out.slice(0, kp) : []).join(" ");
+  const segnali = pesiDiscipline(domanda + " " + racconto);
+  // parole-ponte tra l'esperienza all'aperto e il lessico delle Indicazioni (osservare l'ambiente, tracce del passato…)
+  const ponte = ["ambiente territorio osservare locale circostante esplorare aperto"];
+  if (segnali.scienze) ponte.push("fenomeni naturali viventi piante animali ecosistemi");
+  if (segnali.storia) ponte.push("tracce passato segni storiche patrimonio");
+  if (segnali.arte) ponte.push("beni artistico culturali opere patrimonio");
+  const vicino = radiciDi(domanda + " " + out.join(" ") + " " + ponte.join(" "));
+  const rel = c => { const r = radiciDi(c.testo); return [...r].filter(w => vicino.has(w)).length / Math.sqrt(r.size || 1); };
+  const quota = c => scelti.filter(x => x.versione === c.versione).length;
+  const voto = c => rel(c) + 0.5 * Math.min(segnali[c.disciplina] || 0, 3) - 0.3 * quota(c) - c.testo.length / 600;
+  // 1) fra i codici proposti dal modello: per ogni disciplina (nell'ordine in cui compare) il più vicino all'esperienza,
+  //    alternando le versioni quando ci sono tutte e due
+  for (const d of [...new Set(proposti.map(c => c.disciplina))]) {
+    if (scelti.length >= 4) break;
+    const cand = proposti.filter(c => c.disciplina === d && quota(c) < perVersione && !scelti.includes(c));
+    const gia = scelti.filter(x => x.disciplina === d).length;
+    for (let i = gia; i < perDisc && cand.length; i++) {
+      const c = cand.sort((a, b) => voto(b) - voto(a)).shift();
+      if (quota(c) < perVersione) scelti.push(c);
+    }
+  }
+  // 2) il sito completa fino a 3 codici (o tante quante le discipline) con le discipline che mancano: una disciplina
+  //    senza segnali nella domanda o nel racconto entra solo se finora ce n'è una sola
+  if ((scelti.length || dimenticata) && scelti.length < obiettivo) {
+    while (scelti.length < obiettivo) {
+      const presenti = new Set(scelti.map(c => c.disciplina));
+      let best = null, bestS = -Infinity;
       for (const c of codici || []) {
-        if (scelti.includes(c) || !c.disciplina || scelti.some(x => x.disciplina === c.disciplina)) continue;
-        if (scelti.filter(x => x.versione === c.versione).length >= perVersione) continue;
-        const r = radiciDi(c.testo), com = [...r].filter(w => risposta.has(w)).length;
-        const sc = com / Math.sqrt(r.size || 1);
+        if (scelti.includes(c) || !c.disciplina || presenti.has(c.disciplina) || quota(c) >= perVersione) continue;
+        if (!segnali[c.disciplina] && presenti.size >= 2) continue;
+        if (rel(c) < 0.3) continue;
+        const sc = voto(c);
         if (sc > bestS) { bestS = sc; best = c; }
       }
       if (!best) break;
       scelti.push(best);
     }
+  }
+  // 3) senza anno scolastico nella domanda ci sono tutte e due le versioni: se ne è uscita una sola, aggiungo il codice
+  //    più vicino dell'altra (anche della stessa disciplina, è un altro testo ufficiale)
+  const versioniScelte = new Set(scelti.map(c => c.versione));
+  if (scelti.length && scelti.length < 4 && perVersione === 2 && versioniScelte.size === 1) {
+    const altra = (codici || []).filter(c => c.disciplina && !versioniScelte.has(c.versione) && rel(c) >= 0.3
+      && (segnali[c.disciplina] || scelti.some(x => x.disciplina === c.disciplina)))
+      .sort((a, b) => voto(b) - 0.5 * scelti.some(x => x.disciplina === b.disciplina) - voto(a) + 0.5 * scelti.some(x => x.disciplina === a.disciplina))[0];
+    if (altra) scelti.push(altra);
   }
   // inserisco le righe scelte subito dopo il titolo «Traguardi a cui può concorrere:»
   const k = out.indexOf("Traguardi a cui può concorrere:");
@@ -462,15 +500,22 @@ const DISC_NORM = { "educazione motoria": "educazione motoria", motoria: "educaz
 // parole della domanda, discipline delle schede trovate, e una base da uscita sul territorio (geografia, scienze, storia).
 const PRIORI_DISCIPLINE = [
   [/\b(torrent|fium|ruscell|sorgent|acqu|lag[oh]|mare|lagun|bosc|alber|fogli|ort[oi]|giardin|piant|sem[ei]|fior|animal|insett|terr[ae]|suol|rocc|sass|stagion|natur)/, { scienze: 2, geografia: 1 }],
-  [/\b(mapp|territor|paesagg|percors|cammin|uscit|quartier|paes[ei]|citta|orient|confin|carta|luog)/, { geografia: 2, storia: 0.5 }],
-  [/\b(storic|monument|chies|castell|muse|archivi|anzian|nonn|memori|tradizion|mulin|antic|patrimon)/, { storia: 2, arte: 1.5 }],
+  [/\b(mapp|territor|paesagg|percors|cammin|uscit|quartier|paes[ei]|citta|orient|confin|carta|luog)/, { geografia: 2 }],
+  [/\b(stori[ac]|passato|monument|chies|castell|muse[io]|archivi|anzian|nonn[io]|memori|tradizion|mulin|antic|patrimon|toponom|si chiama cosi)/, { storia: 2, arte: 1.5 }],
+  [/\b(comunit|toponom|si chiam)/, { storia: 1.5 }],
   [/\b(disegn|dipint|scult|fotograf|artist|immagin|colori)/, { arte: 1.5 }],
   [/\b(gioc|moviment|corp[oi]|equilibri|arramp|corsa|correre)/, { "educazione motoria": 1 }],
   [/\b(raccont|intervist|scriv|scrittur|legg|poesi|fiab|testo|testi)/, { italiano: 1.5 }],
   [/\b(misur|contar|numer|geometr|area|stima|forme)/, { matematica: 1.5 }],
   [/\b(costrui|attrezz|strument|material|ricicl|energi)/, { tecnologia: 1 }],
 ];
-const BASE_USCITA = { geografia: 1, scienze: 1, storia: 0.5 };
+const BASE_USCITA = { geografia: 1, scienze: 1 }; // storia solo se si parla di passato, memoria, mulini, anziani…
+// segnali delle discipline nelle parole (domanda, racconto): senza base
+export function pesiDiscipline(testo) {
+  const q = " " + normalizza(testo) + " ", peso = {};
+  for (const [re, pesi] of PRIORI_DISCIPLINE) if (re.test(q)) for (const [d, v] of Object.entries(pesi)) peso[d] = (peso[d] || 0) + v;
+  return peso;
+}
 export function disciplinePertinenti(domanda, disciplineSchede = [], punteggi = new Map()) {
   const q = " " + normalizza(domanda) + " ", peso = {};
   const somma = (d, v) => { if (DISC_NORM[d]) peso[DISC_NORM[d]] = (peso[DISC_NORM[d]] || 0) + v; };
@@ -480,7 +525,7 @@ export function disciplinePertinenti(domanda, disciplineSchede = [], punteggi = 
   for (const d of disciplineSchede) { const k = DISC_NORM[normalizza(d)] || DISC_NORM[d]; if (k) conta[k] = Math.min(1.5, (conta[k] || 0) + 0.5); }
   for (const [d, v] of Object.entries(conta)) somma(d, v);
   const maxP = Math.max(0, ...punteggi.values()) || 1;
-  for (const [d, v] of punteggi) if (peso[d] !== undefined || v > 0) peso[d] = (peso[d] || 0) + v / maxP;
+  for (const [d, v] of punteggi) if (peso[d] !== undefined) peso[d] += v / maxP; // le parole aiutano solo le discipline già in gioco
   return Object.entries(peso).filter(([, v]) => v >= 1).sort((a, b) => b[1] - a[1]).map(([d]) => d).slice(0, 3);
 }
 export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [] } = {}) {
@@ -950,7 +995,7 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
-    const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
+    const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
     return { risposta: risposta || aggiungiInvito("Non lo so.", domanda), fonti };
