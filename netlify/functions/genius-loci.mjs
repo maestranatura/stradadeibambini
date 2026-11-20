@@ -360,11 +360,15 @@ export function espandiCodici(testo, codici, fonti = []) {
   }
   // se il modello ha scelto una sola disciplina, aggiungo il codice (testo ufficiale intero) di un'altra disciplina
   // fra quelli che aveva davanti, il più vicino per parole a ciò che dice la risposta
-  if (scelti.length && scelti.length < 4) {
+  // se la domanda chiedeva i traguardi (ci sono codici) ma il modello ha dimenticato la parte, la aggiungo io
+  // con 3 codici di discipline diverse, scelti allo stesso modo
+  const dimenticata = codici?.some(c => c.disciplina) && !out.includes("Traguardi a cui può concorrere:");
+  if (dimenticata) out.push("", "Traguardi a cui può concorrere:");
+  if ((scelti.length || dimenticata) && scelti.length < 4) {
     const radiciDi = t => new Set(normalizza(t).split(" ").filter(w => w.length > 4).map(w => w.slice(0, 6)));
     const risposta = radiciDi(out.join(" "));
-    while (scelti.length < 4 && new Set(scelti.map(c => c.disciplina)).size < 2) {
-      let best = null, bestS = 0.6;
+    while (scelti.length < 4 && (new Set(scelti.map(c => c.disciplina)).size < 2 || (dimenticata && scelti.length < 3))) {
+      let best = null, bestS = 0.45;
       for (const c of codici || []) {
         if (scelti.includes(c) || !c.disciplina || scelti.some(x => x.disciplina === c.disciplina)) continue;
         if (scelti.filter(x => x.versione === c.versione).length >= perVersione) continue;
