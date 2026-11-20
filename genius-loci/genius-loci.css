@@ -45,6 +45,15 @@ body.gl-chat .gl-thread{padding:16px 0 8px}
 .gl-intro.vuoto{color:#444}
 .gl-llm{font-size:17px;line-height:1.6}
 .gl-llm p{margin:0 0 10px}
+.gl-llm .gl-tit{font-size:15px;font-weight:700;letter-spacing:.02em;color:var(--green-dark);margin:16px 0 6px}
+.gl-llm .gl-tit:first-child{margin-top:0}
+.gl-llm .gl-passi{margin:0 0 10px;padding-left:1.4em}
+.gl-llm .gl-passi li{margin:0 0 6px}
+.gl-llm .gl-appro{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.gl-llm .gl-appro-btn{font:inherit;font-size:15px;font-weight:600;padding:6px 14px;border-radius:999px;border:1.5px solid var(--green-dark);background:transparent;color:var(--green-dark);cursor:pointer}
+.gl-llm .gl-appro-btn:hover{background:var(--green-dark);color:#fff}
+.gl-llm .gl-appro-btn:focus-visible{outline:3px solid #E8B84A;outline-offset:2px}
+.gl-llm .gl-approfondita{margin-top:18px;padding-top:12px;border-top:1px solid rgba(0,0,0,.12)}
 .gl-llm .cita{font-size:12px;vertical-align:super;font-weight:600}
 .gl-llm a{color:var(--green-dark);text-decoration:underline}
 .gl-llm a:hover{color:var(--green)}
