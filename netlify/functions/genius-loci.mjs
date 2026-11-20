@@ -228,8 +228,28 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
     return resta.join(" ");
   });
   let pl = parti.find(p => p.tit === "dalla letteratura di riferimento");
-  // riga fatta solo del nome di uno studio («Sella e colleghi (2023)»), come un titoletto: si toglie
-  if (pl) pl.righe = pl.righe.filter(r => !lett.some(l => new RegExp(`^\\s*[–-]?\\s*${escRe(l.cita)}\\s*(\\[S\\d+\\]\\s*)*:?\\s*$`).test(r)));
+  // riga fatta solo del nome di uno studio («Sella e colleghi (2023) [S4]»), come un titoletto: si unisce alla riga
+  // che segue («Secondo Sella e colleghi (2023) [S4], …») se questa non nomina già uno studio; altrimenti si toglie.
+  // Poi via le righe della letteratura senza nessun segno [S…] né nome di studio: non si saprebbe di chi sono.
+  if (pl) {
+    pl.righe = pl.righe.map(r => r.replace(/^(\s*[–-]?\s*)CITA COME:\s*/i, "$1"));
+    const RE_NOME = /^\s*[–-]?\s*([A-ZÀ-Ý][\p{L}'’-]+(?: e colleghi| e [A-ZÀ-Ý][\p{L}'’-]+)? \(\d{4}\))\s*(\[S\d+\]\s*)*:?\s*$/u;
+    const nomeSolo = r => { const m = r.match(RE_NOME); return m && (lett.find(l => l.cita === m[1]) || { cita: m[1] }); };
+    const citata = r => /\[S\d+\]/.test(r) || lett.some(l => r.includes(l.cita.split(" (")[0]));
+    const righe = [];
+    for (let i = 0; i < pl.righe.length; i++) {
+      const r = pl.righe[i], l = nomeSolo(r);
+      if (!l) { righe.push(r); continue; }
+      let j = i + 1; while (j < pl.righe.length && !pl.righe[j].trim()) j++;
+      const dopo = pl.righe[j];
+      if (dopo && !nomeSolo(dopo) && !citata(dopo) && !RE_TITOLO.test(dopo)) {
+        const segni = (r.match(/\[S\d+\]/g) || []).join(" ");
+        righe.push(`Secondo ${l.cita}${segni ? " " + segni : ""}, ${dopo.trim().replace(/^\p{Lu}(?!\p{Lu})/u, c => c.toLowerCase())}`);
+        i = j;
+      }
+    }
+    pl.righe = righe.filter(r => !r.trim() || citata(r));
+  }
   if (spostate.length) {
     if (!pl) { // dopo il racconto e i passi, prima dei traguardi
       pl = { tit: "dalla letteratura di riferimento", righe: [] };
