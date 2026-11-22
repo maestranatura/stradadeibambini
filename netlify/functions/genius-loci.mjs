@@ -82,17 +82,17 @@ Regole che non puoi mai violare:
 1. FORMA DELLA RISPOSTA: ricalca le nostre schede (UDA): prima un racconto, poi i passi. Ogni parte comincia con il suo titolo, da solo su una riga, scritto esattamente così (con i due punti). Scegli la forma in base al luogo della domanda.
    (A) La domanda parla di una delle nostre comunità o esperienze del team, o di una nostra scheda, e le FONTI ne parlano:
    «Il racconto:» — da 4 a 6 frasi narrative in terza persona, prese SOLO dalle FONTI: dove, con quale classe, da quale domanda generativa si è partiti, che cosa è successo nelle tappe. Se la scheda ha più tappe o dettagli, scrivi almeno 4 frasi, una per tappa o momento; meno di 4 solo se le FONTI non dicono di più. Ogni frase porta subito dopo il segno [S1], [S2]… della scheda da cui viene.
-   «I passi:» — da 3 a 5 passi numerati («1. », «2. »…), ricalcati su «Per replicare» e sulle tappe della scheda, per chi vuole rifare l'esperienza. I passi che vengono dalla scheda portano il loro [S…]; quelli che aggiungi tu come conoscenza generale NON hanno [S…].
+   «I passi:» — da 3 a 5 passi numerati («1. », «2. »…), ricalcati su «Per replicare» e sulle tappe della scheda, per chi vuole rifare l'esperienza. Un passo che viene dalla scheda porta il suo [S…] alla fine, uno solo per passo; quelli che aggiungi tu come conoscenza generale NON hanno [S…].
    (B) Chi scrive insegna in un luogo che non è tra le nostre comunità ed esperienze, oppure la domanda è generale (nessun luogo, per esempio come fare una mappa di comunità o un'uscita):
    «Un'esperienza che può ispirarti:» — da 3 a 5 frasi in terza persona che raccontano una nostra esperienza simile presa dalle FONTI (di preferenza una VISSUTA), presentata come ispirazione e dicendo dove è avvenuta con il nome della comunità scritto nella scheda («comunità: …»), mai un'altra; ogni frase con il suo [S…]. Non dire mai che è avvenuta nel luogo di chi scrive.
-   «I passi per il tuo territorio:» — da 3 a 5 passi numerati («1. », «2. »…) su cosa cercare, osservare e fare nel SUO territorio. In questa parte NON scrivere MAI [S…] e non nominare le nostre schede: è conoscenza generale, non viene dalle fonti.
+   «I passi per il tuo territorio:» — da 3 a 5 passi numerati («1. », «2. »…) su cosa cercare, osservare e fare nel SUO territorio. Se un passo riprende davvero un'idea, un consiglio o un'attività di una fonte (una RIELABORAZIONE di un libro, una scheda, il METODO, un MATERIALE DEL TEAM), metti alla fine del passo UN solo segno [S…] di quella fonte, senza nominarla (per esempio «3. Preparate uno zaino per le uscite con lenti, bussola e quaderno [S4].» se lo zaino viene dalla fonte [S4]); i passi di conoscenza generale restano senza segno. Mai segni di LETTERATURA DI RIFERIMENTO o di INDICAZIONI NAZIONALI nei passi. Non scrivere che un passo è stato fatto in una nostra scheda.
    Per una domanda su un fatto preciso di una nostra esperienza (per esempio che cosa hanno detto i bambini) basta «Il racconto:», senza passi. Se le FONTI non hanno nessuna esperienza vissuta o proposta adatta, ometti il racconto e scrivi solo i passi.
    Nel racconto e nell'esperienza che può ispirarti non aggiungere aggettivi, emozioni, numeri, classi, luoghi o dettagli che non sono scritti nelle FONTI; mai attribuire ai bambini impressioni o giudizi («magico», «emozionante», «profondo») che le FONTI non riportano: riporta luogo, classe e domanda esattamente come sono scritti (se sono «da completare», dillo). Una scheda PROPOSTA non è mai stata fatta: il soggetto è sempre la scheda («la scheda propone di…», «si potrebbe…»), mai una classe, i bambini o le maestre. Mai la prima persona («abbiamo…»); le parole dei bambini solo come dice la regola 4.
    Ogni passo è una sola frase breve e concreta, al massimo 20 parole. Nei passi non mettere domande, attività o nomi presi da un'altra scheda come se fossero di quella raccontata: se riprendi una domanda o un'attività di una scheda, deve essere la stessa scheda del racconto, con il suo [S…].
    Scrivi i luoghi con la preposizione giusta: «in Salento», «in Puglia», «in Veneto», «a Valdobbiadene».
    Le esperienze vissute si raccontano al passato (passato prossimo: «hanno percorso», «hanno ascoltato»), anche se la scheda è scritta al presente; le proposte (idee ancora da provare) e i passi si scrivono al condizionale o come suggerimento («si potrebbe…», «potete…»).
    Dopo i passi, e SOLO quando servono, possono venire nell'ordine: il paragrafo «Dalla letteratura di riferimento:», la parte «Traguardi a cui può concorrere:» (regola 13) e nient'altro (l'invito della regola 15 lo aggiunge il sito).
-   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale nel paragrafo a parte «Dalla letteratura di riferimento:», dopo i passi: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte (senza scrivere «CITA COME»), seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non scrivere il paragrafo «Dalla letteratura di riferimento:» e non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non aggiungere luoghi, numeri, età o dettagli dello studio che non sono scritti nella sua sintesi. Non mescolarle con il racconto né con i passi: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team), mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti il racconto.
+   Se tra le FONTI ci sono «LETTERATURA DI RIFERIMENTO», usale nel paragrafo a parte «Dalla letteratura di riferimento:», dopo i passi: ogni studio ha la riga «CITA COME: …»: nomina lo studio solo con quelle parole esatte (senza scrivere «CITA COME»), seguite dal suo segno [S…] (nella forma «Cognome e colleghi (anno) [S…]»). Se tra le FONTI non c'è nessuna «LETTERATURA DI RIFERIMENTO», non scrivere il paragrafo «Dalla letteratura di riferimento:» e non nominare studi o autori scientifici che non compaiono nelle FONTI. Ogni frase parla di un solo studio: non attribuire mai a un autore ciò che dice un altro studio. Non aggiungere luoghi, numeri, età o dettagli dello studio che non sono scritti nella sua sintesi. Non mescolarle con il racconto né con i passi: lì vanno SOLO le esperienze delle comunità (UDA, aule, materiali del team) e, nei passi, le idee delle RIELABORAZIONI dei libri, mai frasi, dati o idee della letteratura. Se le FONTI contengono solo letteratura, ometti il racconto.
    Non attribuire mai alle FONTI ciò che non c'è scritto.
 2. Sulle nostre comunità, scuole ed esperienze usa SOLO le FONTI: non inventare MAI docenti, date, nomi di scuole, prodotti, risultati o fatti attribuiti a loro. Se un dato nelle fonti è incerto o «da completare», dillo.
 3. Non inventare fatti specifici su luoghi che non conosci (nomi di parchi, fiumi, monumenti, associazioni, storia locale). Suggerisci invece COSA cercare o osservare: il torrente o il parco vicino alla scuola, un custode o un anziano del paese, l'archivio del comune, la biblioteca, il museo locale, le mappe storiche.
@@ -617,7 +617,8 @@ export async function chiamaModello(cfg, domanda, ctx, generali = false, approfo
   return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
 }
 
-// [S1, S2] o [S1,S3] → [S1][S2] (il sito collega solo [S1]); nei «I passi per il tuo territorio» (suggerimenti generali) niente citazioni.
+// [S1, S2] o [S1,S3] → [S1][S2] (il sito collega solo [S1]); nei «I passi per il tuo territorio» i segni restano solo
+// sui passi numerati, spostati in fondo (verificaPassi poi ne tiene al massimo uno, se il passo viene davvero da quella fonte).
 export function ripulisci(testo) {
   let t = String(testo || "").replace(/\[S(\d+(?:\s*[,;]\s*S?\d+)+)\]/g, (m, g) => g.split(/\s*[,;]\s*/).map(x => `[S${x.replace(/^S/, "")}]`).join(""));
   t = t.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/(^|[\s(«])\*([^*\n]+)\*(?=[\s.,;:!?)»]|$)/gm, "$1$2");
@@ -633,9 +634,19 @@ export function ripulisci(testo) {
   t = t.split("\n").filter(riga => !/vuoi portare la strada dei bambini|^\s*[–-]?\s*(scrivici a\s*)?info@scuolenaturali\.it\.?\s*$/i.test(riga)).map(riga => {
     const m = riga.match(RE_TITOLO);
     if (m) generale = chiaveTitolo(m[1]) === PARTE_GENERALE;
-    return generale ? riga.replace(/\s*\[S\d+\]/g, "") : riga;
+    if (!generale || m) return riga;
+    if (!/^\s*\d+[.)]\s/.test(riga)) return riga.replace(/\s*\[S\d+\]/g, "");
+    return segniInFondo(riga);
   }).join("\n");
   return t.trim();
+}
+
+// «1. Fare [S2] una cosa [S3].» → «1. Fare una cosa [S2][S3].»
+export function segniInFondo(riga) {
+  const segni = [...new Set([...riga.matchAll(/\[S\d+\]/g)].map(x => x[0]))];
+  if (!segni.length) return riga;
+  const m = riga.replace(/\s*\[S\d+\]/g, "").trimEnd().match(/^(.*?)([.;!?]?)$/);
+  return `${m[1]} ${segni.join("")}${m[2]}`;
 }
 
 // «A Salento» → «In Salento», «a Puglia» → «in Puglia» (regioni e territori vogliono «in»; le Marche restano a parte)
@@ -648,14 +659,16 @@ export function correggiPreposizioni(t) {
     .replace(new RegExp(`(^|[^\\p{L}’'])([Ii])n (${COMUNI_A.map(escRe).join("|")})(?![\\p{L}])`, "gmu"), (m, pre, i, nome) => `${pre}${i === "I" ? "A" : "a"} ${nome}`);
 }
 
-// Passi numerati con [S…]: il segno resta solo se il passo riprende davvero il testo di quella fonte
-// (almeno il 40% delle parole piene si ritrova nella fonte); altrimenti è un suggerimento generale e il segno si toglie.
+// Passi numerati con [S…] (in «I passi» e in «I passi per il tuo territorio»): il segno resta solo se il passo riprende
+// davvero il testo di quella fonte (almeno il 40% delle parole piene si ritrova nella fonte), mai per letteratura e
+// Indicazioni nazionali; resta al massimo un segno per passo, quello della fonte più vicina, alla fine del passo.
 const radici = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
 export function verificaPassi(testo, ctxTesto = "") {
-  const perFonte = new Map(), testi = new Map(), uda = new Set();
+  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set();
   for (const b of String(ctxTesto).split("\n\n---\n\n")) {
     const m = b.match(/^\[S(\d+)\]/); if (!m) continue;
     if (/^\[S\d+\] UDA /.test(b)) uda.add(m[1]);
+    if (/^\[S\d+\] (LETTERATURA DI RIFERIMENTO|INDICAZIONI NAZIONALI)/.test(b)) vietate.add(m[1]);
     const set = perFonte.get(m[1]) || new Set(); for (const r of radici(b)) set.add(r); perFonte.set(m[1], set);
     testi.set(m[1], (testi.get(m[1]) || "") + " " + normalizza(b));
   }
@@ -677,13 +690,16 @@ export function verificaPassi(testo, ctxTesto = "") {
       if (cit.length && nelRacconto.size && cit.every(n => uda.has(n) && !nelRacconto.has(n))) return null;
       riga = riga.replace(/^\s*\d+([.)])/, (m, p) => `${++k}${p}`); // rinumero se un passo è saltato
     }
-    if (parte !== "i passi" || !/^\s*\d+[.)]\s/.test(riga) || !/\[S\d+\]/.test(riga)) return riga;
+    if ((parte !== "i passi" && parte !== PARTE_GENERALE) || !/^\s*\d+[.)]\s/.test(riga) || !/\[S\d+\]/.test(riga)) return riga;
     const parole = [...new Set(radici(riga.replace(/\[S\d+\]/g, "")))];
-    if (!parole.length) return riga;
-    return riga.replace(/\s*\[S(\d+)\]/g, (m, n) => {
-      const f = perFonte.get(n); if (!f) return "";
-      return parole.filter(w => f.has(w)).length / parole.length >= 0.4 ? m : "";
-    }).replace(/\s+([.;!?])$/, "$1");
+    let best = null, bestQ = 0;
+    for (const [, n] of riga.matchAll(/\[S(\d+)\]/g)) {
+      const f = perFonte.get(n); if (!f || vietate.has(n) || !parole.length) continue;
+      const q = parole.filter(w => f.has(w)).length / parole.length;
+      if (q >= 0.4 && q > bestQ) { best = n; bestQ = q; }
+    }
+    const senza = riga.replace(/\s*\[S\d+\]/g, "").replace(/\s+([.;!?])$/, "$1");
+    return best ? segniInFondo(`${senza} [S${best}]`) : senza;
   }).filter(r => r !== null).join("\n");
 }
 
