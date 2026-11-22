@@ -69,6 +69,10 @@ Il repository è pubblico, quindi i documenti interni **non** sono nel repo né 
   (manifest e rielaborazioni), per poter rigenerare la base anche su un altro computer.
 - Le fonti private si citano con titolo e autore, **mai** con link a Drive; nel frontend appaiono come
   «Documenti del team consultati».
+- Rielaborazioni (`DIR/rielaborati/*.md`, una per opera, con intestazione titolo/autore/tipo/uso/drive_id): si aggiungono
+  con una voce `"sorgente": "rielaborato"` nel manifest e `--aggiorna`, senza scaricare i sorgenti di Drive (22/11/2026:
+  Sobel «Place-Based Education» e «Childhood and Nature», Aberley «Boundaries of Home», Flavelle «Mapping Our Land»,
+  Barron «Primary Outdoor Learning», König «I primi tre anni del bambino»).
 - Ogni passo ha `tipo_base`: `metodo` (metodo, manifesto, opere rielaborate), `contenuti` (Indicazioni nazionali,
   programmi dei libri di testo), `esperienza` (materiali di una comunità o di un'esperienza), `letteratura`
   (letteratura scientifica ad accesso aperto). `tipo_fonte` resta il tipo di documento (team, rielaborato, libro di
@@ -101,7 +105,7 @@ Il repository è pubblico, quindi i documenti interni **non** sono nel repo né 
 
 ```
 python3 genius-loci/strumenti/normativa.py --privato DIR                 # PDF ufficiali → DIR/normativa/passi-normativa.json
-python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna  # rifà solo Indicazioni e manifesto sulla base cifrata
+python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna  # rifà Indicazioni, manifesto, letteratura e rielaborazioni sulla base cifrata
 ```
 
 Rigenerare (cartella privata fuori dal repo, es. `/workspace/genius-loci-privato`, con `CHIAVE_CORPUS`):
