@@ -247,7 +247,7 @@ def passi_letteratura(doc, priv):
     if not f.exists(): return None
     meta, corpo = leggi_md(f)
     m = {**{k: v for k, v in doc.items() if k in ('titolo', 'autore', 'anno', 'doi', 'url', 'licenza', 'tema')}, **meta}
-    rif = f"Letteratura di riferimento — {m['autore']}, «{m['titolo']}». DOI {m.get('doi', '')}".strip()
+    rif = f"Letteratura di riferimento — {m['autore']}, «{m['titolo']}»." + (f" DOI {m['doi']}" if m.get('doi') else '')
     out = []
     for s in re.split(r'^## ', corpo, flags=re.M):
         if not s.strip(): continue
