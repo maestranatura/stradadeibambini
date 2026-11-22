@@ -36,8 +36,9 @@ Uso (dalla radice del repo):
     python3 genius-loci/strumenti/costruisci_corpus.py --privato /workspace/genius-loci-privato [--ocr]
     python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --nuova-chiave   # solo la prima volta
     python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --ripristina     # rimette manifest e rielaborati da DIR/sorgenti-private.cifrato.json
-    python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna       # rifà SOLO i documenti «passi» e «manifesto»
-                                       # partendo dalla base cifrata esistente (non servono i sorgenti di Drive)
+    python3 genius-loci/strumenti/costruisci_corpus.py --privato DIR --aggiorna       # rifà i documenti «passi», «manifesto», la letteratura
+                                       # e le rielaborazioni (rielaborati/*.md) partendo dalla base cifrata esistente
+                                       # (non servono i sorgenti di Drive)
 
 Scaricare i sorgenti: per ogni voce del manifest con drive_id, scaricare il file da Drive
 («Scarica», oppure lo strumento DownloadFile di Grok Bot) e salvarlo come sorgenti/<drive_id>.<ext>.
@@ -170,6 +171,45 @@ def lista(v):
     if not v: return []
     return [x.strip() for x in v.split(',')] if isinstance(v, str) else list(v)
 
+def crea_passo(pid, doc, sezione, testo, motore='documento'):
+    testo = clean(testo)
+    if len(testo) < 40: return None
+    p = {'id': pid, 'tipo': motore, 'ref': doc['id'], 'titolo': doc['titolo'], 'autore': doc.get('autore'),
+         'tipo_fonte': doc['tipo'], 'uso': doc.get('uso'), 'stato': doc.get('stato'), 'comunita': doc.get('comunita'),
+         'eta': lista(doc.get('eta')), 'discipline': lista(doc.get('discipline')), 'classe': doc.get('classe'),
+         'drive_id': doc.get('drive_id'), 'cartella_drive': doc.get('cartella'),
+         'sezione': sezione[:120] if sezione else doc['titolo'], 'testo': testo,
+         'fonte': f"{doc['titolo']} — {doc.get('autore') or ''}".strip(' —')}
+    return {k: v for k, v in p.items() if v not in (None, '', [])}
+
+def passi_rielaborati(man, priv, mancanti):
+    """Rielaborazioni con parole nostre (rielaborati/*.md): opere di terzi, libri di testo, Siracusa senza cifre.
+    Restituisce (doc, sezione, testo, discipline_o_None) per ogni pezzo; non servono i sorgenti di Drive."""
+    out = []
+    for doc in man['documenti']:
+        if doc['sorgente'] != 'rielaborato': continue
+        f = priv / doc['file']
+        if not f.exists(): mancanti.append(doc['file']); continue
+        meta, corpo = leggi_md(f)
+        d2 = dict(doc); d2.update({k: v for k, v in meta.items() if k in ('titolo', 'autore', 'tipo', 'uso', 'comunita', 'classe', 'eta', 'discipline', 'drive_id')})
+        if meta.get('vissuta'): d2['stato'] = meta['vissuta']
+        d2['tipo'] = d2.get('tipo') or 'rielaborato'
+        if d2['tipo'] == 'libro di testo' and meta.get('eta'): d2['eta'] = [meta['eta']]
+        elif meta.get('eta') == 'primaria': d2['eta'] = ['primaria I-II', 'primaria III-V']
+        corpo = ripulisci(corpo)
+        sezioni = re.split(r'^## ', corpo, flags=re.M)
+        for s in sezioni:
+            if not s.strip(): continue
+            righe = s.strip().split('\n', 1)
+            if s is sezioni[0] and not corpo.lstrip().startswith('## '): titolo_sez, testo = d2['titolo'], s
+            else: titolo_sez, testo = righe[0].strip(), (righe[1] if len(righe) > 1 else '')
+            for chunk in split(clean(testo)):
+                disc = None
+                if d2['tipo'] == 'libro di testo':
+                    disc = [x.strip().lower() for x in re.split(r',| e |\s*/\s*', titolo_sez) if x.strip()][:4] or None
+                out.append((d2, titolo_sez, chunk, disc))
+    return out
+
 # ---------------- tipo di base e testi pubblici ----------------
 def tipo_base(p):
     if p.get('tipo_base'): return p['tipo_base']
@@ -272,8 +312,19 @@ def main():
     letteratura = [d for d in man['documenti'] if d['sorgente'] == 'letteratura']
     if a.aggiorna:
         vecchio = json.loads(decifra(json.loads(USCITA.read_text()), chiave))
-        rifatti = {d['id'] for d in pubblici + letteratura}
+        rielab = [d for d in man['documenti'] if d['sorgente'] == 'rielaborato']
+        rifatti = {d['id'] for d in pubblici + letteratura + rielab}
         passi = [p for p in vecchio['passi'] if p['ref'].split(':')[0] not in rifatti and p.get('tipo') != 'normativa' and p.get('tipo_fonte') != 'letteratura']
+        # rielaborazioni: rifatte dai file .md locali (non servono i sorgenti di Drive)
+        mancanti = []
+        for doc, sez, chunk, disc in passi_rielaborati(man, priv, mancanti):
+            p = crea_passo(f'r{len(passi)}', doc, sez, chunk)
+            if not p: continue
+            if disc: p['discipline'] = disc
+            passi.append(p)
+        if mancanti: sys.exit('Mancano rielaborazioni: ' + ', '.join(mancanti))
+        problemi = controllo_finale(passi, {})
+        if problemi: sys.exit(f'Controllo privacy: {problemi[:20]}')
         for p in passi: p['tipo_base'] = tipo_base(p)
         for d in pubblici:
             nuovi = passi_pubblici(d, priv)
@@ -288,15 +339,9 @@ def main():
     passi, mancanti, anonimizzati, conteggi = [], [], {}, {}
 
     def add(doc, sezione, testo, motore='documento'):
-        testo = clean(testo)
-        if len(testo) < 40: return
-        p = {'id': f'q{len(passi)}', 'tipo': motore, 'ref': doc['id'], 'titolo': doc['titolo'], 'autore': doc.get('autore'),
-             'tipo_fonte': doc['tipo'], 'uso': doc.get('uso'), 'stato': doc.get('stato'), 'comunita': doc.get('comunita'),
-             'eta': lista(doc.get('eta')), 'discipline': lista(doc.get('discipline')), 'classe': doc.get('classe'),
-             'drive_id': doc.get('drive_id'), 'cartella_drive': doc.get('cartella'),
-             'sezione': sezione[:120] if sezione else doc['titolo'], 'testo': testo,
-             'fonte': f"{doc['titolo']} — {doc.get('autore') or ''}".strip(' —')}
-        passi.append({k: v for k, v in p.items() if v not in (None, '', [])})
+        p = crea_passo(f'q{len(passi)}', doc, sezione, testo, motore)
+        if not p: return
+        passi.append(p)
         conteggi[doc['id']] = conteggi.get(doc['id'], 0) + 1
 
     # 1) metodo completo
@@ -344,27 +389,9 @@ def main():
         if tolti: print(f"  {doc['id']}: {tolti} passi tolti perché già in metodo.txt")
 
     # 3) rielaborazioni (terzi, libri di testo, Siracusa senza cifre)
-    for doc in man['documenti']:
-        if doc['sorgente'] != 'rielaborato': continue
-        f = priv / doc['file']
-        if not f.exists(): mancanti.append(doc['file']); continue
-        meta, corpo = leggi_md(f)
-        d2 = dict(doc); d2.update({k: v for k, v in meta.items() if k in ('titolo', 'autore', 'tipo', 'uso', 'comunita', 'classe', 'eta', 'discipline', 'drive_id')})
-        if meta.get('vissuta'): d2['stato'] = meta['vissuta']
-        d2['tipo'] = d2.get('tipo') or 'rielaborato'
-        if d2['tipo'] == 'libro di testo' and meta.get('eta'): d2['eta'] = [meta['eta']]
-        elif meta.get('eta') == 'primaria': d2['eta'] = ['primaria I-II', 'primaria III-V']
-        corpo = ripulisci(corpo)
-        sezioni = re.split(r'^## ', corpo, flags=re.M)
-        for s in sezioni:
-            if not s.strip(): continue
-            righe = s.strip().split('\n', 1)
-            if s is sezioni[0] and not corpo.lstrip().startswith('## '): titolo_sez, testo = d2['titolo'], s
-            else: titolo_sez, testo = righe[0].strip(), (righe[1] if len(righe) > 1 else '')
-            for chunk in split(clean(testo)):
-                add(d2, titolo_sez, chunk)
-                if d2['tipo'] == 'libro di testo':
-                    passi[-1]['discipline'] = [x.strip().lower() for x in re.split(r',| e |\s*/\s*', titolo_sez) if x.strip()][:4] or passi[-1].get('discipline')
+    for doc, sez, chunk, disc in passi_rielaborati(man, priv, mancanti):
+        add(doc, sez, chunk)
+        if disc: passi[-1]['discipline'] = disc
 
     problemi = controllo_finale(passi, anonimizzati)
     if problemi:
