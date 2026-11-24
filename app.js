@@ -1208,6 +1208,7 @@ window.initMapTilerBasemap = function(map, otm){
       const b=ev.target.closest('button[data-base]');
       if(b) setBase(b.getAttribute('data-base'));
     });
+    setBase('sat'); // default: satellite; Topografica a scelta (se i tile falliscono si torna a Topografica)
   };
   loadCfg().then(attach);
 };
