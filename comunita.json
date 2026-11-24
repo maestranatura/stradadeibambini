@@ -58,5 +58,17 @@
     "manager": "IC Supersano",
     "has_routes": true,
     "route_count": 5
+  },
+  {
+    "id": "06-grado",
+    "name": "Grado",
+    "color": "#2f62a3",
+    "center": [
+      45.7,
+      13.44
+    ],
+    "manager": "",
+    "has_routes": false,
+    "route_count": 0
   }
 ]
