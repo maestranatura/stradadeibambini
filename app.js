@@ -404,7 +404,8 @@ async function init(){
 
     // Aule layer: clustered at low zoom (if Leaflet.markercluster loaded), always visible.
     const hasCluster=typeof L.markerClusterGroup==='function';
-    const points = hasCluster ? L.markerClusterGroup({
+    // One cluster group per community: bubbles never mix communities (e.g. Grado and Valdobbiadene).
+    const makeGroup = () => hasCluster ? L.markerClusterGroup({
       showCoverageOnHover:false, spiderfyOnMaxZoom:true, maxClusterRadius:z=>z<9?70:z<12?40:28,
       disableClusteringAtZoom:14, chunkedLoading:true,
       iconCreateFunction:cl=>{
@@ -416,6 +417,14 @@ async function init(){
         return L.divIcon({className:'aula-cluster', html:`<span style="background:${esc(col)}">${n}</span>`, iconSize:[s,s]});
       }
     }) : L.layerGroup();
+    const groups={};
+    const groupOf=m=>{ const k=m.options._com||''; return groups[k]||(groups[k]=makeGroup().addTo(map)); };
+    const points={
+      addTo(){ return points; },
+      clearLayers(){ Object.values(groups).forEach(g=>g.clearLayers()); },
+      addLayers(ms){ const by={}; ms.forEach(m=>{ const k=m.options._com||''; (by[k]||(by[k]=[])).push(m); }); Object.values(by).forEach(arr=>{ const g=groupOf(arr[0]); g.addLayers?g.addLayers(arr):arr.forEach(m=>g.addLayer(m)); }); },
+      zoomToShowLayer:hasCluster?((m,cb)=>groupOf(m).zoomToShowLayer(m,cb)):null
+    };
     points.addTo(map);
 
     // Community chips (small, only at Italy-wide zoom) + community filter options
