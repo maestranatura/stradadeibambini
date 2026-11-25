@@ -1273,7 +1273,18 @@ window.initMapTilerBasemap = function(map, otm){
     }
     const big=d.querySelector('img'); big.src=a.getAttribute('href'); big.alt=img.alt||'';
     const cap=a.closest('figure').querySelector('figcaption');
-    d.querySelector('.uda-lb-cap').textContent=cap?cap.textContent:'';
+    // Didascalia: una riga per ogni parte della figcaption (titolo, testo, fonte), senza l'etichetta del tipo e senza testi attaccati.
+    const out=d.querySelector('.uda-lb-cap'); out.textContent='';
+    if(cap){
+      const righe=[]; let cur='';
+      cap.childNodes.forEach(n=>{
+        if(n.nodeName==='BR'){ righe.push(cur); cur=''; return; }
+        if(n.nodeType===1 && n.classList.contains('uda-tag')) return;
+        cur+=' '+n.textContent;
+      });
+      righe.push(cur);
+      righe.map(t=>t.replace(/\s+/g,' ').trim()).filter(Boolean).forEach((t,i)=>{ if(i) out.appendChild(document.createElement('br')); out.appendChild(document.createTextNode(t)); });
+    }
     d.showModal();
   });
 })();
