@@ -95,6 +95,14 @@ for e in esperienze:
     for campo, lab in (('ferita_cura', 'Ferita e cura'), ('stare_bene', 'Cosa fa stare bene qui'), ('strato_digitale', 'Strato digitale')):
         for chunk in split(clean(e.get(campo))):
             add(**base, sezione=lab, testo=chunk)
+    ril = e.get('rilanci') or {}
+    for x in ril.get('in_classe') or []:
+        for chunk in split(clean(' '.join(t for t in [x.get('titolo'), x.get('testo'), x.get('aggancio')] if t))):
+            add(**base, sezione='Rilanci: in classe', testo=chunk)
+    for x in ril.get('prossima_uscita') or []:
+        t = clean(' '.join([x.get('titolo') or ''] + list(x.get('punti') or [])))
+        for chunk in split(t):
+            add(**base, sezione='Rilanci: prossima uscita', testo=chunk)
     app = e.get('apparato') or {}
     if isinstance(app, dict) and app.get('replicare'):
         for chunk in split(clean(app['replicare'])):

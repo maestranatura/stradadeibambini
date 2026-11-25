@@ -684,3 +684,11 @@ table.archive tr.solo-tappe td{opacity:.85}
 .privacy-doc ul{margin:0 0 16px;padding-left:1.2em}
 .privacy-doc .da-completare{background:#FFF6E5;border-left:4px solid #E8B84A;padding:12px 14px;border-radius:0 8px 8px 0;color:#5c430e;font-size:15px}
 .check a{text-decoration:underline}
+
+/* Rilanci per il futuro: versi brevi con fonte */
+.rilancio-versi{margin:.6rem 0 .8rem}
+.rilancio-versi .verso{margin:.5rem 0;padding:.5rem .8rem;border-left:3px solid var(--green);background:rgba(47,93,58,.05)}
+.rilancio-versi .verso p{margin:.15rem 0}
+.rilancio-versi .verso-tema{font-size:.85em;opacity:.75}
+.rilancio-versi .verso-orig{font-style:italic}
+.rilancio-versi .verso cite{display:block;font-size:.8em;opacity:.75;font-style:normal}
