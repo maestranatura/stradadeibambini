@@ -2,7 +2,7 @@
 
 Sito pubblico: [stradadeibambini.it](https://stradadeibambini.it)
 
-Sussidiario vivo: Racconto · Mappa · Archivio · Contribuisci.
+Sussidiario vivo: Racconto · Mappa · Archivio · Comunità · Contribuisci.
 
 ## Deploy
 
@@ -20,7 +20,7 @@ Il modulo **Contribuisci** usa Netlify Forms (`contribuisci`). I contributi rest
 - `mappa.html` + `luoghi.geojson` — Mappa delle aule
 - `archivio.html` + `esperienze.json` — Archivio
 - `racconta.html` — Contribuisci
-- `comunita/` — pagine comunità
+- `comunita/` — sezione «Comunità» (menu): `index.html` elenco, una pagina per comunità; `grado-libro-km0.html` Libro di testo km0 di Grado (versione in costruzione; PDF schede in `assets/materiali/libro-grado/`)
 - `mappa/foto/` — foto aule (servite da `/mappa/foto/…`)
 - `_redirects` — URL del sito precedente
 
