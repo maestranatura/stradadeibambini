@@ -957,6 +957,18 @@ function sezLettura(e, k){
   const prev=[...parts.map(x=>x[3]), ueHtml?'competenze UE':'', man?'manifesto':''].filter(Boolean).join(' · ');
   return acc('lettura','Lettura pedagogica',prev,html);
 }
+// Rilanci per il futuro (facoltativi): cosa fare in classe e come preparare la prossima uscita.
+// Dati: rilanci = {intro, in_classe:[{titolo, testo, citazioni?, citazioni_fonte?, aggancio, valutazione}], prossima_uscita:[{titolo, punti:[]}]}
+function sezRilanci(e, k){
+  const r=e.rilanci; if(!r || k.tappa) return '';
+  const cl=(r.in_classe||[]).filter(x=>x&&(P(x.titolo)||P(x.testo)));
+  const us=(r.prossima_uscita||[]).filter(x=>x&&(x.punti||[]).length);
+  if(!cl.length && !us.length) return '';
+  const cit=x=>{ const c=(x.citazioni||[]).filter(y=>y&&(y.gradese||y.italiano)); if(!c.length) return ''; return `<div class="rilancio-versi">${c.map(y=>`<blockquote class="verso">${y.tema?`<p class="verso-tema">${esc(y.tema)}</p>`:''}${y.gradese?`<p class="verso-orig">«${esc(y.gradese)}»</p>`:''}${y.italiano?`<p class="verso-it">«${esc(y.italiano)}»</p>`:''}${y.fonte?`<cite>${esc(y.fonte)}</cite>`:''}</blockquote>`).join('')}${x.citazioni_fonte?`<p class="provenance">${esc(x.citazioni_fonte)}</p>`:''}</div>`; };
+  const html=`${P(r.intro)?`<p class="muted">${esc(P(r.intro))}</p>`:''}${cl.length?`<h3 class="uda-sub">Cosa fare in classe</h3><ol class="filo rilanci">${cl.map(x=>`<li><p class="filo-nome">${esc(P(x.titolo))}</p>${udaParagrafi(x.testo,'filo-riga')}${cit(x)}${P(x.aggancio)?`<p class="filo-riga"><strong>Aggancio</strong> · ${esc(P(x.aggancio))}</p>`:''}${P(x.valutazione)?`<p class="filo-riga"><strong>Come osservare</strong> · ${esc(P(x.valutazione))}</p>`:''}</li>`).join('')}</ol>`:''}${us.length?`<h3 class="uda-sub">Come preparare la prossima uscita</h3>${us.map(x=>`<p class="disc-l">${esc(P(x.titolo))}</p><ul class="uda-ul">${x.punti.map(t=>P(t)).filter(Boolean).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`).join('')}`:''}`;
+  const prev=[cl.length?plur(cl.length,'idea per la classe','idee per la classe'):'', us.length?'prossima uscita':''].filter(Boolean).join(' · ');
+  return acc('rilanci','Rilanci per il futuro',prev,html);
+}
 // Fonti e materiali: codice e dati della scheda, video delle proposte, fonti, materiali, come rifarla, registro chiuso in fondo.
 function sezFonti(e, k){
   const s=e.uda_sintesi||{}, a=e.apparato||{}, p=e.progettazione||{}, n=s.note||{};
@@ -1013,7 +1025,7 @@ function renderUda(e, data){
   CANTIERE_SEGNO=!!((e.da_completare||[]).length || e.voci_in_verifica);
   const k={tappa:tipoScheda(e)==='tappa', proposta:e.stato==='proposta' && !e.contributo, contributo:!!e.contributo};
   const sintesi=sezSintesi(e,k);
-  const voci=[sezRacconto(e,k), sezTappe(e,data,k), sezLuogo(e,k), sezVoci(e,k), sezCompiti(e,k), sezValutazione(e,k), sezLettura(e,k), sezFonti(e,k)].join('');
+  const voci=[sezRacconto(e,k), sezTappe(e,data,k), sezLuogo(e,k), sezVoci(e,k), sezCompiti(e,k), sezValutazione(e,k), sezLettura(e,k), sezRilanci(e,k), sezFonti(e,k)].join('');
   return `${testaScheda(e,data,k,sintesi)}<div class="acc-lista">${voci}</div><p class="scheda-cta"><a class="btn" href="racconta.html">Racconta anche tu questa esperienza</a></p>`;
 }
 // Contributi approvati (fuori dal modello): stessa pagina. Voci nel formato «Nome, ruolo: «frase»» scritto dal modulo.
