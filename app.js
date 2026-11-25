@@ -486,7 +486,7 @@ async function init(){
       const bag=byAula[p.id]||{vissute:[],proposte:[]};
       const com=communities.find(c=>c.name===p.community);
       $('#crumbs').innerHTML=`<a href="mappa.html">Italia</a><span>›</span><span>${esc(shortName(p.community))}</span><span>›</span><strong>${esc(p.name)}</strong>`;
-      const fotos=(p.foto||[]).map((u,i)=>`<img src="${esc(u)}" alt="${esc(p.name)}${i?` · foto ${i+1}`:''}" loading="lazy" referrerpolicy="no-referrer">`).join('');
+      const fotos=(p.foto||[]).map((u,i)=>{ const did=(p.foto_didascalie||[])[i]; const img=`<img src="${esc(u)}" alt="${did?esc(did):`${esc(p.name)}${i?` · foto ${i+1}`:''}`}" loading="lazy" referrerpolicy="no-referrer">`; return did?`<figure class="panel-disegno">${img}<figcaption>${esc(did)}</figcaption></figure>`:img; }).join('');
       const vids=[...bag.vissute.flatMap(e=>e.videos||[])];
       if(!vids.length && (p.video||[]).length){
         (p.video||[]).forEach(u=>{ const id=ytIdFrom(u); vids.push({id, embed:u, url:id?`https://www.youtube.com/watch?v=${id}`:u, titolo:'Video del luogo'}); });
@@ -629,7 +629,8 @@ window.initAulaPage = async function(){
       'Druento':'druento',
       'Via Francigena · Salento':'via-francigena'
     })[p.community] || '';
-    const fotos = (p.foto||[]).map((u,i)=>`<figure class="detail-photo"><img src="${esc(u)}" alt="${esc(p.name)}${i?` · ${i+1}`:''}" loading="lazy" referrerpolicy="no-referrer"></figure>`).join('');
+    // foto_didascalie (facoltativo, parallelo a foto): per esempio i disegni dei bambini accanto alle foto del luogo
+    const fotos = (p.foto||[]).map((u,i)=>{ const did=(p.foto_didascalie||[])[i]; return `<figure class="detail-photo"><img src="${esc(u)}" alt="${did?esc(did):`${esc(p.name)}${i?` · ${i+1}`:''}`}" loading="lazy" referrerpolicy="no-referrer">${did?`<figcaption class="provenance">${esc(did)}</figcaption>`:''}</figure>`; }).join('');
     const genius = ((p.tipo_aula && p.tipo_aula!=='Da classificare') ? p.tipo_aula : '') || ((p.categoria && p.categoria!=='Da classificare') ? p.categoria : '') || '';
     const bozza = p.bozza ? `<p class="bozza-banner" role="status">Bozza da correggere</p>` : '';
     const coords = f.geometry.coordinates;
