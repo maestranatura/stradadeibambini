@@ -821,7 +821,10 @@ function sezRacconto(e, k){
       const fonte=P(x.fonte); if(fonte) fonti.push(fonte);
       if(!testo && !voci && !imgs.length) return '';
       nMov++;
-      return `<article class="uda-movimento${imgs.length?' con-foto':''}"><div class="mov-testo">${x.titolo?`<h3>${esc(x.titolo)}</h3>`:''}${testo}${voci?`<div class="uda-voci-in-mov">${voci}</div>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</div>${imgs.length?`<div class="mov-foto">${udaFig(imgs)}</div>`:''}</article>`;
+      // Una sola immagine: colonna laterale accanto al testo. Due o più: griglia a tutta larghezza sotto il testo,
+      // così la colonna delle immagini non diventa più lunga del testo e non lascia buchi.
+      const lay=imgs.length===1?' con-foto':imgs.length>1?' con-galleria':'';
+      return `<article class="uda-movimento${lay}"><div class="mov-testo">${x.titolo?`<h3>${esc(x.titolo)}</h3>`:''}${testo}${voci?`<div class="uda-voci-in-mov">${voci}</div>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</div>${imgs.length===1?`<div class="mov-foto">${udaFig(imgs)}</div>`:imgs.length>1?`<div class="mov-galleria">${udaFig(imgs)}</div>`:''}</article>`;
     }).join('');
   } else {
     corpo=udaParagrafi(e.racconto);
