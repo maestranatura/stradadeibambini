@@ -560,6 +560,19 @@ table.archive tr.solo-tappe td{opacity:.85}
 .mov-galleria{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;align-items:start;margin-top:6px}
 .mov-galleria .uda-mat img{display:block;width:auto;max-width:100%;max-height:340px;margin:0 auto}
 .uda-voci-in-mov{margin:6px 0 4px 24px}
+/* Disegni dei bambini: più grandi e leggibili su computer, due per riga; su telefono restano a tutta larghezza */
+.mov-disegni{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start;margin-top:10px}
+.mov-disegni.uno{grid-template-columns:minmax(0,640px)}
+.mov-disegni .uda-mat img{display:block;width:100%;height:auto;max-height:none;margin:0}
+.uda-gallery.con-disegni{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.uda-gallery.con-disegni .uda-mat img{width:100%;max-height:none}
+.uda-mat a{cursor:zoom-in}
+.uda-lb{border:0;padding:0;background:transparent;max-width:min(96vw,1500px);max-height:96vh}
+.uda-lb::backdrop{background:rgba(8,12,6,.88)}
+.uda-lb img{display:block;max-width:100%;max-height:84vh;width:auto;height:auto;margin:0 auto;border-radius:4px;filter:none}
+.uda-lb form{text-align:right}
+.uda-lb button{font:600 1rem var(--display,inherit);min-height:44px;padding:0 1.2rem;margin-bottom:.5rem;border-radius:22px;border:0;background:#fff;color:#1F2A19;cursor:pointer}
+.uda-lb-cap{color:#fff;font-size:14px;max-width:80ch;margin:8px auto 0;text-align:center}
 .filo{list-style:none;counter-reset:filo;margin:0;padding:0;position:relative}
 .filo li{counter-increment:filo;position:relative;padding:0 0 16px 44px}
 .filo li::before{content:counter(filo);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--green);color:var(--green);font-weight:600;font-size:13px;display:grid;place-items:center;z-index:1}
@@ -608,6 +621,8 @@ table.archive tr.solo-tappe td{opacity:.85}
   .uda-movimento.con-foto{grid-template-columns:1fr}
   .mov-galleria{grid-template-columns:1fr}
   .mov-galleria .uda-mat img{width:100%;max-height:none}
+  .mov-disegni,.mov-disegni.uno{grid-template-columns:1fr;gap:14px;margin-top:6px}
+  .uda-gallery.con-disegni{grid-template-columns:repeat(2,1fr);gap:12px}
   .uda-voci-in-mov{margin-left:12px}
   .disc-riga{grid-template-columns:1fr}
   .field-altri,.altri-btn{width:100%}
