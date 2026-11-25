@@ -767,8 +767,9 @@ function udaImmaginiPiazzate(e){
   for(const x of (e.movimenti||[])) for(const im of (x.immagini||[])) if(im&&im.immagine) u.add(im.immagine);
   return u;
 }
+function udaEDisegno(x){ return /^disegn/i.test(String(x&&x.tipo||'')); }
 function udaFig(m){
-  return `${m.map(x=>{ const did=P(x.didascalia), fonte=P(x.fonte); return `<figure class="uda-mat">${x.immagine?`<a href="${esc(x.immagine)}" target="_blank" rel="noopener"><img src="${esc(x.immagine)}" alt="${esc(x.titolo||did||'Materiale')}" loading="lazy"></a>`:''}<figcaption><strong>${esc(x.titolo||'')}</strong>${x.tipo?` <span class="uda-tag">${esc(x.tipo)}</span>`:''}${did?`<br>${esc(did)}`:''}${fonte?`<br><span class="provenance">${esc(fonte)}</span>`:''}</figcaption></figure>`; }).join('')}`;
+  return `${m.map(x=>{ const did=P(x.didascalia), fonte=P(x.fonte); return `<figure class="uda-mat${udaEDisegno(x)?' uda-disegno':''}">${x.immagine?`<a href="${esc(x.immagine)}" target="_blank" rel="noopener"><img src="${esc(x.immagine)}" alt="${esc(x.titolo||did||'Materiale')}" loading="lazy"></a>`:''}<figcaption><strong>${esc(x.titolo||'')}</strong>${x.tipo?` <span class="uda-tag">${esc(x.tipo)}</span>`:''}${did?`<br>${esc(did)}`:''}${fonte?`<br><span class="provenance">${esc(fonte)}</span>`:''}</figcaption></figure>`; }).join('')}`;
 }
 function udaManifesto(e){
   const voci=MANIFESTO_VOCI.map(([k,l])=>[l,String(e[k]||'').trim()]).filter(([,t])=>t);
@@ -824,8 +825,13 @@ function sezRacconto(e, k){
       nMov++;
       // Una sola immagine: colonna laterale accanto al testo. Due o più: griglia a tutta larghezza sotto il testo,
       // così la colonna delle immagini non diventa più lunga del testo e non lascia buchi.
-      const lay=imgs.length===1?' con-foto':imgs.length>1?' con-galleria':'';
-      return `<article class="uda-movimento${lay}"><div class="mov-testo">${x.titolo?`<h3>${esc(x.titolo)}</h3>`:''}${testo}${voci?`<div class="uda-voci-in-mov">${voci}</div>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</div>${imgs.length===1?`<div class="mov-foto">${udaFig(imgs)}</div>`:imgs.length>1?`<div class="mov-galleria">${udaFig(imgs)}</div>`:''}</article>`;
+      // I disegni dei bambini vanno sempre sotto il testo, in una griglia propria a due colonne (su computer
+      // sono così leggibili); foto e altri materiali restano come prima.
+      const dis=imgs.filter(udaEDisegno), alt=imgs.filter(im=>!udaEDisegno(im));
+      const lay=dis.length?' con-galleria':alt.length===1?' con-foto':alt.length>1?' con-galleria':'';
+      const altHtml=!alt.length?'':(alt.length===1&&!dis.length)?`<div class="mov-foto">${udaFig(alt)}</div>`:`<div class="mov-galleria">${udaFig(alt)}</div>`;
+      const disHtml=dis.length?`<div class="mov-disegni${dis.length===1?' uno':''}">${udaFig(dis)}</div>`:'';
+      return `<article class="uda-movimento${lay}"><div class="mov-testo">${x.titolo?`<h3>${esc(x.titolo)}</h3>`:''}${testo}${voci?`<div class="uda-voci-in-mov">${voci}</div>`:''}${fonte?`<p class="provenance">${esc(fonte)}</p>`:''}</div>${altHtml}${disHtml}</article>`;
     }).join('');
   } else {
     corpo=udaParagrafi(e.racconto);
@@ -1000,7 +1006,7 @@ function sezFonti(e, k){
   const placed=udaImmaginiPiazzate(e);
   const rest=list=>(list||[]).filter(x=>!x.immagine||!placed.has(x.immagine));
   const mb=rest(e.materiali_bambini), ma=rest(e.materiali_adulti);
-  const gal=(m,id,h,nota)=>m.length?`<div id="${id}"><h3 class="uda-sub">${h}</h3>${nota?`<p class="provenance">${nota}</p>`:''}<div class="uda-gallery">${udaFig(m)}</div></div>`:'';
+  const gal=(m,id,h,nota)=>m.length?`<div id="${id}"><h3 class="uda-sub">${h}</h3>${nota?`<p class="provenance">${nota}</p>`:''}<div class="uda-gallery${m.some(udaEDisegno)?' con-disegni':''}">${udaFig(m)}</div></div>`:'';
   const reg=(a.registro||[]).map(x=>{ const t=P(x.nota); return `<li><strong>${esc(x.versione||'')}</strong> · ${esc(x.data||'')}${t?` — ${esc(t)}`:''}</li>`; }).join('');
   const raccontato=e.contributo?raccontatoDaHtml(e):'';
   const html=`${raccontato}${datiVis.length?`<dl class="scheda">${datiVis.map(([kk,v,nt])=>`<div><dt>${esc(kk)}</dt><dd>${v}${nt?nn(nt):''}</dd></div>`).join('')}</dl>`:''}${vidProp}${fonti?`<h3 class="uda-sub">Fonti</h3>${fonti}`:''}${mat?`<h3 class="uda-sub">Materiali</h3>${mat}`:''}${rifarla}${gal(mb,'materiali-bambini','I materiali dei bambini','')}${gal(ma,'materiali-adulti','Materiali preparati dagli adulti','Non sono prodotti dei bambini: servono a capire come è stata condotta l’esperienza.')}${reg?`<details class="uda-det registro"><summary>Registro delle revisioni</summary><ul class="uda-ul">${reg}</ul></details>`:''}`;
@@ -1246,4 +1252,28 @@ window.initMapTilerBasemap = function(map, otm){
       if(v!=null) el.textContent=String(v);
     });
   }catch(err){ console.error(err); }
+})();
+
+// Ingrandimento delle immagini delle schede su computer: un clic apre l’immagine grande sopra la pagina.
+// Su telefono il link resta com’era (apre l’immagine).
+(function(){
+  if(typeof document==='undefined') return;
+  const largo=()=>window.matchMedia&&window.matchMedia('(min-width:851px)').matches;
+  document.addEventListener('click',ev=>{
+    const a=ev.target.closest&&ev.target.closest('.uda-mat a');
+    if(!a||!largo()||ev.metaKey||ev.ctrlKey||ev.shiftKey||ev.button) return;
+    const img=a.querySelector('img'); if(!img||typeof HTMLDialogElement==='undefined') return;
+    ev.preventDefault();
+    let d=document.getElementById('uda-lb');
+    if(!d){
+      d=document.createElement('dialog'); d.id='uda-lb'; d.className='uda-lb';
+      d.innerHTML='<form method="dialog"><button type="submit">Chiudi ✕</button></form><img alt=""><p class="uda-lb-cap"></p>';
+      d.addEventListener('click',e=>{ if(e.target===d) d.close(); });
+      document.body.appendChild(d);
+    }
+    const big=d.querySelector('img'); big.src=a.getAttribute('href'); big.alt=img.alt||'';
+    const cap=a.closest('figure').querySelector('figcaption');
+    d.querySelector('.uda-lb-cap').textContent=cap?cap.textContent:'';
+    d.showModal();
+  });
 })();
