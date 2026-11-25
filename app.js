@@ -184,6 +184,9 @@ function mergeApproved(list, data, geo, communities){
       scheda_uda:{}, da_completare:[]});
   }
 }
+// Pagina di ogni comunità (sezione «Comunità»): nome come in comunita.json → file in /comunita/
+const COM_SLUG={'Siracusa':'siracusa','Salento · Il paesaggio che sono io':'salento','Valdobbiadene':'valdobbiadene','Druento':'druento','Via Francigena · Salento':'via-francigena','Grado':'grado'};
+const comLink=(name,label)=>COM_SLUG[name]?`<a href="/comunita/${COM_SLUG[name]}.html">${esc(label)}</a>`:esc(label);
 // Comunità non ancora attivate: restano nei dati ma non si mostrano sul sito
 const COMUNITA_NASCOSTE=[];
 function nascondiComunita(data, geo, communities){
@@ -485,7 +488,7 @@ async function init(){
       const p=f.properties; window.selectedPlace=p.id;
       const bag=byAula[p.id]||{vissute:[],proposte:[]};
       const com=communities.find(c=>c.name===p.community);
-      $('#crumbs').innerHTML=`<a href="mappa.html">Italia</a><span>›</span><span>${esc(shortName(p.community))}</span><span>›</span><strong>${esc(p.name)}</strong>`;
+      $('#crumbs').innerHTML=`<a href="mappa.html">Italia</a><span>›</span>${COM_SLUG[p.community]?comLink(p.community,shortName(p.community)):`<span>${esc(shortName(p.community))}</span>`}<span>›</span><strong>${esc(p.name)}</strong>`;
       const fotos=(p.foto||[]).map((u,i)=>{ const did=(p.foto_didascalie||[])[i]; const img=`<img src="${esc(u)}" alt="${did?esc(did):`${esc(p.name)}${i?` · foto ${i+1}`:''}`}" loading="lazy" referrerpolicy="no-referrer">`; return did?`<figure class="panel-disegno">${img}<figcaption>${esc(did)}</figcaption></figure>`:img; }).join('');
       const vids=[...bag.vissute.flatMap(e=>e.videos||[])];
       if(!vids.length && (p.video||[]).length){
@@ -622,13 +625,7 @@ window.initAulaPage = async function(){
     const matBimbi = related.flatMap(e => (e.materiali_bambini||[]).filter(m=>m.immagine).map(m=>({...m, esp:e})));
     const sameTipo = data.filter(e => e.aula_id !== id && p.tipo_aula && e.tipo_aula === p.tipo_aula && p.tipo_aula !== 'Da classificare');
     const com = (communities||[]).find(c => c.name === p.community || c.id === (p.community||'').slice(0,2));
-    const comSlug = ({
-      'Siracusa':'siracusa',
-      'Salento · Il paesaggio che sono io':'salento',
-      'Valdobbiadene':'valdobbiadene',
-      'Druento':'druento',
-      'Via Francigena · Salento':'via-francigena'
-    })[p.community] || '';
+    const comSlug = COM_SLUG[p.community] || '';
     // foto_didascalie (facoltativo, parallelo a foto): per esempio i disegni dei bambini accanto alle foto del luogo
     const fotos = (p.foto||[]).map((u,i)=>{ const did=(p.foto_didascalie||[])[i]; return `<figure class="detail-photo"><img src="${esc(u)}" alt="${did?esc(did):`${esc(p.name)}${i?` · ${i+1}`:''}`}" loading="lazy" referrerpolicy="no-referrer">${did?`<figcaption class="provenance">${esc(did)}</figcaption>`:''}</figure>`; }).join('');
     const genius = ((p.tipo_aula && p.tipo_aula!=='Da classificare') ? p.tipo_aula : '') || ((p.categoria && p.categoria!=='Da classificare') ? p.categoria : '') || '';
@@ -642,7 +639,7 @@ window.initAulaPage = async function(){
     const attivita = p.attivita_testo || (p.scheda && p.scheda.attivita) || '';
     const luogo = P((p.scheda && p.scheda.luogo) || p.breve || '');
     root.innerHTML = `
-      <nav class="crumbs" aria-label="Percorso"><a href="mappa.html">Mappa</a><span>›</span>${comSlug?`<a href="comunita/${comSlug}.html">${esc(p.community)}</a>`:`<span>${esc(p.community)}</span>`}<span>›</span><strong>${esc(p.name)}</strong></nav>
+      <nav class="crumbs" aria-label="Percorso"><a href="mappa.html">Mappa</a><span>›</span>${comSlug?`<a href="/comunita/${comSlug}.html">${esc(p.community)}</a>`:`<span>${esc(p.community)}</span>`}<span>›</span><strong>${esc(p.name)}</strong></nav>
       ${bozza}
       <div class="page-head">
         <p class="kicker">${esc(p.community)} · aula all’aperto</p>
@@ -1018,7 +1015,8 @@ function testaScheda(e, data, k, sintesi){
   const u=e.percorso_uda&&data.find(d=>d.id===e.percorso_uda.id);
   const s=e.uda_sintesi||{};
   const qb=quandoBreve(s.quando||e.quando||'');
-  const meta=[String(e.community||'').replace(' · Il paesaggio che sono io',''), (e.eta||[]).join(', '), qb, (e.tappe||[]).length?`percorso · ${e.tappe.length} tappe`:''].filter(Boolean).map(esc).join(' · ');
+  const comNome=String(e.community||'').replace(' · Il paesaggio che sono io','');
+  const meta=[comNome?comLink(e.community,comNome):'', ...[(e.eta||[]).join(', '), qb, (e.tappe||[]).length?`percorso · ${e.tappe.length} tappe`:''].map(esc)].filter(Boolean).join(' · ');
   const foto=(e.foto||[]).filter(Boolean);
   return `<nav class="crumbs" aria-label="Percorso"><a href="archivio.html">Archivio</a><span>›</span>${u?`<a href="esperienza.html?id=${encodeURIComponent(u.id)}">${esc(u.titolo)}</a><span>›</span>`:''}<strong>${esc(e.titolo)}</strong></nav>
     <header class="scheda-testa">
