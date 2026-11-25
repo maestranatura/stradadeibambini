@@ -551,6 +551,10 @@ table.archive tr.solo-tappe td{opacity:.85}
 .mov-testo{display:flex;flex-direction:column;gap:6px}
 .mov-foto{display:flex;flex-direction:column;gap:10px}
 .mov-foto .uda-mat img{width:100%;max-height:none}
+.uda-movimento.con-galleria{max-width:none}
+.uda-movimento.con-galleria .mov-testo{max-width:62ch}
+.mov-galleria{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;align-items:start;margin-top:6px}
+.mov-galleria .uda-mat img{display:block;width:auto;max-width:100%;max-height:340px;margin:0 auto}
 .uda-voci-in-mov{margin:6px 0 4px 24px}
 .filo{list-style:none;counter-reset:filo;margin:0;padding:0;position:relative}
 .filo li{counter-increment:filo;position:relative;padding:0 0 16px 44px}
@@ -598,6 +602,8 @@ table.archive tr.solo-tappe td{opacity:.85}
   .sintesi-azioni .btn{width:100%}
   .sintesi-dl div{grid-template-columns:80px 1fr}
   .uda-movimento.con-foto{grid-template-columns:1fr}
+  .mov-galleria{grid-template-columns:1fr}
+  .mov-galleria .uda-mat img{width:100%;max-height:none}
   .uda-voci-in-mov{margin-left:12px}
   .disc-riga{grid-template-columns:1fr}
   .field-altri,.altri-btn{width:100%}
