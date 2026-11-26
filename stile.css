@@ -791,3 +791,8 @@ table.archive tr.solo-tappe td{opacity:.85}
 @media (max-width:700px){.libro-cd{scroll-margin-top:180px}}
 .libro-cd-arg{font-size:16px;font-weight:600;color:#222}
 .libro-cd-arg span{font-weight:700;color:var(--green)}
+/* t386u: rimando alla scheda ben visibile, blu come il pulsante del libro km0 */
+.libro-scheda-link{margin:2px 0 4px!important}
+.libro-scheda-link a{display:inline-block;padding:10px 0;font-size:1.05rem;font-weight:600;line-height:1.35;color:#2F62A3;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.libro-scheda-link a:hover{color:#234B7E;text-decoration-thickness:2px}
+.libro-scheda-link a:focus-visible{outline:3px solid #2F62A3;outline-offset:2px;border-radius:4px}
