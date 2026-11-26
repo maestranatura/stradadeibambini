@@ -52,10 +52,20 @@ const SINONIMI = {
   orto: 'semina coltivare piante',
 };
 
+function reGrado() {
+  const re = /\b(fossalon\w*|gradese|gradesi|grado)\b/g;
+  const via = s => String(s).replace(/\b(primo|secondo|terzo|quarto|in|alto|basso|massimo|stesso|che) grado\b|\bgrado di\b/g, m => m.replace(/grado/, 'g_r_a_d_o'));
+  return {
+    test: s => { re.lastIndex = 0; return re.test(via(s)); },
+    [Symbol.replace]: (s, r) => via(s).replace(re, r).replace(/g_r_a_d_o/g, 'grado'),
+  };
+}
 export const COMUNITA = [
   { nome: 'Siracusa', re: /\b(siracusa|ortigia|neapolis|siracusan\w*)\b/ },
   { nome: 'Valdobbiadene', re: /\b(valdobbiadene|bigolino|saccol|santo stefano|san vito|san pietro di barbozza|barbozza)\b/ },
   { nome: 'Salento', re: /\b(salento|botrugno|nociglia|supersano|san cassiano|salentin\w*)\b/ },
+  // «grado» da solo è anche una parola comune: non «primo/secondo grado», «in grado di»… (senza lookbehind, per i browser vecchi)
+  { nome: 'Grado', re: reGrado() },
   // esperienze del team presenti solo nella base privata della fase 2
   { nome: 'Zenson di Piave', re: /\b(zenson)\b/ },
   { nome: 'Volon di Zevio', re: /\b(zevio|volon)\b/ },
