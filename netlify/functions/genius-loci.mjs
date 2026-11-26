@@ -39,7 +39,7 @@ import { inflateSync } from "node:zlib";
 import dati from "../../genius-loci/indice.json" with { type: "json" };
 import corpusCifrato from "../genius-loci-dati/corpus.cifrato.json" with { type: "json" };
 import NASCOSTE from "../../genius-loci/comunita-nascoste.json" with { type: "json" };
-import { preparaIndice, cerca, capisci, normalizza, COMUNITA } from "../../genius-loci/cerca.mjs";
+import { preparaIndice, cerca, capisci, normalizza, radice, COMUNITA } from "../../genius-loci/cerca.mjs";
 
 const env = (k, d) => (globalThis.Netlify?.env?.get?.(k) ?? process.env[k] ?? d);
 const num = (k, d) => { const v = parseInt(env(k, ""), 10); return Number.isFinite(v) && v > 0 ? v : d; };
@@ -671,7 +671,7 @@ export function correggiPreposizioni(t) {
 // davvero il testo di quella fonte (almeno il 40% delle parole piene si ritrova nella fonte), mai per letteratura e
 // Indicazioni nazionali; resta al massimo un segno per passo, quello della fonte più vicina, alla fine del passo.
 const radici = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
-const RE_CONDIVISA = /^\[S\d+\] (MATERIALE DEL TEAM(?! — )|RIELABORAZIONE|METODO|PROGRAMMA|MANIFESTO)/;
+const RE_CONDIVISA = /^\[S\d+\] (MATERIALE DEL TEAM(?! — (?:VISSUTA|PROPOSTA))|RIELABORAZIONE|METODO|PROGRAMMA|MANIFESTO)/;
 export function verificaPassi(testo, ctxTesto = "") {
   const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map(), condivise = new Set();
   for (const b of String(ctxTesto).split("\n\n---\n\n")) {
@@ -1179,12 +1179,25 @@ export function notaLivello(g) {
 // base condivisa, il segno va al passo senza fonte più vicino a una fonte pedagogica (solo se le parole coincidono davvero).
 export const RE_SCRITTURA = /\b(scriv\w*|scritt\w*|legg[aeio]\w*|lettur\w*|lettere|alfabet\w*|quadern\w*|copia\w*|annot\w*|etichett\w*|cartellin\w*|didascali\w*|targa)\b/;
 const PAROLE_COMUNI = new Set(`bambi ragaz class scuol insie tutti ognun propr ciasc prima dopo duran usand usare fate fatel prova propo chied chiede racco racco parla parli parol disegn fogli color matit pasti pennar osser guard ascol tocca annus sento senti camminat cammi passe uscit uscir tornat torna rient aula grand picco breve sempl quest quell essere avere luogo luogh mappa mappe perco tappa tappe segna segno insegn mostr scegl cerca trova provat potet potre potre dovre sarà sareb momen tempo giorn matti pomer gruppo grupp coppi cerch insie spazio spazi intor vicin lonta sopra sotto dentr fuori forma forme misur conta conti descr posto posti fatto fatti punti punto scala corda metro metri lente lenti bussol zaino zaini schede scheda carta carte cartel lavor attiv esper prepa rifle condi confr discu doman rispo nome nomi`.split(/\s+/));
-const radiciPasso = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
+// parole intere con radice leggera («lungomare» non è «lungo»; «barche» e «barca» sì)
+const radiciPasso = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(radice);
+const comune = w => PAROLE_COMUNI.has(w.slice(0, 5));
+const RE_VERBO = /(ndosi|ndoli|ndole|ndone|are|ere|ire|ate|ete|ite|atevi|etevi|itevi|atene|etene|itene|atelo|atela|ateli|atele|ando|endo|iamo|ato|ata|ati|ute|uto|ito|ita)$/;
+// Parole «generiche»: base condivisa (senza comunità) e Indicazioni nazionali. Un dettaglio di luogo che non sta né qui né
+// nella knowledge base della comunità (es. «lungomare» a Grado) è sospetto.
+let vocGen;
+function vocabolarioGenerale() {
+  if (vocGen) return vocGen;
+  vocGen = new Set();
+  for (const p of [...(ixPrivato?.passi || []), ...(ixNormativa?.passi || [])]) if (!p.comunita) for (const w of radiciPasso(p.testo)) vocGen.add(w);
+  return vocGen;
+}
 export function controlliPassi(testo, ctxTesto, g) {
   const righe = String(testo || "").split("\n");
   const blocchi = String(ctxTesto).split("\n\n---\n\n").map(b => ({ n: (b.match(/^\[S(\d+)\]/) || [])[1], b })).filter(x => x.n);
   const tutte = new Set(blocchi.flatMap(x => radiciPasso(x.b)));
   for (const w of g?.vocabolario || []) tutte.add(w); // tutta la knowledge base del territorio, non solo i passi scelti
+  for (const w of vocabolarioGenerale()) tutte.add(w); // parole della base condivisa e delle Indicazioni: verbi e nomi didattici comuni
   const condivise = blocchi.filter(x => RE_CONDIVISA.test(x.b));
   const piccoli = g?.req && (g.req.ordine === "infanzia" || g.req.ordine === "nido");
   const isPasso = r => /^\s*\d+[.)]\s/.test(r);
@@ -1193,10 +1206,12 @@ export function controlliPassi(testo, ctxTesto, g) {
     const mt = r.match(RE_TITOLO); if (mt) { parte = chiaveTitolo(mt[1]); return r; }
     if (!isPasso(r) || (parte !== "i passi" && parte !== PARTE_GENERALE)) return r;
     if (piccoli && RE_SCRITTURA.test(normalizza(r))) { tolte.push(r); return null; }
-    if (g?.livello === "territorio" && !/\[S\d+\]/.test(r)) {
-      const rad = [...new Set(radiciPasso(r))].filter(w => !PAROLE_COMUNI.has(w));
-      const ignote = rad.filter(w => !tutte.has(w));
-      if (ignote.length >= 2 && ignote.length / Math.max(rad.length, 1) >= 0.15) { tolte.push(r); return null; }
+    if (g?.livello === "territorio") {
+      // parole intere del passo assenti da FONTI, knowledge base del territorio e base condivisa; i verbi (fate, sedere,
+      // calcolatene…) non contano: resta il dettaglio concreto aggiunto («lungomare»)
+      const ignote = [...new Set(normalizza(r.replace(/\[S\d+\]/g, "")).split(" ").filter(w => w.length >= 5))]
+        .filter(w => !comune(w) && !tutte.has(radice(w)) && !(RE_VERBO.test(w) && !/mare$/.test(w)));
+      if (ignote.length) { tolte.push(r); return null; }
     }
     return r;
   });
@@ -1211,9 +1226,11 @@ export function controlliPassi(testo, ctxTesto, g) {
       let best = null;
       out.forEach((r, i) => {
         if (!isPasso(r) || /\[S\d+\]/.test(r)) return;
-        const rad = [...new Set(radiciPasso(r))].filter(w => !PAROLE_COMUNI.has(w)); if (rad.length < 3) return;
+        const rad = [...new Set(radiciPasso(r))].filter(w => !comune(w)); if (rad.length < 3 && !/kolb|decalog/.test(normalizza(r))) return;
         for (const c of condivise) {
-          const f = new Set(radiciPasso(c.b)), q = rad.filter(w => f.has(w)).length / rad.length;
+          // il passo nomina la fonte («ciclo di Kolb», «decalogo»): è quella
+          const nomina = (/kolb/.test(normalizza(r)) && /kolb/i.test(c.b.split("\n")[0])) || (/decalog/.test(normalizza(r)) && /decalog/i.test(c.b.split("\n")[0]));
+          const f = new Set(radiciPasso(c.b)), q = nomina ? 1 : rad.filter(w => f.has(w)).length / rad.length;
           if (q >= 0.5 && (!best || q > best.q)) best = { i, n: c.n, q };
         }
       });
