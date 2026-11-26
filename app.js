@@ -185,11 +185,31 @@ function mergeApproved(list, data, geo, communities){
   }
 }
 // Pagina di ogni comunità (sezione «Comunità»): nome come in comunita.json → file in /comunita/
-const COM_SLUG={'Siracusa':'siracusa','Salento · Il paesaggio che sono io':'salento','Valdobbiadene':'valdobbiadene','Druento':'druento','Via Francigena · Salento':'via-francigena','Grado':'grado'};
+const COM_SLUG={'Siracusa':'siracusa','Salento':'salento','Salento · Il paesaggio che sono io':'salento','Valdobbiadene':'valdobbiadene','Druento':'druento','Via Francigena · Salento':'salento','Grado':'grado'};
 const comLink=(name,label)=>COM_SLUG[name]?`<a href="/comunita/${COM_SLUG[name]}.html">${esc(label)}</a>`:esc(label);
 // Comunità non ancora attivate: restano nei dati ma non si mostrano sul sito
 const COMUNITA_NASCOSTE=[];
+// Comunità unite (t377u-t378u): «Il paesaggio che sono io» e «Via Francigena» sono progetti complementari dell'unica comunità Salento.
+// I dati restano con i nomi originali; sul sito (mappa, archivio, schede) si mostra una sola comunità.
+const COMUNITA_UNITE=[{id:'02-salento',name:'Salento',parti:['Salento · Il paesaggio che sono io','Via Francigena · Salento']}];
+function unisciComunita(data, geo, communities){
+  for(const u of COMUNITA_UNITE){
+    const parte=x=>u.parti.includes(x);
+    const prime=(communities||[]).filter(c=>parte(c.name));
+    if(!prime.length) continue;
+    const base=prime[0];
+    const unita={...base, id:u.id, name:u.name, alias:prime.map(c=>c.id),
+      manager:prime.map(c=>c.manager).filter(Boolean).join(' · '),
+      has_routes:prime.some(c=>c.has_routes), route_count:prime.reduce((n,c)=>n+(c.route_count||0),0)};
+    const i=communities.indexOf(base);
+    for(let k=communities.length-1;k>=0;k--) if(parte(communities[k].name)) communities.splice(k,1);
+    communities.splice(i,0,unita);
+    data.forEach(e=>{ if(parte(e.community)) e.community=u.name; });
+    if(geo&&geo.features) geo.features.forEach(f=>{ const p=f.properties||{}; if(parte(p.community)){ p.community=u.name; p.color=unita.color; } });
+  }
+}
 function nascondiComunita(data, geo, communities){
+  unisciComunita(data, geo, communities);
   const via=x=>COMUNITA_NASCOSTE.includes(x);
   for(let i=data.length-1;i>=0;i--) if(via(data[i].community)) data.splice(i,1);
   if(geo&&geo.features) geo.features=geo.features.filter(f=>!via(f.properties&&f.properties.community));
@@ -590,7 +610,7 @@ async function init(){
       const f=geo.features.find(f=>f.properties.id===id && f.geometry.type==='Point');
       if(f) focus(f);
     } else if(params.get('comunita')){
-      const name=communities.find(c=>c.id===params.get('comunita')||c.name===params.get('comunita'))?.name;
+      const q=params.get('comunita'); const name=communities.find(c=>c.id===q||c.name===q||(c.alias||[]).includes(q)||(COMUNITA_UNITE.find(u=>u.name===c.name)?.parti||[]).includes(q))?.name;
       if(name){ if(fCom) fCom.value=name; applyFilters(); goCommunity(name); }
     }
     window.openPrototypePlace=(id)=>{

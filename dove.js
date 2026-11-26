@@ -5,7 +5,7 @@ window.initDove = function(geo, communities){
   const $=s=>document.querySelector(s);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const root=$('#dove'); if(!root) return null;
-  const shortCom=n=>String(n||'').replace(' · Il paesaggio che sono io','').replace('Via Francigena · Salento','Via Francigena');
+  const shortCom=n=>String(n||'').replace(' · Il paesaggio che sono io','').replace('Via Francigena · Salento','Salento');
   const colorByName=Object.fromEntries((communities||[]).map(c=>[c.name,c.color]));
   const aule=geo.features.filter(f=>f.geometry.type==='Point').map(f=>{
     const p=f.properties, c=f.geometry.coordinates;
