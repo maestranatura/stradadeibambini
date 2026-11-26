@@ -789,3 +789,5 @@ table.archive tr.solo-tappe td{opacity:.85}
 .libro-cap-testo>.provenance{font-size:14px}
 .libro-cd{scroll-margin-top:90px}
 @media (max-width:700px){.libro-cd{scroll-margin-top:180px}}
+.libro-cd-arg{font-size:16px;font-weight:600;color:#222}
+.libro-cd-arg span{font-weight:700;color:var(--green)}
