@@ -1,5 +1,5 @@
 // «Parla con il Genius Loci» · interfaccia (fase 1 locale, fase 2 LLM solo se il server dice abilitato=true)
-import { preparaIndice, cerca, evidenzia } from './cerca.mjs?v=1';
+import { preparaIndice, cerca, evidenzia } from './cerca.mjs?v=2';
 
 const $ = s => document.querySelector(s);
 const thread = $('#gl-thread'), form = $('#gl-form'), campo = $('#gl-domanda');

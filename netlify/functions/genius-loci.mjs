@@ -62,7 +62,7 @@ function configurazione() {
 }
 
 // Comunità citate nel prompt: quelle nascoste si tolgono da sole (svuotare comunita-nascoste.json per riattivarle).
-const COMUNITA_PROMPT = ["Valdobbiadene", "Salento", "Druento", "Siracusa"].filter(c => !NASCOSTE.includes(c));
+const COMUNITA_PROMPT = ["Valdobbiadene", "Salento", "Druento", "Siracusa", "Grado"].filter(c => !NASCOSTE.includes(c));
 const elenco = a => a.length > 1 ? a.slice(0, -1).join(", ") + " e " + a.at(-1) : a.join("");
 const RE_NASCOSTE = NASCOSTE.map(n => COMUNITA.find(c => c.nome === n)?.re || new RegExp(n.toLowerCase()));
 export function nascosto(p) {
@@ -107,7 +107,11 @@ Regole che non puoi mai violare:
 12. Se le FONTI sono marcate «FONTI DI METODO GENERALI», la ricerca non ha trovato schede sul tema preciso: usale solo come ispirazione per il metodo, senza dire che parlano del luogo o della classe della domanda.
 13. «INDICAZIONI NAZIONALI 2012» e «INDICAZIONI NAZIONALI 2025» sono i testi ufficiali del Ministero (nel 2025 i traguardi si chiamano «competenze attese»); ogni traguardo o obiettivo ha un codice [T1], [T2]… Se la domanda chiede traguardi, obiettivi o collegamenti al curricolo, dopo i passi (e dopo l'eventuale letteratura) scrivi la riga «Traguardi a cui può concorrere:» e sotto da 2 a 4 righe fatte SOLO di «– » e di un codice, per esempio «– [T3]»: il testo ufficiale parola per parola, la versione, la disciplina e la classe li aggiunge il sito. Scegli i codici più legati a ciò che si fa nell'esperienza (osservare, orientarsi, misurare, raccontare, rappresentare…), di almeno 2 discipline diverse quando ce ne sono (al massimo 2 codici della stessa disciplina; per un'uscita sul territorio di solito geografia, scienze, storia, poi le altre se c'entrano) e, a parità, i più brevi e concreti. Non riscrivere mai di tua mano il testo di un traguardo, non inventarne, e nel racconto e nei passi non usare le fonti INDICAZIONI NAZIONALI. Se nessun codice è adatto, dillo. Quale versione vale: fino al 2025/26 il 2012 per tutti; nel 2026/27 il 2025 per tutta l'infanzia e per le classi prime di primaria e secondaria di primo grado, il 2012 per le altre classi; poi il 2025 sale di una classe all'anno (il 2012 vale per l'ultima volta nel 2027/28 nella secondaria e nel 2029/30 nella primaria); nel 2027/28 la terza primaria usa già il 2025 per la sola storia. Se la domanda non dice anno scolastico e classe, scegli codici di entrambe le versioni e dillo in una frase.
 14. Il «MANIFESTO della Strada dei Bambini» è il testo pubblico della home: citalo con [S…] come le altre fonti.
-15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.`;
+15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.
+16. GERARCHIA DELLE FONTI. Prima delle FONTI c'è la riga «LIVELLO DELLE FONTI»: rispettala.
+   Livello 1 (UDA): racconta un'UDA o un'esperienza come riferimento SOLO se la sua classe (o età) e la sua disciplina coincidono davvero con quelle della domanda; altrimenti non raccontarla e non presentarla come esempio.
+   Livello 2 (TERRITORIO): nessuna UDA è adatta. Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» con da 3 a 5 attività, al condizionale, da fare nei luoghi della comunità descritti nelle FONTI (AULE e materiali del territorio), pensate per la classe e la disciplina della domanda; ogni passo che usa un luogo porta il suo [S…]. Non raccontare quello che altre classi hanno fatto in quei luoghi.
+   Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe e la disciplina della domanda. Non inventare esperienze, luoghi o classi.`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -651,7 +655,7 @@ export function segniInFondo(riga) {
 
 // «A Salento» → «In Salento», «a Puglia» → «in Puglia» (regioni e territori vogliono «in»; le Marche restano a parte)
 // i comuni vogliono «a»: «In Valdobbiadene» → «A Valdobbiadene»
-const COMUNI_A = ["Valdobbiadene", "Botrugno", "Nociglia", "Supersano", "San Cassiano", "Siracusa", "Druento", "Zenson di Piave", "Volon", "Guia", "Bergamo"];
+const COMUNI_A = ["Valdobbiadene", "Grado", "Fossalon", "Botrugno", "Nociglia", "Supersano", "San Cassiano", "Siracusa", "Druento", "Zenson di Piave", "Volon", "Guia", "Bergamo"];
 const TERRITORI_IN = () => ["Salento", ...REGIONI.map(([n]) => n).filter(n => n !== "Marche")].sort((a, b) => b.length - a.length);
 export function correggiPreposizioni(t) {
   const alt = TERRITORI_IN().map(escRe).join("|");
@@ -983,12 +987,170 @@ export function aggiungiInvito(risposta, domanda) {
   return `${testo}\n\n${fraseInvito(luogo)}`;
 }
 
+// ---------- Gerarchia delle fonti (UDA pertinente → territorio → base condivisa) ----------
+// 1) un'UDA di riferimento solo se classe/età e disciplina coincidono davvero con la domanda;
+// 2) altrimenti, se la domanda nomina una nostra comunità che ha materiali (aule, documenti del luogo), attività da quelli;
+// 3) altrimenti attività dalla base condivisa (metodo, rielaborazioni, programma, letteratura), senza esperienze.
+const N_PAROLA = { prima: 1, seconda: 2, terza: 3, quarta: 4, quinta: 5, "1a": 1, "2a": 2, "3a": 3, "4a": 4, "5a": 5, i: 1, ii: 2, iii: 3, iv: 4, v: 5 };
+const RE_DISCIPLINA = [
+  ["matematica", /\b(matematic\w*|geometri\w*|aritmetic\w*|frazion\w*|numeri|calcol\w*|misur\w*|perimetr\w*|tabellin\w*|operazioni|problemi)\b/],
+  ["italiano", /\b(italiano|grammatic\w*|ortografi\w*|poesi\w*|scrittura|riflessione linguistica|lessico)\b/],
+  ["scienze", /\b(scienz\w*|botanic\w*|biologi\w*|ecosistem\w*)\b/],
+  ["storia", /\bstoria\b/],
+  ["geografia", /\b(geografi\w*|orientament\w*)\b/],
+  ["arte", /\b(arte|artistic\w*)\b/],
+  ["musica", /\bmusic\w*\b/],
+  ["tecnologia", /\btecnologi\w*\b/],
+  ["inglese", /\b(inglese|english)\b/],
+  ["educazione motoria", /\b(motori\w*|educazione fisica|psicomotric\w*)\b/],
+  ["educazione civica", /\bcivica\b/],
+];
+const ETICHETTA_N = ["", "prima", "seconda", "terza", "quarta", "quinta"];
+// Che cosa chiede la domanda: ordine di scuola, classe (numero) e discipline.
+export function richiestaDomanda(domanda) {
+  const q = " " + normalizza(domanda) + " ", cap = capisci(domanda);
+  let ordine = null, n = null, m;
+  if (cap.classe === "secondaria") { ordine = "secondaria"; n = N_PAROLA[cap.numeroClasse] || null; }
+  else if (cap.classe === "infanzia") ordine = "infanzia";
+  else if (cap.classe) { ordine = "primaria"; n = N_PAROLA[cap.numeroClasse] || null; }
+  if (!ordine && (m = q.match(/\b(?:in|una|la|le|mia|nostra|classe|classi) (prima|seconda)\b/))) { ordine = "primaria"; n = N_PAROLA[m[1]]; }
+  if (/\b(nido|0 3 anni)\b/.test(q)) { ordine = "nido"; n = null; }
+  if (!ordine && (m = q.match(/\b(\d{1,2}|tre|quattro|cinque|sei|sette|otto|nove|dieci|undici|dodici|tredici) anni\b/))) {
+    const eta = Number(m[1]) || { tre: 3, quattro: 4, cinque: 5, sei: 6, sette: 7, otto: 8, nove: 9, dieci: 10, undici: 11, dodici: 12, tredici: 13 }[m[1]];
+    if (eta <= 2) ordine = "nido"; else if (eta <= 5) ordine = "infanzia";
+    else if (eta <= 10) { ordine = "primaria"; n = eta - 5; } else if (eta <= 13) { ordine = "secondaria"; n = eta - 10; }
+  }
+  const discipline = RE_DISCIPLINA.filter(([, re]) => re.test(q)).map(([d]) => d);
+  const classe = ordine === "nido" ? "nido" : ordine === "infanzia" ? "scuola dell'infanzia" : ordine === "secondaria" ? (n ? `${ETICHETTA_N[n]} media` : "secondaria di primo grado")
+    : ordine ? (n ? `${ETICHETTA_N[n]} primaria` : "primaria") : null;
+  return { ordine, n, discipline, classe, comunita: cap.comunita };
+}
+// Classi di una scheda: chiavi «P4», «S2», «I» dal codice, dalla riga «Chi:» della sintesi e dal sottotitolo; se non c'è
+// una classe precisa, dalla fascia d'età (primaria III-V → P3, P4, P5).
+export function classiScheda(ix, s) {
+  const precise = new Set();
+  const cod = String(s.codice || "");
+  let m = cod.match(/-(\d)([PSA])-/) || cod.match(/-PRI(\d)-/);
+  if (m) precise.add((m[2] === "S" ? "S" : "P") + m[1]);
+  const chi = normalizza((ix.passi.find(x => x.ref === s.ref && x.sezione === "L’UDA in sintesi")?.testo.match(/^Chi:(.*)$/m) || [])[1] || "");
+  const testo = " " + chi + " " + normalizza(s.sottotitolo || "") + " ";
+  const sec = /\b(secondaria|media|medie)\b/.test(chi);
+  for (const mm of testo.matchAll(/\b(?:class[ei] |una |la |le )(prima|seconda|terza|quarta|quinta|i{1,3}|iv|v)\b|\b(prima|seconda|terza|quarta|quinta|i{1,3}|iv|v|[1-5]a) (?:primaria|elementare|secondaria|media|classe)\b/g)) {
+    const k = N_PAROLA[mm[1] || mm[2]]; if (k) precise.add((sec ? "S" : "P") + k);
+  }
+  if (/\binfanzia\b/.test(chi)) precise.add("I");
+  if (precise.size) return precise;
+  const out = new Set();
+  for (const e of s.eta || []) {
+    if (e === "infanzia") out.add("I");
+    else if (e === "secondaria") ["S1", "S2", "S3"].forEach(x => out.add(x));
+    else if (e === "primaria I-II") ["P1", "P2"].forEach(x => out.add(x));
+    else if (e === "primaria III-V") ["P3", "P4", "P5"].forEach(x => out.add(x));
+  }
+  return out;
+}
+export function udaPertinente(ix, s, req) {
+  if (!s) return false;
+  if (req.ordine) {
+    const c = classiScheda(ix, s), pref = { primaria: "P", secondaria: "S", infanzia: "I", nido: "N" }[req.ordine];
+    if (![...c].some(k => k.startsWith(pref) && (!req.n || pref === "I" || k === pref + req.n))) return false;
+  }
+  return !req.discipline.length || gradoDisciplina(ix, s, req) > 0;
+}
+// Quanto la disciplina chiesta è davvero della scheda: 2 = principale («(principale)», «(asse portante)»);
+// 1 = una delle discipline di una scheda che ne dichiara al massimo 4; 0 = assente, o solo in un elenco interdisciplinare lungo.
+const DISC_SCHEDA = d => normalizza(d).replace(/^arte e immagine$/, "arte").replace(/^(motoria|educazione fisica)$/, "educazione motoria");
+export function gradoDisciplina(ix, s, req) {
+  const riga = (ix.passi.find(x => x.ref === s.ref && x.sezione === "L’UDA in sintesi")?.testo.match(/^Discipline:(.*)$/m) || [])[1] || "";
+  const voci = riga.split(/,|·/).map(v => v.trim()).filter(Boolean);
+  const princ = voci.filter(v => /\((principale|asse portante)/i.test(v)).map(v => DISC_SCHEDA(v.replace(/\(.*$/, "")));
+  const ds = (s.discipline || []).map(DISC_SCHEDA);
+  if (req.discipline.some(d => princ.includes(d))) return 2;
+  if (ds.length <= 4 && req.discipline.some(d => ds.includes(d))) return 1;
+  return 0;
+}
+// Tra le UDA pertinenti, se qualcuna ha la disciplina come principale restano solo quelle.
+export function filtraUda(ix, risultati, req) {
+  const ok = risultati.filter(r => r.tipo !== "uda" || udaPertinente(ix, ix.schede.get(r.ref), req));
+  if (!req.discipline.length) return ok;
+  const top = Math.max(0, ...ok.filter(r => r.tipo === "uda").map(r => gradoDisciplina(ix, ix.schede.get(r.ref), req)));
+  return ok.filter(r => r.tipo !== "uda" || gradoDisciplina(ix, ix.schede.get(r.ref), req) >= top);
+}
+const comunitaDi = r => r.comunita || null;
+// Applica la gerarchia ai risultati della ricerca. Restituisce le fonti da passare al modello e il livello scelto.
+export function applicaGerarchia(ix, ixP, domanda, res, resP) {
+  const req = richiestaDomanda(domanda);
+  const vincoli = !!(req.ordine || req.discipline.length);
+
+  // documenti privati legati a un luogo (esperienze del team, lezioni sul territorio): contano come territorio di quel luogo
+  const delLuogo = r => !!comunitaDi(r) && r.tipo !== "normativa";
+  let pub = vincoli ? filtraUda(ix, res?.risultati || [], req) : [...(res?.risultati || [])];
+  // il PROGRAMMA di un'altra classe non serve: resta solo quello della classe chiesta
+  const altraClasse = r => req.ordine === "primaria" && req.n && (r.titolo.match(/^Programma della classe (\w+) primaria/) || [])[1] && normalizza(r.titolo.match(/^Programma della classe (\w+)/)[1]) !== ETICHETTA_N[req.n];
+  let pri = (resP?.risultati || []).filter(r => !altraClasse(r) && (!delLuogo(r) || !vincoli || (req.comunita && comunitaDi(r) === req.comunita)));
+  if (pub.some(r => r.tipo === "uda") || (!vincoli && pri.some(r => delLuogo(r) && r.stato === "vissuta"))) {
+    return { res: { ...res, risultati: pub }, resP: resP && { ...resP, risultati: pri }, livello: "uda", req, vincoli };
+  }
+  // 2) territorio: aule e documenti della comunità nominata
+  if (req.comunita) {
+    let aule = pub.filter(r => r.tipo === "aula" && r.comunita === req.comunita);
+    if (aule.length < 2) for (const r of cerca(ix, `aule ${req.comunita}`, { max: 6 }).risultati)
+      if (r.tipo === "aula" && r.comunita === req.comunita && !aule.some(a => a.titolo === r.titolo) && !nascosto(r) && aule.length < 4) aule.push(r);
+    let docs = pri.filter(r => comunitaDi(r) === req.comunita);
+    if (ixP && docs.length < 2) for (const r of cerca(ixP, `${req.comunita} territorio`, { max: 4 }).risultati)
+      if (comunitaDi(r) === req.comunita && !docs.some(d => d.titolo === r.titolo) && !nascosto(r) && docs.length < 3) docs.push(r);
+    if (aule.length || docs.length) {
+      const condivise = pri.filter(r => !delLuogo(r));
+      return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 6) },
+        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...condivise].slice(0, 5) }), livello: "territorio", req, vincoli };
+    }
+  }
+  // 3) base condivisa: metodo, rielaborazioni, programma (niente UDA, aule né esperienze di un luogo)
+  const soloCondivise = (a, b) => {
+    const p = { ...(a || {}), risultati: (a?.risultati || []).filter(r => r.tipo === "metodo") };
+    const q = b && { ...b, risultati: (b.risultati || []).filter(r => !delLuogo(r) && !altraClasse(r) && r.tipo_fonte !== "letteratura") };
+    return [p, q];
+  };
+  let [p3, q3] = soloCondivise(res, { risultati: pri });
+  if (p3.risultati.length + (q3?.risultati.length || 0) < 3) {
+    const f = fontiDiMetodo(ix, ixP, domanda, p3, q3);
+    [p3, q3] = soloCondivise(f.res, f.resP);
+  }
+  return { res: p3, resP: ixP ? conProgramma(ixP, domanda, req, q3) : null, livello: "condivisa", req, vincoli };
+}
+// Livelli 2 e 3: il PROGRAMMA della classe chiesta (che cosa si studia in quel periodo), se non c'è già.
+function conProgramma(ixP, domanda, req, q) {
+  if (!ixP || !q || req.ordine !== "primaria" || !req.n || q.risultati.some(r => /^Programma della classe/.test(r.titolo))) return q;
+  const r = cerca(ixP, `programma classe ${ETICHETTA_N[req.n]} primaria ${req.discipline.join(" ")}`, { max: 6, comunitaMorbida: true }).risultati
+    .find(x => normalizza(x.titolo).startsWith(`programma della classe ${ETICHETTA_N[req.n]} primaria`));
+  return r ? { ...q, risultati: [...q.risultati, r] } : q;
+}
+const elencoDisc = d => d.length > 1 ? d.slice(0, -1).join(", ") + " e " + d.at(-1) : d[0] || "";
+export function rigaLivello(g) {
+  const perChi = [g.req.classe ? `classe: ${g.req.classe}` : "", g.req.discipline.length ? `disciplina: ${elencoDisc(g.req.discipline)}` : ""].filter(Boolean).join("; ");
+  if (g.livello === "uda") return "LIVELLO DELLE FONTI: 1 (UDA)" + (g.vincoli ? ` — le UDA tra le FONTI sono adatte alla domanda (${perChi}).` : ".");
+  if (g.livello === "territorio") return `LIVELLO DELLE FONTI: 2 (TERRITORIO) — nessuna UDA è adatta${perChi ? ` (${perChi})` : ""}: usa i luoghi e i materiali della comunità di ${g.req.comunita}.`;
+  return `LIVELLO DELLE FONTI: 3 (BASE CONDIVISA) — nessuna UDA adatta${perChi ? ` (${perChi})` : ""} e nessun materiale del territorio: usa solo metodo, rielaborazioni e programma.`;
+}
+// Frase scritta dal sito (non dal modello) prima della risposta, quando non c'è un'UDA adatta.
+export function notaLivello(g) {
+  if (g.livello === "uda" || !g.vincoli) return "";
+  const cl = g.req.classe ? (g.req.ordine === "nido" ? "il nido" : g.req.ordine === "infanzia" ? "la scuola dell'infanzia" : `la ${g.req.classe}`) : "";
+  const perChi = (cl || "questa domanda") + (g.req.discipline.length ? ` (${elencoDisc(g.req.discipline)})` : "");
+  if (g.livello === "territorio") return `Per ${perChi} non c'è ancora un'UDA adatta ${preposizioneLuogo(g.req.comunita).prep}${g.req.comunita}: ecco qualche idea dai luoghi della comunità.`;
+  return `Per ${perChi} non c'è ancora un'UDA adatta né un luogo delle nostre comunità: ecco qualche idea dalla base comune della Strada dei Bambini.`;
+}
+
 // Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
 export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   ix = ix || preparaIndice(dati);
   const piu = approfondisci ? 1.5 : 1; // approfondimento: un po' più di passi delle schede
-  let res = cerca(ix, domanda, { max: approfondisci ? 6 : 5 });
+  const maxPub = approfondisci ? 6 : 5;
+  // pool più largo: le UDA di un'altra classe o disciplina si tolgono dopo (gerarchia delle fonti)
+  let res = cerca(ix, domanda, { max: 12 });
   res.risultati = res.risultati.filter(r => !nascosto(r));
+  { const req = richiestaDomanda(domanda); if (req.ordine || req.discipline.length) res.risultati = filtraUda(ix, res.risultati, req); }
+  res.risultati = res.risultati.slice(0, maxPub);
   const ixP = await indicePrivato();
   let resP = ixP ? cerca(ixP, domanda, { max: approfondisci ? 5 : 4, comunitaMorbida: true }) : null;
   if (resP) resP.risultati = resP.risultati.filter(r => !nascosto(r));
@@ -997,6 +1159,8 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   const generali = trovati === 0;
   if (trovati < 3) ({ res, resP } = fontiDiMetodo(ix, ixP, domanda, res, resP));
   ({ res, resP } = fontiMappe(ix, ixP, domanda, res, resP));
+  const gerarchia = applicaGerarchia(ix, ixP, domanda, res, resP);
+  ({ res, resP } = gerarchia);
   if (!res.risultati.length && !resP?.risultati.length) {
     return { risposta: aggiungiInvito("Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", domanda), fonti: [] };
   }
@@ -1010,11 +1174,12 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: 5500 * piu },
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
-    const grezza = await chiamaModello(cfg, domanda, ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
+    const grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
     const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
-    return { risposta: risposta || aggiungiInvito("Non lo so.", domanda), fonti };
+    const nota = fonti.length ? notaLivello(gerarchia) : "";
+    return { risposta: risposta ? (nota ? `${nota}\n\n${risposta}` : risposta) : aggiungiInvito("Non lo so.", domanda), fonti, livello: gerarchia.livello };
   } catch (e) {
     return { errore: "Il servizio di risposta scritta non ha risposto.", status: 502 };
   }
