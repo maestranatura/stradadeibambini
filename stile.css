@@ -773,3 +773,19 @@ table.archive tr.solo-tappe td{opacity:.85}
 /* t379u: niente doppia linea tra premessa e discipline */
 .libro-premessa+.libro-indice{border-top:0;padding-top:0;margin-top:0}
 .libro-premessa+.libro-indice .libro-acc{margin-top:8px}
+/* t381u: in ogni capitolo del libro km0, prima «Cosa» e «Dove» */
+.libro-cd{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:0 0 6px}
+.libro-cd-box{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:0 6px 6px 0;background:var(--wash);font-size:15px;line-height:1.5;color:#222;min-width:0}
+.libro-cosa{border-left:4px solid var(--green)}
+.libro-dove{border-left:4px solid #2B4A6F}
+.libro-cd-box p{margin:0}
+.libro-cd-et{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.libro-cosa .libro-cd-et{color:var(--green)}
+.libro-dove .libro-cd-et{color:#2B4A6F}
+.libro-cd-ver,.libro-cd-sub{font-size:12px;font-weight:600;color:var(--muted)}
+.libro-cd-dove{font-size:16px;font-weight:600}
+.libro-cd .libro-cit{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.libro-cap-testo>h4,.libro-esempio>h4.libro-esempio-t{margin-top:4px}
+.libro-cap-testo>.provenance{font-size:14px}
+.libro-cd{scroll-margin-top:90px}
+@media (max-width:700px){.libro-cd{scroll-margin-top:180px}}
