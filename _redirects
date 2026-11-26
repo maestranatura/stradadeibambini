@@ -61,9 +61,9 @@
 /netlify.toml     /404.html  404!
 /genius-loci/strumenti/*  /404.html  404!
 
-# SPA-ish query pages stay as real files; 404 fallback
-/*    /404.html  404
-
 # Via Francigena unita al Salento (t377u-t378u)
 /comunita/via-francigena      /comunita/salento.html 301!
 /comunita/via-francigena.html /comunita/salento.html 301!
+
+# SPA-ish query pages stay as real files; 404 fallback
+/*    /404.html  404
