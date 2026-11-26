@@ -770,3 +770,6 @@ table.archive tr.solo-tappe td{opacity:.85}
 .btn.btn-blu{background:#2F62A3}
 .btn.btn-blu:hover{background:#234B7E}
 .btn.btn-blu:focus-visible{outline:3px solid #2F62A3;outline-offset:2px}
+/* t379u: niente doppia linea tra premessa e discipline */
+.libro-premessa+.libro-indice{border-top:0;padding-top:0;margin-top:0}
+.libro-premessa+.libro-indice .libro-acc{margin-top:8px}
