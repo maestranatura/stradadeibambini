@@ -30,6 +30,15 @@
 <meta name="twitter:title" content="Il paesaggio è la scuola · La Strada dei Bambini">
 <meta name="twitter:description" content="Il paesaggio è la scuola. Percorsi a piedi, aule all’aperto e esperienze delle comunità educanti.">
 <meta name="twitter:image" content="https://stradadeibambini.it/og-image-2026-11.jpg">
+<style>
+.accessi{padding:32px 48px 0;max-width:1180px;margin:0 auto}
+.accessi .accessi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.accessi .community-card h2{margin:0;font-family:var(--serif);font-weight:600;font-size:20px}
+.accessi .accessi-azione{margin-top:auto!important;padding-top:6px}
+.accessi .btn{width:100%;padding:0 16px}
+.accessi + .intro{padding-top:48px}
+@media (max-width:700px){.accessi{padding:20px 20px 0}.accessi + .intro{padding-top:36px}.accessi .accessi-grid{grid-template-columns:1fr;gap:10px}.accessi .community-card{padding:14px 16px;gap:8px}.accessi .community-card p:not(.accessi-azione){display:none}.accessi .accessi-azione{padding-top:0}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -48,6 +57,29 @@
 </header>
 
 <img class="hero-photo" src="assets/hero.jpg" loading="eager" fetchpriority="high" alt="Un adulto e una bambina camminano mano nella mano su un prato in cima a una collina, con la pianura di Valdobbiadene sullo sfondo">
+
+
+
+<section class="accessi" id="accessi" aria-label="Entra nella Strada">
+  <div class="community-grid comunita-index accessi-grid">
+    <article class="community-card">
+      <h2>Archivio UDA</h2>
+      <p>Le schede delle uscite vissute con le classi e le proposte da provare.</p>
+      <p class="accessi-azione"><a class="btn" href="/archivio.html">Apri l’Archivio UDA</a></p>
+    </article>
+    <article class="community-card">
+      <h2>Comunità</h2>
+      <p>I territori della Strada: chi è coinvolto, la mappa e il libro km0.</p>
+      <p class="accessi-azione"><a class="btn" href="/comunita/">Vai alle comunità</a></p>
+    </article>
+    <article class="community-card">
+      <h2>Libri di testo km0</h2>
+      <p>Per disciplina e per classe, con il luogo dove viverla. Il primo è Grado.</p>
+      <p class="accessi-azione"><a class="btn btn-blu" href="/comunita/libri-km0.html">Apri i libri km0</a></p>
+    </article>
+  </div>
+</section>
+
 <section class="intro">
   <p class="kicker">Comunità educanti · dal 2023</p>
   <h1>Il paesaggio è la scuola.<br>La città è la scuola.</h1>
