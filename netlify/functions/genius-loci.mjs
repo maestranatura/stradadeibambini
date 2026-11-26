@@ -110,7 +110,7 @@ Regole che non puoi mai violare:
 15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.
 16. GERARCHIA DELLE FONTI. Prima delle FONTI c'è la riga «LIVELLO DELLE FONTI»: rispettala.
    Livello 1 (UDA): racconta un'UDA o un'esperienza come riferimento SOLO se la sua classe (o età) e la sua disciplina coincidono davvero con quelle della domanda; altrimenti non raccontarla e non presentarla come esempio.
-   Livello 2 (TERRITORIO): nessuna UDA è adatta. Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» (non «I passi per il tuo territorio:») con da 3 a 5 attività, al condizionale, pensate per la classe, l'età e la disciplina della domanda. Ogni passo si svolge in UNO dei luoghi delle AULE tra le FONTI, lo nomina con il nome scritto lì e finisce con il suo [S…]; dei luoghi usa solo ciò che le FONTI dicono (niente decorazioni, misure, piante o quartieri inventati). Se un passo riprende il PROGRAMMA o una RIELABORAZIONE, porta il loro [S…]. Non raccontare quello che altre classi hanno fatto in quei luoghi.
+   Livello 2 (TERRITORIO + BASE CONDIVISA): nessuna UDA è adatta. Il territorio e la base condivisa si usano INSIEME: le fonti «TERRITORIO di …» e le AULE danno i contenuti specifici (luoghi, storia, natura, parole del posto); le fonti della base condivisa (METODO, MATERIALE DEL TEAM come il ciclo di Kolb e il decalogo, RIELABORAZIONI, PROGRAMMA) danno l'impostazione pedagogica per tradurli in attività (preparare, uscire, osservare con i sensi, rielaborare in classe, condividere). Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» (non «I passi per il tuo territorio:») con da 3 a 5 attività, al condizionale, pensate per la classe, l'età e la disciplina della domanda. Ogni passo si svolge in un luogo o su un contenuto delle fonti del territorio, lo nomina con le parole scritte lì e finisce con il suo [S…]; almeno un passo segue l'impostazione della base condivisa e porta il [S…] di quella fonte. Dei luoghi usa solo ciò che le FONTI dicono (niente decorazioni, misure, piante o quartieri inventati). Non raccontare quello che altre classi hanno fatto in quei luoghi.
    Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe, l'età e la disciplina della domanda. Non inventare esperienze, luoghi o classi.
    In tutti i livelli le attività devono essere adatte all'età indicata (al nido e all'infanzia esperienze dei sensi e del movimento, senza scrittura).`;
 
@@ -170,6 +170,7 @@ export function fontiMappe(ix, ixP, domanda, res, resP) {
 }
 
 function etichetta(r) {
+  if (r.privato && r.comunita && !r.stato && r.tipo !== "normativa") return `TERRITORIO di ${r.comunita} (knowledge base territoriale: contenuti sul luogo)`;
   if (r.tipo === "uda") return `UDA ${r.stato === "vissuta" ? "VISSUTA" : "PROPOSTA"}`;
   if (r.tipo === "aula") return "AULA";
   if (!r.privato) return "METODO Mappe Genius Loci (estratto)";
@@ -1100,13 +1101,18 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
     let aule = pub.filter(r => r.tipo === "aula" && r.comunita === req.comunita);
     if (aule.length < 2) for (const r of cerca(ix, `aule ${req.comunita}`, { max: 6 }).risultati)
       if (r.tipo === "aula" && r.comunita === req.comunita && !aule.some(a => a.titolo === r.titolo) && !nascosto(r) && aule.length < 4) aule.push(r);
+    // knowledge base territoriale (sintesi del territorio, libro di testo km0, materiali della comunità): cercata con la domanda,
+    // poi con disciplina e classe
     let docs = pri.filter(r => comunitaDi(r) === req.comunita);
-    if (ixP && docs.length < 2) for (const r of cerca(ixP, `${req.comunita} territorio`, { max: 4 }).risultati)
-      if (comunitaDi(r) === req.comunita && !docs.some(d => d.titolo === r.titolo) && !nascosto(r) && docs.length < 3) docs.push(r);
+    const metti = (lista, max) => { for (const r of lista) if (comunitaDi(r) === req.comunita && !docs.some(d => d.titolo === r.titolo) && !nascosto(r) && docs.length < max) docs.push(r); };
+    if (ixP) {
+      metti(cerca(ixP, domanda, { max: 12, comunitaMorbida: true }).risultati, 3);
+      if (docs.length < 2) metti(cerca(ixP, `${req.comunita} ${req.discipline.join(" ")} ${req.n ? ETICHETTA_N[req.n] : ""} territorio luoghi`, { max: 8 }).risultati, 3);
+    }
     if (aule.length || docs.length) {
-      const condivise = pri.filter(r => !delLuogo(r));
-      return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 6) },
-        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...condivise].slice(0, 5) }), livello: "territorio", req, vincoli };
+      // territorio e base condivisa vanno INSIEME: il territorio dà i contenuti, la base condivisa l'impostazione pedagogica
+      return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 5) },
+        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli };
     }
   }
   // 3) base condivisa: metodo, rielaborazioni, programma (niente UDA, aule né esperienze di un luogo)
@@ -1122,6 +1128,17 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
   }
   return { res: p3, resP: ixP ? conProgramma(ixP, domanda, req, q3) : null, livello: "condivisa", req, vincoli };
 }
+// Base condivisa per tradurre i contenuti in attività: quello che ha trovato la ricerca più, sempre, il ciclo di Kolb
+// all'aperto e il decalogo delle Scuole Naturali (impostazione pedagogica di PEDAGOGIA E OUTDOOR).
+const ANCORE_PEDAGOGIA = ["ciclo di Kolb all'aperto", "decalogo scuole naturali"];
+function baseCondivisa(ixP, trovate, max = 4) {
+  const out = trovate.filter(r => !/^Programma della classe/.test(r.titolo)).slice(0, max - ANCORE_PEDAGOGIA.length);
+  if (ixP) for (const q of ANCORE_PEDAGOGIA) {
+    const r = cerca(ixP, q, { max: 1, comunitaMorbida: true }).risultati[0];
+    if (r && !r.comunita && !out.some(x => x.titolo === r.titolo)) out.push(r);
+  }
+  return out;
+}
 // Livelli 2 e 3: il PROGRAMMA della classe chiesta (che cosa si studia in quel periodo), se non c'è già.
 function conProgramma(ixP, domanda, req, q) {
   if (!ixP || !q || req.ordine !== "primaria" || !req.n || q.risultati.some(r => /^Programma della classe/.test(r.titolo))) return q;
@@ -1133,7 +1150,7 @@ const elencoDisc = d => d.length > 1 ? d.slice(0, -1).join(", ") + " e " + d.at(
 export function rigaLivello(g) {
   const perChi = [g.req.classe ? `classe: ${g.req.classe}` : "", g.req.discipline.length ? `disciplina: ${elencoDisc(g.req.discipline)}` : ""].filter(Boolean).join("; ");
   if (g.livello === "uda") return "LIVELLO DELLE FONTI: 1 (UDA)" + (g.vincoli ? ` — le UDA tra le FONTI sono adatte alla domanda (${perChi}).` : ".");
-  if (g.livello === "territorio") return `LIVELLO DELLE FONTI: 2 (TERRITORIO) — nessuna UDA è adatta${perChi ? ` (${perChi})` : ""}: usa i luoghi e i materiali della comunità di ${g.req.comunita}.`;
+  if (g.livello === "territorio") return `LIVELLO DELLE FONTI: 2 (TERRITORIO + BASE CONDIVISA) — nessuna UDA è adatta${perChi ? ` (${perChi})` : ""}: contenuti dai luoghi e dalla knowledge base territoriale di ${g.req.comunita}, impostazione delle attività dalla base condivisa.`;
   return `LIVELLO DELLE FONTI: 3 (BASE CONDIVISA) — nessuna UDA adatta${perChi ? ` (${perChi})` : ""} e nessun materiale del territorio: usa solo metodo, rielaborazioni e programma.`;
 }
 // Frase scritta dal sito (non dal modello) prima della risposta, quando non c'è un'UDA adatta.
@@ -1141,7 +1158,7 @@ export function notaLivello(g) {
   if (g.livello === "uda" || !g.vincoli) return "";
   const cl = g.req.classe ? (g.req.ordine === "nido" ? "il nido" : g.req.ordine === "infanzia" ? "la scuola dell'infanzia" : `la ${g.req.classe}`) : "";
   const perChi = (cl || "questa domanda") + (g.req.discipline.length ? ` (${elencoDisc(g.req.discipline)})` : "");
-  if (g.livello === "territorio") return `Per ${perChi} non c'è ancora un'UDA adatta ${preposizioneLuogo(g.req.comunita).prep}${g.req.comunita}: ecco qualche idea dai luoghi della comunità.`;
+  if (g.livello === "territorio") return `Per ${perChi} non c'è ancora un'UDA adatta ${preposizioneLuogo(g.req.comunita).prep}${g.req.comunita}: ecco qualche idea dai luoghi e dalle fonti della comunità, con l'impostazione della Strada dei Bambini.`;
   return `Per ${perChi} non c'è ancora un'UDA adatta né un luogo delle nostre comunità: ecco qualche idea dalla base comune della Strada dei Bambini.`;
 }
 
@@ -1175,7 +1192,7 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   const resL = ixL && capisci(domanda).termini.length >= 2 ? cerca(ixL, domanda, { max: 2, comunitaMorbida: true }) : null;
   if (resL) resL.risultati = resL.risultati.filter(r => !nascosto(r));
   const conL = !!resL?.risultati.length;
-  const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: 5500 * piu },
+  const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: (gerarchia.livello === "territorio" ? 8000 : 5500) * piu },
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
