@@ -766,3 +766,7 @@ table.archive tr.solo-tappe td{opacity:.85}
 .libro-acc .acc-corpo{gap:12px}
 .libro-acc .libro-classe:first-child{margin-top:0}
 .libro-acc .libro-dis>h3{font:inherit;color:inherit}
+/* Pulsante blu (Libro di testo km0): stessa forma di .btn; #2F62A3 su bianco = 6,2:1 (AA) */
+.btn.btn-blu{background:#2F62A3}
+.btn.btn-blu:hover{background:#234B7E}
+.btn.btn-blu:focus-visible{outline:3px solid #2F62A3;outline-offset:2px}
