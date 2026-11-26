@@ -112,7 +112,9 @@ Regole che non puoi mai violare:
    Livello 1 (UDA): racconta un'UDA o un'esperienza come riferimento SOLO se la sua classe (o età) e la sua disciplina coincidono davvero con quelle della domanda; altrimenti non raccontarla e non presentarla come esempio.
    Livello 2 (TERRITORIO + BASE CONDIVISA): nessuna UDA è adatta. Il territorio e la base condivisa si usano INSIEME: le fonti «TERRITORIO di …» e le AULE danno i contenuti specifici (luoghi, storia, natura, parole del posto); le fonti della base condivisa (METODO, MATERIALE DEL TEAM come il ciclo di Kolb e il decalogo, RIELABORAZIONI, PROGRAMMA) danno l'impostazione pedagogica per tradurli in attività (preparare, uscire, osservare con i sensi, rielaborare in classe, condividere). Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» (non «I passi per il tuo territorio:») con da 3 a 5 attività, al condizionale, pensate per la classe, l'età e la disciplina della domanda. Ogni passo si svolge in un luogo o su un contenuto delle fonti del territorio, lo nomina con le parole scritte lì e finisce con il suo [S…]; almeno un passo segue l'impostazione della base condivisa e porta il [S…] di quella fonte. Dei luoghi usa solo ciò che le FONTI dicono (niente decorazioni, misure, piante o quartieri inventati). Non raccontare quello che altre classi hanno fatto in quei luoghi.
    Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe, l'età e la disciplina della domanda. Non inventare esperienze, luoghi o classi.
-   In tutti i livelli le attività devono essere adatte all'età indicata (al nido e all'infanzia esperienze dei sensi e del movimento, senza scrittura).`;
+   In tutti i livelli le attività devono essere adatte all'età indicata. Sotto i 6 anni (nido e scuola dell'infanzia) NIENTE scrittura e NIENTE lettura, nemmeno «scrivere col dito», lettere, parole scritte, targhe o quaderni: solo esperienze dei sensi (toccare, annusare, ascoltare, guardare), movimento, segni e disegni liberi, gioco e parola detta.
+   Ogni dettaglio concreto di un luogo (oggetti, piante, animali, barche, edifici, misure, nomi) deve essere scritto nelle FONTI: niente abbellimenti, niente scenari aggiunti («lungomare», «barche ormeggiate») se le FONTI non li nominano. In dubbio, resta generico («nel luogo scelto»).
+   Nei livelli 2 e 3 almeno un passo (di solito quello su come preparare, vivere o rielaborare l'uscita) riprende un'idea di una fonte della base condivisa (METODO, MATERIALE DEL TEAM come il ciclo di Kolb o il decalogo, RIELABORAZIONE) e porta il suo [S…].`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -607,14 +609,14 @@ export async function chiamaModello(cfg, domanda, ctx, generali = false, approfo
   if (cfg.provider === "anthropic") {
     const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal: ctrl,
       headers: { "content-type": "application/json", "x-api-key": cfg.chiave, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.2, system: PROMPT_SISTEMA, messages: [{ role: "user", content: utente }] }) });
+      body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.1, system: PROMPT_SISTEMA, messages: [{ role: "user", content: utente }] }) });
     if (!r.ok) throw new Error(`provider ${r.status}`);
     const j = await r.json();
     return (j.content || []).map(c => c.text || "").join("").trim();
   }
   const r = await fetch(`${cfg.baseUrl}/chat/completions`, { method: "POST", signal: ctrl,
     headers: { "content-type": "application/json", authorization: `Bearer ${cfg.chiave}` },
-    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.2,
+    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.1,
       messages: [{ role: "system", content: PROMPT_SISTEMA }, { role: "user", content: utente }] }) });
   if (!r.ok) throw new Error(`provider ${r.status}`);
   const j = await r.json();
@@ -669,12 +671,14 @@ export function correggiPreposizioni(t) {
 // davvero il testo di quella fonte (almeno il 40% delle parole piene si ritrova nella fonte), mai per letteratura e
 // Indicazioni nazionali; resta al massimo un segno per passo, quello della fonte più vicina, alla fine del passo.
 const radici = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
+const RE_CONDIVISA = /^\[S\d+\] (MATERIALE DEL TEAM(?! — )|RIELABORAZIONE|METODO|PROGRAMMA|MANIFESTO)/;
 export function verificaPassi(testo, ctxTesto = "") {
-  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map();
+  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map(), condivise = new Set();
   for (const b of String(ctxTesto).split("\n\n---\n\n")) {
     const m = b.match(/^\[S(\d+)\]/); if (!m) continue;
     if (/^\[S\d+\] UDA /.test(b)) uda.add(m[1]);
     if (/^\[S\d+\] (LETTERATURA DI RIFERIMENTO|INDICAZIONI NAZIONALI)/.test(b)) vietate.add(m[1]);
+    if (RE_CONDIVISA.test(b)) condivise.add(m[1]);
     const set = perFonte.get(m[1]) || new Set(); for (const r of radici(b)) set.add(r); perFonte.set(m[1], set);
     const tit = /^\[S\d+\] AULA/.test(b) && normalizza((b.match(/— «([^»]+)»/) || [])[1] || "");
     if (tit && tit.length >= 5) titoliAula.set(m[1], tit);
@@ -705,7 +709,8 @@ export function verificaPassi(testo, ctxTesto = "") {
       const f = perFonte.get(n); if (!f || vietate.has(n) || !parole.length) continue;
       // un passo che nomina il luogo di un'AULA (Ponte Bianco…) viene da quella fonte
       const q = titoliAula.has(n) && normalizza(riga).includes(titoliAula.get(n)) ? 1 : parole.filter(w => f.has(w)).length / parole.length;
-      if (q >= 0.4 && q > bestQ) { best = n; bestQ = q; }
+      // fonti pedagogiche della base condivisa (Kolb, decalogo, rielaborazioni): l'idea si riprende con parole nuove, soglia più bassa
+      if (q >= (condivise.has(n) ? 0.25 : 0.4) && q > bestQ) { best = n; bestQ = q; }
     }
     const senza = riga.replace(/\s*\[S\d+\]/g, "").replace(/\s+([.;!?])$/, "$1");
     return best ? segniInFondo(`${senza} [S${best}]`) : senza;
@@ -1110,9 +1115,10 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
       if (docs.length < 2) metti(cerca(ixP, `${req.comunita} ${req.discipline.join(" ")} ${req.n ? ETICHETTA_N[req.n] : ""} territorio luoghi`, { max: 8 }).risultati, 3);
     }
     if (aule.length || docs.length) {
+      const vocabolario = new Set([...ix.passi, ...(ixP?.passi || [])].filter(p => p.comunita === req.comunita).flatMap(p => radiciPasso(p.titolo + " " + p.testo)));
       // territorio e base condivisa vanno INSIEME: il territorio dà i contenuti, la base condivisa l'impostazione pedagogica
       return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 5) },
-        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli };
+        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli, vocabolario };
     }
   }
   // 3) base condivisa: metodo, rielaborazioni, programma (niente UDA, aule né esperienze di un luogo)
@@ -1147,7 +1153,12 @@ function conProgramma(ixP, domanda, req, q) {
   return r ? { ...q, risultati: [...q.risultati, r] } : q;
 }
 const elencoDisc = d => d.length > 1 ? d.slice(0, -1).join(", ") + " e " + d.at(-1) : d[0] || "";
+const RIGA_PICCOLI = "\nETÀ: sotto i 6 anni — nessuna attività di scrittura o lettura; solo sensi, movimento, segni e disegni liberi, gioco e parola detta.";
 export function rigaLivello(g) {
+  const r = rigaLivello0(g);
+  return g.req && (g.req.ordine === "infanzia" || g.req.ordine === "nido") ? r + RIGA_PICCOLI : r;
+}
+function rigaLivello0(g) {
   const perChi = [g.req.classe ? `classe: ${g.req.classe}` : "", g.req.discipline.length ? `disciplina: ${elencoDisc(g.req.discipline)}` : ""].filter(Boolean).join("; ");
   if (g.livello === "uda") return "LIVELLO DELLE FONTI: 1 (UDA)" + (g.vincoli ? ` — le UDA tra le FONTI sono adatte alla domanda (${perChi}).` : ".");
   if (g.livello === "territorio") return `LIVELLO DELLE FONTI: 2 (TERRITORIO + BASE CONDIVISA) — nessuna UDA è adatta${perChi ? ` (${perChi})` : ""}: contenuti dai luoghi e dalla knowledge base territoriale di ${g.req.comunita}, impostazione delle attività dalla base condivisa.`;
@@ -1160,6 +1171,59 @@ export function notaLivello(g) {
   const perChi = (cl || "questa domanda") + (g.req.discipline.length ? ` (${elencoDisc(g.req.discipline)})` : "");
   if (g.livello === "territorio") return `Per ${perChi} non c'è ancora un'UDA adatta ${preposizioneLuogo(g.req.comunita).prep}${g.req.comunita}: ecco qualche idea dai luoghi e dalle fonti della comunità, con l'impostazione della Strada dei Bambini.`;
   return `Per ${perChi} non c'è ancora un'UDA adatta né un luogo delle nostre comunità: ecco qualche idea dalla base comune della Strada dei Bambini.`;
+}
+
+// ---------- Controlli sui passi dopo la risposta del modello ----------
+// (a) nido e infanzia: via i passi con scrittura o lettura; (b) livello territorio: via i passi senza fonte che portano
+// dettagli concreti assenti dalle FONTI («barche ormeggiate sul lungomare»); (c) livelli 2 e 3: se nessun passo cita la
+// base condivisa, il segno va al passo senza fonte più vicino a una fonte pedagogica (solo se le parole coincidono davvero).
+export const RE_SCRITTURA = /\b(scriv\w*|scritt\w*|legg[aeio]\w*|lettur\w*|lettere|alfabet\w*|quadern\w*|copia\w*|annot\w*|etichett\w*|cartellin\w*|didascali\w*|targa)\b/;
+const PAROLE_COMUNI = new Set(`bambi ragaz class scuol insie tutti ognun propr ciasc prima dopo duran usand usare fate fatel prova propo chied chiede racco racco parla parli parol disegn fogli color matit pasti pennar osser guard ascol tocca annus sento senti camminat cammi passe uscit uscir tornat torna rient aula grand picco breve sempl quest quell essere avere luogo luogh mappa mappe perco tappa tappe segna segno insegn mostr scegl cerca trova provat potet potre potre dovre sarà sareb momen tempo giorn matti pomer gruppo grupp coppi cerch insie spazio spazi intor vicin lonta sopra sotto dentr fuori forma forme misur conta conti descr posto posti fatto fatti punti punto scala corda metro metri lente lenti bussol zaino zaini schede scheda carta carte cartel lavor attiv esper prepa rifle condi confr discu doman rispo nome nomi`.split(/\s+/));
+const radiciPasso = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
+export function controlliPassi(testo, ctxTesto, g) {
+  const righe = String(testo || "").split("\n");
+  const blocchi = String(ctxTesto).split("\n\n---\n\n").map(b => ({ n: (b.match(/^\[S(\d+)\]/) || [])[1], b })).filter(x => x.n);
+  const tutte = new Set(blocchi.flatMap(x => radiciPasso(x.b)));
+  for (const w of g?.vocabolario || []) tutte.add(w); // tutta la knowledge base del territorio, non solo i passi scelti
+  const condivise = blocchi.filter(x => RE_CONDIVISA.test(x.b));
+  const piccoli = g?.req && (g.req.ordine === "infanzia" || g.req.ordine === "nido");
+  const isPasso = r => /^\s*\d+[.)]\s/.test(r);
+  let parte = null; const tolte = [];
+  let out = righe.map(r => {
+    const mt = r.match(RE_TITOLO); if (mt) { parte = chiaveTitolo(mt[1]); return r; }
+    if (!isPasso(r) || (parte !== "i passi" && parte !== PARTE_GENERALE)) return r;
+    if (piccoli && RE_SCRITTURA.test(normalizza(r))) { tolte.push(r); return null; }
+    if (g?.livello === "territorio" && !/\[S\d+\]/.test(r)) {
+      const rad = [...new Set(radiciPasso(r))].filter(w => !PAROLE_COMUNI.has(w));
+      const ignote = rad.filter(w => !tutte.has(w));
+      if (ignote.length >= 2 && ignote.length / Math.max(rad.length, 1) >= 0.15) { tolte.push(r); return null; }
+    }
+    return r;
+  });
+  // non lascio meno di 2 passi: se i controlli ne tolgono troppi, tengo solo quelli senza scrittura per i piccoli
+  if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r))) ? null : r);
+  out = out.filter(r => r !== null);
+  // (c) base condivisa citata almeno una volta
+  if (g && g.livello !== "uda" && condivise.length) {
+    const nCond = new Set(condivise.map(x => x.n));
+    const citata = out.some(r => isPasso(r) && [...r.matchAll(/\[S(\d+)\]/g)].some(m => nCond.has(m[1])));
+    if (!citata) {
+      let best = null;
+      out.forEach((r, i) => {
+        if (!isPasso(r) || /\[S\d+\]/.test(r)) return;
+        const rad = [...new Set(radiciPasso(r))].filter(w => !PAROLE_COMUNI.has(w)); if (rad.length < 3) return;
+        for (const c of condivise) {
+          const f = new Set(radiciPasso(c.b)), q = rad.filter(w => f.has(w)).length / rad.length;
+          if (q >= 0.5 && (!best || q > best.q)) best = { i, n: c.n, q };
+        }
+      });
+      if (best) out[best.i] = segniInFondo(`${out[best.i].replace(/\s+([.;!?])?$/, "$1")} [S${best.n}]`);
+    }
+  }
+  // rinumero i passi
+  let k = 0; parte = null;
+  out = out.map(r => { if (RE_TITOLO.test(r)) { k = 0; return r; } return isPasso(r) ? r.replace(/^\s*\d+([.)])/, (m, p) => `${++k}${p}`) : r; });
+  return out.join("\n");
 }
 
 // Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
@@ -1196,7 +1260,7 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
-    let risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
+    let risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(controlliPassi(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo, gerarchia), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     let fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
     // livello territorio: le attività sono nella nostra comunità, il titolo è «I passi:»
