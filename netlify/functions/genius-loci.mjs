@@ -110,8 +110,9 @@ Regole che non puoi mai violare:
 15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.
 16. GERARCHIA DELLE FONTI. Prima delle FONTI c'è la riga «LIVELLO DELLE FONTI»: rispettala.
    Livello 1 (UDA): racconta un'UDA o un'esperienza come riferimento SOLO se la sua classe (o età) e la sua disciplina coincidono davvero con quelle della domanda; altrimenti non raccontarla e non presentarla come esempio.
-   Livello 2 (TERRITORIO): nessuna UDA è adatta. Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» con da 3 a 5 attività, al condizionale, da fare nei luoghi della comunità descritti nelle FONTI (AULE e materiali del territorio), pensate per la classe e la disciplina della domanda; ogni passo che usa un luogo porta il suo [S…]. Non raccontare quello che altre classi hanno fatto in quei luoghi.
-   Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe e la disciplina della domanda. Non inventare esperienze, luoghi o classi.`;
+   Livello 2 (TERRITORIO): nessuna UDA è adatta. Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» (non «I passi per il tuo territorio:») con da 3 a 5 attività, al condizionale, pensate per la classe, l'età e la disciplina della domanda. Ogni passo si svolge in UNO dei luoghi delle AULE tra le FONTI, lo nomina con il nome scritto lì e finisce con il suo [S…]; dei luoghi usa solo ciò che le FONTI dicono (niente decorazioni, misure, piante o quartieri inventati). Se un passo riprende il PROGRAMMA o una RIELABORAZIONE, porta il loro [S…]. Non raccontare quello che altre classi hanno fatto in quei luoghi.
+   Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe, l'età e la disciplina della domanda. Non inventare esperienze, luoghi o classi.
+   In tutti i livelli le attività devono essere adatte all'età indicata (al nido e all'infanzia esperienze dei sensi e del movimento, senza scrittura).`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -668,12 +669,14 @@ export function correggiPreposizioni(t) {
 // Indicazioni nazionali; resta al massimo un segno per passo, quello della fonte più vicina, alla fine del passo.
 const radici = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
 export function verificaPassi(testo, ctxTesto = "") {
-  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set();
+  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map();
   for (const b of String(ctxTesto).split("\n\n---\n\n")) {
     const m = b.match(/^\[S(\d+)\]/); if (!m) continue;
     if (/^\[S\d+\] UDA /.test(b)) uda.add(m[1]);
     if (/^\[S\d+\] (LETTERATURA DI RIFERIMENTO|INDICAZIONI NAZIONALI)/.test(b)) vietate.add(m[1]);
     const set = perFonte.get(m[1]) || new Set(); for (const r of radici(b)) set.add(r); perFonte.set(m[1], set);
+    const tit = /^\[S\d+\] AULA/.test(b) && normalizza((b.match(/— «([^»]+)»/) || [])[1] || "");
+    if (tit && tit.length >= 5) titoliAula.set(m[1], tit);
     testi.set(m[1], (testi.get(m[1]) || "") + " " + normalizza(b));
   }
   // fonti citate nel racconto: una domanda «…?» nei passi che viene da un'ALTRA scheda non è di questa esperienza
@@ -699,7 +702,8 @@ export function verificaPassi(testo, ctxTesto = "") {
     let best = null, bestQ = 0;
     for (const [, n] of riga.matchAll(/\[S(\d+)\]/g)) {
       const f = perFonte.get(n); if (!f || vietate.has(n) || !parole.length) continue;
-      const q = parole.filter(w => f.has(w)).length / parole.length;
+      // un passo che nomina il luogo di un'AULA (Ponte Bianco…) viene da quella fonte
+      const q = titoliAula.has(n) && normalizza(riga).includes(titoliAula.get(n)) ? 1 : parole.filter(w => f.has(w)).length / parole.length;
       if (q >= 0.4 && q > bestQ) { best = n; bestQ = q; }
     }
     const senza = riga.replace(/\s*\[S\d+\]/g, "").replace(/\s+([.;!?])$/, "$1");
@@ -1175,10 +1179,13 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
     const grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
-    const risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
+    let risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
-    const fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
-    const nota = fonti.length ? notaLivello(gerarchia) : "";
+    let fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
+    // livello territorio: le attività sono nella nostra comunità, il titolo è «I passi:»
+    if (gerarchia.livello === "territorio" && risposta) risposta = risposta.replace(/^I passi per il tuo territorio:$/m, "I passi:");
+    // la frase del sito va su ogni risposta con passi (non sui rifiuti fuori tema)
+    const nota = /^\s*\d+[.)]\s/m.test(risposta || "") ? notaLivello(gerarchia) : "";
     return { risposta: risposta ? (nota ? `${nota}\n\n${risposta}` : risposta) : aggiungiInvito("Non lo so.", domanda), fonti, livello: gerarchia.livello };
   } catch (e) {
     return { errore: "Il servizio di risposta scritta non ha risposto.", status: 502 };
