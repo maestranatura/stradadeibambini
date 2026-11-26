@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Comunità educanti · La Strada dei Bambini</title>
+<title>Comunità · La Strada dei Bambini</title>
 <link rel="canonical" href="https://stradadeibambini.it/comunita/">
 <meta name="description" content="Le comunità educanti della Strada dei Bambini: Valdobbiadene, Salento, Siracusa, Druento, Via Francigena e Grado, con esperienze, UDA, mappa e libro di testo km0.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,14 +19,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Strada dei Bambini">
 <meta property="og:locale" content="it_IT">
-<meta property="og:title" content="Comunità educanti · La Strada dei Bambini">
+<meta property="og:title" content="Comunità · La Strada dei Bambini">
 <meta property="og:description" content="Le comunità educanti della Strada dei Bambini: Valdobbiadene, Salento, Siracusa, Druento, Via Francigena e Grado, con esperienze, UDA, mappa e libro di testo km0.">
 <meta property="og:url" content="https://stradadeibambini.it/comunita/">
 <meta property="og:image" content="https://stradadeibambini.it/og-image-2026-11.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Comunità educanti · La Strada dei Bambini">
+<meta name="twitter:title" content="Comunità · La Strada dei Bambini">
 <meta name="twitter:description" content="Le comunità educanti della Strada dei Bambini: Valdobbiadene, Salento, Siracusa, Druento, Via Francigena e Grado, con esperienze, UDA, mappa e libro di testo km0.">
 <meta name="twitter:image" content="https://stradadeibambini.it/og-image-2026-11.jpg">
 </head>
@@ -34,11 +34,10 @@
 <header class="site-header">
   <a class="brand" href="/index.html">La Strada dei Bambini</a>
   <nav class="site-nav" aria-label="Sezioni">
-    <div class="nav-primarie"><a href="/index.html">Racconto</a>
+    <div class="nav-primarie"><a href="/index.html">Manifesto</a>
     <a href="/mappa.html">Mappa</a>
-    <a href="/archivio.html">Archivio</a>
     <a class="nav-gl" href="/genius-loci/">Parla con il Genius Loci</a></div>
-    <div class="nav-secondarie"><a class="nav-com active" href="/comunita/" aria-current="page">Comunità</a><div class="nav-contatti" data-contatti>
+    <div class="nav-secondarie"><div class="nav-contatti" data-contatti>
       <button type="button" class="nav-contatti-btn" data-contatti-btn aria-expanded="false" aria-controls="contatti-panel" id="contatti-btn">Contatti</button>
             <div class="contatti-panel" id="contatti-panel" data-contatti-panel hidden role="region" aria-labelledby="contatti-btn">
         <a href="https://substack.com/@scuolenaturali" target="_blank" rel="noopener">Iscriviti alla newsletter</a>
@@ -52,32 +51,39 @@
 </header>
 <main class="page-shell">
   <div class="page-head">
-    <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">Comunità educanti</h1>
+    <h1 class="page-title" style="font-weight:400;font-size:clamp(28px,4vw,42px)">Comunità</h1>
   </div>
-<div class="community-grid comunita-index">
+<style>
+.com-indice{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.com-indice .com-azioni{margin-top:auto!important;display:flex;flex-direction:column;gap:10px}
+.com-indice .com-azioni .btn{width:100%;padding:0 16px}
+.com-indice .btn-spento{background:#2F62A3;opacity:.45;cursor:default;pointer-events:none}
+.com-indice .btn-spento small{font-weight:500;font-size:14px;margin-left:6px}
+</style>
+<div class="community-grid comunita-index com-indice">
   <article class="community-card">
     <h3>Valdobbiadene</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/valdobbiadene.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/valdobbiadene.html">Apri la comunità</a><span class="btn btn-spento" aria-disabled="true">Testi km0 <small>· in preparazione</small></span></p>
   </article>
   <article class="community-card">
     <h3>Salento · Il paesaggio che sono io</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/salento.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/salento.html">Apri la comunità</a><span class="btn btn-spento" aria-disabled="true">Testi km0 <small>· in preparazione</small></span></p>
   </article>
   <article class="community-card">
     <h3>Siracusa</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/siracusa.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/siracusa.html">Apri la comunità</a><span class="btn btn-spento" aria-disabled="true">Testi km0 <small>· in preparazione</small></span></p>
   </article>
   <article class="community-card">
     <h3>Druento</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/druento.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/druento.html">Apri la comunità</a><span class="btn btn-spento" aria-disabled="true">Testi km0 <small>· in preparazione</small></span></p>
   </article>
   <article class="community-card">
     <h3>Via Francigena · Salento</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/via-francigena.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/via-francigena.html">Apri la comunità</a><span class="btn btn-spento" aria-disabled="true">Testi km0 <small>· in preparazione</small></span></p>
   </article>
   <article class="community-card">
     <h3>Grado</h3>
-    <p style="margin-top:auto"><a class="btn" href="/comunita/grado.html" style="padding:0 18px">Apri la comunità</a></p>
+    <p class="com-azioni"><a class="btn" href="/comunita/grado.html">Apri la comunità</a><a class="btn btn-blu" href="/comunita/grado-libro-km0.html">Testi km0</a></p>
   </article>
 </div>
 </main>
