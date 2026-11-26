@@ -760,3 +760,9 @@ table.archive tr.solo-tappe td{opacity:.85}
   .nav-secondarie a.nav-com{padding:0;border-bottom:0;line-height:20px}
   .nav-secondarie a.nav-com.active{color:var(--ink);box-shadow:inset 0 -2px 0 var(--green)}
 }
+/* Libro di testo km0: discipline a scomparsa (schema delle voci UDA) */
+.libro-acc{margin-top:18px}
+.libro-acc .libro-dis{display:block;margin-top:0}
+.libro-acc .acc-corpo{gap:12px}
+.libro-acc .libro-classe:first-child{margin-top:0}
+.libro-acc .libro-dis>h3{font:inherit;color:inherit}
