@@ -1286,3 +1286,11 @@ window.initMapTilerBasemap = function(map, otm){
     d.showModal();
   });
 })();
+
+// Pagine statiche con voci a scomparsa (es. Libro di testo km0): stesso comportamento delle voci UDA,
+// compresa l'apertura da indirizzo #capitolo e dai link interni.
+(function(){
+  if(typeof document==='undefined') return;
+  const r=document.querySelector('[data-acc-root]');
+  if(r) attivaScheda(document.querySelector('main')||r);
+})();
