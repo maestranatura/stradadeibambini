@@ -80,7 +80,7 @@ async function chiedi(domanda) {
 
 // ---------- fase 2 (spenta finché il server non risponde abilitato=true) ----------
 // Titoli delle parti (come nelle UDA: prima il racconto, poi i passi); una riga che è solo un titolo diventa un titoletto.
-const RE_TITOLO = /^(Il racconto|I passi per il tuo territorio|I passi|Un['’]esperienza che può ispirarti|Dalla letteratura di riferimento|Traguardi a cui può concorrere):$/;
+const RE_TITOLO = /^(Il racconto|I passi per il tuo territorio|I passi|Come vivere l['’]esperienza|Cosa si impara qui|Un['’]esperienza che può ispirarti|Dalla letteratura di riferimento|Traguardi a cui può concorrere):$/;
 const NOTA_LLM = '<p class="gl-fonte">Risposta scritta da un modello linguistico. Le frasi con il numero [n] vengono dalle schede e dai documenti indicati; i passi senza numero sono suggerimenti generali, da verificare sul tuo territorio. Controlla sempre la scheda.</p>';
 
 function paragrafoHtml(p) {
