@@ -114,7 +114,8 @@ Regole che non puoi mai violare:
    Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe, l'età e la disciplina della domanda. Non inventare esperienze, luoghi o classi.
    In tutti i livelli le attività devono essere adatte all'età indicata. Sotto i 6 anni (nido e scuola dell'infanzia) NIENTE scrittura e NIENTE lettura, nemmeno «scrivere col dito», lettere, parole scritte, targhe o quaderni: solo esperienze dei sensi (toccare, annusare, ascoltare, guardare), movimento, segni e disegni liberi, gioco e parola detta.
    Ogni dettaglio concreto di un luogo (oggetti, piante, animali, barche, edifici, misure, nomi) deve essere scritto nelle FONTI: niente abbellimenti, niente scenari aggiunti («lungomare», «barche ormeggiate») se le FONTI non li nominano. In dubbio, resta generico («nel luogo scelto»).
-   Nei livelli 2 e 3 almeno un passo (di solito quello su come preparare, vivere o rielaborare l'uscita) riprende un'idea di una fonte della base condivisa (METODO, MATERIALE DEL TEAM come il ciclo di Kolb o il decalogo, RIELABORAZIONE) e porta il suo [S…].`;
+   Nei livelli 2 e 3 l'ultimo passo è il rientro: come rielaborare l'esperienza secondo una fonte della base condivisa (di solito il ciclo di Kolb all'aperto: esperienza, osservazione, concetti, nuova prova; oppure il decalogo o una RIELABORAZIONE) e porta il suo [S…]. Solo un passo che usa insieme un luogo del territorio e un'idea della base condivisa può avere due segni, uno per fonte.
+   Nel livello 2 nomina solo luoghi scritti nelle FONTI (aule e materiali del territorio), con il loro nome esatto e senza unire due luoghi diversi; per altri posti resta generico («un prato vicino alla scuola»).`;
 
 // Quando la ricerca non trova (quasi) niente: fonti di metodo da passare comunque al modello,
 // così può dare idee per il proprio territorio. Pubbliche (con link) e private (documenti del team).
@@ -1115,10 +1116,12 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
       if (docs.length < 2) metti(cerca(ixP, `${req.comunita} ${req.discipline.join(" ")} ${req.n ? ETICHETTA_N[req.n] : ""} territorio luoghi`, { max: 8 }).risultati, 3);
     }
     if (aule.length || docs.length) {
-      const vocabolario = new Set([...ix.passi, ...(ixP?.passi || [])].filter(p => p.comunita === req.comunita).flatMap(p => radiciPasso(p.titolo + " " + p.testo)));
+      const testiComunita = [...ix.passi, ...(ixP?.passi || [])].filter(p => p.comunita === req.comunita).map(p => p.titolo + " " + p.testo);
+      const vocabolario = new Set(testiComunita.flatMap(radiciPasso));
+      const nomiComunita = new Set(testiComunita.flatMap(t => normalizza(t).split(" ")));
       // territorio e base condivisa vanno INSIEME: il territorio dà i contenuti, la base condivisa l'impostazione pedagogica
       return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 5) },
-        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli, vocabolario };
+        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli, vocabolario, nomiComunita };
     }
   }
   // 3) base condivisa: metodo, rielaborazioni, programma (niente UDA, aule né esperienze di un luogo)
@@ -1196,6 +1199,7 @@ export function controlliPassi(testo, ctxTesto, g) {
   const righe = String(testo || "").split("\n");
   const blocchi = String(ctxTesto).split("\n\n---\n\n").map(b => ({ n: (b.match(/^\[S(\d+)\]/) || [])[1], b })).filter(x => x.n);
   const tutte = new Set(blocchi.flatMap(x => radiciPasso(x.b)));
+  const nomiCtx = new Set(blocchi.flatMap(x => normalizza(x.b).split(" ")));
   for (const w of g?.vocabolario || []) tutte.add(w); // tutta la knowledge base del territorio, non solo i passi scelti
   for (const w of vocabolarioGenerale()) tutte.add(w); // parole della base condivisa e delle Indicazioni: verbi e nomi didattici comuni
   const condivise = blocchi.filter(x => RE_CONDIVISA.test(x.b));
@@ -1212,29 +1216,42 @@ export function controlliPassi(testo, ctxTesto, g) {
       const ignote = [...new Set(normalizza(r.replace(/\[S\d+\]/g, "")).split(" ").filter(w => w.length >= 5))]
         .filter(w => !comune(w) && !tutte.has(radice(w)) && !(RE_VERBO.test(w) && !/mare$/.test(w)));
       if (ignote.length) { tolte.push(r); return null; }
+      // nomi propri (Pitagora, «Lungomare Nazario Sauro»…) che non compaiono nelle fonti né nella knowledge base della comunità
+      const nomi = [...r.replace(/^\s*\d+[.)]\s*\S+/, "").replace(/\[S\d+\]/g, "").replace(/([.!?:;]\s+|[«“"(]\s*)\p{Lu}/gu, "$1x")
+        .matchAll(/\b\p{Lu}[\p{Ll}’']{2,}/gu)].map(m => normalizza(m[0]).replace(/^(l|d|all|dell|sull|nell) /, ""));
+      if (nomi.some(n => n && !nomiCtx.has(n) && !g.nomiComunita?.has(n) && !/^(kolb|decalogo|indicazioni)$/.test(n))) { tolte.push(r); return null; }
     }
     return r;
   });
   // non lascio meno di 2 passi: se i controlli ne tolgono troppi, tengo solo quelli senza scrittura per i piccoli
   if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r))) ? null : r);
   out = out.filter(r => r !== null);
-  // (c) base condivisa citata almeno una volta
-  if (g && g.livello !== "uda" && condivise.length) {
+  // (c) base condivisa citata almeno una volta: (1) passo che nomina Kolb o il decalogo, anche se ha già il segno di un luogo
+  // (secondo segno); (2) passo senza segno che ne riprende davvero le parole; (3) altrimenti il sito chiude con il rientro
+  // secondo il ciclo di Kolb all'aperto (le quattro fasi scritte nella fonte), al posto dell'ultimo passo se sono già 5.
+  if (g && g.livello !== "uda" && condivise.length && out.some(isPasso)) {
     const nCond = new Set(condivise.map(x => x.n));
-    const citata = out.some(r => isPasso(r) && [...r.matchAll(/\[S(\d+)\]/g)].some(m => nCond.has(m[1])));
-    if (!citata) {
+    const citata = () => out.some(r => isPasso(r) && [...r.matchAll(/\[S(\d+)\]/g)].some(m => nCond.has(m[1])));
+    const titolo = c => c.b.split("\n")[0];
+    if (!citata()) {
       let best = null;
       out.forEach((r, i) => {
-        if (!isPasso(r) || /\[S\d+\]/.test(r)) return;
-        const rad = [...new Set(radiciPasso(r))].filter(w => !comune(w)); if (rad.length < 3 && !/kolb|decalog/.test(normalizza(r))) return;
+        if (!isPasso(r)) return;
+        const nr = normalizza(r), conSegno = /\[S\d+\]/.test(r);
         for (const c of condivise) {
-          // il passo nomina la fonte («ciclo di Kolb», «decalogo»): è quella
-          const nomina = (/kolb/.test(normalizza(r)) && /kolb/i.test(c.b.split("\n")[0])) || (/decalog/.test(normalizza(r)) && /decalog/i.test(c.b.split("\n")[0]));
-          const f = new Set(radiciPasso(c.b)), q = nomina ? 1 : rad.filter(w => f.has(w)).length / rad.length;
+          const nomina = (/kolb/.test(nr) && /kolb/i.test(titolo(c))) || (/decalog/.test(nr) && /decalog/i.test(titolo(c)));
+          let q = nomina ? 1 : 0;
+          if (!nomina && !conSegno) { const rad = [...new Set(radiciPasso(r))].filter(w => !comune(w)); if (rad.length >= 3) { const f = new Set(radiciPasso(c.b)); q = rad.filter(w => f.has(w)).length / rad.length; } }
           if (q >= 0.5 && (!best || q > best.q)) best = { i, n: c.n, q };
         }
       });
       if (best) out[best.i] = segniInFondo(`${out[best.i].replace(/\s+([.;!?])?$/, "$1")} [S${best.n}]`);
+    }
+    const kolb = condivise.find(c => /kolb/i.test(titolo(c)));
+    if (!citata() && kolb) {
+      const passi = out.map((r, i) => isPasso(r) ? i : -1).filter(i => i >= 0);
+      const riga = `${passi.length + 1}. Al rientro, chiudete il ciclo: dopo l'esperienza fatta, tornate sui passi per osservare, legate il vissuto a parole e concetti, poi rimettete alla prova l'idea in una nuova uscita [S${kolb.n}].`;
+      if (passi.length >= 5) out[passi.at(-1)] = riga; else out.splice(passi.at(-1) + 1, 0, riga);
     }
   }
   // rinumero i passi
