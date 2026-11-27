@@ -796,3 +796,9 @@ table.archive tr.solo-tappe td{opacity:.85}
 .libro-scheda-link a{display:inline-block;padding:10px 0;font-size:1.05rem;font-weight:600;line-height:1.35;color:#2F62A3;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .libro-scheda-link a:hover{color:#234B7E;text-decoration-thickness:2px}
 .libro-scheda-link a:focus-visible{outline:3px solid #2F62A3;outline-offset:2px;border-radius:4px}
+/* t394u: con «Archivio UDA» la riga 2 può andare a capo in modo ordinato (Genius Loci resta intero in riga 1) */
+@media (max-width:700px){
+  .nav-secondarie{flex-wrap:wrap;row-gap:10px;column-gap:var(--nav-gap)}
+  .nav-secondarie .nav-contatti{display:flex;align-items:center}
+  .nav-secondarie .nav-contatti-btn{line-height:20px;display:inline-flex}
+}
