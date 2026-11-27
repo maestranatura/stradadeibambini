@@ -29,6 +29,10 @@
 //   GENIUS_LOCI_MODELLO            nome del modello (predefinito mistral-small-2603, Mistral Small 4)
 //   GENIUS_LOCI_BASE_URL           solo per openai-compatibile: base dell'API (predefinito https://api.mistral.ai/v1)
 //   GENIUS_LOCI_MAX_TOKENS         token massimi di risposta (predefinito 700)
+//   GENIUS_LOCI_RAGIONAMENTO       reasoning_effort per Mistral (low|medium|high; predefinito «low» per i modelli Large, niente per gli altri)
+//   GENIUS_LOCI_TOKEN_RAGIONAMENTO token in più per il ragionamento (predefinito 2500 low, 4000 medium, 8000 high)
+//   GENIUS_LOCI_TEMPERATURA        temperatura (predefinito 0.1)
+//   GENIUS_LOCI_TIMEOUT_MS         attesa massima per chiamata (predefinito 20–25 s, 50 s con ragionamento; massimo 55 s)
 //   GENIUS_LOCI_LIMITE_GIORNALIERO domande al giorno su tutto il sito (predefinito 200)
 //   GENIUS_LOCI_LIMITE_IP          domande al giorno per indirizzo IP (predefinito 15)
 //   GENIUS_LOCI_PASSI              quanti passi passare al modello (predefinito 8)
@@ -53,10 +57,13 @@ function configurazione() {
     provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", "") || "mistral-small-2603",
     baseUrl: (env("GENIUS_LOCI_BASE_URL", "") || "https://api.mistral.ai/v1").replace(/\/+$/, ""),
     maxTokens: Math.min(num("GENIUS_LOCI_MAX_TOKENS", 700), 1500),
+    timeoutMs: Math.min(num("GENIUS_LOCI_TIMEOUT_MS", 0), 55000),
+    temperatura: Number.isFinite(parseFloat(env("GENIUS_LOCI_TEMPERATURA", ""))) ? parseFloat(env("GENIUS_LOCI_TEMPERATURA", "")) : 0.1,
     limiteGiorno: num("GENIUS_LOCI_LIMITE_GIORNALIERO", 200),
     limiteIp: num("GENIUS_LOCI_LIMITE_IP", 15),
     passi: Math.min(num("GENIUS_LOCI_PASSI", 8), 12),
   };
+  Object.assign(cfg, ragionamentoDi(cfg.modello, env("GENIUS_LOCI_RAGIONAMENTO", ""), num("GENIUS_LOCI_TOKEN_RAGIONAMENTO", 0)));
   cfg.pronto = cfg.acceso && !!cfg.chiave && !!cfg.modello && (provider === "anthropic" || (provider === "openai-compatibile" && !!cfg.baseUrl));
   return cfg;
 }
@@ -626,10 +633,21 @@ export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [], s
 
 // Approfondimento: stessa forma e stesse regole, risposta più lunga (fino a ~450 parole) e un po' più di fonti.
 export const RICHIESTA_APPROFONDIMENTO = "APPROFONDIMENTO: chi scrive ha già letto la risposta breve e chiede una versione più lunga e dettagliata. Usa la stessa forma (stessi titoli) e TUTTE le stesse regole, ma fino a 450 parole: un racconto più ricco (da 5 a 8 frasi, con più dettagli presi dalle FONTI, mai inventati; le esperienze VISSUTE sempre al passato prossimo, mai al presente) e da 4 a 7 passi più precisi. Nelle risposte a due livelli («Come vivere l'esperienza:» e «Cosa si impara qui:») scrivi da 3 a 5 passi per parte: nella prima più tecniche concrete della base condivisa; nella seconda le attività, le schede e i dettagli del libro km0 e della sintesi del territorio (misure, materiali, livelli delle schede, domande), sempre con il loro [S…].";
-export const maxTokensDi = (cfg, approfondisci) => approfondisci ? Math.min(cfg.maxTokens * 2, 1600) : cfg.maxTokens;
+// Modelli che ragionano sempre (Mistral Large 4: reasoning_effort low|medium|high, predefinito high, «none» rifiutato):
+// i token del ragionamento contano nei max_tokens e si pagano come uscita. Mandiamo lo sforzo scelto (predefinito «low»
+// per Large) e aggiungiamo ai token della risposta un margine per il ragionamento, altrimenti la risposta arriva vuota.
+// Per Small 4 e Medium 3.5 senza GENIUS_LOCI_RAGIONAMENTO non si manda nulla (risposta diretta, come finora).
+export function ragionamentoDi(modello, scelto = "", extra = 0) {
+  const sempre = /large/i.test(modello || "");
+  const sforzo = scelto || (sempre ? "low" : "");
+  const margine = extra || (!sforzo || sforzo === "none" ? 0 : sforzo === "low" ? 2500 : sforzo === "medium" ? 4000 : 8000);
+  return { ragionamento: sforzo, tokenRagionamento: margine };
+}
+export const maxTokensDi = (cfg, approfondisci) => (approfondisci ? Math.min(cfg.maxTokens * 2, 1600) : cfg.maxTokens) + (cfg.tokenRagionamento || 0) * (approfondisci ? 2 : 1);
 export async function chiamaModello(cfg, domanda, ctx, generali = false, approfondisci = false) {
   const utente = `${generali ? "FONTI DI METODO GENERALI (la ricerca non ha trovato schede sul tema preciso della domanda)" : "FONTI"}\n\n${ctx}\n\nDOMANDA\n${domanda}${approfondisci ? `\n\n${RICHIESTA_APPROFONDIMENTO}` : ""}`;
-  const ctrl = AbortSignal.timeout(approfondisci ? 25000 : 20000);
+  // le due chiamate partono insieme: con il ragionamento c'è più margine, sempre sotto i 60 s delle Netlify Functions
+  const ctrl = AbortSignal.timeout(cfg.timeoutMs || (cfg.ragionamento && cfg.ragionamento !== "none" ? 50000 : approfondisci ? 25000 : 20000));
   const max_tokens = maxTokensDi(cfg, approfondisci);
   if (cfg.provider === "anthropic") {
     const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal: ctrl,
@@ -641,12 +659,14 @@ export async function chiamaModello(cfg, domanda, ctx, generali = false, approfo
   }
   const r = await fetch(`${cfg.baseUrl}/chat/completions`, { method: "POST", signal: ctrl,
     headers: { "content-type": "application/json", authorization: `Bearer ${cfg.chiave}` },
-    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.1,
+    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: cfg.temperatura ?? 0.1,
+      ...(cfg.ragionamento ? { reasoning_effort: cfg.ragionamento } : {}),
       messages: [{ role: "system", content: PROMPT_SISTEMA }, { role: "user", content: utente }] }) });
   if (!r.ok) throw new Error(`provider ${r.status}`);
   const j = await r.json();
   const c = j.choices?.[0]?.message?.content;
-  // Mistral Small 4 con ragionamento attivo restituisce una lista di blocchi: teniamo solo il testo
+  // con il ragionamento il contenuto è una lista di blocchi (thinking + text): teniamo solo il testo finale
+  if (j.choices?.[0]?.finish_reason === "length" && !(Array.isArray(c) ? c.some(b => b.type === "text" && b.text) : c)) throw new Error("provider: token finiti nel ragionamento");
   return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
 }
 
@@ -1270,6 +1290,34 @@ function vocabolarioGenerale() {
   for (const p of [...(ixPrivato?.passi || []), ...(ixNormativa?.passi || [])]) if (!p.comunita) for (const w of radiciPasso(p.testo)) vocGen.add(w);
   return vocGen;
 }
+// Numeri nei passi: ogni numero (cifre o parole da «dieci» in su; 1–3 sono conteggi generici) deve stare nella fonte
+// citata dal passo (senza segno: in tutte le FONTI) e, se il passo lo lega a una parola («cento passi», «25 metri»,
+// «cinquanta per il lato corto» → «lato»), quella parola deve comparire entro 4 parole dal numero nella fonte.
+const NUMERI_PAROLE = { dieci: "10", venti: "20", trenta: "30", quaranta: "40", cinquanta: "50", sessanta: "60", settanta: "70",
+  ottanta: "80", novanta: "90", cento: "100", duecento: "200", trecento: "300", cinquecento: "500", mille: "1000" };
+const RE_NUMERO = new RegExp(`^(\\d+|${Object.keys(NUMERI_PAROLE).join("|")})$`);
+const VUOTE_NUM = new Set(["o", "e", "di", "da", "a", "in", "per", "il", "lo", "la", "i", "gli", "le", "del", "della", "dei", "delle", "circa", "quasi", "oltre", "fino", "ogni", "un", "una", "uno", "piu", "meno", "x"]);
+const valoreNum = w => NUMERI_PAROLE[w] || w;
+export function numeriInFonte(passo, blocchi) {
+  const parole = normalizza(String(passo).replace(/^\s*\d+[.)]\s*/, "").replace(/\[S\d+\]/g, "")).split(" ");
+  const citate = [...String(passo).matchAll(/\[S(\d+)\]/g)].map(m => m[1]);
+  const fonti = (citate.length ? blocchi.filter(x => citate.includes(x.n)) : blocchi).map(x => normalizza(x.b).split(" "));
+  for (let i = 0; i < parole.length; i++) {
+    if (!RE_NUMERO.test(parole[i])) continue;
+    const v = valoreNum(parole[i]);
+    if (/^\d+$/.test(v) && +v <= 3) continue;
+    let k = i + 1; while (k < parole.length && (VUOTE_NUM.has(parole[k]) || RE_NUMERO.test(parole[k]))) k++;
+    const vicina = k < parole.length && k - i <= 4 ? radice(parole[k]) : null;
+    const ok = fonti.some(f => f.some((w, j) => {
+      if (valoreNum(w) !== v) return false;
+      if (!vicina) return true;
+      return f.slice(Math.max(0, j - 4), j + 5).some(x => radice(x) === vicina);
+    }));
+    if (!ok) return false;
+  }
+  return true;
+}
+
 export function controlliPassi(testo, ctxTesto, g) {
   // nelle due parti i punti elenco («– …») diventano passi numerati, così passano dagli stessi controlli
   let pd = null;
@@ -1283,17 +1331,13 @@ export function controlliPassi(testo, ctxTesto, g) {
   const condivise = blocchi.filter(x => RE_CONDIVISA.test(x.b));
   const piccoli = g?.req && (g.req.ordine === "infanzia" || g.req.ordine === "nido");
   const isPasso = r => /^\s*\d+[.)]\s/.test(r);
-  let parte = null; const tolte = [];
+  let parte = null; const tolte = []; const inventati = new Set();
   let out = righe.map(r => {
     const mt = r.match(RE_TITOLO); if (mt) { parte = chiaveTitolo(mt[1]); return r; }
     if (!isPasso(r) || !PARTI_PASSI.has(parte)) return r;
     if (piccoli && RE_SCRITTURA.test(normalizza(r))) { tolte.push(r); return null; }
-    // numeri e misure («circa 25 metri», «cinquanta passi») solo se scritti nelle FONTI
-    {
-      const nr = " " + normalizza(r.replace(/\[S\d+\]/g, "").replace(/^\s*\d+[.)]\s*/, "")) + " ";
-      const numeri = [...nr.matchAll(/ (\d+(?:[.,]\d+)?|venti|trenta|quaranta|cinquanta|sessanta|settanta|ottanta|novanta|duecento|trecento|cinquecento|mille) /g)].map(m => m[1]);
-      if (numeri.some(n => !testoCtx.includes(" " + n + " ") && !testoCtx.includes(" " + n.replace(",", ".") + " "))) { tolte.push(r); return null; }
-    }
+    // numeri e misure («circa 25 metri», «cinquanta per il lato corto») solo se scritti nella fonte citata, accanto alla stessa parola
+    if (!numeriInFonte(r, blocchi)) { tolte.push(r); inventati.add(r); return null; }
     if (g?.livello === "territorio") {
       // parole intere del passo assenti da FONTI, knowledge base del territorio e base condivisa; i verbi (fate, sedere,
       // calcolatene…) non contano: resta il dettaglio concreto aggiunto («lungomare»)
@@ -1308,7 +1352,7 @@ export function controlliPassi(testo, ctxTesto, g) {
     return r;
   });
   // non lascio meno di 2 passi: se i controlli ne tolgono troppi, tengo solo quelli senza scrittura per i piccoli
-  if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r))) ? null : r);
+  if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (inventati.has(r) || (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r)))) ? null : r);
   out = out.filter(r => r !== null);
   // (c) base condivisa citata almeno una volta: (1) passo che nomina Kolb o il decalogo, anche se ha già il segno di un luogo
   // (secondo segno); (2) passo senza segno che ne riprende davvero le parole; (3) altrimenti il sito chiude con il rientro
