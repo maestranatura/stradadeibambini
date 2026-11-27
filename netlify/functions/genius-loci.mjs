@@ -26,9 +26,13 @@
 //   GENIUS_LOCI_ABILITATO          "true" per accendere (qualsiasi altro valore = spento)
 //   GENIUS_LOCI_PROVIDER           "openai-compatibile" (OpenAI, Gemini, Mistral, Groq, OpenRouter…) | "anthropic"
 //   GENIUS_LOCI_API_KEY            chiave del provider scelto
-//   GENIUS_LOCI_MODELLO            nome del modello (predefinito mistral-small-2603, Mistral Small 4)
+//   GENIUS_LOCI_MODELLO            nome del modello (predefinito mistral-medium-latest; alternative provate: mistral-small-2603, mistral-large-latest)
 //   GENIUS_LOCI_BASE_URL           solo per openai-compatibile: base dell'API (predefinito https://api.mistral.ai/v1)
 //   GENIUS_LOCI_MAX_TOKENS         token massimi di risposta (predefinito 700)
+//   GENIUS_LOCI_RAGIONAMENTO       reasoning_effort per Mistral (low|medium|high; predefinito «low» per i modelli Large, niente per gli altri)
+//   GENIUS_LOCI_TOKEN_RAGIONAMENTO token in più per il ragionamento (predefinito 2500 low, 4000 medium, 8000 high)
+//   GENIUS_LOCI_TEMPERATURA        temperatura (predefinito 0.1)
+//   GENIUS_LOCI_TIMEOUT_MS         attesa massima per chiamata (predefinito 20–25 s, 50 s con ragionamento; massimo 55 s)
 //   GENIUS_LOCI_LIMITE_GIORNALIERO domande al giorno su tutto il sito (predefinito 200)
 //   GENIUS_LOCI_LIMITE_IP          domande al giorno per indirizzo IP (predefinito 15)
 //   GENIUS_LOCI_PASSI              quanti passi passare al modello (predefinito 8)
@@ -50,13 +54,16 @@ function configurazione() {
   const provider = env("GENIUS_LOCI_PROVIDER", "openai-compatibile");
   const cfg = {
     acceso: env("GENIUS_LOCI_ABILITATO", "") === "true",
-    provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", "") || "mistral-small-2603",
+    provider, chiave: env("GENIUS_LOCI_API_KEY", ""), modello: env("GENIUS_LOCI_MODELLO", "") || "mistral-medium-latest",
     baseUrl: (env("GENIUS_LOCI_BASE_URL", "") || "https://api.mistral.ai/v1").replace(/\/+$/, ""),
     maxTokens: Math.min(num("GENIUS_LOCI_MAX_TOKENS", 700), 1500),
+    timeoutMs: Math.min(num("GENIUS_LOCI_TIMEOUT_MS", 0), 55000),
+    temperatura: Number.isFinite(parseFloat(env("GENIUS_LOCI_TEMPERATURA", ""))) ? parseFloat(env("GENIUS_LOCI_TEMPERATURA", "")) : 0.1,
     limiteGiorno: num("GENIUS_LOCI_LIMITE_GIORNALIERO", 200),
     limiteIp: num("GENIUS_LOCI_LIMITE_IP", 15),
     passi: Math.min(num("GENIUS_LOCI_PASSI", 8), 12),
   };
+  Object.assign(cfg, ragionamentoDi(cfg.modello, env("GENIUS_LOCI_RAGIONAMENTO", ""), num("GENIUS_LOCI_TOKEN_RAGIONAMENTO", 0)));
   cfg.pronto = cfg.acceso && !!cfg.chiave && !!cfg.modello && (provider === "anthropic" || (provider === "openai-compatibile" && !!cfg.baseUrl));
   return cfg;
 }
@@ -88,7 +95,7 @@ Regole che non puoi mai violare:
    «I passi per il tuo territorio:» — da 3 a 5 passi numerati («1. », «2. »…) su cosa cercare, osservare e fare nel SUO territorio. Se un passo riprende davvero un'idea, un consiglio o un'attività di una fonte (una RIELABORAZIONE di un libro, una scheda, il METODO, un MATERIALE DEL TEAM), metti alla fine del passo UN solo segno [S…] di quella fonte, senza nominarla (per esempio «3. Preparate uno zaino per le uscite con lenti, bussola e quaderno [S4].» se lo zaino viene dalla fonte [S4]); i passi di conoscenza generale restano senza segno. Mai segni di LETTERATURA DI RIFERIMENTO o di INDICAZIONI NAZIONALI nei passi. Non scrivere che un passo è stato fatto in una nostra scheda.
    Per una domanda su un fatto preciso di una nostra esperienza (per esempio che cosa hanno detto i bambini) basta «Il racconto:», senza passi. Se le FONTI non hanno nessuna esperienza vissuta o proposta adatta, ometti il racconto e scrivi solo i passi.
    Nel racconto e nell'esperienza che può ispirarti non aggiungere aggettivi, emozioni, numeri, classi, luoghi o dettagli che non sono scritti nelle FONTI; mai attribuire ai bambini impressioni o giudizi («magico», «emozionante», «profondo») che le FONTI non riportano: riporta luogo, classe e domanda esattamente come sono scritti (se sono «da completare», dillo). Una scheda PROPOSTA non è mai stata fatta: il soggetto è sempre la scheda («la scheda propone di…», «si potrebbe…»), mai una classe, i bambini o le maestre. Mai la prima persona («abbiamo…»); le parole dei bambini solo come dice la regola 4.
-   Ogni passo è una sola frase breve e concreta, al massimo 20 parole. Nei passi non mettere domande, attività o nomi presi da un'altra scheda come se fossero di quella raccontata: se riprendi una domanda o un'attività di una scheda, deve essere la stessa scheda del racconto, con il suo [S…].
+   Ogni passo è una sola frase breve e concreta, al massimo 20 parole (nei livelli 2 e 3 fino a 30, per far stare i dettagli delle FONTI). Nei passi non mettere domande, attività o nomi presi da un'altra scheda come se fossero di quella raccontata: se riprendi una domanda o un'attività di una scheda, deve essere la stessa scheda del racconto, con il suo [S…].
    Scrivi i luoghi con la preposizione giusta: «in Salento», «in Puglia», «in Veneto», «a Valdobbiadene».
    Le esperienze vissute si raccontano al passato (passato prossimo: «hanno percorso», «hanno ascoltato»), anche se la scheda è scritta al presente; le proposte (idee ancora da provare) e i passi si scrivono al condizionale o come suggerimento («si potrebbe…», «potete…»).
    Dopo i passi, e SOLO quando servono, possono venire nell'ordine: il paragrafo «Dalla letteratura di riferimento:», la parte «Traguardi a cui può concorrere:» (regola 13) e nient'altro (l'invito della regola 15 lo aggiunge il sito).
@@ -110,8 +117,19 @@ Regole che non puoi mai violare:
 15. Se chi scrive nomina una città o un territorio che non è tra le nostre comunità educanti (${elenco(COMUNITA_PROMPT)}) e le esperienze del team (Zenson di Piave, Volon di Zevio, Monte Lerno), non dire che abbiamo già una comunità o schede su quel luogo, e non accennare a comunità «non ancora attive» o nascoste. Non scrivere tu l'invito a scriverci: lo aggiunge il sito alla fine della risposta, solo quando serve.
 16. GERARCHIA DELLE FONTI. Prima delle FONTI c'è la riga «LIVELLO DELLE FONTI»: rispettala.
    Livello 1 (UDA): racconta un'UDA o un'esperienza come riferimento SOLO se la sua classe (o età) e la sua disciplina coincidono davvero con quelle della domanda; altrimenti non raccontarla e non presentarla come esempio.
-   Livello 2 (TERRITORIO + BASE CONDIVISA): nessuna UDA è adatta. Il territorio e la base condivisa si usano INSIEME: le fonti «TERRITORIO di …» e le AULE danno i contenuti specifici (luoghi, storia, natura, parole del posto); le fonti della base condivisa (METODO, MATERIALE DEL TEAM come il ciclo di Kolb e il decalogo, RIELABORAZIONI, PROGRAMMA) danno l'impostazione pedagogica per tradurli in attività (preparare, uscire, osservare con i sensi, rielaborare in classe, condividere). Non scrivere «Il racconto:» né «Un'esperienza che può ispirarti:» e non citare UDA; scrivi solo «I passi:» (non «I passi per il tuo territorio:») con da 3 a 5 attività, al condizionale, pensate per la classe, l'età e la disciplina della domanda. Ogni passo si svolge in un luogo o su un contenuto delle fonti del territorio, lo nomina con le parole scritte lì e finisce con il suo [S…]; almeno un passo segue l'impostazione della base condivisa e porta il [S…] di quella fonte. Dei luoghi usa solo ciò che le FONTI dicono (niente decorazioni, misure, piante o quartieri inventati). Non raccontare quello che altre classi hanno fatto in quei luoghi.
-   Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Non raccontare esperienze; scrivi solo «I passi per il tuo territorio:» con da 3 a 5 attività, al condizionale, ricavate dalle fonti di metodo, dalle RIELABORAZIONI e dal PROGRAMMA (con il loro [S…] quando un passo viene da lì), pensate per la classe, l'età e la disciplina della domanda. Non inventare esperienze, luoghi o classi.
+   Livello 2 (TERRITORIO + BASE CONDIVISA): nessuna UDA è adatta. Rispondi su DUE livelli, con questi due titoli e nient'altro (niente «Il racconto:», niente «I passi:», nessuna UDA). Le FONTI sono ricche: usale. Una risposta generica («fate un sopralluogo per la sicurezza», «portate il materiale», «osservate la natura», «rielaborate in classe») è sbagliata: ogni passo deve contenere almeno un dettaglio preciso preso dalle FONTI (un nome di luogo, una data, un numero, un fenomeno, una storia, una parola del posto, una tecnica, un materiale, una domanda guida).
+   «Come vivere l'esperienza:» — 2 o 3 passi numerati, al condizionale: il METODO, preso dalle fonti della base condivisa (RIELABORAZIONI dei libri di pedagogia e outdoor, MATERIALE DEL TEAM, METODO): tecniche e gesti concreti adatti all'età (per esempio stimare prima di misurare, fare grandi mappe di piccoli luoghi, il modello prima della mappa, il quaderno della natura, una domanda guida in cerchio, la mappa sonora, l'intervista a un anziano, il bastone del viaggio), solo se scritti nelle FONTI. Ogni passo finisce con il [S…] della fonte da cui viene. Uno dei passi dice come si chiude il ciclo dell'esperienza secondo il ciclo di Kolb all'aperto (il concetto torna fuori e cambia qualcosa: una guida, una mappa regalata, una nuova uscita), con il suo [S…]. Questa parte risponde a «COME?» (gesti, tecniche, tempi, che cosa fa l'insegnante) e cita SOLO fonti della base condivisa, MAI le fonti «TERRITORIO di …», le AULE o il libro km0; niente contenuti della disciplina né dati del luogo.
+   «Cosa si impara qui:» — 2 o 3 passi numerati, risponde a «CHE COSA?»: i CONTENUTI del luogo per la disciplina e la classe della domanda, presi dalle fonti «TERRITORIO di …», dalle AULE e dal libro km0, con i dettagli scritti lì (nomi, date, numeri, fenomeni, storie, domande). Ogni passo nomina il luogo con le parole delle FONTI e finisce con il [S…] di quella fonte. Se le FONTI raccontano che una classe ha già fatto qualcosa in quel luogo, puoi dirlo in una frase al passato con il suo [S…] («una quinta l'ha misurato: circa cento passi»), senza nomi di persone o di bambini. Le proposte restano al condizionale. Poi la riga «Traguardi a cui può concorrere:» con UNA sola riga «– [T…]», il codice più legato alla domanda (regola 13).
+   Le due parti insieme stanno nelle 220 parole (i traguardi non contano). Non ripetere nella seconda parte ciò che hai detto nella prima.
+   ESEMPIO DI STILE per il livello 2 (solo la FORMA: il luogo «X», l'età e le fonti sono finti, non usarne mai i contenuti):
+     «Come vivere l'esperienza:
+     1. A otto anni l'orizzonte è il quartiere: [un gesto di metodo preciso preso da una RIELABORAZIONE] [S6].
+     2. [Una tecnica concreta, con il materiale e la domanda guida scritti nella fonte] [S7].
+     3. Chiudete il ciclo sullo stesso luogo: [che cosa torna fuori e che cosa cambia, dal ciclo di Kolb all'aperto] [S9].
+     Cosa si impara qui:
+     1. Al ponte di X una seconda si è chiesta [la domanda scritta nella fonte] e ha scoperto [il fatto scritto nella fonte] [S2].
+     2. Si potrebbe [attività della disciplina con i numeri, le date o i nomi del luogo scritti nella fonte] [S3].»
+   Livello 3 (BASE CONDIVISA): nessuna UDA adatta e nessun materiale del territorio. Scrivi SOLO «Come vivere l'esperienza:» con da 3 a 5 passi numerati, al condizionale, con tecniche e idee concrete delle fonti di metodo, delle RIELABORAZIONI e del MATERIALE DEL TEAM (con il loro [S…]), adatte alla classe, all'età e alla disciplina della domanda, collegate a un argomento del PROGRAMMA della classe se c'è; luoghi solo generici («un parco vicino alla scuola»). Uno dei passi dice come si chiude il ciclo secondo il ciclo di Kolb all'aperto, con il suo [S…]. Non scrivere «Cosa si impara qui:» e non raccontare esperienze. Non inventare esperienze, luoghi o classi. Se tra le FONTI ci sono le Indicazioni nazionali della disciplina della domanda, chiudi con la riga «Traguardi a cui può concorrere:» e UNA sola riga «– [T…]», il codice più legato alla classe e alla disciplina (regola 13).
    In tutti i livelli le attività devono essere adatte all'età indicata. Sotto i 6 anni (nido e scuola dell'infanzia) NIENTE scrittura e NIENTE lettura, nemmeno «scrivere col dito», lettere, parole scritte, targhe o quaderni: solo esperienze dei sensi (toccare, annusare, ascoltare, guardare), movimento, segni e disegni liberi, gioco e parola detta.
    Ogni dettaglio concreto di un luogo (oggetti, piante, animali, barche, edifici, misure, nomi) deve essere scritto nelle FONTI: niente abbellimenti, niente scenari aggiunti («lungomare», «barche ormeggiate») se le FONTI non li nominano. In dubbio, resta generico («nel luogo scelto»).
    Nei livelli 2 e 3 l'ultimo passo è il rientro: come rielaborare l'esperienza secondo una fonte della base condivisa (di solito il ciclo di Kolb all'aperto: esperienza, osservazione, concetti, nuova prova; oppure il decalogo o una RIELABORAZIONE) e porta il suo [S…]. Solo un passo che usa insieme un luogo del territorio e un'idea della base condivisa può avere due segni, uno per fonte.
@@ -173,6 +191,7 @@ export function fontiMappe(ix, ixP, domanda, res, resP) {
 }
 
 function etichetta(r) {
+  if (r.esperienzaTeam) return `MATERIALE DEL TEAM (esperienza del team a ${r.comunita}, un altro luogo: usala solo come metodo, al passato)`;
   if (r.privato && r.comunita && !r.stato && r.tipo !== "normativa") return `TERRITORIO di ${r.comunita} (knowledge base territoriale: contenuti sul luogo)`;
   if (r.tipo === "uda") return `UDA ${r.stato === "vissuta" ? "VISSUTA" : "PROPOSTA"}`;
   if (r.tipo === "aula") return "AULA";
@@ -202,9 +221,10 @@ export const TITOLI = {
   "il racconto": "Il racconto:", "i passi": "I passi:",
   "un'esperienza che può ispirarti": "Un'esperienza che può ispirarti:", "i passi per il tuo territorio": "I passi per il tuo territorio:",
   "dalla letteratura di riferimento": "Dalla letteratura di riferimento:", "traguardi a cui può concorrere": "Traguardi a cui può concorrere:",
+  "come vivere l'esperienza": "Come vivere l'esperienza:", "cosa si impara qui": "Cosa si impara qui:",
 };
 const ALIAS_TITOLI = { "dalle nostre schede": "il racconto", "idee per il tuo territorio": "i passi per il tuo territorio", "idee generali": "i passi per il tuo territorio" };
-export const RE_TITOLO = /^\s*(?:\*\*|#+\s*)?(Il racconto|I passi per il tuo territorio|I passi|Un['’]esperienza che (?:può|puo) ispirarti|Dalla letteratura di riferimento|Traguardi a cui (?:può|puo) concorrere|Dalle nostre schede|Idee per il tuo territorio|Idee generali)(?:\*\*)?\s*(?::\s*(?:\*\*)?\s*|$)/i;
+export const RE_TITOLO = /^\s*(?:\*\*|#+\s*)?(Il racconto|I passi per il tuo territorio|I passi|Come vivere l['’]esperienza|Cosa si impara qui|Un['’]esperienza che (?:può|puo) ispirarti|Dalla letteratura di riferimento|Traguardi a cui (?:può|puo) concorrere|Dalle nostre schede|Idee per il tuo territorio|Idee generali)(?:\*\*)?\s*(?::\s*(?:\*\*)?\s*|$)/i;
 export function chiaveTitolo(t) {
   const k = String(t).toLowerCase().replace(/’/g, "'").replace(/\bpuo\b/g, "può").replace(/\s+/g, " ").trim();
   return ALIAS_TITOLI[k] || k;
@@ -212,6 +232,9 @@ export function chiaveTitolo(t) {
 // parti narrative (con [S…] delle schede) e parte di soli suggerimenti generali (senza [S…])
 const PARTI_SCHEDE = new Set(["il racconto", "i passi", "un'esperienza che può ispirarti"]);
 const PARTE_GENERALE = "i passi per il tuo territorio";
+// risposta a due livelli (territorio e base condivisa): parte pedagogica e parte disciplinare, entrambe a passi numerati
+const PARTI_DUE = new Set(["come vivere l'esperienza", "cosa si impara qui"]);
+const PARTI_PASSI = new Set(["i passi", PARTE_GENERALE, ...PARTI_DUE]);
 const escRe = t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const codiciSDi = (f, fonti) => [...f.matchAll(/\[S(\d+)\]/g)].map(m => fonti[Number(m[1]) - 1]);
 export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
@@ -262,7 +285,7 @@ export function separaLetteratura(testo, fonti = [], tuttiStudi = []) {
   if (spostate.length) {
     if (!pl) { // dopo il racconto e i passi, prima dei traguardi
       pl = { tit: "dalla letteratura di riferimento", righe: [] };
-      const k = parti.findLastIndex(p => PARTI_SCHEDE.has(p.tit) || p.tit === PARTE_GENERALE);
+      const k = parti.findLastIndex(p => PARTI_SCHEDE.has(p.tit) || PARTI_PASSI.has(p.tit));
       parti.splice(k >= 0 ? k + 1 : 1, 0, pl);
     }
     const k = pl.righe.findIndex(r => r.trim());
@@ -306,9 +329,11 @@ export function contesto(...gruppi) {
         const sez = ["In breve", "L’UDA in sintesi", "Domanda generativa", "Per replicare"].map(z => ix.passi.find(x => x.ref === r.ref && x.sezione === z)?.id).filter(Boolean);
         ids = [...new Set([...ids.slice(0, 2), ...sez, ...ids.slice(2)])];
       }
-      for (const id of ids.slice(0, privato ? 2 : r.tipo === "uda" ? 6 : 3)) {
+      let scelti = ids.slice(0, r.maxPassi || (privato ? 2 : r.tipo === "uda" ? 6 : 3));
+      if (r.maxPassi) scelti = scelti.sort((a, b) => ix.passi.findIndex(x => x.id === a) - ix.passi.findIndex(x => x.id === b)); // in ordine di lettura
+      for (const id of scelti) {
         const p = ix.passi.find(x => x.id === id); if (!p) continue;
-        if (usati + p.testo.length > budget) break;
+        if (usati + p.testo.length > budget) { if (r.maxPassi) continue; break; }
         usati += p.testo.length;
         if (r.tipo === "normativa") (testiNorm[r.titolo] ||= []).push(p.testo);
         let n = fonti.findIndex(f => f.titolo === r.titolo) + 1;
@@ -487,8 +512,29 @@ export function indiceDaCifrato(cifrato, chiave) {
     const passi = tutti.filter(p => p.tipo !== "normativa" && !lett(p)), norm = tutti.filter(p => p.tipo === "normativa"), lettere = tutti.filter(lett);
     if (norm.length) ixNormativa = preparaIndice({ passi: norm, schede: [], aule: [] });
     if (lettere.length) ixLetteratura = preparaIndice({ passi: lettere, schede: [], aule: [] });
+    legaDoveKm0(passi);
     return passi.length ? preparaIndice({ passi, schede: [], aule: [] }) : null;
   } catch { return null; } // chiave sbagliata o file alterato: solo indice pubblico
+}
+// Libro km0: i pezzi tagliano i capitoli a metà, così un «Dove» del capitolo dopo finiva accanto al racconto di quello prima
+// (la facciata di via dell'Ingegno diventava «sulla riva della laguna»). Ogni pezzo che comincia a metà capitolo porta il suo
+// «Dove», e ogni nuovo capitolo («Cosa») è segnato.
+export function legaDoveKm0(passi) {
+  const perDoc = new Map();
+  for (const p of passi) if (/Libro di testo km0/i.test(p.titolo || "")) (perDoc.get(p.ref) || perDoc.set(p.ref, []).get(p.ref)).push(p);
+  for (const lista of perDoc.values()) {
+    lista.sort((a, b) => (parseInt(String(a.id).replace(/\D/g, ""), 10) || 0) - (parseInt(String(b.id).replace(/\D/g, ""), 10) || 0));
+    let dove = "";
+    for (const p of lista) {
+      const t = String(p.testo || "");
+      const inizioCap = /^\s*(Cosa|Dove)\s*$/m.exec(t);
+      const testa = inizioCap ? t.slice(0, inizioCap.index) : t;
+      let nuovo = t.replace(/^Dove\n(.+)$/gm, "Dove: $1").replace(/^Cosa$/gm, "— Capitolo successivo —\nCosa");
+      if (dove && testa.trim()) nuovo = `(Segue il capitolo precedente · Dove: ${dove})\n` + nuovo;
+      for (const m of t.matchAll(/^Dove\n(.+)$/gm)) dove = m[1].trim();
+      p.testo = nuovo;
+    }
+  }
 }
 export async function indicePrivato() {
   if (ixPrivato === undefined) ixPrivato = indiceDaCifrato(corpusCifrato, env("GENIUS_LOCI_CORPUS_CHIAVE", ""));
@@ -537,12 +583,18 @@ export function disciplinePertinenti(domanda, disciplineSchede = [], punteggi = 
   for (const [d, v] of punteggi) if (peso[d] !== undefined) peso[d] += v / maxP; // le parole aiutano solo le discipline già in gioco
   return Object.entries(peso).filter(([, v]) => v >= 1).sort((a, b) => b[1] - a[1]).map(([d]) => d).slice(0, 3);
 }
-export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [] } = {}) {
-  if (!ixN || !chiedeCurricolo(domanda)) return null;
+export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [], sempre = null } = {}) {
+  // sempre = { discipline, n }: risposta a due livelli con il territorio, i traguardi della disciplina servono anche se non li chiede
+  if (!ixN || (!sempre && !chiedeCurricolo(domanda))) return null;
   const cap = capisci(domanda), q = " " + normalizza(domanda) + " ";
-  const versioni = /\b2012\b/.test(q) && !/\b2025\b/.test(q) ? ["2012"] : /\b(2025|nuove indicazioni)\b/.test(q) && !/\b2012\b/.test(q) ? ["2025"] : ["2012", "2025"];
+  let versioni = /\b2012\b/.test(q) && !/\b2025\b/.test(q) ? ["2012"] : /\b(2025|nuove indicazioni)\b/.test(q) && !/\b2012\b/.test(q) ? ["2025"] : ["2012", "2025"];
   // solo le discipline nominate per intero («geografia», non «storico» per storia) restringono la ricerca
-  const disc = [...new Set(Object.keys(DISC_NORM).filter(d => q.includes(" " + d + " ")).map(d => DISC_NORM[d]))];
+  let disc = [...new Set(Object.keys(DISC_NORM).filter(d => q.includes(" " + d + " ")).map(d => DISC_NORM[d]))];
+  if (sempre) {
+    if (!disc.length) disc = (sempre.discipline || []).filter(d => Object.values(DISC_NORM).includes(d));
+    // anno 2026/27: il 2025 vale per l'infanzia e per la prima, il 2012 per le altre classi
+    if (sempre.n) versioni = [sempre.n === 1 ? "2025" : "2012"];
+  }
   const ordine = !cap.classe ? null : cap.classe === "infanzia" ? "infanzia" : cap.classe === "secondaria" ? "secondaria" : "primaria";
   const n = { prima: 1, seconda: 2, terza: 3, quarta: 4, quinta: 5, "1a": 1, "2a": 2, "3a": 3, "4a": 4, "5a": 5 }[cap.numeroClasse] || null;
   const classeObiettivi = ordine === "primaria" && n ? (n <= 3 ? "primaria 3" : "primaria 5") : ordine === "secondaria" ? "secondaria 3" : null;
@@ -601,11 +653,22 @@ export function cercaNormativa(ixN, domanda, { max = 6, disciplineSchede = [] } 
 }
 
 // Approfondimento: stessa forma e stesse regole, risposta più lunga (fino a ~450 parole) e un po' più di fonti.
-export const RICHIESTA_APPROFONDIMENTO = "APPROFONDIMENTO: chi scrive ha già letto la risposta breve e chiede una versione più lunga e dettagliata. Usa la stessa forma (stessi titoli) e TUTTE le stesse regole, ma fino a 450 parole: un racconto più ricco (da 5 a 8 frasi, con più dettagli presi dalle FONTI, mai inventati; le esperienze VISSUTE sempre al passato prossimo, mai al presente) e da 4 a 7 passi più precisi.";
-export const maxTokensDi = (cfg, approfondisci) => approfondisci ? Math.min(cfg.maxTokens * 2, 1600) : cfg.maxTokens;
+export const RICHIESTA_APPROFONDIMENTO = "APPROFONDIMENTO: chi scrive ha già letto la risposta breve e chiede una versione più lunga e dettagliata. Usa la stessa forma (stessi titoli) e TUTTE le stesse regole, ma fino a 450 parole: un racconto più ricco (da 5 a 8 frasi, con più dettagli presi dalle FONTI, mai inventati; le esperienze VISSUTE sempre al passato prossimo, mai al presente) e da 4 a 7 passi più precisi. Nelle risposte a due livelli («Come vivere l'esperienza:» e «Cosa si impara qui:») scrivi da 3 a 5 passi per parte: nella prima più tecniche concrete della base condivisa; nella seconda le attività, le schede e i dettagli del libro km0 e della sintesi del territorio (misure, materiali, livelli delle schede, domande), sempre con il loro [S…].";
+// Modelli che ragionano sempre (Mistral Large 4: reasoning_effort low|medium|high, predefinito high, «none» rifiutato):
+// i token del ragionamento contano nei max_tokens e si pagano come uscita. Mandiamo lo sforzo scelto (predefinito «low»
+// per Large) e aggiungiamo ai token della risposta un margine per il ragionamento, altrimenti la risposta arriva vuota.
+// Per Small 4 e Medium 3.5 senza GENIUS_LOCI_RAGIONAMENTO non si manda nulla (risposta diretta, come finora).
+export function ragionamentoDi(modello, scelto = "", extra = 0) {
+  const sempre = /large/i.test(modello || "");
+  const sforzo = scelto || (sempre ? "low" : "");
+  const margine = extra || (!sforzo || sforzo === "none" ? 0 : sforzo === "low" ? 2500 : sforzo === "medium" ? 4000 : 8000);
+  return { ragionamento: sforzo, tokenRagionamento: margine };
+}
+export const maxTokensDi = (cfg, approfondisci) => (approfondisci ? Math.min(cfg.maxTokens * 2, 1600) : cfg.maxTokens) + (cfg.tokenRagionamento || 0) * (approfondisci ? 2 : 1);
 export async function chiamaModello(cfg, domanda, ctx, generali = false, approfondisci = false) {
   const utente = `${generali ? "FONTI DI METODO GENERALI (la ricerca non ha trovato schede sul tema preciso della domanda)" : "FONTI"}\n\n${ctx}\n\nDOMANDA\n${domanda}${approfondisci ? `\n\n${RICHIESTA_APPROFONDIMENTO}` : ""}`;
-  const ctrl = AbortSignal.timeout(approfondisci ? 25000 : 20000);
+  // le due chiamate partono insieme: con il ragionamento c'è più margine, sempre sotto i 60 s delle Netlify Functions
+  const ctrl = AbortSignal.timeout(cfg.timeoutMs || (cfg.ragionamento && cfg.ragionamento !== "none" ? 50000 : approfondisci ? 25000 : 20000));
   const max_tokens = maxTokensDi(cfg, approfondisci);
   if (cfg.provider === "anthropic") {
     const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", signal: ctrl,
@@ -617,12 +680,14 @@ export async function chiamaModello(cfg, domanda, ctx, generali = false, approfo
   }
   const r = await fetch(`${cfg.baseUrl}/chat/completions`, { method: "POST", signal: ctrl,
     headers: { "content-type": "application/json", authorization: `Bearer ${cfg.chiave}` },
-    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: 0.1,
+    body: JSON.stringify({ model: cfg.modello, max_tokens, temperature: cfg.temperatura ?? 0.1,
+      ...(cfg.ragionamento ? { reasoning_effort: cfg.ragionamento } : {}),
       messages: [{ role: "system", content: PROMPT_SISTEMA }, { role: "user", content: utente }] }) });
   if (!r.ok) throw new Error(`provider ${r.status}`);
   const j = await r.json();
   const c = j.choices?.[0]?.message?.content;
-  // Mistral Small 4 con ragionamento attivo restituisce una lista di blocchi: teniamo solo il testo
+  // con il ragionamento il contenuto è una lista di blocchi (thinking + text): teniamo solo il testo finale
+  if (j.choices?.[0]?.finish_reason === "length" && !(Array.isArray(c) ? c.some(b => b.type === "text" && b.text) : c)) throw new Error("provider: token finiti nel ragionamento");
   return (Array.isArray(c) ? c.filter(b => b.type === "text").map(b => b.text || "").join("") : c || "").trim();
 }
 
@@ -642,7 +707,7 @@ export function ripulisci(testo) {
   let generale = false;
   t = t.split("\n").filter(riga => !/vuoi portare la strada dei bambini|^\s*[–-]?\s*(scrivici a\s*)?info@scuolenaturali\.it\.?\s*$/i.test(riga)).map(riga => {
     const m = riga.match(RE_TITOLO);
-    if (m) generale = chiaveTitolo(m[1]) === PARTE_GENERALE;
+    if (m) generale = chiaveTitolo(m[1]) === PARTE_GENERALE || PARTI_DUE.has(chiaveTitolo(m[1]));
     if (!generale || m) return riga;
     if (!/^\s*\d+[.)]\s/.test(riga)) return riga.replace(/\s*\[S\d+\]/g, "");
     return segniInFondo(riga);
@@ -674,12 +739,13 @@ export function correggiPreposizioni(t) {
 const radici = t => normalizza(t).split(" ").filter(w => w.length >= 5).map(w => w.slice(0, 5));
 const RE_CONDIVISA = /^\[S\d+\] (MATERIALE DEL TEAM(?! — (?:VISSUTA|PROPOSTA))|RIELABORAZIONE|METODO|PROGRAMMA|MANIFESTO)/;
 export function verificaPassi(testo, ctxTesto = "") {
-  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map(), condivise = new Set();
+  const perFonte = new Map(), testi = new Map(), uda = new Set(), vietate = new Set(), titoliAula = new Map(), condivise = new Set(), territoriali = new Set();
   for (const b of String(ctxTesto).split("\n\n---\n\n")) {
     const m = b.match(/^\[S(\d+)\]/); if (!m) continue;
     if (/^\[S\d+\] UDA /.test(b)) uda.add(m[1]);
     if (/^\[S\d+\] (LETTERATURA DI RIFERIMENTO|INDICAZIONI NAZIONALI)/.test(b)) vietate.add(m[1]);
     if (RE_CONDIVISA.test(b)) condivise.add(m[1]);
+    if (/^\[S\d+\] TERRITORIO di /.test(b)) territoriali.add(m[1]);
     const set = perFonte.get(m[1]) || new Set(); for (const r of radici(b)) set.add(r); perFonte.set(m[1], set);
     const tit = /^\[S\d+\] AULA/.test(b) && normalizza((b.match(/— «([^»]+)»/) || [])[1] || "");
     if (tit && tit.length >= 5) titoliAula.set(m[1], tit);
@@ -703,7 +769,7 @@ export function verificaPassi(testo, ctxTesto = "") {
       if (cit.length && nelRacconto.size && cit.every(n => uda.has(n) && !nelRacconto.has(n))) return null;
       riga = riga.replace(/^\s*\d+([.)])/, (m, p) => `${++k}${p}`); // rinumero se un passo è saltato
     }
-    if ((parte !== "i passi" && parte !== PARTE_GENERALE) || !/^\s*\d+[.)]\s/.test(riga) || !/\[S\d+\]/.test(riga)) return riga;
+    if (!PARTI_PASSI.has(parte) || !/^\s*\d+[.)]\s/.test(riga) || !/\[S\d+\]/.test(riga)) return riga;
     const parole = [...new Set(radici(riga.replace(/\[S\d+\]/g, "")))];
     let best = null, bestQ = 0;
     for (const [, n] of riga.matchAll(/\[S(\d+)\]/g)) {
@@ -711,7 +777,7 @@ export function verificaPassi(testo, ctxTesto = "") {
       // un passo che nomina il luogo di un'AULA (Ponte Bianco…) viene da quella fonte
       const q = titoliAula.has(n) && normalizza(riga).includes(titoliAula.get(n)) ? 1 : parole.filter(w => f.has(w)).length / parole.length;
       // fonti pedagogiche della base condivisa (Kolb, decalogo, rielaborazioni): l'idea si riprende con parole nuove, soglia più bassa
-      if (q >= (condivise.has(n) ? 0.25 : 0.4) && q > bestQ) { best = n; bestQ = q; }
+      if (q >= (condivise.has(n) || territoriali.has(n) ? 0.25 : 0.4) && q > bestQ) { best = n; bestQ = q; }
     }
     const senza = riga.replace(/\s*\[S\d+\]/g, "").replace(/\s+([.;!?])$/, "$1");
     return best ? segniInFondo(`${senza} [S${best}]`) : senza;
@@ -811,7 +877,7 @@ export default async (req, context) => {
   if (req.method === "GET") {
     const giorno = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
     try { await pulisciConteggiVecchi(getStore({ name: "genius-loci-limiti", consistency: "strong" }), giorno); } catch {}
-    return json(cfg.pronto ? { abilitato: true, limiteIp: cfg.limiteIp } : { abilitato: false });
+    return json(cfg.pronto ? { abilitato: true, limiteIp: cfg.limiteIp, modello: cfg.modello } : { abilitato: false });
   }
   if (req.method !== "POST") return json({ errore: "metodo non ammesso" }, 405);
   if (!cfg.pronto) return json({ abilitato: false, errore: "La risposta scritta non è attiva." }, 503);
@@ -1120,8 +1186,14 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
       const vocabolario = new Set(testiComunita.flatMap(radiciPasso));
       const nomiComunita = new Set(testiComunita.flatMap(t => normalizza(t).split(" ")));
       // territorio e base condivisa vanno INSIEME: il territorio dà i contenuti, la base condivisa l'impostazione pedagogica
+      // ogni documento del territorio porta fino a 4 passi, scelti con la domanda e i gesti della disciplina (non solo i riquadri «Cosa»)
+      if (ixP) {
+        const gesti = req.discipline.map(d => GESTI_DISCIPLINA[d] || "").join(" ");
+        const mirata = cerca(ixP, `${domanda} ${req.discipline.join(" ")} ${gesti}`, { max: 12, comunitaMorbida: true }).risultati;
+        docs = docs.map(d => { const m = mirata.find(x => x.titolo === d.titolo); return { ...d, passi: [...new Set([...(m?.passi || []), ...(d.passi || [])])], maxPassi: 4 }; });
+      }
       return { res: { ...res, risultati: [...aule, ...pub.filter(r => r.tipo === "metodo")].slice(0, 5) },
-        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)))] }), livello: "territorio", req, vincoli, vocabolario, nomiComunita };
+        resP: resP && conProgramma(ixP, domanda, req, { ...resP, risultati: [...docs, ...baseCondivisa(ixP, pri.filter(r => !delLuogo(r) && !altraClasse(r)), domanda, req)] }), livello: "territorio", req, vincoli, vocabolario, nomiComunita };
     }
   }
   // 3) base condivisa: metodo, rielaborazioni, programma (niente UDA, aule né esperienze di un luogo)
@@ -1135,16 +1207,60 @@ export function applicaGerarchia(ix, ixP, domanda, res, resP) {
     const f = fontiDiMetodo(ix, ixP, domanda, p3, q3);
     [p3, q3] = soloCondivise(f.res, f.resP);
   }
+  if (ixP && q3) q3 = { ...q3, risultati: baseCondivisa(ixP, q3.risultati, domanda, req, 6) };
   return { res: p3, resP: ixP ? conProgramma(ixP, domanda, req, q3) : null, livello: "condivisa", req, vincoli };
 }
-// Base condivisa per tradurre i contenuti in attività: quello che ha trovato la ricerca più, sempre, il ciclo di Kolb
-// all'aperto e il decalogo delle Scuole Naturali (impostazione pedagogica di PEDAGOGIA E OUTDOOR).
-const ANCORE_PEDAGOGIA = ["ciclo di Kolb all'aperto", "decalogo scuole naturali"];
-function baseCondivisa(ixP, trovate, max = 4) {
-  const out = trovate.filter(r => !/^Programma della classe/.test(r.titolo)).slice(0, max - ANCORE_PEDAGOGIA.length);
-  if (ixP) for (const q of ANCORE_PEDAGOGIA) {
-    const r = cerca(ixP, q, { max: 1, comunitaMorbida: true }).risultati[0];
-    if (r && !r.comunita && !out.some(x => x.titolo === r.titolo)) out.push(r);
+// Base condivisa per tradurre i contenuti in attività: una ricerca MIRATA nella base pedagogica (rielaborazioni di
+// PEDAGOGIA E OUTDOOR, materiali del team, metodo) con la domanda e i gesti tipici della disciplina, più il ciclo di Kolb
+// all'aperto con le sue sezioni pratiche (le quattro fasi, «Cosa cambia, in pratica»). Niente documenti di un luogo,
+// programmi di altre classi, letteratura (ha il suo paragrafo) né «Maturità scolare» fuori dall'infanzia e dalla prima.
+const GESTI_DISCIPLINA = {
+  matematica: "misurare misura stimare stima passi metro metri figure geometria perimetro area scala rettangolo quadrato angoli poligoni simmetrie coordinate contare calcolare numeri frazioni unità lunghezza",
+  geografia: "mappa mappe carta percorso orientarsi bussola punti di riferimento paesaggio confini laguna luoghi speciali volo d'uccello",
+  storia: "tracce fonti passato memoria racconto anziani nonni interviste storia storico orale antichi romani medioevo secolo epoca tempo ieri",
+  scienze: "osservare sensi esplorare piante animali foglie suolo acqua quaderno della natura lenti tracce viventi alberi uccelli insetti specie materia maree",
+  italiano: "racconto poesia parole ascolto leggere ad alta voce narrazione",
+  arte: "disegno dal vero materiali naturali colori forme modello",
+};
+const ANCORA_KOLB = "ciclo di Kolb fasi sentire guardare pensare fare il ciclo si chiude cosa cambia in pratica gita riflessione plastica";
+function baseCondivisa(ixP, trovate, domanda = "", req = null, max = 5) {
+  const piccoli = req && (req.ordine === "infanzia" || req.ordine === "nido" || req.n === 1);
+  // l'età del documento deve comprendere quella della domanda (niente nido e infanzia per la primaria, e viceversa)
+  const etaOk = r => !req?.ordine || !r.eta?.length || r.eta.some(e => e.startsWith(req.ordine === "nido" ? "nido" : req.ordine));
+  // esperienze del team in luoghi che non sono nostre comunità (Monte Lerno…) valgono come base condivisa
+  const altrove = r => r.comunita && r.tipo_fonte === "team" && !COMUNITA_PROMPT.includes(r.comunita) && r.comunita !== req?.comunita;
+  const ok = r => (!r.comunita || altrove(r)) && r.tipo_fonte !== "letteratura" && !/^Programma della classe/.test(r.titolo) && (piccoli || !/^Maturità scolare/.test(r.titolo)) && etaOk(r);
+  const out = [];
+  // al massimo 2 documenti sulle mappe di comunità: il resto deve venire da fonti diverse (Sobel, Barron, König, esperienze del team…)
+  const RE_MAPPE = /mapp|genius loci|boundaries/i;
+  const metti = r => { if (r && ok(r) && out.length < max - 1 && !out.some(x => x.titolo === r.titolo) && !(RE_MAPPE.test(r.titolo) && out.filter(x => RE_MAPPE.test(x.titolo)).length >= 2)) out.push({ ...r, maxPassi: 2, esperienzaTeam: altrove(r) }); };
+  if (ixP) {
+    // punteggio semplice per passo (radici in comune con domanda e gesti della disciplina, pesate per rarità): la ricerca
+    // generale scarta i documenti che non coprono luogo e classe della domanda, qui servono proprio quelli di metodo
+    const gesti = (req?.discipline || []).map(d => GESTI_DISCIPLINA[d] || "").join(" ");
+    const q = new Set(radiciPasso(`${domanda} ${gesti}`).filter(w => !comune(w)));
+    const df = ixP._dfRadici ||= (() => { const m = new Map(); for (const p of ixP.passi) for (const w of new Set(radiciPasso(p.testo))) m.set(w, (m.get(w) || 0) + 1); return m; })();
+    const N = ixP.passi.length, perDoc = new Map();
+    for (const p of ixP.passi) {
+      if (!ok(p) || /kolb/i.test(p.titolo)) continue;
+      const rad = new Set(radiciPasso(p.sezione + " " + p.testo));
+      let sc = 0; for (const w of q) if (rad.has(w)) sc += Math.log(N / (df.get(w) || 1));
+      if (p.tipo_fonte === "rielaborato" || altrove(p)) sc *= 1.3; // libri di pedagogia e outdoor ed esperienze del team prima delle presentazioni
+      if (sc <= 0) continue;
+      const d = perDoc.get(p.titolo) || { p, passi: [], s: 0 }; d.passi.push({ id: p.id, sc }); d.s = Math.max(d.s, sc); perDoc.set(p.titolo, d);
+    }
+    for (const d of [...perDoc.values()].sort((a, b) => b.s - a.s))
+      metti({ ...d.p, ref: d.p.ref, titolo: d.p.titolo, autore: d.p.autore, tipo: d.p.tipo, tipo_fonte: d.p.tipo_fonte, comunita: d.p.comunita, passi: d.passi.sort((a, b) => b.sc - a.sc).map(x => x.id) });
+  }
+  for (const r of trovate) metti(r);
+  if (ixP) {
+    const k = cerca(ixP, ANCORA_KOLB, { max: 3, comunitaMorbida: true }).risultati.find(r => /kolb/i.test(r.titolo));
+    if (k) {
+      // tre pezzi: le quattro fasi, l'esempio (UDA «Il mio paese», Botrugno) e «Cosa cambia, in pratica»
+      const primo = re => ixP.passi.find(p => p.titolo === k.titolo && re.test(p.sezione || ""))?.id;
+      const passi = [primo(/^Il ciclo di Kolb \(/), primo(/^Un esempio/), primo(/^Cosa cambia/)].filter(Boolean);
+      out.push({ ...k, passi: passi.length ? passi : k.passi, maxPassi: 3 });
+    }
   }
   return out;
 }
@@ -1195,21 +1311,54 @@ function vocabolarioGenerale() {
   for (const p of [...(ixPrivato?.passi || []), ...(ixNormativa?.passi || [])]) if (!p.comunita) for (const w of radiciPasso(p.testo)) vocGen.add(w);
   return vocGen;
 }
+// Numeri nei passi: ogni numero (cifre o parole da «dieci» in su; 1–3 sono conteggi generici) deve stare nella fonte
+// citata dal passo (senza segno: in tutte le FONTI) e, se il passo lo lega a una parola («cento passi», «25 metri»,
+// «cinquanta per il lato corto» → «lato»), quella parola deve comparire entro 4 parole dal numero nella fonte.
+const NUMERI_PAROLE = { dieci: "10", venti: "20", trenta: "30", quaranta: "40", cinquanta: "50", sessanta: "60", settanta: "70",
+  ottanta: "80", novanta: "90", cento: "100", duecento: "200", trecento: "300", cinquecento: "500", mille: "1000" };
+const RE_NUMERO = new RegExp(`^(\\d+|${Object.keys(NUMERI_PAROLE).join("|")})$`);
+const VUOTE_NUM = new Set(["o", "e", "di", "da", "a", "in", "per", "il", "lo", "la", "i", "gli", "le", "del", "della", "dei", "delle", "circa", "quasi", "oltre", "fino", "ogni", "un", "una", "uno", "piu", "meno", "x"]);
+const valoreNum = w => NUMERI_PAROLE[w] || w;
+export function numeriInFonte(passo, blocchi) {
+  const parole = normalizza(String(passo).replace(/^\s*\d+[.)]\s*/, "").replace(/\[S\d+\]/g, "")).split(" ");
+  const citate = [...String(passo).matchAll(/\[S(\d+)\]/g)].map(m => m[1]);
+  const fonti = (citate.length ? blocchi.filter(x => citate.includes(x.n)) : blocchi).map(x => normalizza(x.b).split(" "));
+  for (let i = 0; i < parole.length; i++) {
+    if (!RE_NUMERO.test(parole[i])) continue;
+    const v = valoreNum(parole[i]);
+    if (/^\d+$/.test(v) && +v <= 3) continue;
+    let k = i + 1; while (k < parole.length && (VUOTE_NUM.has(parole[k]) || RE_NUMERO.test(parole[k]))) k++;
+    const vicina = k < parole.length && k - i <= 4 ? radice(parole[k]) : null;
+    const ok = fonti.some(f => f.some((w, j) => {
+      if (valoreNum(w) !== v) return false;
+      if (!vicina) return true;
+      return f.slice(Math.max(0, j - 4), j + 5).some(x => radice(x) === vicina);
+    }));
+    if (!ok) return false;
+  }
+  return true;
+}
+
 export function controlliPassi(testo, ctxTesto, g) {
-  const righe = String(testo || "").split("\n");
+  // nelle due parti i punti elenco («– …») diventano passi numerati, così passano dagli stessi controlli
+  let pd = null;
+  const righe = String(testo || "").split("\n").map(r => { const mt = r.match(RE_TITOLO); if (mt) { pd = chiaveTitolo(mt[1]); return r; } return PARTI_DUE.has(pd) ? r.replace(/^\s*[–•*-]\s+/, "1. ") : r; });
   const blocchi = String(ctxTesto).split("\n\n---\n\n").map(b => ({ n: (b.match(/^\[S(\d+)\]/) || [])[1], b })).filter(x => x.n);
   const tutte = new Set(blocchi.flatMap(x => radiciPasso(x.b)));
   const nomiCtx = new Set(blocchi.flatMap(x => normalizza(x.b).split(" ")));
+  const testoCtx = " " + normalizza(String(ctxTesto)) + " " + [...(g?.nomiComunita || [])].join(" ") + " ";
   for (const w of g?.vocabolario || []) tutte.add(w); // tutta la knowledge base del territorio, non solo i passi scelti
   for (const w of vocabolarioGenerale()) tutte.add(w); // parole della base condivisa e delle Indicazioni: verbi e nomi didattici comuni
   const condivise = blocchi.filter(x => RE_CONDIVISA.test(x.b));
   const piccoli = g?.req && (g.req.ordine === "infanzia" || g.req.ordine === "nido");
   const isPasso = r => /^\s*\d+[.)]\s/.test(r);
-  let parte = null; const tolte = [];
+  let parte = null; const tolte = []; const inventati = new Set();
   let out = righe.map(r => {
     const mt = r.match(RE_TITOLO); if (mt) { parte = chiaveTitolo(mt[1]); return r; }
-    if (!isPasso(r) || (parte !== "i passi" && parte !== PARTE_GENERALE)) return r;
+    if (!isPasso(r) || !PARTI_PASSI.has(parte)) return r;
     if (piccoli && RE_SCRITTURA.test(normalizza(r))) { tolte.push(r); return null; }
+    // numeri e misure («circa 25 metri», «cinquanta per il lato corto») solo se scritti nella fonte citata, accanto alla stessa parola
+    if (!numeriInFonte(r, blocchi)) { tolte.push(r); inventati.add(r); return null; }
     if (g?.livello === "territorio") {
       // parole intere del passo assenti da FONTI, knowledge base del territorio e base condivisa; i verbi (fate, sedere,
       // calcolatene…) non contano: resta il dettaglio concreto aggiunto («lungomare»)
@@ -1224,19 +1373,21 @@ export function controlliPassi(testo, ctxTesto, g) {
     return r;
   });
   // non lascio meno di 2 passi: se i controlli ne tolgono troppi, tengo solo quelli senza scrittura per i piccoli
-  if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r))) ? null : r);
+  if (out.filter(r => r !== null && isPasso(r)).length < 2) out = righe.map(r => (inventati.has(r) || (piccoli && isPasso(r) && RE_SCRITTURA.test(normalizza(r)))) ? null : r);
   out = out.filter(r => r !== null);
   // (c) base condivisa citata almeno una volta: (1) passo che nomina Kolb o il decalogo, anche se ha già il segno di un luogo
   // (secondo segno); (2) passo senza segno che ne riprende davvero le parole; (3) altrimenti il sito chiude con il rientro
   // secondo il ciclo di Kolb all'aperto (le quattro fasi scritte nella fonte), al posto dell'ultimo passo se sono già 5.
   if (g && g.livello !== "uda" && condivise.length && out.some(isPasso)) {
     const nCond = new Set(condivise.map(x => x.n));
-    const citata = () => out.some(r => isPasso(r) && [...r.matchAll(/\[S(\d+)\]/g)].some(m => nCond.has(m[1])));
+    const i1 = out.findIndex(r => r && /^Come vivere l['’]esperienza:/.test(r)), i2 = out.findIndex(r => r && /^Cosa si impara qui:/.test(r));
+    const inParte1 = i => i1 < 0 || (i > i1 && (i2 < i1 || i < i2)); // a due livelli la base condivisa va citata nella parte pedagogica
+    const citata = () => out.some((r, i) => inParte1(i) && isPasso(r) && [...r.matchAll(/\[S(\d+)\]/g)].some(m => nCond.has(m[1])));
     const titolo = c => c.b.split("\n")[0];
     if (!citata()) {
       let best = null;
       out.forEach((r, i) => {
-        if (!isPasso(r)) return;
+        if (!isPasso(r) || !inParte1(i)) return;
         const nr = normalizza(r), conSegno = /\[S\d+\]/.test(r);
         for (const c of condivise) {
           const nomina = (/kolb/.test(nr) && /kolb/i.test(titolo(c))) || (/decalog/.test(nr) && /decalog/i.test(titolo(c)));
@@ -1249,15 +1400,94 @@ export function controlliPassi(testo, ctxTesto, g) {
     }
     const kolb = condivise.find(c => /kolb/i.test(titolo(c)));
     if (!citata() && kolb) {
-      const passi = out.map((r, i) => isPasso(r) ? i : -1).filter(i => i >= 0);
+      // nella risposta a due livelli il rientro va nella parte pedagogica («Come vivere l'esperienza»)
+      const t1 = out.findIndex(r => r && /^Come vivere l['’]esperienza:/.test(r)), t2 = out.findIndex(r => r && /^Cosa si impara qui:/.test(r));
+      const passi = out.map((r, i) => isPasso(r) && (t1 < 0 || (i > t1 && (t2 < t1 || i < t2))) ? i : -1).filter(i => i >= 0);
+      if (!passi.length) passi.push(t1);
       const riga = `${passi.length + 1}. Al rientro, chiudete il ciclo: dopo l'esperienza fatta, tornate sui passi per osservare, legate il vissuto a parole e concetti, poi rimettete alla prova l'idea in una nuova uscita [S${kolb.n}].`;
-      if (passi.length >= 5) out[passi.at(-1)] = riga; else out.splice(passi.at(-1) + 1, 0, riga);
+      if (passi.length >= (t1 < 0 ? 5 : 3)) out[passi.at(-1)] = riga; else out.splice(passi.at(-1) + 1, 0, riga);
     }
+  }
+  // a due livelli: la parte 1 (metodo) cita solo la base condivisa, la parte 2 (contenuti) solo il territorio. Un passo di
+  // contenuti finito nella parte 1 va nella parte 2; nella parte 2 un passo fuori dalla disciplina della domanda
+  // (le maree per la geometria) si toglie.
+  if (g?.livello === "territorio") {
+    const nCond = new Set(condivise.map(x => x.n));
+    const tit = re => out.findIndex(r => r && re.test(r));
+    const i1 = tit(/^Come vivere l['’]esperienza:/), i2 = tit(/^Cosa si impara qui:/);
+    const segni = r => [...r.matchAll(/\[S(\d+)\]/g)].map(m => m[1]);
+    // parole della disciplina: i gesti tipici, le sezioni di quella disciplina nel libro km0 e le sue Indicazioni,
+    // tolte le parole della base condivisa (generiche: «classe», «osservare»…)
+    const disc = g.req?.discipline || [];
+    const gesti = new Set(radiciPasso(disc.map(d => GESTI_DISCIPLINA[d] || "").join(" ")));
+    if (gesti.size) {
+      const generiche = new Set(condivise.flatMap(x => radiciPasso(x.b)));
+      for (const x of blocchi) {
+        const sez = normalizza((x.b.match(/^Sezione: (.*)$/m) || [])[1] || "") + " " + normalizza(x.b.split("\n")[0]);
+        if (disc.some(d => sez.includes(normalizza(d).split(" ")[0]))) for (const w of radiciPasso(x.b)) if (!generiche.has(w) && !comune(w)) gesti.add(w);
+      }
+    }
+    if (i1 >= 0 && i2 > i1) {
+      const sposta = [];
+      for (let i = i1 + 1; i < i2; i++) { const r = out[i]; if (r && isPasso(r) && segni(r).length && segni(r).every(n => !nCond.has(n))) { sposta.push(r); out[i] = null; } }
+      if (sposta.length) { let k = i2 + 1; while (k < out.length && !(out[k] && RE_TITOLO.test(out[k]))) k++; while (k > i2 + 1 && !(out[k - 1] && isPasso(out[k - 1]))) k--; out.splice(k, 0, ...sposta); }
+      const j2 = tit(/^Cosa si impara qui:/);
+      for (let i = j2 + 1; i < out.length; i++) {
+        const r = out[i]; if (r == null) continue; if (RE_TITOLO.test(r)) break;
+        if (!isPasso(r)) continue;
+        if (segni(r).length && segni(r).every(n => nCond.has(n))) { tolte.push(r); out[i] = null; continue; } // metodo nella parte dei contenuti
+        if (gesti.size && !radiciPasso(r).some(w => gesti.has(w))) { tolte.push(r); out[i] = null; } // fuori disciplina
+      }
+    }
+  }
+  // a due livelli: al massimo 3 passi per parte (il passo che chiude il ciclo resta); nella parte disciplinare del
+  // territorio restano solo i passi con una fonte, se almeno uno ce l'ha
+  {
+    const parteDi = i => { for (let k = i; k >= 0; k--) { const mt = out[k]?.match(RE_TITOLO); if (mt) return chiaveTitolo(mt[1]); } return null; };
+    const p2 = out.map((r, i) => r && isPasso(r) && parteDi(i) === "cosa si impara qui" ? i : -1).filter(i => i >= 0);
+    const p2conFonte = p2.some(i => /\[S\d+\]/.test(out[i]));
+    const conta = {};
+    out = out.filter((r, i) => {
+      if (r == null || !isPasso(r)) return true;
+      const pt = parteDi(i); if (!PARTI_DUE.has(pt)) return true;
+      if (pt === "cosa si impara qui" && g?.livello === "territorio" && p2conFonte && !/\[S\d+\]/.test(r)) { tolte.push(r); return false; }
+      conta[pt] = (conta[pt] || 0) + 1;
+      if (conta[pt] > (g?.approfondisci ? 5 : 3) && !(pt === "come vivere l'esperienza" && /kolb|ciclo/i.test(r))) { tolte.push(r); return false; }
+      return true;
+    });
   }
   // rinumero i passi
   let k = 0; parte = null;
   out = out.map(r => { if (RE_TITOLO.test(r)) { k = 0; return r; } return isPasso(r) ? r.replace(/^\s*\d+([.)])/, (m, p) => `${++k}${p}`) : r; });
   return out.join("\n");
+}
+
+// Risposta a due livelli: al massimo 220 parole (450 nell'approfondimento), traguardi e segni esclusi. Se il modello sfora,
+// tolgo l'ultimo passo della parte più lunga, lasciando almeno 2 passi per parte e il passo che chiude il ciclo.
+export function tagliaParole(testo, max = 220) {
+  let righe = String(testo || "").split("\n");
+  const parole = () => righe.join("\n").split(/^Traguardi a cui può concorrere:$/m)[0].replace(/\[S\d+\]/g, "").split(/\s+/).filter(w => /[\p{L}\d]/u.test(w)).length;
+  for (let giro = 0; giro < 6 && parole() > max; giro++) {
+    const parti = {}; let pt = null;
+    righe.forEach((r, i) => { const mt = r.match(RE_TITOLO); if (mt) { pt = chiaveTitolo(mt[1]); return; } if (/^\s*\d+[.)]\s/.test(r) && PARTI_DUE.has(pt)) (parti[pt] ||= []).push(i); });
+    const cand = Object.values(parti).filter(a => a.length > 2).sort((a, b) => b.length - a.length)[0];
+    if (!cand) break;
+    const via = [...cand].reverse().find(i => !/kolb|ciclo/i.test(righe[i]));
+    if (via == null) break;
+    righe.splice(via, 1);
+  }
+  let k = 0; return righe.map(r => RE_TITOLO.test(r) ? (k = 0, r) : /^\s*\d+[.)]\s/.test(r) ? r.replace(/^\s*\d+([.)])/, (m, p) => `${++k}${p}`) : r).join("\n");
+}
+
+// Livello 3 (base condivisa): senza materiale del territorio la parte disciplinare non c'è; tolgo «Cosa si impara qui:»
+// (con i suoi traguardi) se il modello l'ha scritta lo stesso.
+export function soloParti(testo, g) {
+  if (g?.livello !== "condivisa") return testo;
+  let via = false;
+  return String(testo || "").split("\n").filter(r => {
+    const mt = r.match(RE_TITOLO); if (mt) via = chiaveTitolo(mt[1]) === "cosa si impara qui"; // i traguardi restano, se pertinenti
+    return !via;
+  }).join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 // Separata dal gestore (niente limiti né Blobs) per poterla provare in locale.
@@ -1279,24 +1509,58 @@ export async function rispondi(cfg, domanda, { approfondisci = false } = {}) {
   if (trovati < 3) ({ res, resP } = fontiDiMetodo(ix, ixP, domanda, res, resP));
   ({ res, resP } = fontiMappe(ix, ixP, domanda, res, resP));
   const gerarchia = applicaGerarchia(ix, ixP, domanda, res, resP);
+  gerarchia.approfondisci = approfondisci; // nell'approfondimento fino a 5 passi per parte
   ({ res, resP } = gerarchia);
+  // approfondimento: dal territorio (libro km0, sintesi) più passi, per le schede e i dettagli
+  if (approfondisci && resP) resP = { ...resP, risultati: resP.risultati.map(r => r.maxPassi === 4 ? { ...r, maxPassi: 7 } : r) };
   if (!res.risultati.length && !resP?.risultati.length) {
     return { risposta: aggiungiInvito("Non lo so: nelle schede del sito non ho trovato niente su questo. Prova a nominare un luogo, una classe o un tema.", domanda), fonti: [] };
   }
   // Indicazioni nazionali: dopo le schede, con un budget loro (solo se la domanda parla di curricolo)
-  const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda, { disciplineSchede: [...res.risultati, ...(resP?.risultati || [])].slice(0, 4).flatMap(r => r.discipline || []) });
+  const ixN = indiceNormativa(), resN = cercaNormativa(ixN, domanda, { disciplineSchede: [...res.risultati, ...(resP?.risultati || [])].slice(0, 4).flatMap(r => r.discipline || []),
+    sempre: (gerarchia.livello === "territorio" || gerarchia.livello === "condivisa") && gerarchia.req?.discipline?.length ? { discipline: gerarchia.req.discipline, n: gerarchia.req.n } : null });
   // Letteratura di riferimento: fino a 2 testi pertinenti, dopo le schede e prima delle Indicazioni
   const ixL = indiceLetteratura();
   const resL = ixL && capisci(domanda).termini.length >= 2 ? cerca(ixL, domanda, { max: 2, comunitaMorbida: true }) : null;
   if (resL) resL.risultati = resL.risultati.filter(r => !nascosto(r));
   const conL = !!resL?.risultati.length;
-  const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: (gerarchia.livello === "territorio" ? 8000 : 5500) * piu },
+  const ctx = contesto({ ix, res, budget: (resP?.risultati.length ? 8000 : 13000) * piu }, { ix: ixP, res: resP, privato: true, budget: (gerarchia.livello === "territorio" ? 14000 : gerarchia.livello === "condivisa" ? 11000 : 5500) * piu },
     { ix: ixL, res: conL ? resL : null, privato: true, budget: 3500 }, { ix: ixN, res: resN, privato: true, budget: 9000 });
   try {
-    const grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : 15000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
-    let risposta = aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(controlliPassi(verificaPassi(ripulisci(grezza), ctx.testo), ctx.testo, gerarchia), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
+    // risposta a due livelli: al modello l'elenco dei luoghi del territorio tra le FONTI, per la parte «Cosa si impara qui:»
+    const luoghi = gerarchia.livello === "territorio" ? ctx.fonti.filter(f => f.tipo === "aula" || /^TERRITORIO|knowledge base territoriale|Libro di testo km0/i.test(f.titolo || "")).map(f => `${f.titolo} [S${f.n}]`) : [];
+    const rigaLuoghi = luoghi.length ? `\nLUOGHI E CONTENUTI DEL TERRITORIO TRA LE FONTI (per «Cosa si impara qui:»): ${luoghi.join("; ")}.` : "";
+    let grezza;
+    const elabora = gz => aggiungiInvito(verificaCitazioni(separaLetteratura(espandiCodici(verificaLetteratura(controlliPassi(verificaPassi(soloParti(ripulisci(gz), gerarchia), ctx.testo), ctx.testo, gerarchia), ctx.testo), ctx.codici, ctx.fonti, domanda), ctx.fonti, studiLetteratura()), ctx.fonti, ctx.testiNorm), domanda);
+    const passiContenuto = t => { let dentro = false, n = 0; for (const r of String(t || "").split("\n")) { const mt = r.match(RE_TITOLO); if (mt) { dentro = chiaveTitolo(mt[1]) === "cosa si impara qui"; continue; } if (dentro && /^\s*\d+[.)]\s/.test(r)) n++; } return n; };
+    if (gerarchia.livello === "territorio") {
+      // risposta a due livelli: due chiamate in parallelo, così il metodo e i contenuti restano separati davvero.
+      // 1) «Come vivere l'esperienza:» con le sole fonti della base condivisa; 2) «Cosa si impara qui:» e il traguardo
+      // con le fonti del territorio e le Indicazioni. I numeri [S…] sono quelli di tutte le FONTI, quindi si possono unire.
+      const blocchi = ctx.testo.split("\n\n---\n\n");
+      const cond = blocchi.filter(b => RE_CONDIVISA.test(b)), terr = blocchi.filter(b => !RE_CONDIVISA.test(b) && !/^\[S\d+\] LETTERATURA/.test(b));
+      const parole = approfondisci ? 210 : 100;
+      const p1 = `PARTE DA SCRIVERE: SOLO il titolo «Come vivere l'esperienza:» e ${approfondisci ? "da 4 a 5" : "3"} passi (regola 16, livello 2), in tutto circa ${parole} parole (non meno di ${parole - 25}): ogni passo con un gesto, una tecnica, un materiale o una domanda guida precisi presi dalle FONTI. Non scrivere «Cosa si impara qui:» né traguardi: quella parte la scrive un altro, con le fonti del luogo. Qui sotto ci sono SOLO le fonti della base condivisa: niente luoghi della domanda, niente contenuti della disciplina.`;
+      const p2 = `PARTE DA SCRIVERE: SOLO il titolo «Cosa si impara qui:» con ${approfondisci ? "5" : "4"} passi (regola 16, livello 2), ognuno su un fatto diverso delle FONTI, in tutto circa ${parole + 40} parole (non meno di ${parole}), ognuno con i nomi, i numeri, le date o le storie del luogo scritti nelle FONTI${approfondisci ? " (anche le schede e le attività pronte del libro km0, con i loro livelli e materiali)" : ""}, e poi la riga «Traguardi a cui può concorrere:» con UN solo codice «– [T…]». Non scrivere «Come vivere l'esperienza:»: il metodo lo scrive un altro. Ogni passo riguarda la disciplina della domanda.`;
+      const [g1, g2] = await Promise.all([
+        chiamaModello(cfg, domanda, `${rigaLivello(gerarchia)}\n${p1}\n\n${cond.join("\n\n---\n\n").slice(0, 14000)}`, generali, approfondisci),
+        chiamaModello(cfg, domanda, `${rigaLivello(gerarchia)}${rigaLuoghi}\n${p2}\n\n${terr.join("\n\n---\n\n").slice(0, 20000 + (approfondisci ? 8000 : 0))}`, generali, approfondisci),
+      ]);
+      grezza = `${g1}\n\n${g2}`;
+      // se i controlli lasciano meno di 2 passi di contenuto (fatti inventati tolti), una seconda prova della parte 2
+      // con un'altra temperatura: si tiene la versione con più passi verificati
+      if (passiContenuto(elabora(grezza)) < 2) {
+        const g2b = await chiamaModello({ ...cfg, temperatura: 0.5 }, domanda, `${rigaLivello(gerarchia)}${rigaLuoghi}\n${p2} Usa SOLO fatti, nomi e numeri scritti parola per parola nelle FONTI.\n\n${terr.join("\n\n---\n\n").slice(0, 20000 + (approfondisci ? 8000 : 0))}`, generali, approfondisci).catch(() => "");
+        if (g2b && passiContenuto(elabora(`${g1}\n\n${g2b}`)) > passiContenuto(elabora(grezza))) grezza = `${g1}\n\n${g2b}`;
+      }
+    } else grezza = await chiamaModello(cfg, domanda, rigaLivello(gerarchia) + rigaLuoghi + "\n\n" + ctx.testo.slice(0, (resN ? 30000 : gerarchia.livello === "uda" ? 15000 : 24000) + (conL ? 4000 : 0) + (approfondisci ? 8000 : 0)), generali, approfondisci);
+    let risposta = elabora(grezza);
     // risposta di rifiuto (fuori tema): niente fonti mostrate
     let fonti = /\[S\d+\]/.test(risposta || "") ? ctx.fonti : [];
+    if (risposta) risposta = risposta.replace(/^((?:Come vivere l['’]esperienza|Cosa si impara qui):)\n\s*\n/gm, "$1\n").replace(/^(\d+[.)] .*)\n\s*\n(?=\d+[.)] )/gm, "$1\n");
+    if (risposta && /^(Come vivere l['’]esperienza|Cosa si impara qui):$/m.test(risposta)) risposta = tagliaParole(risposta, approfondisci ? 450 : 220);
+    // risposta a due livelli: un solo traguardo, il primo scelto
+    if (risposta && /^(Come vivere l['’]esperienza|Cosa si impara qui):$/m.test(risposta)) { let k = 0; risposta = risposta.split("\n").filter(r => !/^– può concorrere a /.test(r) || ++k === 1).join("\n"); }
     // livello territorio: le attività sono nella nostra comunità, il titolo è «I passi:»
     if (gerarchia.livello === "territorio" && risposta) risposta = risposta.replace(/^I passi per il tuo territorio:$/m, "I passi:");
     // la frase del sito va su ogni risposta con passi (non sui rifiuti fuori tema)
