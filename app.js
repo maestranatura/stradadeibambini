@@ -415,8 +415,16 @@ async function init(){
     const managerByName=Object.fromEntries(communities.map(c=>[c.name, c.manager||'']));
     const colorByName=Object.fromEntries(communities.map(c=>[c.name, c.color]));
     const byAula={};
+    const addToAula=(id, e)=>{
+      if(!id) return;
+      const b=byAula[id]||(byAula[id]={vissute:[],proposte:[]});
+      const bucket=e.stato==='vissuta'?'vissute':'proposte';
+      if(!b[bucket].some(x=>x.id===e.id)) b[bucket].push(e);
+    };
     data.forEach(e=>{
-      (byAula[e.aula_id]||(byAula[e.aula_id]={vissute:[],proposte:[]}))[e.stato==='vissuta'?'vissute':'proposte'].push(e);
+      addToAula(e.aula_id, e);
+      (e.aule_collegate||[]).forEach(a=>addToAula((a&&a.id)||a, e));
+      (e.tappe||[]).forEach(t=>addToAula(t&&t.aula_id, e));
     });
     const kindOf=p=>{
       const b=byAula[p.id]||{vissute:[],proposte:[]};
