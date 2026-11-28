@@ -33387,5 +33387,1188 @@
       "Competenza in materia di cittadinanza",
       "Consapevolezza ed espressione culturali"
     ]
+  },
+  {
+    "id": "l-isola-del-sole",
+    "community": "Grado",
+    "percorso": "Grado · dalla Primaria Dante al centro storico, tra il ponte, i negozi e il castrum",
+    "aula_id": "06-grado-01",
+    "aula": "Primaria Dante",
+    "titolo": "L’isola del sole",
+    "stato": "vissuta",
+    "eta": [
+      "primaria III-V"
+    ],
+    "gruppo": [
+      "classe"
+    ],
+    "discipline": [
+      "arte",
+      "educazione civica",
+      "geografia",
+      "italiano",
+      "matematica",
+      "scienze",
+      "storia"
+    ],
+    "tipo_aula": "Da classificare",
+    "descrizione": "La mattina di giovedì 26 novembre 2026 una classe quarta della Primaria Dante di Grado è uscita a piedi con Danilo Casertano verso una parte della città che con le altre classi non si era ancora vista: il centro storico. In classe si era cominciato dal nome: perché Grado si chiama così? «Isola?» «Mare?» Danilo ha lasciato la domanda aperta. Appena fuori dal cancello ognuno ha detto dove pensava che fosse il centro e dove il nord, si è messo nel punto scelto e ha spiegato perché; il ragionamento sul sole a mezzogiorno ha portato un compito: osservare dove sta il sole alle nove, alle undici e a mezzogiorno. Dalla Piazza del Lavoro la classe ha riconosciuto una bandiera italiana appesa a una casa privata, si è chiesta se Grado abbia una bandiera, si è fermata in mezzo a un ponte, ha letto il cartello di una vetrina («50% sul secondo capo meno costoso») e ha lasciato il conto per la scuola, ha chiesto che cosa volesse dire «frutta e verdura di produzione propria» e ha scoperto che «contadino» viene da «contado». Nelle calli del centro ha sentito dire «come a Venezia» e «adesso siamo dentro il castrum», con un indovinello su Manhattan rimasto aperto. Davanti a una colonna con una croce ha provato a leggere le scritte (la targa riporta il nome della croce anche in gradese), nel Campo dei Patriarchi ha contato le chiese ed è entrata con rispetto in una basilica, tra mosaici, pavoni, capitelli tutti diversi. Sulla via del ritorno ha guardato pezzi di muro storti e si è chiesta che cosa ci fosse prima. Dopo l’uscita ognuno ha disegnato la mappa del percorso: un disegno si intitola «L’isola del sole», un altro finisce con «Perché Grado si chiama così?».",
+    "materiali": "Foto dei luoghi senza volti riconoscibili e 17 disegni dei bambini con i nomi coperti",
+    "links": [
+      {
+        "label": "Consorzio Grado Turismo, «Le origini»",
+        "url": "https://grado.it/it/cosa-fare/arte-storia-e-cultura/curiosita/le-origini"
+      },
+      {
+        "label": "Consorzio Grado Turismo, «Il Castrum»",
+        "url": "https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/il-castrum"
+      },
+      {
+        "label": "Consorzio Grado Turismo, basilica di Santa Maria delle Grazie",
+        "url": "https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/basilica-di-santa-maria-delle-grazie"
+      },
+      {
+        "label": "Enciclopedia Italiana, «Ostia» (1935)",
+        "url": "https://www.treccani.it/enciclopedia/ostia_(Enciclopedia-Italiana)/"
+      },
+      {
+        "label": "Enciclopedia Italiana, «Cardine» (1930)",
+        "url": "https://www.treccani.it/enciclopedia/cardine_(Enciclopedia-Italiana)/"
+      },
+      {
+        "label": "Enciclopedia Italiana, «Decumano» (1931)",
+        "url": "https://www.treccani.it/enciclopedia/decumano_(Enciclopedia-Italiana)/"
+      },
+      {
+        "label": "Dizionario di Storia, «Castra» (2010)",
+        "url": "https://www.treccani.it/enciclopedia/castra_(Dizionario-di-Storia)/"
+      },
+      {
+        "label": "Remarks of the Commissioners, 22 marzo 1811 (Museum of the City of New York, The Greatest Grid)",
+        "url": "https://thegreatestgrid.mcny.org/greatest-grid/key-documents/73"
+      },
+      {
+        "label": "Treccani, Vocabolario, «cocàl»",
+        "url": "https://www.treccani.it/vocabolario/cocal/"
+      },
+      {
+        "label": "Wikisionario veneto, «cocal»",
+        "url": "https://vec.wiktionary.org/wiki/cocal"
+      },
+      {
+        "label": "la Repubblica, «Grado, Isola del Sole» (5 luglio 2022)",
+        "url": "https://www.repubblica.it/viaggi/offerte/2022/07/05/news/grado_isola_del_sole_festeggia_i_130_anni_di_spiaggia_piu_amata-356561870/"
+      }
+    ],
+    "videos": [],
+    "provenienza": "Vissuta · 26 novembre 2026, giovedì mattina · Classe quarta A della Primaria Dante di Grado (IC «Dante Alighieri – Marco Polo») · racconto di Danilo Casertano, registrazione dell’uscita, foto dei luoghi e disegni",
+    "scheda_uda": {
+      "quando": "26 novembre 2026, giovedì mattina (foto tra le 10:06 e le 10:52; cinque registrazioni per circa 50 minuti)",
+      "dove": "Primaria Dante → Piazza del Lavoro (bandiera vista su una casa) → Ponte Scaramuzza → vetrina di abbigliamento → negozio di frutta e verdura → calli del castrum (Calle Porta Piccola) → Campo dei Patriarchi con la Croce Patriarchina → basilica di Santa Maria delle Grazie → tratto di mura, Calle del Volto, Campiello della Torre, Calle Lunga → scuola",
+      "chi": "classe quarta A della Primaria Dante di Grado (IC «Dante Alighieri – Marco Polo»); Danilo Casertano (Associazione MANES · La Strada dei Bambini); insegnanti di classe",
+      "discipline": "Geografia, matematica, italiano, storia, scienze, arte e immagine, educazione civica",
+      "prodotto": "17 mappe disegnate del percorso"
+    },
+    "sottotitolo": "Una quarta di Grado esce dalla scuola senza sapere dove sta il nord, passa da un ponte, da una vetrina con un 50% da capire e da un banco di frutta e verdura, e arriva nel castrum, dove una croce, una basilica e un muro storto aprono altre domande",
+    "codice": "GRA-4A-01",
+    "versione": "v1 · 28 novembre 2026",
+    "documentazione": "racconto, registrazione, foto dei luoghi senza volti riconoscibili e 17 disegni dei bambini con i nomi coperti",
+    "aule_collegate": [
+      {
+        "id": "06-grado-01",
+        "nome": "Primaria Dante"
+      },
+      {
+        "id": "06-grado-02",
+        "nome": "Piazza del lavoro"
+      },
+      {
+        "id": "06-grado-20",
+        "nome": "Ponte Scaramuzza"
+      },
+      {
+        "id": "06-grado-21",
+        "nome": "Il Calzettiere"
+      },
+      {
+        "id": "06-grado-22",
+        "nome": "Fratelli Movio"
+      },
+      {
+        "id": "06-grado-23",
+        "nome": "Calle Porta Piccola"
+      },
+      {
+        "id": "06-grado-24",
+        "nome": "Croce Patriarchina"
+      },
+      {
+        "id": "06-grado-25",
+        "nome": "Basilica di Sant’Eufemia"
+      },
+      {
+        "id": "06-grado-26",
+        "nome": "Basilica di Santa Maria delle Grazie"
+      },
+      {
+        "id": "06-grado-27",
+        "nome": "Campiello della Torre"
+      }
+    ],
+    "uda_sintesi": {
+      "quando": "26 novembre 2026, giovedì mattina",
+      "dove": "Primaria Dante, Piazza del Lavoro, Ponte Scaramuzza, vetrina e banco di frutta e verdura, calli del castrum, Campo dei Patriarchi, basilica di Santa Maria delle Grazie, mura e Campiello della Torre",
+      "chi": "Classe quarta A della Primaria Dante di Grado (IC «Dante Alighieri – Marco Polo»)",
+      "docenti": [
+        {
+          "nome": "Danilo Casertano",
+          "ruolo": "Associazione MANES · La Strada dei Bambini, conduce l’uscita"
+        }
+      ],
+      "risorse_esterne": "Associazione MANES · La Strada dei Bambini",
+      "tipologia": "Uscita a piedi dalla scuola al centro storico",
+      "discipline": [
+        "geografia",
+        "matematica",
+        "italiano",
+        "storia",
+        "scienze",
+        "arte",
+        "educazione civica"
+      ],
+      "prodotti_intermedi": "Ipotesi sul nome di Grado, sul nord e sulla bandiera; il conto del 50% lasciato aperto; le domande sul castrum, sulla croce e sulle mura",
+      "prodotto_finale": "17 mappe disegnate del percorso",
+      "competenze_chiave": [
+        "Competenza alfabetica funzionale",
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+        "Competenza personale, sociale e capacità di imparare a imparare",
+        "Competenza in materia di cittadinanza",
+        "Consapevolezza ed espressione culturali"
+      ],
+      "note": {
+        "competenze_chiave": "proposta di raccordo"
+      }
+    },
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Perché Grado si chiama così? E che cosa ci raccontano i luoghi che incontriamo camminando?"
+      },
+      "competenze_stato": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera (fine della scuola primaria / fine della classe quinta). In 4ª valgono i traguardi al termine della primaria e gli obiettivi al termine della classe quinta (biennio 4ª-5ª).",
+      "competenze": [
+        {
+          "competenza": "Geografia",
+          "abilita": [
+            "Orientarsi utilizzando la bussola e i punti cardinali anche in relazione al Sole.",
+            "Individuare problemi relativi alla tutela e valorizzazione del patrimonio naturale e culturale, proponendo soluzioni idonee nel proprio contesto di vita."
+          ],
+          "conoscenze": [
+            "Punti cardinali e orientamento con il Sole",
+            "Elementi fisici e antropici del territorio vicino (ponte, canale, calli, castrum, mura)",
+            "I nomi dei luoghi"
+          ],
+          "traguardi": [
+            "L’alunno si orienta nello spazio circostante e sulle carte geografiche, utilizzando riferimenti topologici e punti cardinali.",
+            "Utilizza il linguaggio della geo-graficità per interpretare carte geografiche e globo terrestre, realizzare semplici schizzi cartografici e carte tematiche, progettare percorsi e itinerari di viaggio."
+          ]
+        },
+        {
+          "competenza": "Matematica",
+          "abilita": [
+            "Utilizzare numeri decimali, frazioni e percentuali per descrivere situazioni quotidiane.",
+            "Eseguire le quattro operazioni con sicurezza, valutando l’opportunità di ricorrere al calcolo mentale, scritto o con la calcolatrice a seconda delle situazioni."
+          ],
+          "conoscenze": [
+            "Percentuali e numeri decimali",
+            "Un problema nato da un cartello vero (il 50% sul secondo capo meno costoso)"
+          ],
+          "traguardi": [
+            "Riconosce e utilizza rappresentazioni diverse di oggetti matematici (numeri decimali, frazioni, percentuali, scale di riduzione, ...).",
+            "Riesce a risolvere facili problemi in tutti gli ambiti di contenuto, mantenendo il controllo sia sul processo risolutivo, sia sui risultati.",
+            "Costruisce ragionamenti formulando ipotesi, sostenendo le proprie idee e confrontandosi con il punto di vista di altri."
+          ]
+        },
+        {
+          "competenza": "Scienze",
+          "abilita": [
+            "Ricostruire e interpretare il movimento dei diversi oggetti celesti, rielaborandoli anche attraverso giochi col corpo."
+          ],
+          "conoscenze": [
+            "Il sole a mezzogiorno e il suo spostamento nel corso della mattina",
+            "Frutta e verdura di produzione propria, il lavoro della terra"
+          ],
+          "traguardi": []
+        },
+        {
+          "competenza": "Storia",
+          "abilita": [
+            "Rappresentare, in un quadro storico-sociale, le informazioni che scaturiscono dalle tracce del passato presenti sul territorio vissuto."
+          ],
+          "conoscenze": [
+            "Tracce sul territorio: il castrum, la Croce Patriarchina, le mura, la basilica"
+          ],
+          "traguardi": [
+            "Riconosce e esplora in modo via via più approfondito le tracce storiche presenti nel territorio e comprende l’importanza del patrimonio artistico e culturale."
+          ]
+        },
+        {
+          "competenza": "Italiano",
+          "abilita": [
+            "Cogliere in una discussione le posizioni espresse dai compagni ed esprimere la propria opinione su un argomento in modo chiaro e pertinente.",
+            "Relativamente a testi o in situazioni di esperienza diretta, riconoscere la variabilità della lingua nel tempo e nello spazio geografico, sociale e comunicativo.",
+            "Conoscere i principali meccanismi di formazione delle parole (parole semplici, derivate, composte)."
+          ],
+          "conoscenze": [
+            "Origine e formazione delle parole (nomi di luogo, «contadino» da «contado»)",
+            "Variabilità della lingua: italiano, latino e gradese"
+          ],
+          "traguardi": [
+            "L’allievo partecipa a scambi comunicativi (conversazione, discussione di classe o di gruppo) con compagni e insegnanti rispettando il turno e formulando messaggi chiari e pertinenti, in un registro il più possibile adeguato alla situazione."
+          ]
+        },
+        {
+          "competenza": "Arte e immagine",
+          "abilita": [
+            "Riconoscere e apprezzare nel proprio territorio gli aspetti più caratteristici del patrimonio ambientale e urbanistico e i principali monumenti storico-artistici."
+          ],
+          "conoscenze": [
+            "La basilica di Santa Maria delle Grazie: mosaici, rilievi, colonne e capitelli"
+          ],
+          "traguardi": [
+            "Conosce i principali beni artistico-culturali presenti nel proprio territorio e manifesta sensibilità e rispetto per la loro salvaguardia."
+          ]
+        },
+        {
+          "competenza": "Educazione civica",
+          "abilita": [
+            "Discutere i simboli: la bandiera italiana e le bandiere di città e regioni",
+            "Entrare in un luogo di culto con rispetto, «anche per chi non crede o per chi ha altre religioni»",
+            "Rispettare le regole condivise di un’uscita in città: fila per due, strisce pedonali, stare a sinistra quando passano le macchine"
+          ],
+          "conoscenze": [
+            "La bandiera italiana",
+            "Regole condivise di un’uscita in città",
+            "Il rispetto dei luoghi di culto"
+          ],
+          "traguardi": []
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "1. In classe: perché Grado si chiama così?",
+          "attivita": "Perché Grado si chiama così? L’esempio di Ostia, la città di Danilo. Patto dell’uscita: le risposte si chiamano ipotesi, anche sbagliate.",
+          "discipline": [
+            "Italiano",
+            "Storia",
+            "Geografia"
+          ],
+          "tempi": "prima dell’uscita, in classe",
+          "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026"
+        },
+        {
+          "titolo": "2. Il cammino verso il centro storico",
+          "attivita": "Dove sta il centro e dove sta il nord; la bandiera vista da Piazza del Lavoro; il Ponte Scaramuzza; la vetrina del 50%; il banco di frutta e verdura; le calli e il castrum; la Croce Patriarchina; la basilica di Santa Maria delle Grazie; i muri storti e i nomi delle vie.",
+          "discipline": [
+            "Geografia",
+            "Scienze",
+            "Matematica",
+            "Italiano",
+            "Storia",
+            "Arte e immagine",
+            "Educazione civica"
+          ],
+          "tempi": "giovedì mattina, dalla scuola al centro storico e ritorno",
+          "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026"
+        },
+        {
+          "titolo": "3. In classe: la mappa del percorso",
+          "attivita": "Ognuno disegna la mappa del percorso, come vuole: una scena, una pianta, una linea di tappe, una rosa dei venti.",
+          "discipline": [
+            "Geografia",
+            "Arte e immagine",
+            "Matematica"
+          ],
+          "tempi": "dopo l’uscita",
+          "fonte": "Disegni della classe, 26 novembre 2026"
+        }
+      ],
+      "risorse": [
+        "Un percorso a piedi dalla scuola al centro storico, con luoghi che fanno nascere domande: il sole, la bandiera, il ponte, un cartello, un banco, le calli, una colonna, una basilica, le mura",
+        "Le scritte sulle targhe (latino, italiano, gradese) e i nomi delle vie",
+        "Carta e matita, per disegnare la mappa al ritorno"
+      ],
+      "sicurezza": "Fila per due, passaggio sulle strisce, si sta a sinistra quando passano le macchine; il gruppo si ferma ad aspettare chi resta indietro; in chiesa si entra con rispetto e senza toccare; i negozi e le persone si salutano e si chiede il permesso prima di fare domande."
+    },
+    "movimenti": [
+      {
+        "titolo": "In classe: perché Grado si chiama così?",
+        "testo": "Danilo ha cominciato da sé: ha chiesto ai bambini se secondo loro fosse nato a Grado, e come se n’erano accorti. «Perché ha un altro accento.» Poi ha chiesto di indovinare da dove fosse nato: le ipotesi sono arrivate a Roma, e Danilo ha detto di essere nato in un quartiere molto antico di Roma, sul mare, che si chiama Ostia. Da lì la domanda è passata al nome della loro città: perché Grado si chiama così? «Grado significa isola?» ha chiesto una voce; «forse, non si sa», ha risposto Danilo. Un’altra ha detto «mare». Per far capire che un nome ha un motivo, Danilo ha chiesto a una bambina perché si chiama come si chiama: i suoi «fondatori», ha detto, sono i genitori, che hanno deciso quel nome; e chi ha costruito Grado, quando le ha dato il suo, avrà avuto un motivo. La bambina ha risposto che l’avevano scelto per come suonava, non per un significato preciso. Ha portato l’esempio della sua città, Ostia: il nome, ha detto, viene dal latino *ostium*, che significa «foce», la fine di un fiume che arriva nel mare, come il Tevere (la classe ha saputo dire che cos’è la foce). Poi di nuovo Grado: «chi offre di più?», un’ipotesi, che cosa può voler dire in una lingua antica? Danilo non ha dato la soluzione: «lasciamo questa domanda». Ha ricordato che con le altre classi era andato verso il Parco delle Rose e aveva visto l’isola di Barbana da dietro il campo sportivo, ma che c’era una parte della città che non aveva ancora visto, quella verso il centro storico; i bambini hanno detto che sulla strada c’era l’acqua, e Danilo: «proviamo». La classe si è preparata a uscire.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [],
+        "voci": [
+          {
+            "testo": "Perché ha un altro accento.",
+            "contesto": "come si capisce che Danilo non è di Grado",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Grado significa isola?",
+            "contesto": "sul nome di Grado",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Mare.",
+            "contesto": "sul nome di Grado",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Dove sta il centro? Dove sta il nord?",
+        "testo": "Appena fuori dal cancello Danilo ha ricordato la regola dell’uscita: «io faccio delle domande, non pretendo che voi sappiate la risposta giusta; le chiamiamo ipotesi, e nel processo scientifico non c’è problema a dire ipotesi sbagliate». Prima domanda: in che direzione si trova il centro? Tutti hanno indicato la stessa. Seconda: e in quella direzione, dov’è il nord, il sud, l’est, l’ovest? Si sono formati due gruppi, chi pensava est e chi nord, e poi una terza voce ha proposto il sud. Danilo ha chiesto a ciascuno se lo pensava per sensazione o per un pensiero. Le ragioni sono arrivate una dopo l’altra: «il vento va per di là», e quindi mostra la direzione; «perché stiamo camminando, e quando si cammina si va verso nord», cioè davanti è nord; e una voce contraria: «se ti giri, il nord cambia». Danilo ha detto che poteva sembrare strano, «un pochino», e ha cambiato strada: avevano mai sentito parlare del «mezzogiorno d’Italia»? Dove si trova? Verso sud. Perché lo si dice? «Dalla posizione del sole.» A mezzogiorno il sole è a sud; ma erano le dieci: in due ore il sole si sarebbe spostato molto? Dove sarebbe andato, più di qua o più di là? Danilo ha lasciato un compito: da domani uscire e osservare dove sta il sole alle nove, alle undici e a mezzogiorno, e l’ha affidato anche alle maestre, che hanno accettato.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 01",
+            "immagine": "assets/materiali/grado-4a/foto-01-cortile-della-scuola.jpg",
+            "didascalia": "Il cortile della scuola, con il sole sopra i tetti: da qui la classe è partita.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 07",
+            "immagine": "assets/materiali/grado-4a/disegno-07.jpg",
+            "didascalia": "La rosa dei venti con un sole che sorride e la scritta «MAX SOLE» con una freccia; il tracciato con «ANDATA»; la bandiera, il ponte, il cartello «di sconto è il secondo capo meno», un crocifisso, la colonna e un muro di mattoni.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Il vento va per di là.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Perché stiamo camminando, e quando si cammina si va verso nord.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Se ti giri, il nord cambia.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Dalla posizione del sole.",
+            "contesto": "perché il mezzogiorno d’Italia è verso sud",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "La bandiera",
+        "testo": "Dalla Piazza del Lavoro, mentre la fila camminava, la classe ha riconosciuto una bandiera italiana appesa a una casa privata: «la bandiera dell’Italia». Danilo ha chiesto perché ha quei colori. Le risposte sono arrivate dalla cucina: il rosso è il pomodoro, il bianco la mozzarella, il verde il basilico; «quindi è nata prima la pizza e poi l’Italia?» ha chiesto Danilo, e la classe ha ammesso che forse no, ma che era un’ipotesi. Poi la domanda più difficile: Grado ha una bandiera? Qualcuno ha detto di sì, forse «azzurro e giallo» oppure blu; qualcun altro no. Danilo ha chiesto che cosa si trova dopo Grado, qualcosa di più grande (Venezia; Aquileia, «un po’ più grande») e se tutte le città avessero una bandiera. «Sarebbe interessante scoprirla», ha detto, e ha lasciato la domanda aperta.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [],
+        "voci": [
+          {
+            "testo": "Il rosso è il pomodoro, il bianco la mozzarella, il verde il basilico.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Azzurro e giallo.",
+            "contesto": "la bandiera di Grado, con dubbio",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Il ponte",
+        "testo": "La classe ha attraversato sulle strisce (una signora si è fermata per farla passare: «un mito») e ha raggiunto il Ponte Scaramuzza. In mezzo al ponte Danilo ha fatto fermare tutti: «stop, guardate solo, non buttatevi». Sotto c’erano il canale e le barche ormeggiate; il ponte è tornato in quasi tutti i disegni, spesso come un arco con l’acqua sotto.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 02",
+            "immagine": "assets/materiali/grado-4a/foto-02-ponte-scaramuzza.jpg",
+            "didascalia": "Il Ponte Scaramuzza visto dal marciapiede, verso il centro storico.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          }
+        ],
+        "voci": []
+      },
+      {
+        "titolo": "La vetrina e il 50%",
+        "testo": "Poco più avanti Danilo si è fermato davanti a una vetrina: «scusate, qui c’è scritto vendita promozionale, meno 50% sul secondo capo meno costoso: io non l’ho capita benissimo». Ha spiegato che un esempio reale poteva aiutare: due tutine da bambino, una a 54 euro e 50 e un’altra a 74 euro e 50; e se le prendo tutte e due, come funziona? Una voce ha chiesto: «ma su tutte e due o solo su quella di meno?». «E più o meno quanto sarà di meno?» ha chiesto Danilo. Il conto è rimasto aperto di proposito: «lasciamoci con il dubbio», «magari la risolviamo a scuola, perché questa a mente non ci riesco». Danilo ha parlato poi di «un attacco matematico». In un disegno il cartello è tornato, con le parole lette in vetrina: «di sconto è il secondo capo meno».",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 03",
+            "immagine": "assets/materiali/grado-4a/foto-03-vetrina-promozione.jpg",
+            "didascalia": "La vetrina con il cartello «vendita promozionale 50% sul secondo capo meno costoso».",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Ma su tutte e due o solo su quella di meno?",
+            "contesto": "sul 50%",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Frutta e verdura di produzione propria",
+        "testo": "Più avanti un altro cartello ha fermato la classe: «frutta e verdura di produzione propria». «Che vorrà dire? Avranno una fattoria?» Danilo ha chiesto a chi lavorava lì che cosa volesse dire e dove coltivassero: a Fossalon (sull’insegna c’è scritto «Fossalon di Grado»; Danilo ha detto di esserci stato). Poi Danilo ha chiesto che cosa ci fosse sul banco: i bambini hanno nominato le mele, i finocchi, i mandarini, le arance; il radicchio è stato chiamato «finocchio rosso» e Danilo ha detto che era un nome meraviglioso; fra le verdure verdi, due si assomigliavano ma una era dolce e una amara, mentre la bieta da costa era «molto dolce». Danilo ha ricordato una frase che gli aveva detto un grande cuoco: quello che cresce insieme nella terra sta bene anche nel piatto, ed è vero anche per il contadino. Poi ha chiesto da dove viene la parola contadino: «una delle parole più belle del mondo», perché il mondo si può dividere in città e contado, e il contado è tutto quello che sta intorno alla città: lì si produce il cibo che la città mangia, quindi senza contadini la città non mangia. Il contado della città di Grado, ha aggiunto, potremmo dire che è Fossalon. La lavagnetta con la scritta «Vetrina in allestimento» l’ha spiegata chi lavorava lì: la vetrina si cambia anche più volte al giorno, perché si portano dentro le cassette e si mette fuori qualcos’altro, e così si fanno girare le verdure. All’ingresso c’erano anche i prodotti della casa: le birre, la salsa di pomodoro, l’aceto e il succo di mele e il santoneto, un liquore di Grado fatto, hanno detto, con un’erba che nasce solo nella laguna di Grado e Marano. Alla fine un applauso al contadino, «un mestiere importantissimo».",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 04",
+            "immagine": "assets/materiali/grado-4a/foto-04-banco-frutta-e-verdura.jpg",
+            "didascalia": "Il banco davanti al negozio, con il cartello «frutta e verdura di produzione propria» e la lavagnetta «Vetrina in allestimento».",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Foto 05",
+            "immagine": "assets/materiali/grado-4a/foto-05-botte-e-vasetti.jpg",
+            "didascalia": "Una botte con bottiglie e vasetti all’ingresso del negozio.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Finocchio rosso.",
+            "contesto": "il radicchio",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "«Come a Venezia» e il castrum",
+        "testo": "Riprendendo il cammino, la classe è entrata nelle calli del centro e ha passato un portico: «vedi, come a Venezia proprio». Poi la frase che ha cambiato il passo: «questo è il castrum, adesso siamo dentro il castrum». Una maestra stava per rispondere, ma Danilo l’ha fermata: «rimaniamo con un interrogativo in sospeso». L’interrogativo era un indovinello: che cosa c’entra il castrum con New York? Manhattan e il castrum, ha detto Danilo, «hanno parecchio in comune nella forma». Nessuna spiegazione, e la classe è andata avanti.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [],
+        "voci": []
+      },
+      {
+        "titolo": "La colonna con la croce",
+        "testo": "In una piazza c’era una colonna con una croce in cima. Danilo ha fatto avvicinare tutti: «che cos’è questa colonna? C’è in cima una cosa che non capisco». Una voce ha chiesto «è di Gesù?», e Danilo ha detto che non l’aveva mai vista così. C’erano anche delle scritte: la classe ha provato a leggerle e Danilo ha chiesto se fossero in gradese per caso. La domanda è rimasta aperta: «abbiamo un grande interrogativo». Sulla targa, in basso, il nome della croce era scritto in latino, in italiano e in gradese: «Gradensis Patriarchatus crux», «Croce del Patriarcato Gradese», «La crose dei patriarchi de Gravo», con le date 607-1451.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 06",
+            "immagine": "assets/materiali/grado-4a/foto-06-colonna-con-la-croce.jpg",
+            "didascalia": "La colonna con la croce e la base con le iscrizioni.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Foto 07",
+            "immagine": "assets/materiali/grado-4a/foto-07-targa-della-croce.jpg",
+            "didascalia": "La targa: il nome della croce in latino, italiano e gradese.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "È di Gesù?",
+            "contesto": "in cima alla colonna",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Quali sono le chiese?",
+        "testo": "Nel Campo dei Patriarchi Danilo ha chiesto che cosa fosse l’edificio davanti: una chiesa, hanno detto, e anche l’altro; quale, allora? Uno non aveva il campanile, l’altro sì: «allora forse sono due». Un bambino ha usato una parola difficilissima: sconsacrata. Che cosa vuol dire? «Era stata chiesa e poi boh», «l’hanno chiusa»; un altro ha aggiunto che ci facevano i mercatini. Ce n’erano altre: «ha un sacco di chiese qui dentro», e una era una basilica. Che differenza c’è fra una basilica e una chiesa? La domanda è rimasta senza risposta. Poi qualcuno ha letto il nome di una delle chiese: «chiesa delle Grazie». Che vuol dire? «Perché si prega.» «Ci sono dei miracoli.» «Quando vai dentro, preghi e ti ricordi di Gesù: è stata una grazia per noi, che ha fatto tante cose di bene per noi.» Danilo ha commentato che la grazia è qualcosa di legato al bene. Prima di entrare ha detto che una chiesa, «anche per chi non crede o per chi ha altre religioni, è sempre un luogo dove si entra con molto rispetto».",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [],
+        "voci": [
+          {
+            "testo": "Quella è una chiesa.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Sconsacrata.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Era stata chiesa e poi boh.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Ci fanno i mercatini.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Perché si prega.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Ci sono dei miracoli.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "È stata una grazia per noi.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "I pavoni rappresentano la bellezza della chiesa.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Dentro la basilica",
+        "testo": "Dentro Danilo ha detto subito: «effettivamente mi sembra una chiesa un po’ particolare, non l’avevo mai vista con questa parte più sotto». «Sono dei mosaici», ha detto un bambino. Perché una parte è più in basso e una più in alto? C’era anche scritto qualcosa, ma non era facile da capire. Sui rilievi c’erano degli uccelli: «un pavone», ha detto una bambina; Danilo ha trovato che un po’ assomigliava; e quelli sopra? «Pavoni più piccoli», forse. Che cosa ci facevano dei pavoni in chiesa? «Questa proprio non la so nemmeno io.» Le ipotesi: i pavoni belli rappresentano la bellezza della chiesa; evocano anche la gentilezza; danno il significato di protezione. Poi le colonne: la parte in cima si chiama capitello, ha detto Danilo; sono tutti diversi, e anche le colonne. Perché? «Ognuno ha un significato diverso.» E una bambina: «all’esterno siamo diversi, ma all’interno siamo tutti uguali». «Poesia pura.» Che cosa non c’è in questa chiesa che invece c’è in molte altre? La classe ha trovato i vetri colorati e i rosoni, e poi i dipinti sul soffitto, gli affreschi, i quadri. Prima di uscire Danilo ha chiesto che atmosfera c’era e che emozioni dava: felicità, tranquillità, serenità, rilassante, e una tristezza, «perché c’è la croce». «È un luogo di memoria, la chiesa.»",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Foto 08",
+            "immagine": "assets/materiali/grado-4a/foto-08-basilica-navata.jpg",
+            "didascalia": "L’interno: la navata con le colonne e il soffitto di legno.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Foto 09",
+            "immagine": "assets/materiali/grado-4a/foto-09-basilica-mosaico.jpg",
+            "didascalia": "Il mosaico del pavimento nella parte più bassa, sulla destra.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Foto 10",
+            "immagine": "assets/materiali/grado-4a/foto-10-basilica-recinzione-altare.jpg",
+            "didascalia": "Un rilievo della recinzione dell’altare.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Foto 11",
+            "immagine": "assets/materiali/grado-4a/foto-11-basilica-recinzione-colonne.jpg",
+            "didascalia": "Un altro tratto della recinzione, con colonne e capitelli diversi.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Sono dei mosaici.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Un pavone.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Evocano la gentilezza.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Danno il significato di protezione.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Ognuno ha un significato diverso.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "All’esterno siamo diversi, ma all’interno siamo tutti uguali.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Tristezza, perché c’è la croce.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "I muri storti",
+        "testo": "Sulla via del ritorno, in un giro un po’ più largo del primo, Danilo si è fermato davanti a due pezzi di muro: «che sensazioni vi dà questo pezzo di muro e quell’altro?» «Storti», hanno detto. Uno era più grosso, uno più sottile. Che cosa poteva esserci qui nel tempo? Una casa? Qualcos’altro? Poi un buco, e un pezzo mancante in mezzo: «un passaggio», «poteva esserci una porta». Qualcuno ha detto «un ponte», ma «non c’è l’acqua»: come lo si poteva chiamare? Una galleria? Una trave? Poi Danilo ha chiesto che cosa c’è a casa nei posti per entrare: la porta, le scale. In una parte rotonda del muro: «qui vedete sempre il muro strano; potrebbe esserci stata una porta». Poi Danilo ha detto di leggere come si chiamava la via, ed era «Calle della Torre» — «una torre senza la torre». Ha chiesto che cosa volesse dire «calle»: si leggeva su molte targhe, come a Venezia; qualcuno ha chiesto se fossero tutte piccole, e Danilo ha detto che bisognava studiare un po’ il nome delle vie, perché è una cosa importante. Poi un’altra, la «Calle Lunga», e di lì la fila verso la scuola. In un punto qualcuno ha detto «Grado vecchia», per dire la parte antica.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 06",
+            "immagine": "assets/materiali/grado-4a/disegno-06.jpg",
+            "didascalia": "«MAPPA DI GRADO»: «SCUOLA ELEMENTARE», «BANDIERA» (casa e rettangolo tricolore), «PONTE» (arco con l’acqua), «CONTADINO», «50% SCONTO», «3 CHIESE» (una torre alta), una colonna e «MURA STORTE» (due speroni inclinati).",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Storti.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Un passaggio.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Poteva esserci una porta.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Grado vecchia.",
+            "contesto": "",
+            "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "La mappa",
+        "testo": "Dopo l’uscita ognuno ha disegnato la mappa del percorso: dei 17 fogli, cinque portano la data 26/11/2026 e gli altri non hanno data. Quasi tutti partono dalla scuola e passano da bandiera, ponte, cartello del 50%, frutta e verdura o contadino, colonna con la croce, chiese, mura, vie. Uno ha scelto di dare un titolo che non era sul percorso: «L’isola del sole». Le mappe sono molto simili nella sequenza: è la prova che la classe ha ricostruito insieme lo stesso percorso. Le differenze stanno nel modo di disegnare: mappe a tappe con linee tratteggiate, piante a riquadri collegati, schemi lineari, una veduta che non segue il percorso, un disegno narrativo. La rosa dei venti compare in cinque fogli, un ricordo della prima parte dell’uscita. Non si valuta la correttezza della carta.",
+        "fonte": "Disegni della classe, 26 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 15",
+            "immagine": "assets/materiali/grado-4a/disegno-15.jpg",
+            "didascalia": "«L’ISOLA DEL SOLE»: il ponte con tre figure (due bambini, uno con un fumetto «BASTA», e «LA MAESTRA»), la scuola, la bandiera italiana con una freccia e «LA BANDIERA DELL’ITALIA»; in alto a destra un riquadro a strisce con un sole.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 09",
+            "immagine": "assets/materiali/grado-4a/disegno-09.jpg",
+            "didascalia": "Il cartello «50% DI SCONTO», «C.ALLI CAMPIELLO», frutta, un muro di mattoni, la colonna, la «CHIESA», la rosa dei venti N-S-E, la «SCUOLA», un arco in alto a destra (il ponte). In basso: «PERCHÉ GRADO SI CHIAMA COSÌ?».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 13",
+            "immagine": "assets/materiali/grado-4a/disegno-13.jpg",
+            "didascalia": "La scuola con la rosa dei venti «PUNTI C. N O E S», «INIZIO», «BANDIERA DELL’ITALIA», «PONTE», il «CONTADINO» (un omino con il cappello) con «50% DI SCONTO», una chiesa, la «COLONNA» con «GESÙ MADONNA DIO», «MURA» e «VIE CAMPIELLO DELLA TORRE».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 08",
+            "immagine": "assets/materiali/grado-4a/disegno-08.jpg",
+            "didascalia": "«MAPPA DI GRADO»: «INIZIO (SCUOLA)» con una X, «BANDIERA DELL’ITALIA», «PONTE», «IL CALZETTIERE 50%», «COLONNA», «CHIESA», «CONTADINO FRUTTA E VERDURE» con le verdure disegnate, «MURA» e «VIE VIA CAMPIELLO» con due figure, «FINE» con una X.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+          }
+        ],
+        "voci": []
+      }
+    ],
+    "racconto": "",
+    "voci_bambini": "",
+    "lettura_pedagogica": "",
+    "voci": [
+      {
+        "testo": "Perché ha un altro accento.",
+        "contesto": "come si capisce che Danilo non è di Grado",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Grado significa isola?",
+        "contesto": "sul nome di Grado",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Mare.",
+        "contesto": "sul nome di Grado",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Il vento va per di là.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Perché stiamo camminando, e quando si cammina si va verso nord.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Se ti giri, il nord cambia.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Dalla posizione del sole.",
+        "contesto": "perché il mezzogiorno d’Italia è verso sud",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Il rosso è il pomodoro, il bianco la mozzarella, il verde il basilico.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Azzurro e giallo.",
+        "contesto": "la bandiera di Grado, con dubbio",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Ma su tutte e due o solo su quella di meno?",
+        "contesto": "sul 50%",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Finocchio rosso.",
+        "contesto": "il radicchio",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "È di Gesù?",
+        "contesto": "in cima alla colonna",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Quella è una chiesa.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Sconsacrata.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Era stata chiesa e poi boh.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Ci fanno i mercatini.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Perché si prega.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Ci sono dei miracoli.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "È stata una grazia per noi.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Sono dei mosaici.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Un pavone.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "I pavoni rappresentano la bellezza della chiesa.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Evocano la gentilezza.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Danno il significato di protezione.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Ognuno ha un significato diverso.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "All’esterno siamo diversi, ma all’interno siamo tutti uguali.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Tristezza, perché c’è la croce.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Storti.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Un passaggio.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Poteva esserci una porta.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Grado vecchia.",
+        "contesto": "",
+        "fonte": "Registrazione dell’uscita, 26 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      }
+    ],
+    "osservazioni_docenti": [
+      {
+        "tipo": "conduzione",
+        "testo": "All’inizio è stato detto un patto: Danilo fa domande, e le risposte si chiamano ipotesi, anche sbagliate. Le parole date dall’adulto sono state poche e dette come tali: ostium, contado, capitello, castrum.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026"
+      },
+      {
+        "tipo": "conduzione",
+        "testo": "Un momento da ricordare: Danilo ha chiesto di non rispondere a una domanda («rimaniamo con un interrogativo»). I disegni mostrano che le domande sono rimaste ai bambini: il nome di Grado, il 50%, la bandiera, le mura storte.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 26 novembre 2026"
+      }
+    ],
+    "materiali_bambini": [
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 01",
+        "immagine": "assets/materiali/grado-4a/disegno-01.jpg",
+        "didascalia": "Una mappa con linea rossa tratteggiata: la scuola con una rosa dei venti in alto a sinistra, un ponte ad arco nero, una colonna con la croce, due crocifissi in riquadro, due blocchi di pietre, una casetta con una finestra gialla, una casa rossa con una scritta e un riquadro rosso «50%». Poche etichette.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 02",
+        "immagine": "assets/materiali/grado-4a/disegno-02.jpg",
+        "didascalia": "Una pianta a riquadri collegati da una linea: «SCUOLA ELEMENTARE», «LA BANDIERA» (una casa con le scale), «IL PONTE», «CONTADINO» con «FRUTTA E VERDURA», «VETRINA 50% SCONTO», «3 CHIESE» con un campanile, una colonna a gradoni con la croce, due pannelli di pietre e in alto a destra una targa con il nome di una via.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 03",
+        "immagine": "assets/materiali/grado-4a/disegno-03.jpg",
+        "didascalia": "La mappa «a tappe»: la scuola con le recinzioni blu, la bandiera tricolore, il ponte, «-50% SCONTO», «CONTADINO», la colonna, una chiesa con il campanile, «VIE» (una schiera di case) e «MURA».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 04",
+        "immagine": "assets/materiali/grado-4a/disegno-04.jpg",
+        "didascalia": "Una linea nera con segni a tratti, la parola «PONTE» e poche altre figure: la più essenziale.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 05",
+        "immagine": "assets/materiali/grado-4a/disegno-05.jpg",
+        "didascalia": "«MAPPA DI GRADO»: la scuola con una X, un riquadro «NORD SUD EST OVEST», la bandiera, «VIE», frutta e verdura (tre pezzi), «50% SCONTO CALZETTIERE», una chiesa, la colonna e un arco grigio.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 06",
+        "immagine": "assets/materiali/grado-4a/disegno-06.jpg",
+        "didascalia": "«MAPPA DI GRADO»: «SCUOLA ELEMENTARE», «BANDIERA» (casa e rettangolo tricolore), «PONTE» (arco con l’acqua), «CONTADINO», «50% SCONTO», «3 CHIESE» (una torre alta), una colonna e «MURA STORTE» (due speroni inclinati).",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 07",
+        "immagine": "assets/materiali/grado-4a/disegno-07.jpg",
+        "didascalia": "La rosa dei venti con un sole che sorride e la scritta «MAX SOLE» con una freccia; il tracciato con «ANDATA»; la bandiera, il ponte, il cartello «di sconto è il secondo capo meno», un crocifisso, la colonna e un muro di mattoni.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 08",
+        "immagine": "assets/materiali/grado-4a/disegno-08.jpg",
+        "didascalia": "«MAPPA DI GRADO»: «INIZIO (SCUOLA)» con una X, «BANDIERA DELL’ITALIA», «PONTE», «IL CALZETTIERE 50%», «COLONNA», «CHIESA», «CONTADINO FRUTTA E VERDURE» con le verdure disegnate, «MURA» e «VIE VIA CAMPIELLO» con due figure, «FINE» con una X.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 09",
+        "immagine": "assets/materiali/grado-4a/disegno-09.jpg",
+        "didascalia": "Il cartello «50% DI SCONTO», «C.ALLI CAMPIELLO», frutta, un muro di mattoni, la colonna, la «CHIESA», la rosa dei venti N-S-E, la «SCUOLA», un arco in alto a destra (il ponte). In basso: «PERCHÉ GRADO SI CHIAMA COSÌ?».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 10",
+        "immagine": "assets/materiali/grado-4a/disegno-10.jpg",
+        "didascalia": "«MAPPA DI GRADO»: «START SCHOOL», «PONTE», un riquadro «50x», «CHIESA», «BASILICA», «COLONNA», «MURO» (un arco di pietre) e «VIE CAMPIELO» con una figura e dei cuori; due X sul percorso.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 11",
+        "immagine": "assets/materiali/grado-4a/disegno-11.jpg",
+        "didascalia": "Uno schema lineare con linea rossa: la scuola come una piccola costruzione, «BANDIERA», «PONTE», «SCONTI», «CONTADINO», «COLONNA», «CHIESE», «MURA», «VIE», «ARRIVO».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 12",
+        "immagine": "assets/materiali/grado-4a/disegno-12.jpg",
+        "didascalia": "Più veduta che mappa: «SCUOLA PRIMARIA», «CAMPO SPORTIVO», il «PONTE» grande e ad arco, case, alberi, il canale. È l’unico con il campo sportivo e senza tappe nell’ordine.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 13",
+        "immagine": "assets/materiali/grado-4a/disegno-13.jpg",
+        "didascalia": "La scuola con la rosa dei venti «PUNTI C. N O E S», «INIZIO», «BANDIERA DELL’ITALIA», «PONTE», il «CONTADINO» (un omino con il cappello) con «50% DI SCONTO», una chiesa, la «COLONNA» con «GESÙ MADONNA DIO», «MURA» e «VIE CAMPIELLO DELLA TORRE».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 14",
+        "immagine": "assets/materiali/grado-4a/disegno-14.jpg",
+        "didascalia": "La scuola grande con «PARTENZA» e una linea che porta a «GRADO», «BANDIERA», «PONTE», «50% SCONTO», «CONTADINO», «COLONNA», «FINE» e «CHIESE» (tre edifici a punta).",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 15",
+        "immagine": "assets/materiali/grado-4a/disegno-15.jpg",
+        "didascalia": "«L’ISOLA DEL SOLE»: il ponte con tre figure (due bambini, uno con un fumetto «BASTA», e «LA MAESTRA»), la scuola, la bandiera italiana con una freccia e «LA BANDIERA DELL’ITALIA»; in alto a destra un riquadro a strisce con un sole.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 16",
+        "immagine": "assets/materiali/grado-4a/disegno-16.jpg",
+        "didascalia": "Una pianta dall’alto con la scuola, due strade che si incrociano, un ponte (due barre), pochi blocchi e una fila di piccoli segni; poche etichette.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 17",
+        "immagine": "assets/materiali/grado-4a/disegno-17.jpg",
+        "didascalia": "«MAPPA DI USCITA DI SCUOLA»: «PARTENZA», «SCUOLA», «BANDIERA» con il tricolore, «PONTE» con un arco, «50% DISCONTO», «CONTADINO», «COLLONNA CHIESA», «MURA», «VIE», con una X a ogni tappa.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta della Primaria Dante, 26 novembre 2026"
+      }
+    ],
+    "materiali_adulti": [],
+    "valutazione": {
+      "stato": "Osservazione in situazione e lettura delle mappe, senza voto ai bambini",
+      "prodotto": "Le mappe dell’uscita, lette con quattro attenzioni: la sequenza delle tappe, la vista dall’alto, i punti di riferimento e la legenda, i dati e il ragionamento (il cartello del 50%, i prezzi, il conto). Si valorizzano etichette, frecce, didascalie, legenda e rosa dei venti; la correttezza della carta non è un criterio.",
+      "processo": "Durante il cammino: le ipotesi sul nome, sul nord e sulla bandiera; la differenza tra sensazione e pensiero; la domanda sul 50% nata da un cartello vero; il rispetto in chiesa e nel gruppo.",
+      "metacognizione": "Il bambino racconta la sua mappa prima della lettura dell’adulto e spiega, se c’è, la scelta del nord o il ragionamento sul 50%. Il giudizio sintetico (L. 150/2024) nasce dalle osservazioni, non dal disegno da solo."
+    },
+    "lettura": {
+      "testo": "L’uscita ha avuto la regola dell’inizio: Danilo fa domande, e le risposte si chiamano ipotesi, anche sbagliate. È il cuore del metodo: l’uscita apre le domande e lascia che restino aperte, perché diventino lavoro in classe. Ha funzionato come un filo che tiene insieme dodici tappe diverse: ogni tappa ha avuto una domanda e quasi nessuna una risposta data dall’alto. Le parole date dall’adulto sono state poche e dette come tali: *ostium*, contado, capitello, castrum.\n\nIl filo più chiaro è il sole. Il gioco del nord ha reso visibile la differenza tra sensazione e pensiero: ognuno si è messo in un punto con il corpo e ha dovuto dire perché. Alcune ragioni erano osservazioni (il vento), una era un ragionamento sul cammino («quando si cammina si va verso nord»), una l’ha smontata («se ti giri, il nord cambia»), e la più solida è arrivata con una parola: il mezzogiorno. Il compito sul sole ha lasciato la prova a casa e nelle mani delle maestre. Dopo l’uscita un disegno si intitola «L’isola del sole», il nome con cui tutti conoscono Grado; in un altro un sole sorride nella rosa dei venti, con la scritta «MAX SOLE».\n\nIl nome di Grado è rimasto aperto, con le ipotesi «isola» e «mare», il suggerimento di cercarlo in una lingua antica e una mappa che finisce con la domanda. Il 50% è stato un problema vero, nato da un cartello vero: la domanda più matematica («su tutte e due o solo su quella di meno?») è venuta da una bambina, prima che l’adulto sapesse come risolverla, e il disegno 07 riporta proprio la frase del cartello. Il banco di frutta e verdura ha messo in ordine tre cose: il lavoro (produzione propria), la parola (contadino da contado) e il luogo (Fossalon, la stessa Fossalon dove il giorno prima un’altra quarta era uscita con Danilo). Il castrum, la croce e le mura sono stati tre modi di leggere le tracce: le parole del cartello, le scritte in tre lingue, un muro con un buco. La basilica ha portato un registro diverso: il rispetto detto prima di entrare, le ipotesi sui pavoni, la poesia dei capitelli («all’esterno siamo diversi, ma all’interno siamo tutti uguali»), le emozioni dette ad alta voce, compresa la tristezza. Danilo non l’ha corretta: «è un luogo di memoria».\n\nUn momento da ricordare: Danilo ha chiesto di non rispondere a una domanda («rimaniamo con un interrogativo»). I disegni mostrano che le domande sono rimaste ai bambini: il nome di Grado, il 50%, la bandiera, le mura storte.",
+      "indicazioni": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera nella progettazione."
+    },
+    "ferita_cura": "",
+    "stare_bene": "",
+    "strato_digitale": "",
+    "rilanci": {
+      "intro": "Proposte per continuare, da adattare con le insegnanti. La valutazione resta descrittiva, senza voto ai bambini.",
+      "in_classe": [
+        {
+          "titolo": "Il sole di Grado",
+          "testo": "Riprendere il compito: osservare dove sta il sole alle nove, alle undici e a mezzogiorno (per esempio dalla finestra della classe, o dal cortile con un bastone che fa ombra) e annotare la direzione con la bussola; confrontare con il «mezzogiorno d’Italia» e con il nord dell’uscita. Poi la domanda che chiude il cerchio: perché Grado è l’«isola del sole»? Per l’adulto: la città è chiamata anche «Isola del Sole» perché le sue spiagge, al contrario di quasi tutte le località balneari dell’Adriatico, guardano a sud, verso il sole (la Repubblica, «Grado, Isola del Sole, festeggia i 130 anni di spiaggia più amata», https://www.repubblica.it/viaggi/offerte/2022/07/05/news/grado_isola_del_sole_festeggia_i_130_anni_di_spiaggia_piu_amata-356561870/, 5 luglio 2022).",
+          "aggancio": "Scienze (movimento degli oggetti celesti), geografia (orientarsi con il Sole e la bussola).",
+          "valutazione": "Il bambino indica dove sta il sole a un’ora scelta e la confronta con il mezzogiorno."
+        },
+        {
+          "titolo": "Il conto del 50%",
+          "testo": "Riprendere i due prezzi (54,50 e 74,50 euro) e chiedere alla classe di decidere che cosa vuol dire «50% sul secondo capo meno costoso»: su tutti e due? solo sul più economico? Costruire una tabella con le due ipotesi e confrontare i totali. Per l’adulto: l’offerta riguarda solo il capo che costa meno; 54,50 ÷ 2 = 27,25, quindi si pagano 74,50 + 27,25 = 101,75 euro invece di 129,00, un risparmio di 27,25 euro, circa il 21% del totale; non è il 50% sul totale. Si potrebbe poi cercare altri cartelli di sconti vicino a scuola e leggerli allo stesso modo, senza fare pubblicità a nessuno.",
+          "aggancio": "Matematica (numeri decimali, percentuali, problemi con tabella).",
+          "valutazione": "Il bambino spiega la sua ipotesi e confronta i due totali."
+        },
+        {
+          "titolo": "Perché si chiama così?",
+          "testo": "Riprendere le ipotesi dei bambini sul nome e confrontarle con le fonti, con una tabella a tre colonne: il nome, la nostra ipotesi, che cosa dice la fonte (e quanto è sicura).\n   - Grado. Il nome viene dal latino gradus, «scalo», «approdo»: Grado nacque in età romana come borgo di pescatori e porto per le navi che risalivano il fiume Natissa verso Aquileia (Consorzio Grado Turismo, «Le origini», https://grado.it/it/cosa-fare/arte-storia-e-cultura/curiosita/le-origini; lo stesso Consorzio, nella pagina sul Castrum, https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/il-castrum, traduce «gradino», «scalo», «approdo sul mare aperto»). Uno studio di geologia avverte che l’origine del nome resta «controversa» (E. Marocco 2010, base di Grado). Le ipotesi dei bambini erano «isola» (Grado è davvero un’isola-città) e «mare» (un approdo sul mare aperto): la seconda era la più vicina.\n   - Ostia. Danilo ha detto di essere nato a Ostia, un quartiere antico di Roma sul mare, e se n’è servito come esempio: il nome viene dal latino ostium, «porta, imboccatura del fiume», cioè le bocche del Tevere (Enciclopedia Italiana, «Ostia», https://www.treccani.it/enciclopedia/ostia_(Enciclopedia-Italiana/), 1935).",
+          "aggancio": "Italiano (origine e formazione delle parole), storia (le fonti e la loro affidabilità), geografia.",
+          "valutazione": "Il bambino distingue l’ipotesi della classe da ciò che dice una fonte, e dice quanto la fonte è sicura."
+        },
+        {
+          "titolo": "Parole di Grado: il gradese",
+          "testo": "Davanti alla croce Danilo ha chiesto se le scritte fossero in gradese per caso, e la domanda è rimasta aperta; all’inizio dell’uscita i bambini avevano notato che Danilo ha «un altro accento». Si potrebbe fare una raccolta di parole di Grado: cominciare da quelle viste sull’uscita, come Gravo (il nome gradese di Grado, sulla targa; it.wikipedia, «Grado», https://it.wikipedia.org/wiki/Grado_%28Italia%29, registra anche Grao, e Gravo vecia per la città antica dentro il castrum: la «Grado vecchia» detta in classe), crose («croce») e Cesa de le Grasie (la chiesa di Santa Maria delle Grazie, così chiamata dalla gente; Consorzio Grado Turismo, pagina della basilica, https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/basilica-di-santa-maria-delle-grazie), e chiedere a nonni e parenti altre parole: calli e campielli, il mare, gli uccelli. Per l’adulto: il gradese (graisano) è un dialetto della lingua veneta, parlato sull’isola di Grado, con influssi del friulano (it.wikipedia, «Dialetto gradese», https://it.wikipedia.org/wiki/Dialetto_gradese). Il gabbiano. In veneto il gabbiano si dice cocal: Treccani lo registra come «nome veneto del gabbiano comune e anche di altri uccelli» (Vocabolario, «cocàl», https://www.treccani.it/vocabolario/cocal/); il plurale è cocaƚi nel Wikisionario veneto («cocal», https://vec.wiktionary.org/wiki/cocal; in grafia italiana cocali), e a Venezia i gabbiani comuni si chiamano cocai (per esempio PD Cannaregio, «Non confondiamo i cocai con le magoghe», https://www.pdcannaregio.it/ambiente/non-confondiamo-i-cocai-con-le-magoghe/, 2016). Non abbiamo trovato una voce gradese: nessuna fonte consultabile online riporta cocal o cocali come parola del gradese, né il suo plurale gradese. Il «Vocabolario della parlata gradese» (A. Corbatto, Edizioni della Laguna, 1995; scheda nel catalogo BiblioUniTS, https://www.biblio.units.it/SebinaOpac/resource/vocabolario-della-parlata-gradese-vocabolario-fraseologico/TSA0157769, che lo elenca anche presso la Biblioteca Statale Isontina di Gorizia: lo elenca anche presso la Biblioteca Statale Isontina di Gorizia) è la fonte da consultare; finché non è consultata, ai bambini si può dire che «in veneto il gabbiano si dice cocal» e chiedere ai nonni come lo chiamano.",
+          "aggancio": "Italiano (variabilità della lingua nello spazio geografico).",
+          "valutazione": "Il bambino raccoglie almeno una parola sentita sull’uscita o chiesta a casa, e dice da dove viene."
+        },
+        {
+          "titolo": "«Contadino» viene da «contado»",
+          "testo": "Partire dalla spiegazione di Danilo e cercare altre parole nate da un luogo o da un mestiere (cittadino, paesano, marinaio...). Si potrebbe collegare con la quarta di Fossalon, che il giorno prima aveva incontrato un contadino al lavoro.",
+          "aggancio": "Italiano (formazione delle parole).",
+          "valutazione": "Il bambino spiega da dove viene una parola nata da un luogo o da un mestiere."
+        },
+        {
+          "titolo": "Il castrum e Manhattan: l’indovinello",
+          "testo": "Danilo ha detto che il castrum e Manhattan «hanno parecchio in comune nella forma» e ha lasciato la domanda aperta. L’analogia che intendeva è questa: le street e le avenue di Manhattan, due famiglie di strade che si tagliano ad angolo retto, richiamano il decumano e il cardo romani, cioè la pianta a griglia.\n\n   Per l’adulto, quello che le fonti permettono di dire, e quello che no:\n   - Nel mondo romano il cardo (asse nord-sud) e il decumano (asse est-ovest) sono le due linee che, tagliandosi ad angolo retto, dividevano in quattro parti una città di nuova fondazione, un territorio assegnato a coloni o un accampamento (Enciclopedia Italiana, «Cardine», https://www.treccani.it/enciclopedia/cardine_(Enciclopedia-Italiana/), 1930, e «Decumano», https://www.treccani.it/enciclopedia/decumano_(Enciclopedia-Italiana/), 1931). I castra avevano in genere una pianta quadrangolare, con gli edifici disposti entro un reticolo di strade che si incrociano ad angolo retto (Dizionario di Storia, «Castra», https://www.treccani.it/enciclopedia/castra_(Dizionario-di-Storia/), 2010).\n   - Il castrum di Grado, insediamento fortificato tardoantico, aveva però una forma «simile a una suola di sandalo», lungo 360 metri e largo 50 a nord e più di 90 verso sud; le odierne Calle del Palazzo e Calle Lunga «sembrano seguire l’asse originario dentro le mura» (Consorzio Grado Turismo, «Il Castrum», https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/il-castrum). Dalle fonti consultate non risulta una coppia documentata di cardo e decumano con quei nomi dentro il castrum di Grado.\n   - L’isola di Manhattan, a nord di Houston Street, è stata suddivisa nel 1811 da un piano a griglia rettangolare, il Commissioners’ Plan: il termine avenue è applicato alle strade che corrono in direzione settentrionale, parallele fra loro, e le street le tagliano di traverso. I commissari scelsero la griglia per ragioni pratiche: «straight-sided and right-angled houses are the most cheap to build and the most convenient to live in», cioè case a lati diritti e ad angolo retto sono le più economiche da costruire e le più comode da abitare (Remarks of the Commissioners, 22 marzo 1811; trascrizione del Museum of the City of New York, The Greatest Grid, https://thegreatestgrid.mcny.org/greatest-grid/key-documents/73). Nelle Remarks non si parla di cardo, di decumano, né di una discendenza dal castrum romano. Le avenue, inoltre, sono allineate all’asse dell’isola, non al nord geografico.\n\n   L’accostamento è dunque un’analogia di forma — la griglia ortogonale — e non una discendenza documentata: non risulta che le street e le avenue di Manhattan siano state pensate come cardo e decumano, né che il piano del 1811 derivi dal castrum di Grado. Si potrebbe, in classe, disegnare su carta a quadretti una griglia con due famiglie di strade che si tagliano ad angolo retto, confrontarla con una pianta delle calli del castrum e con una pianta di Manhattan, e tenere distinta l’analogia dalla storia di ciascun luogo.",
+          "aggancio": "Storia, geografia, matematica (orientamento e pianta).",
+          "valutazione": "Il bambino distingue l’analogia di forma (la griglia) da una discendenza, e indica su una pianta due famiglie di strade che si tagliano."
+        },
+        {
+          "titolo": "Pavoni, colombe e agnelli in chiesa",
+          "testo": "Tornare alle ipotesi dei bambini (bellezza, gentilezza, protezione) e confrontarle con le fonti: secondo il Consorzio Grado Turismo gli animali della recinzione dell’altare di Santa Maria delle Grazie, colombe, pavoni e agnelli, sono quasi di certo opera di scalpellini aquileiesi trasferiti a Grado e il loro valore simbolico «forse per noi oggi non è di immediata comprensione, mentre era comune e diffusa in passato» (pagina della basilica, https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/basilica-di-santa-maria-delle-grazie). Resta da cercare, da una fonte di storia dell’arte, che cosa significava il pavone nell’arte paleocristiana. Per i capitelli «tutti diversi»: la stessa pagina dice che le colonne, cinque per lato, hanno «bellissimi e variegati capitelli perlopiù di reimpiego», cioè presi da edifici più antichi: un’ipotesi in più per la domanda «perché sono tutti diversi?».",
+          "aggancio": "Arte e immagine, storia.",
+          "valutazione": "Il bambino distingue l’ipotesi della classe da ciò che dice una fonte, e formula una domanda su ciò che resta aperto."
+        },
+        {
+          "titolo": "La bandiera di Grado",
+          "testo": "Cercare se il Comune di Grado ha una bandiera o un gonfalone e come è fatto, sul sito del Comune, e confrontarlo con l’ipotesi «azzurro e giallo» e con il riquadro con il sole del disegno 15. Per il tricolore, leggere con l’insegnante la storia della bandiera italiana da una fonte istituzionale.",
+          "aggancio": "Educazione civica, geografia.",
+          "valutazione": "Il bambino dice se ha trovato una bandiera o uno stemma, e da quale fonte."
+        },
+        {
+          "titolo": "Le calli e i nomi delle vie",
+          "testo": "Danilo ha detto che «bisogna studiare un po’ il nome delle vie». Si potrebbe raccogliere i nomi incontrati (Calle Porta Piccola, Calle del Volto, Calle della Torre, Campiello della Torre, Calle Lunga, Campo dei Patriarchi), distinguere calle, campo, campiello e confrontare con Venezia. Per l’adulto: il Consorzio Grado Turismo scrive che nel tempo il centro ha sovrapposto «case, campi, campielli e calli» al nucleo antico e che Calle Lunga e Calle del Palazzo «sembrano seguire l’asse originario dentro le mura» («Il Castrum», https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/il-castrum); per le porte, il blog Sussurri delle cube riporta che la Porta Piccola fu demolita nel 1875 («Le porte di Grado», https://graisani.blogspot.com/2023/07/le-porte-di-grado.html: è una fonte locale, da controllare).",
+          "aggancio": "Storia, geografia, italiano.",
+          "valutazione": "Il bambino distingue calle, campo e campiello e indica almeno un nome di via incontrato sull’uscita."
+        }
+      ],
+      "prossima_uscita": [
+        {
+          "titolo": "Domande aperte, rimaste ai bambini",
+          "punti": [
+            "Perché Grado si chiama così?",
+            "Grado ha una bandiera?",
+            "Dove sta il sole alle nove, alle undici, a mezzogiorno?",
+            "Quanto si paga con il 50% sul secondo capo meno costoso?",
+            "Che differenza c’è fra una chiesa e una basilica?",
+            "Che cosa vuol dire sconsacrata?",
+            "Perché ci sono i pavoni in chiesa?",
+            "Che cosa c’era dove ora c’è un muro con un buco?",
+            "Che cosa c’entrano il castrum e Manhattan?"
+          ]
+        },
+        {
+          "titolo": "Cose da controllare prima, per l’adulto",
+          "punti": [
+            "Il nome gradese del gabbiano: nessuna voce trovata online; consultare il vocabolario di Corbatto (1995) e chiedere ai nonni.",
+            "La bandiera di Grado; il significato del pavone nell’arte paleocristiana.",
+            "L’origine del nome Scaramuzza: nessuna fonte trovata finora.",
+            "La Porta Piccola: una fonte locale parla della demolizione nel 1875, da controllare.",
+            "Nella scheda non si scrive nulla che non sia accertato."
+          ]
+        },
+        {
+          "titolo": "Mete possibili",
+          "punti": [
+            "La basilica di Sant’Eufemia, per vedere sul pavimento dell’altare maggiore il mosaico moderno che raffigura il castrum (Consorzio Grado Turismo, «Il Castrum»).",
+            "Campo Porta Nuova, dove si può intuire una delle nove torri.",
+            "La spiaggia, a metà mattina, per osservare il sole sul mare e sul lato sud."
+          ]
+        },
+        {
+          "titolo": "Materiali, ruoli, famiglie e comunità",
+          "punti": [
+            "Materiali: bussola, metro, carta del centro storico da annotare, cartoncino e matita, una scheda con i nomi delle vie.",
+            "Ruoli (a rotazione): chi tiene la bussola, chi legge le targhe delle vie, chi disegna un pezzo di muro, chi fotografa solo oggetti e luoghi.",
+            "Famiglie e comunità: chiedere a nonni e parenti di Grado parole gradesi e come si chiamano gli uccelli del mare; un’intervista a chi lavora in negozio o in campagna, se è disponibile e non mentre lavora."
+          ]
+        }
+      ]
+    },
+    "apparato": {
+      "fonti": [
+        "Racconto dell’uscita di Danilo Casertano, 26 novembre 2026",
+        "Registrazione audio dell’uscita (trascrizione, senza i nomi dei bambini): registrazioni 27, 28, 30, 31 e 32",
+        "Foto dei luoghi senza volti riconoscibili e 17 disegni dei bambini con i nomi coperti",
+        "Consorzio Grado Turismo, «Le origini», «Il Castrum», pagina della basilica di Santa Maria delle Grazie",
+        "Enciclopedia Italiana, voci «Ostia» (1935), «Cardine» (1930), «Decumano» (1931); Dizionario di Storia, «Castra» (2010)",
+        "Remarks of the Commissioners, 22 marzo 1811 (Museum of the City of New York, The Greatest Grid)",
+        "Treccani, Vocabolario, «cocàl»; Wikisionario veneto, «cocal»",
+        "la Repubblica, «Grado, Isola del Sole», 5 luglio 2022",
+        "E. Marocco 2010, base di Grado, sull’origine «controversa» del nome"
+      ]
+    },
+    "da_completare": [],
+    "modello": "uda-integrata-v1",
+    "foto": [
+      "assets/materiali/grado-4a/foto-01-cortile-della-scuola.jpg"
+    ],
+    "competenze_ue": [
+      "Competenza alfabetica funzionale",
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+      "Competenza personale, sociale e capacità di imparare a imparare",
+      "Competenza in materia di cittadinanza",
+      "Consapevolezza ed espressione culturali"
+    ]
   }
 ]
