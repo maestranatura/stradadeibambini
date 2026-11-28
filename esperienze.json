@@ -31779,5 +31779,1601 @@
       "Competenza personale, sociale e capacità di imparare a imparare",
       "Competenza in materia di cittadinanza"
     ]
+  },
+  {
+    "id": "dove-sta-il-nord",
+    "community": "Grado",
+    "percorso": "Fossalon · intorno alla Primaria, tra gli alberi, le statue e i campi",
+    "aula_id": "06-grado-09",
+    "aula": "Fossalon · Scuola Primaria",
+    "titolo": "Dove sta il nord?",
+    "stato": "vissuta",
+    "eta": [
+      "primaria III-V"
+    ],
+    "gruppo": [
+      "classe"
+    ],
+    "discipline": [
+      "arte",
+      "educazione civica",
+      "geografia",
+      "italiano",
+      "matematica",
+      "scienze",
+      "storia"
+    ],
+    "tipo_aula": "Da classificare",
+    "descrizione": "Nel primo pomeriggio del 25 novembre 2026 (la data è scritta anche da un bambino sul suo disegno) una classe quarta della Primaria di Fossalon è uscita a piedi con Danilo Casertano intorno alla scuola, sotto qualche goccia di pioggia. In classe si è partiti dai nomi: perché Fossalon, Grado e Aquileia si chiamano così, e che cosa ha Grado che Fossalon non ha. Fuori la classe ha riconosciuto gli alberi da frutto e ha battezzato «l’albero virus» un albero con le palline spinose; si è chiesta perché l’Italia ha tre colori e se Grado ha una bandiera; ha osservato due statue di guerrieri, diverse tra loro, all’ingresso di una villa. Davanti alle montagne ognuno si è messo dove pensava che fosse il nord e ha spiegato il perché; il ragionamento sul sole che tramonta a ovest ha convinto quasi tutti. Lungo i campi la classe si è fermata a un fosso, ha misurato a passi i due lati del campo da calcio e ha guardato un contadino al lavoro. Tornati in classe, ognuno ha disegnato la mappa del percorso con le due misure.",
+    "materiali": "Foto dei luoghi senza volti riconoscibili e 19 disegni dei bambini, con i nomi coperti",
+    "links": [
+      {
+        "label": "UDA proposta «I guardiani di pietra»",
+        "url": "https://stradadeibambini.it/esperienza.html?id=i-guardiani-di-pietra"
+      },
+      {
+        "label": "Consorzio Grado Turismo, «Le origini»",
+        "url": "https://grado.it/it/cosa-fare/arte-storia-e-cultura/curiosita/le-origini"
+      },
+      {
+        "label": "Grado, «Fossalon»",
+        "url": "https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/fossalon"
+      },
+      {
+        "label": "Puntin, etimologia di Aquileia (OpenStarts)",
+        "url": "https://www.openstarts.units.it/server/api/core/bitstreams/7f71222d-5668-4a8b-b91b-c55941a96051/content"
+      },
+      {
+        "label": "Treccani, «Aquileia» (1929)",
+        "url": "https://www.treccani.it/enciclopedia/aquileia_(Enciclopedia-Italiana)/"
+      }
+    ],
+    "videos": [],
+    "provenienza": "Vissuta · 25 novembre 2026, primo pomeriggio · Classe quarta della Primaria di Fossalon (IC «Dante Alighieri – Marco Polo») · racconto di Danilo Casertano, registrazione dell’uscita, foto dei luoghi e disegni",
+    "scheda_uda": {
+      "quando": "25 novembre 2026, primo pomeriggio (foto tra le 14:14 e le 14:53; registrazioni di 19 e 35 minuti)",
+      "dove": "Primaria di Fossalon: alberi da frutto e «albero virus», bandiera sul pennone davanti alla scuola, due statue all’ingresso di una villa (a circa 150 m, osservate dalla strada), bordo dei campi con le montagne a nord-nord-est, strada bianca lungo il fosso, campo da calcio, campi coltivati, e ritorno a scuola",
+      "chi": "Classe quarta della Primaria di Fossalon (IC «Dante Alighieri – Marco Polo»); Danilo Casertano",
+      "discipline": "Geografia, matematica, scienze, storia, italiano, educazione civica, arte e immagine",
+      "prodotto": "19 mappe disegnate del percorso, molte con le misure del campo e alcune con una legenda"
+    },
+    "sottotitolo": "Una quarta di Fossalon gira intorno alla scuola tra alberi da frutto, due statue di guerrieri e i campi della bonifica, cerca il nord con il sole e misura a passi il campo da calcio",
+    "codice": "GRA-FOS-4A-01",
+    "versione": "v1 · 28 novembre 2026",
+    "documentazione": "racconto, registrazione, foto dei luoghi e disegni dei bambini",
+    "aule_collegate": [
+      {
+        "id": "06-grado-09",
+        "nome": "Scuola Primaria di Fossalon"
+      },
+      {
+        "id": "06-grado-11",
+        "nome": "Peter Pan"
+      },
+      {
+        "id": "06-grado-14",
+        "nome": "Palestra"
+      }
+    ],
+    "uda_sintesi": {
+      "quando": "25 novembre 2026, primo pomeriggio",
+      "dove": "Primaria di Fossalon: alberi da frutto e «albero virus», bandiera, due statue all’ingresso di una villa osservate dalla strada, bordo dei campi con le montagne, fosso, campo da calcio, campi coltivati, e ritorno a scuola",
+      "chi": "Classe quarta della Primaria di Fossalon (IC «Dante Alighieri – Marco Polo»)",
+      "docenti": [
+        {
+          "nome": "Danilo Casertano",
+          "ruolo": "Associazione MANES · La Strada dei Bambini, conduce l’uscita"
+        }
+      ],
+      "risorse_esterne": "Associazione MANES · La Strada dei Bambini",
+      "tipologia": "Uscita a piedi intorno alla scuola, tra gli alberi, le statue e i campi",
+      "discipline": [
+        "geografia",
+        "matematica",
+        "scienze",
+        "storia",
+        "italiano",
+        "educazione civica",
+        "arte"
+      ],
+      "prodotti_intermedi": "Ipotesi sui nomi dei posti, sul nord e sulle statue; misure a passi dei due lati del campo",
+      "prodotto_finale": "19 mappe disegnate del percorso, molte con le misure del campo e alcune con una legenda",
+      "competenze_chiave": [
+        "Competenza alfabetica funzionale",
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+        "Competenza personale, sociale e capacità di imparare a imparare",
+        "Competenza in materia di cittadinanza",
+        "Consapevolezza ed espressione culturali"
+      ],
+      "note": {
+        "competenze_chiave": "proposta di raccordo"
+      }
+    },
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Da dove vengono i nomi dei posti? E come faccio a sapere dove sono, senza una carta?"
+      },
+      "competenze_stato": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera (fine della scuola primaria / fine della classe quinta). In 4ª valgono i traguardi al termine della primaria e gli obiettivi del biennio 4ª-5ª.",
+      "competenze": [
+        {
+          "competenza": "Geografia",
+          "abilita": [
+            "Orientarsi utilizzando la bussola e i punti cardinali anche in relazione al Sole.",
+            "Acquisire il concetto di regione geografica (fisica, climatica, storico-culturale, amministrativa) e utilizzarlo a partire dal contesto italiano."
+          ],
+          "conoscenze": [
+            "Punti cardinali e orientamento con il Sole",
+            "Elementi fisici e antropici del territorio vicino (campi, fossi, laguna, mare)",
+            "I nomi dei luoghi"
+          ],
+          "traguardi": [
+            "L’alunno si orienta nello spazio circostante e sulle carte geografiche, utilizzando riferimenti topologici e punti cardinali.",
+            "Utilizza il linguaggio della geo-graficità per interpretare carte geografiche e globo terrestre, realizzare semplici schizzi cartografici e carte tematiche, progettare percorsi e itinerari di viaggio.",
+            "Si rende conto che lo spazio geografico è un sistema territoriale, costituito da elementi fisici e antropici legati da rapporti di connessione e/o di interdipendenza."
+          ]
+        },
+        {
+          "competenza": "Matematica",
+          "abilita": [
+            "Determinare il perimetro di una figura utilizzando le più comuni formule o altri procedimenti.",
+            "Riprodurre in scala una figura assegnata (utilizzando, ad esempio, la carta a quadretti).",
+            "Utilizzare le principali unità di misura per lunghezze, angoli, aree, volumi/capacità, intervalli temporali, masse, pesi per effettuare misure e stime.",
+            "Usare le nozioni di frequenza, di moda e di media aritmetica, se adeguata alla tipologia dei dati a disposizione."
+          ],
+          "conoscenze": [
+            "Rettangolo: lati uguali a due a due",
+            "Stima e misura a passi",
+            "Perimetro e scala"
+          ],
+          "traguardi": [
+            "Descrive, denomina e classifica figure in base a caratteristiche geometriche, ne determina misure, progetta e costruisce modelli concreti di vario tipo.",
+            "Costruisce ragionamenti formulando ipotesi, sostenendo le proprie idee e confrontandosi con il punto di vista di altri."
+          ]
+        },
+        {
+          "competenza": "Scienze",
+          "abilita": [
+            "Proseguire nelle osservazioni frequenti e regolari, a occhio nudo o con appropriati strumenti, con i compagni e autonomamente, di una porzione di ambiente vicino; individuare gli elementi che lo caratterizzano e i loro cambiamenti nel tempo.",
+            "Conoscere la struttura del suolo sperimentando con rocce, sassi e terricci; osservare le caratteristiche dell’acqua e il suo ruolo nell’ambiente.",
+            "Elaborare i primi elementi di classificazione animale e vegetale sulla base di osservazioni personali."
+          ],
+          "conoscenze": [
+            "Alberi da frutto e liquidambar («albero virus»)",
+            "Il fosso e chi ci vive",
+            "L’acqua nel paesaggio di bonifica"
+          ],
+          "traguardi": [
+            "Esplora i fenomeni con un approccio scientifico: con l’aiuto dell’insegnante, dei compagni, in modo autonomo, osserva e descrive lo svolgersi dei fatti, formula domande, anche sulla base di ipotesi personali, propone e realizza semplici esperimenti.",
+            "Riconosce le principali caratteristiche e i modi di vivere di organismi animali e vegetali."
+          ]
+        },
+        {
+          "competenza": "Storia",
+          "abilita": [
+            "Rappresentare, in un quadro storico-sociale, le informazioni che scaturiscono dalle tracce del passato presenti sul territorio vissuto."
+          ],
+          "conoscenze": [
+            "Tracce sul territorio: le due statue, i nomi dei posti"
+          ],
+          "traguardi": [
+            "Riconosce e esplora in modo via via più approfondito le tracce storiche presenti nel territorio e comprende l’importanza del patrimonio artistico e culturale."
+          ]
+        },
+        {
+          "competenza": "Italiano",
+          "abilita": [
+            "Cogliere in una discussione le posizioni espresse dai compagni ed esprimere la propria opinione su un argomento in modo chiaro e pertinente.",
+            "Comprendere, nei casi più semplici e frequenti, l’uso e il significato figurato delle parole.",
+            "Conoscere i principali meccanismi di formazione delle parole (parole semplici, derivate, composte)."
+          ],
+          "conoscenze": [
+            "Origine e formazione delle parole (nomi di luogo, «contadino» da «contado»)",
+            "Analogia e significato figurato («albero virus»)"
+          ],
+          "traguardi": [
+            "L’allievo partecipa a scambi comunicativi (conversazione, discussione di classe o di gruppo) con compagni e insegnanti rispettando il turno e formulando messaggi chiari e pertinenti, in un registro il più possibile adeguato alla situazione."
+          ]
+        },
+        {
+          "competenza": "Educazione civica",
+          "abilita": [
+            "Restare vicini durante un’uscita, dove «fuori non ci sono le mura»",
+            "Rispettare il lavoro altrui: si guarda dal bordo dei campi, senza disturbare chi lavora",
+            "Discutere i simboli: la bandiera italiana e le bandiere di città e regioni"
+          ],
+          "conoscenze": [
+            "La bandiera italiana",
+            "Regole condivise di un’uscita"
+          ],
+          "traguardi": []
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "1. In classe: i nomi dei posti",
+          "attivita": "Perché Fossalon, Grado e Aquileia si chiamano così? Che cosa ha Grado che Fossalon non ha? Patto dell’uscita: domande aperte, si resta vicini, al ritorno si disegna il percorso.",
+          "discipline": [
+            "Italiano",
+            "Storia",
+            "Geografia",
+            "Educazione civica"
+          ],
+          "tempi": "prima dell’uscita",
+          "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026"
+        },
+        {
+          "titolo": "2. Il cammino intorno alla scuola",
+          "attivita": "Alberi da frutto e «albero virus»; la bandiera sul pennone; due statue all’ingresso di una villa, osservate dalla strada; il gioco del nord al bordo dei campi; il fosso; la misura a passi del campo da calcio; i campi coltivati e il contadino, visti dal bordo.",
+          "discipline": [
+            "Scienze",
+            "Geografia",
+            "Storia",
+            "Matematica",
+            "Italiano",
+            "Educazione civica"
+          ],
+          "tempi": "primo pomeriggio, intorno alla scuola",
+          "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026"
+        },
+        {
+          "titolo": "3. In classe: la mappa del percorso",
+          "attivita": "Ognuno disegna il percorso con le due misure del campo, come vuole: una scena, una pianta, una legenda, una rosa dei venti.",
+          "discipline": [
+            "Geografia",
+            "Matematica",
+            "Arte e immagine"
+          ],
+          "tempi": "dopo l’uscita",
+          "fonte": "Disegni della classe, 25 novembre 2026"
+        }
+      ],
+      "risorse": [
+        "Un percorso a piedi intorno alla scuola, con luoghi che fanno nascere domande: gli alberi, la bandiera, le statue, le montagne, il fosso, il campo da misurare",
+        "Fogli e colori per la mappa",
+        "Un telefono per registrare le voci e fotografare solo luoghi, piante e oggetti, senza volti riconoscibili"
+      ],
+      "sicurezza": "Gruppo compatto («fuori non ci sono le mura»); attenzione ai fossi, alle auto, alle pozzanghere e alle cose arrugginite; nei campi si guarda dal bordo; si corre solo dopo aver chiesto e solo dove non c’è niente. Le statue si osservano dalla strada, senza entrare nella proprietà privata."
+    },
+    "movimenti": [
+      {
+        "titolo": "In classe: i nomi dei posti",
+        "testo": "Danilo ha cominciato da una domanda: Fossalon si chiama così perché c’è un fosso? «Tanti fossi ci sono», ha risposto un bambino. E Aquileia? «Perché c’è il segno dell’aquila.» E Grado? Le risposte si sono rincorse: perché ci vivono i gradesi, perché si parla gradese, «da mare», «per i gradi, che fa caldo», «perché c’è la laguna». Danilo non ha dato la soluzione: ha detto che «da mare» era la risposta più vicina e che l’idea dei gradi era «geniale». Poi la domanda si è rovesciata: che cosa non ha Fossalon rispetto a Grado? La laguna, il mare, tanti abitanti; ma Fossalon ha i campi e «più vegetazione». Prima di uscire la classe ha fatto un patto: fuori non ci sono le mura, ma ci sono fossi e macchine, quindi si resta vicini; Danilo farà domande, e se non si sa la risposta non fa niente, si può ragionare o anche inventare; al ritorno si disegnerà il percorso.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 01",
+            "immagine": "assets/materiali/fossalon-4a/disegno-01.jpg",
+            "didascalia": "La scuola, la «PALESTRA», la sala «PITERPAN», i «PILASTRI IN PIETRA», l’«ALBERO», il «CANCELLO» e il «BUS»: una mappa vista dall’alto su due fogli.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Tanti fossi ci sono.",
+            "contesto": "sul nome di Fossalon",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Perché c’è il segno dell’aquila.",
+            "contesto": "su Aquileia",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Da mare?",
+            "contesto": "su Grado",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Per i gradi, che fa caldo.",
+            "contesto": "su Grado",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Perché c’è la laguna.",
+            "contesto": "su Grado",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "A Fossalon c’è più vegetazione.",
+            "contesto": "che cosa ha Fossalon rispetto a Grado",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Gli alberi da frutto e «l’albero virus»",
+        "testo": "Appena fuori, sotto qualche gocciolina, Danilo ha chiesto che alberi fossero quelli intorno alla scuola. I bambini hanno riconosciuto un albero di cachi e un melograno; sul terzo si sono divisi tra melo e pero, finché qualcuno ha visto «la pera marcia sopra» e qualcun altro ha concluso che era un melo. Poco più avanti c’era un albero spoglio con tante palline appese. «Questo è il virus!», ha detto un bambino: «l’albero virus, perché ci sono le palline con le spine». Danilo ha spiegato che non si chiama così, ma che l’analogia, «questa parola», era bellissima.\n\nQuel giorno il nome dell’albero è rimasto una domanda aperta; dopo l’uscita è arrivata la risposta: è un liquidambar.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Le palline spinose dell’«albero virus»",
+            "immagine": "assets/materiali/fossalon-4a/foto-01-albero-virus-frutti-spinosi.jpg",
+            "didascalia": "Le palline spinose dell’«albero virus» appese ai rami.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "L’«albero virus»",
+            "immagine": "assets/materiali/fossalon-4a/foto-02-albero-virus-chioma.jpg",
+            "didascalia": "L’«albero virus» spoglio, accanto alla scuola.",
+            "fonte": "Foto di Danilo Casertano, 26 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "I frutti del liquidambar",
+            "immagine": "assets/materiali/fossalon-4a/foto-19-liquidambar-frutti.jpg",
+            "didascalia": "I frutti spinosi dell’«albero virus»: è un liquidambar.",
+            "fonte": "Foto di Danilo Casertano (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il cachi",
+            "immagine": "assets/materiali/fossalon-4a/foto-17-cachi.jpg",
+            "didascalia": "Il cachi spoglio, con i frutti ancora sui rami.",
+            "fonte": "Foto di Danilo Casertano (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il melo",
+            "immagine": "assets/materiali/fossalon-4a/foto-18-melo-con-la-mela.jpg",
+            "didascalia": "Il melo, con una mela gialla sul ramo.",
+            "fonte": "Foto di Danilo Casertano (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 11",
+            "immagine": "assets/materiali/fossalon-4a/disegno-11.jpg",
+            "didascalia": "«SCUOLA P.», un compagno che indica e il fumetto «HA DETTO CHE QUESTO È L’ALBERO VIRUS», poi la «SALA PETERPAN», le statue, «CI HA CHIESTO DOV’È NORD», «IL CONTADINO», il campo e «ERA BELLISSIMO!!!».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "L’albero virus, perché ci sono le palline con le spine.",
+            "contesto": "davanti all’albero con le palline spinose",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "La bandiera",
+        "testo": "Davanti alla scuola, sotto la bandiera sul pennone, la classe ha detto subito: «la bandiera dell’Italia», bianca, rossa e verde. Perché proprio questi colori? «Mi pare che il bianco è la speranza», ha provato una voce; un’altra ha proposto «forse dalla pizza», la margherita con i suoi colori. Poi la domanda più difficile: Grado ha una bandiera? Sì, no, boh. Chi diceva di sì non ricordava com’era fatta («io so che c’è, però non so com’è»); un bambino ha spiegato che Grado non può averla «perché fa parte dello Stato italiano», e un altro ha portato l’esempio della Slovenia, che ce l’ha perché è un altro Stato. Danilo ha lasciato aperte le due domande: le città e le regioni hanno una bandiera? E perché il tricolore ha quei colori?",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "La bandiera davanti alla scuola",
+            "immagine": "assets/materiali/fossalon-4a/foto-20-bandiera-davanti-alla-scuola.jpg",
+            "didascalia": "La bandiera italiana sul pennone davanti alla scuola.",
+            "fonte": "Foto di Danilo Casertano (senza volti riconoscibili)"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Forse dalla pizza?",
+            "contesto": "sui colori della bandiera",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Io so che c’è, però non so com’è.",
+            "contesto": "Grado ha una bandiera?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Non ha una bandiera, perché fa parte dello Stato italiano.",
+            "contesto": "Grado ha una bandiera?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "La prima statua: un cavaliere romano?",
+        "testo": "Poco più in là, all’ingresso di una villa, c’era una statua. «Di un cavaliere!» Quale? «Un cavaliere romano», si vede «dall’armatura: è una tipica armatura romana», e anche la lancia «sembra romana». Un bambino ha ricordato che i romani avevano «un posto» qui vicino; un altro ha detto che il simbolo di Roma è il leone, e la classe ha corretto: è la lupa. Avvicinandosi, sullo scudo si è visto un leone. Accanto, nel prato, c’erano dei pilastrini di pietra: «Ma sono tombe!», ha detto un compagno; altri non erano d’accordo. In un sasso un gruppo ha trovato un pezzo lucido, «un cristallo».",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "La prima statua",
+            "immagine": "assets/materiali/fossalon-4a/foto-03-prima-statua-con-lancia.jpg",
+            "didascalia": "La prima statua, con la lancia e l’elmo.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Lo scudo con il leone",
+            "immagine": "assets/materiali/fossalon-4a/foto-04-scudo-con-il-leone.jpg",
+            "didascalia": "Lo scudo della prima statua, con il muso di un leone.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Un pilastrino di pietra",
+            "immagine": "assets/materiali/fossalon-4a/foto-05-pilastro-di-pietra.jpg",
+            "didascalia": "Uno dei pilastrini di pietra nel prato: «Ma sono tombe!»",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il «cristallo»",
+            "immagine": "assets/materiali/fossalon-4a/foto-06-il-cristallo.jpg",
+            "didascalia": "Il «cristallo» trovato in un sasso.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "È una tipica armatura romana.",
+            "contesto": "davanti alla prima statua",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Ma sono tombe!",
+            "contesto": "davanti ai pilastrini di pietra",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Un cristallo!",
+            "contesto": "in un sasso accanto alle statue",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "La seconda statua: due guerrieri di due mondi",
+        "testo": "La seconda statua era «molto diversa». I bambini hanno elencato le differenze: «ha una spada in testa», «nello scudo non c’è il leone», l’armatura è diversa («quella lì aveva tipo le spine»), le scarpe sono diverse, l’elmo anche. Sullo scudo sembrava esserci una scritta, ma si leggeva solo una R. Danilo ha riassunto: probabilmente due guerrieri diversi, «di due mondi diversi; chissà di dove».\n\nSecondo la scheda preparata da Danilo dopo l’uscita, i due non hanno un nome e non rappresentano persone esistite: sono guerrieri «all’antica», fatti per fare la guardia alla soglia di una villa privata. Che la pietra sia pietra di Vicenza è un’ipotesi letta dalle fotografie, non un dato accertato su un documento. Restano ignoti l’età, chi li ha scolpiti e chi li ha portati qui. La villa è una proprietà privata: si guarda dalla strada, e sulla mappa del sito non c’è il punto dell’ingresso.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "La seconda statua",
+            "immagine": "assets/materiali/fossalon-4a/foto-07-seconda-statua-con-la-spada.jpg",
+            "didascalia": "La seconda statua, con la spada alzata sopra la testa.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Lo scudo della seconda statua",
+            "immagine": "assets/materiali/fossalon-4a/foto-08-scudo-della-seconda-statua.jpg",
+            "didascalia": "Lo scudo della seconda statua, senza il leone.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 02",
+            "immagine": "assets/materiali/fossalon-4a/disegno-02.jpg",
+            "didascalia": "Le case, i fiori nelle finestre, una statua con lo scudo accanto alla porta e il campo da calcio: disegno su due fogli.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 15",
+            "immagine": "assets/materiali/fossalon-4a/disegno-15.jpg",
+            "didascalia": "Una statua con lo scudo e la spada su un piedistallo, tra le case, gli alberi, i campi e il campo da calcio «100 m» per «70 m».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Nello scudo non c’è il leone.",
+            "contesto": "davanti alla seconda statua",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Le montagne e il gioco del nord",
+        "testo": "Al bordo dei campi la classe si è messa a semicerchio. Di là si vedevano delle montagne: hanno un nome? «Probabile!», ma nessuno lo sapeva («l’Everest?» «Magari!»). E se le scavalco, che cosa trovo? «Un altro paesaggio», ma quale Stato o città, nessuno lo sapeva. Allora Danilo si è messo in mezzo e ha chiesto a ognuno di spostarsi dove pensava che fosse il nord, dicendo se era una sensazione o un pensiero. Le ragioni sono state tante: «le piante rampicanti crescono sempre a nord»; «dove ci sono le montagne fa più freddo», quindi il nord è là; «dove cresce il muschio»; e poi il sole: «di solito dove tramonta il sole è a ovest», e il sole «ora è là». Una bambina ha completato il ragionamento con il corpo: se guardo il nord, a sinistra ho l’ovest, a destra l’est e dietro il sud. Il ragionamento ha convinto quasi tutti; un bambino ha detto di aver «copiato», un altro è rimasto con la sua sensazione, e Danilo l’ha accolta: «ci sta anche la sensazione». Alla fine, l’ultima domanda: per andare al mare, da che parte si va? La classe ha indicato una direzione, quasi tutta d’accordo.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Verso le montagne",
+            "immagine": "assets/materiali/fossalon-4a/foto-10-verso-le-montagne-di-spalle.jpg",
+            "didascalia": "Tre bambini, di spalle, guardano verso i campi e le montagne.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il gruppo sul bordo del prato",
+            "immagine": "assets/materiali/fossalon-4a/foto-11-gruppo-di-spalle.jpg",
+            "didascalia": "Il gruppo, di spalle, sul bordo del prato davanti agli alberi.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 08",
+            "immagine": "assets/materiali/fossalon-4a/disegno-08.jpg",
+            "didascalia": "La scuola, la strada a ferro di cavallo, due statue lungo la strada, gli alberi da frutto con la scritta «PESCHI», il campo «120» per «61» e una rosa dei venti con N, E, S e O.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 16",
+            "immagine": "assets/materiali/fossalon-4a/disegno-16.jpg",
+            "didascalia": "La scuola, il canale con i pesci, quattro bambini in fila, una statua con la spada, il campo «100 m» per «70 m», i campi con un trattore e le montagne innevate sul lato destro.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Le piante rampicanti crescono sempre a nord.",
+            "contesto": "dove sta il nord?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Dove ci sono le montagne fa più freddo.",
+            "contesto": "dove sta il nord?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Se tu sei a nord, tu guardi a sinistra e c’è l’ovest.",
+            "contesto": "il ragionamento con il corpo e i punti cardinali",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Il fosso",
+        "testo": "Lungo la strada bianca, tra le pozzanghere, la classe si è fermata davanti all’acqua. La domanda l’ha fatta un compagno: quell’acqua appartiene a un fiume? «No!» E allora da dove viene? «Perché là è la fine, e di là c’è l’altra»: è un fosso, ha concluso un bambino, e Danilo ha ripetuto la parola. Un altro bambino ha parlato di un tunnel che fa passare l’acqua e la porta avanti, «e questo è un canale». Un’altra ipotesi, lungo i campi: la terra è più in giù, e quando piove l’acqua va lì; qualcuno «ha scavato». Chi ci vive? Rane, forse pesci, insetti, girini, e «delle piante»: anche le piante, ha ripreso Danilo, sono esseri viventi.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "La strada bianca e il fosso",
+            "immagine": "assets/materiali/fossalon-4a/foto-09-strada-bianca-e-fosso-di-spalle.jpg",
+            "didascalia": "Due bambini, di spalle, sulla strada bianca tra i campi, con il fosso sulla destra.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Le pozzanghere",
+            "immagine": "assets/materiali/fossalon-4a/foto-12-pozzanghere.jpg",
+            "didascalia": "Le pozzanghere sulla strada bianca.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il fosso",
+            "immagine": "assets/materiali/fossalon-4a/foto-13-il-fosso.jpg",
+            "didascalia": "Il fosso lungo il prato.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 12",
+            "immagine": "assets/materiali/fossalon-4a/disegno-12.jpg",
+            "didascalia": "«Una giornata BELLISSIMA!»: il fosso azzurro ad arco con l’erba, le pozzanghere, la scuola, la sala «PITERPAN», i «CAMPI COLTIVATI» e il «CAMPO DA CALCIO» «124» per «64».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Di 'sto fosso.",
+            "contesto": "dove finisce il fosso",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Delle piante.",
+            "contesto": "chi vive nell’acqua",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "Misurare il campo da calcio a passi",
+        "testo": "Che forma ha il campo da calcio? «Rettangolo!», in coro. Quanto è lungo? «Un chilometro», poi, cambiando unità di misura, «100 metri»; largo 25, 50, 200, le stime erano molto diverse. Dentro non si poteva entrare, perché era chiuso: come misurarlo senza strumenti? «Ai lati», «conti i passi», con un passo lungo, «un metro». Prima di partire Danilo ha chiesto che cos’ha di particolare il rettangolo («ha tutti i lati uguali?»): ha i lati uguali a due a due, quindi bastano due misure. Non era una gara di velocità ma di precisione. In fila, contando ad alta voce, la classe ha camminato lungo il lato lungo: chi ha contato 100 passi, chi 110, chi 120. Poi il lato corto, intorno a 60. Ognuno doveva ricordare i suoi due numeri per metterli nel disegno.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Il campo da calcio",
+            "immagine": "assets/materiali/fossalon-4a/foto-14-campo-da-calcio.jpg",
+            "didascalia": "Il campo da calcio dietro la recinzione.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "In fila lungo il campo",
+            "immagine": "assets/materiali/fossalon-4a/foto-15-in-fila-lungo-il-campo-di-spalle.jpg",
+            "didascalia": "La classe in fila, di spalle, lungo la recinzione del campo, pronta a contare i passi.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 06",
+            "immagine": "assets/materiali/fossalon-4a/disegno-06.jpg",
+            "didascalia": "Una pianta di Fossalon vista dall’alto: il «CAMPO» con i passi disegnati e numerati da 1 a 15 e da 1 a 8, la «STATUA», il «DIAMANTE», «PETER PAN», il «PARCO GIOCHI», l’«OLIVO» e il «CANE».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 05",
+            "immagine": "assets/materiali/fossalon-4a/disegno-05.jpg",
+            "didascalia": "La scuola, la strada, due alberi spogli, il «CAMPO DA CALCIO» con «68 PASSI» e «100 PASSI», i campi, un fungo e una foglia.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Rettangolo!",
+            "contesto": "che forma ha il campo da calcio?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Conti i passi.",
+            "contesto": "come misurarlo senza strumenti?",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          },
+          {
+            "testo": "Io ho fatto 120 e devo ricordarne un altro!",
+            "contesto": "le due misure del campo",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      },
+      {
+        "titolo": "I campi coltivati e il contadino",
+        "testo": "Ai campi coltivati ci si è fermati sul bordo, perché dentro stavano lavorando. Che cosa coltivano? Insalata, lattuga, «perché ce ne sono due tipi diversi»; un compagno ha visto «la parte bianca» e ha detto cavolfiore; un altro ha notato una verdura «con le foglie tutte stropicciate». Poi Danilo ha chiesto perché si dice «contadino». «Perché conta», «perché è una persona importante». Questa volta la risposta l’ha data lui, l’unica di tutta l’uscita: il mondo si divide tra la città e il contado, cioè tutto quello che sta intorno alla città, e nel contado i contadini producono il cibo che la città mangia. I bambini avrebbero voluto andare a parlare con il contadino, ma stava lavorando e non era il momento.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Il campo coltivato",
+            "immagine": "assets/materiali/fossalon-4a/foto-16-campo-coltivato.jpg",
+            "didascalia": "Un campo coltivato con le file di verdura e un contadino al lavoro, lontano.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 04",
+            "immagine": "assets/materiali/fossalon-4a/disegno-04.jpg",
+            "didascalia": "Il campo con «contadino» tra le file di verdura, il campo da calcio con «60» e «110», il «canale», la «STATUA» e la «SCUOLA».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          }
+        ],
+        "voci": []
+      },
+      {
+        "titolo": "Il ritorno e la mappa in classe",
+        "testo": "Al ritorno qualcuno ha chiesto il permesso di correre, e dove non c’era niente l’ha avuto; qualcun altro ha preferito di no, per paura di cadere. Un bambino ha chiesto quante possibilità ci sono, «da uno a cento», di trovare un quadrifoglio. Poi tutti in fila per due. In classe ognuno ha disegnato il percorso, con le due misure del campo: 19 mappe, alcune con la legenda, una con la rosa dei venti, molte con frasi come «È stato bellissimo!» e «È stata un’avventura indimenticabile!».\n\nIn quarta la mappa vista dall’alto c’è già in molti disegni, spesso mescolata al profilo: la scuola, le case e le statue restano disegnate di lato, mentre strade, campo e campi sono visti dall’alto. Il campo da calcio è il punto di riferimento più presente, quasi sempre con i due numeri: il lato lungo tra 100 e 124 (passi o metri) e il corto tra 60 e 70. Le statue, la sala Peter Pan, il fosso o canale e i campi coltivati tornano spesso; il nord compare come rosa dei venti in un solo disegno (08) e come fumetto «CI HA CHIESTO DOV’È NORD» nell’11. Non si valuta la correttezza della carta. Alcuni hanno trasformato i passi in metri (100 m per 70 m). Sono dati raccolti dalla classe, da usare in matematica.",
+        "fonte": "Racconto di Danilo Casertano e disegni della classe, 25 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 07",
+            "immagine": "assets/materiali/fossalon-4a/disegno-07.jpg",
+            "didascalia": "La mappa con la «LEGENDA» (passi, porte da calcio, palo arrugginito, lattuga, pozzanghere, contadino, statua, tomba), la scuola, l’asilo, la palestra, la villa, l’albero, il percorso tratteggiato e il «CAMPO DA CALCIO» «120» per «61», con la data e «È STATO BELLISSIMO!».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nomi coperti)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 09",
+            "immagine": "assets/materiali/fossalon-4a/disegno-09.jpg",
+            "didascalia": "La mappa con la «LEGENDA» (porta, albero, statua, erba, canale), il campo «120» per «67», i campi con il trattore, le statue gialle, il canale e la scuola, con «È stato un’avventura indimenticabile!».",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 13",
+            "immagine": "assets/materiali/fossalon-4a/disegno-13.jpg",
+            "didascalia": "«PARTENZA» dalla «SCUOLA», la pioggia, due alberi spogli (uno con le palline appese, che ricorda l’«albero virus»), la «STRADA», il «CAMPETTO DA CALCIO» «120 passi» per «67 passi», le pozzanghere e l’«ARRIVO» tra i campi.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 18",
+            "immagine": "assets/materiali/fossalon-4a/disegno-18.jpg",
+            "didascalia": "La scuola con la cucina e l’atrio, la palestra, l’asilo, un grande albero, le «STATUE», la «VILLA», il «FOSSATO», le «COLTIVAZIONI» e il campo da calcio con le misure in metri.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 03",
+            "immagine": "assets/materiali/fossalon-4a/disegno-03.jpg",
+            "didascalia": "Tre case collegate da un tratteggio e, in mezzo, un grande pilastro nero con un volto; accanto, un cartello giallo con lettere poco leggibili.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 10",
+            "immagine": "assets/materiali/fossalon-4a/disegno-10.jpg",
+            "didascalia": "Il muro rosso con una statua e le pietre, la strada che scende in curva tra gli alberi, il campo da calcio con le misure, i «CAMPI COLTIVATI», i bambini sulla strada e due mezzi agricoli: quasi una vista a volo d’uccello.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 14",
+            "immagine": "assets/materiali/fossalon-4a/disegno-14.jpg",
+            "didascalia": "L’interno della scuola visto dall’alto («NOI SIAMO QUI AULA», «AULA MUSICA», il «GIARDINO»), una casa vicina alla scuola e i campi, con un percorso rosso. Racconta più il punto di partenza che il giro.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 17",
+            "immagine": "assets/materiali/fossalon-4a/disegno-17.jpg",
+            "didascalia": "Il campo da calcio piccolo in alto, i bambini in fila, i campi, un lungo fosso o canale accanto a una strada e una fila di alberi colorati, la scuola in basso.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          },
+          {
+            "tipo": "disegno",
+            "titolo": "Disegno 19",
+            "immagine": "assets/materiali/fossalon-4a/disegno-19.jpg",
+            "didascalia": "La scuola, la sala «PITER PAN», una «CASA», gli alberi, il campo da calcio, i campi e il canale azzurro che attraversa il foglio.",
+            "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+          }
+        ],
+        "voci": [
+          {
+            "testo": "Da uno a cento, quanto è possibile trovare un quadrifoglio?",
+            "contesto": "al ritorno, lungo la strada",
+            "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+            "verificata": true
+          }
+        ]
+      }
+    ],
+    "racconto": "",
+    "voci_bambini": "",
+    "lettura_pedagogica": "",
+    "voci": [
+      {
+        "testo": "Tanti fossi ci sono.",
+        "contesto": "sul nome di Fossalon",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Perché c’è il segno dell’aquila.",
+        "contesto": "su Aquileia",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Da mare?",
+        "contesto": "su Grado",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Per i gradi, che fa caldo.",
+        "contesto": "su Grado",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Perché c’è la laguna.",
+        "contesto": "su Grado",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "A Fossalon c’è più vegetazione.",
+        "contesto": "che cosa ha Fossalon rispetto a Grado",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "L’albero virus, perché ci sono le palline con le spine.",
+        "contesto": "davanti all’albero con le palline spinose",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Forse dalla pizza?",
+        "contesto": "sui colori della bandiera",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Io so che c’è, però non so com’è.",
+        "contesto": "Grado ha una bandiera?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Non ha una bandiera, perché fa parte dello Stato italiano.",
+        "contesto": "Grado ha una bandiera?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "È una tipica armatura romana.",
+        "contesto": "davanti alla prima statua",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Ma sono tombe!",
+        "contesto": "davanti ai pilastrini di pietra",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Un cristallo!",
+        "contesto": "in un sasso accanto alle statue",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Nello scudo non c’è il leone.",
+        "contesto": "davanti alla seconda statua",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Le piante rampicanti crescono sempre a nord.",
+        "contesto": "dove sta il nord?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Dove ci sono le montagne fa più freddo.",
+        "contesto": "dove sta il nord?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Se tu sei a nord, tu guardi a sinistra e c’è l’ovest.",
+        "contesto": "il ragionamento con il corpo e i punti cardinali",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Di 'sto fosso.",
+        "contesto": "dove finisce il fosso",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Delle piante.",
+        "contesto": "chi vive nell’acqua",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Rettangolo!",
+        "contesto": "che forma ha il campo da calcio?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Conti i passi.",
+        "contesto": "come misurarlo senza strumenti?",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Io ho fatto 120 e devo ricordarne un altro!",
+        "contesto": "le due misure del campo",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      },
+      {
+        "testo": "Da uno a cento, quanto è possibile trovare un quadrifoglio?",
+        "contesto": "al ritorno, lungo la strada",
+        "fonte": "Registrazione dell’uscita, 25 novembre 2026 (trascrizione, senza i nomi dei bambini)",
+        "verificata": true
+      }
+    ],
+    "osservazioni_docenti": [
+      {
+        "tipo": "conduzione",
+        "testo": "All’inizio è stato detto un patto: Danilo fa domande, e non sapere la risposta va bene. Per quasi un’ora le risposte le hanno date i bambini; una sola è venuta dall’adulto, quella sul contadino e il contado.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026"
+      },
+      {
+        "tipo": "conduzione",
+        "testo": "Nel gioco del nord ognuno si è messo in un punto con il corpo e ha dovuto dire se era una sensazione o un pensiero. Alcune ragioni erano credenze diffuse (le rampicanti, il muschio), una era un ragionamento con il sole che ha convinto il gruppo; nessuna è stata scartata.",
+        "fonte": "Racconto di Danilo Casertano e registrazione dell’uscita, 25 novembre 2026"
+      }
+    ],
+    "materiali_bambini": [
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 01",
+        "immagine": "assets/materiali/fossalon-4a/disegno-01.jpg",
+        "didascalia": "La scuola, la «PALESTRA», la sala «PITERPAN», i «PILASTRI IN PIETRA», l’«ALBERO», il «CANCELLO» e il «BUS»: una mappa vista dall’alto su due fogli.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 02",
+        "immagine": "assets/materiali/fossalon-4a/disegno-02.jpg",
+        "didascalia": "Le case, i fiori nelle finestre, una statua con lo scudo accanto alla porta e il campo da calcio: disegno su due fogli.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 03",
+        "immagine": "assets/materiali/fossalon-4a/disegno-03.jpg",
+        "didascalia": "Tre case collegate da un tratteggio e, in mezzo, un grande pilastro nero con un volto; accanto, un cartello giallo con lettere poco leggibili.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 04",
+        "immagine": "assets/materiali/fossalon-4a/disegno-04.jpg",
+        "didascalia": "Il campo con «contadino» tra le file di verdura, il campo da calcio con «60» e «110», il «canale», la «STATUA» e la «SCUOLA».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 05",
+        "immagine": "assets/materiali/fossalon-4a/disegno-05.jpg",
+        "didascalia": "La scuola, la strada, due alberi spogli, il «CAMPO DA CALCIO» con «68 PASSI» e «100 PASSI», i campi, un fungo e una foglia.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 06",
+        "immagine": "assets/materiali/fossalon-4a/disegno-06.jpg",
+        "didascalia": "Una pianta di Fossalon vista dall’alto: il «CAMPO» con i passi disegnati e numerati da 1 a 15 e da 1 a 8, la «STATUA», il «DIAMANTE», «PETER PAN», il «PARCO GIOCHI», l’«OLIVO» e il «CANE».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 07",
+        "immagine": "assets/materiali/fossalon-4a/disegno-07.jpg",
+        "didascalia": "La mappa con la «LEGENDA» (passi, porte da calcio, palo arrugginito, lattuga, pozzanghere, contadino, statua, tomba), la scuola, l’asilo, la palestra, la villa, l’albero, il percorso tratteggiato e il «CAMPO DA CALCIO» «120» per «61», con la data e «È STATO BELLISSIMO!».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nomi coperti)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 08",
+        "immagine": "assets/materiali/fossalon-4a/disegno-08.jpg",
+        "didascalia": "La scuola, la strada a ferro di cavallo, due statue lungo la strada, gli alberi da frutto con la scritta «PESCHI», il campo «120» per «61» e una rosa dei venti con N, E, S e O.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 09",
+        "immagine": "assets/materiali/fossalon-4a/disegno-09.jpg",
+        "didascalia": "La mappa con la «LEGENDA» (porta, albero, statua, erba, canale), il campo «120» per «67», i campi con il trattore, le statue gialle, il canale e la scuola, con «È stato un’avventura indimenticabile!».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 10",
+        "immagine": "assets/materiali/fossalon-4a/disegno-10.jpg",
+        "didascalia": "Il muro rosso con una statua e le pietre, la strada che scende in curva tra gli alberi, il campo da calcio con le misure, i «CAMPI COLTIVATI», i bambini sulla strada e due mezzi agricoli: quasi una vista a volo d’uccello.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 11",
+        "immagine": "assets/materiali/fossalon-4a/disegno-11.jpg",
+        "didascalia": "«SCUOLA P.», un compagno che indica e il fumetto «HA DETTO CHE QUESTO È L’ALBERO VIRUS», poi la «SALA PETERPAN», le statue, «CI HA CHIESTO DOV’È NORD», «IL CONTADINO», il campo e «ERA BELLISSIMO!!!».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 12",
+        "immagine": "assets/materiali/fossalon-4a/disegno-12.jpg",
+        "didascalia": "«Una giornata BELLISSIMA!»: il fosso azzurro ad arco con l’erba, le pozzanghere, la scuola, la sala «PITERPAN», i «CAMPI COLTIVATI» e il «CAMPO DA CALCIO» «124» per «64».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 13",
+        "immagine": "assets/materiali/fossalon-4a/disegno-13.jpg",
+        "didascalia": "«PARTENZA» dalla «SCUOLA», la pioggia, due alberi spogli (uno con le palline appese, che ricorda l’«albero virus»), la «STRADA», il «CAMPETTO DA CALCIO» «120 passi» per «67 passi», le pozzanghere e l’«ARRIVO» tra i campi.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 14",
+        "immagine": "assets/materiali/fossalon-4a/disegno-14.jpg",
+        "didascalia": "L’interno della scuola visto dall’alto («NOI SIAMO QUI AULA», «AULA MUSICA», il «GIARDINO»), una casa vicina alla scuola e i campi, con un percorso rosso. Racconta più il punto di partenza che il giro.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 15",
+        "immagine": "assets/materiali/fossalon-4a/disegno-15.jpg",
+        "didascalia": "Una statua con lo scudo e la spada su un piedistallo, tra le case, gli alberi, i campi e il campo da calcio «100 m» per «70 m».",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 16",
+        "immagine": "assets/materiali/fossalon-4a/disegno-16.jpg",
+        "didascalia": "La scuola, il canale con i pesci, quattro bambini in fila, una statua con la spada, il campo «100 m» per «70 m», i campi con un trattore e le montagne innevate sul lato destro.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 17",
+        "immagine": "assets/materiali/fossalon-4a/disegno-17.jpg",
+        "didascalia": "Il campo da calcio piccolo in alto, i bambini in fila, i campi, un lungo fosso o canale accanto a una strada e una fila di alberi colorati, la scuola in basso.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 18",
+        "immagine": "assets/materiali/fossalon-4a/disegno-18.jpg",
+        "didascalia": "La scuola con la cucina e l’atrio, la palestra, l’asilo, un grande albero, le «STATUE», la «VILLA», il «FOSSATO», le «COLTIVAZIONI» e il campo da calcio con le misure in metri.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      },
+      {
+        "tipo": "disegno",
+        "titolo": "Disegno 19",
+        "immagine": "assets/materiali/fossalon-4a/disegno-19.jpg",
+        "didascalia": "La scuola, la sala «PITER PAN», una «CASA», gli alberi, il campo da calcio, i campi e il canale azzurro che attraversa il foglio.",
+        "fonte": "Disegno di un bambino o di una bambina della classe quarta, 25 novembre 2026 (nome coperto)"
+      }
+    ],
+    "materiali_adulti": [],
+    "valutazione": {
+      "stato": "Osservazione in situazione e lettura delle mappe, senza voto ai bambini",
+      "prodotto": "Le mappe dell’uscita, lette con quattro attenzioni: la sequenza delle tappe, i punti di riferimento scelti, l’orientamento e le misure. Si valorizzano etichette, frecce, didascalie, legenda e rosa dei venti; la correttezza della carta non è un criterio.",
+      "processo": "Durante il cammino: le ipotesi sui nomi, sulle statue e sul nord; la differenza tra sensazione e pensiero; la stima a occhio del campo e poi la misura con i passi; il rispetto dei campi e del gruppo.",
+      "metacognizione": "Il bambino racconta la sua mappa prima della lettura dell’adulto e spiega i due numeri del campo e, se c’è, la scelta del nord. Il giudizio sintetico (L. 150/2024) nasce dalle osservazioni, non dal disegno da solo."
+    },
+    "lettura": {
+      "testo": "L’uscita ha avuto una regola semplice, detta all’inizio: Danilo fa domande, e non sapere la risposta va bene. Per quasi un’ora le risposte le hanno date i bambini, e una sola è venuta dall’adulto, quella sul contadino e il contado. È il cuore del metodo: l’uscita apre le domande e lascia che restino aperte, perché diventino lavoro in classe (le bandiere, le statue, le montagne). Il gioco del nord ha reso visibile la differenza tra sensazione e pensiero: ognuno si è messo in un punto con il corpo, ha dovuto dire perché, e ha potuto cambiare idea ascoltando gli altri. Alcune ragioni erano credenze diffuse (le rampicanti, il muschio), una era un ragionamento con il sole che ha convinto il gruppo; nessuna è stata scartata, tutte si possono mettere alla prova. Lo stesso è successo con le statue (armatura, lancia, scudo: indizi per un’ipotesi storica) e con il campo da calcio, dove la stima a occhio («un chilometro») ha lasciato il posto a una misura con il corpo, imprecisa ma condivisa. In quarta il passaggio dal profilo alla vista dall’alto è in corso, e i disegni lo mostrano bene: le misure scritte sul campo sono il primo ponte tra il passo vissuto e la scala. L’analogia dell’«albero virus» dice quanto i bambini usino ciò che conoscono per nominare ciò che non conoscono: è lessico figurato nato dall’osservazione.",
+      "indicazioni": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera nella progettazione."
+    },
+    "ferita_cura": "",
+    "stare_bene": "",
+    "strato_digitale": "",
+    "rilanci": {
+      "intro": "Proposte per continuare, da adattare con le insegnanti. La valutazione resta descrittiva, senza voto ai bambini.",
+      "in_classe": [
+        {
+          "titolo": "Le misure del campo: perché non sono uguali?",
+          "testo": "Si potrebbero raccogliere in una tabella i due numeri di ognuno (dai disegni: lato lungo 100-124, corto 60-70) e cercare insieme il valore più frequente e la media. Poi misurare in classe il proprio passo con il metro e trasformare i passi in metri. Si potrebbe confrontare il risultato con la quinta, che il giorno prima aveva misurato lo stesso campo in «circa cento passi» (scheda «Un borgo tra i campi»). Infine disegnare il campo in scala sulla carta a quadretti e calcolarne il perimetro.",
+          "aggancio": "Matematica 4ª: misure e stime, frequenza e media, perimetro, scala.",
+          "valutazione": "Il bambino spiega perché due compagni hanno contato numeri diversi."
+        },
+        {
+          "titolo": "Dove sta il nord, davvero?",
+          "testo": "Si potrebbe rifare il gioco nello stesso punto con una bussola e confrontare la direzione con quella scelta da ciascuno. Per l’adulto: i dati della fotocamera di Danilo registrano, per le foto scattate durante il gioco, direzioni di circa 50°, 343° e 295° rispetto al nord geografico (343° è quasi il nord); da usare con prudenza, perché non sappiamo con certezza a quale gruppo corrisponde ogni foto. Le idee delle rampicanti e del muschio si possono mettere alla prova con un’osservazione ripetuta su alberi e muri della scuola.",
+          "aggancio": "Geografia (orientarsi con il Sole e la bussola), scienze (osservare un’ipotesi e metterla alla prova).",
+          "valutazione": "Il bambino spiega se la sua scelta era una sensazione o un pensiero, e che cosa ha cambiato la bussola."
+        },
+        {
+          "titolo": "Perché si chiama così?",
+          "testo": "Si potrebbero riprendere le ipotesi dei bambini sui nomi e confrontarle con quello che dicono le fonti, in una tabella a tre colonne: il nome, la nostra ipotesi, che cosa dice la fonte (e quanto è sicura).\n\nGrado. Il nome viene dal latino gradus, «scalo», «approdo»: Grado nacque in età romana come borgo di pescatori e porto per le navi che risalivano il fiume Natissa verso Aquileia (Consorzio Grado Turismo, «Le origini», https://grado.it/it/cosa-fare/arte-storia-e-cultura/curiosita/le-origini). Uno studio di geologia avverte che l’origine del nome resta «controversa» (E. Marocco 2010). L’ipotesi dei bambini «da mare» era la più vicina.\n\nAquileia. Già nell’antichità si raccontava che il nome venisse dall’aquila: l’imperatore Giuliano (IV secolo d.C.) vi vedeva il segno di buon augurio apparso alla fondazione della città; altri lo collegavano alle acque che la circondavano. Gli studiosi oggi pensano piuttosto che i Romani abbiano ripreso, pronunciandolo a modo loro, il nome di un villaggio più antico (forse Akuleia), il cui significato non è sicuro (M. Puntin, «Annotazioni per una nuova proposta etimologica sul nome di Aquileia», Aquileia Nostra LXXVI, 2005, https://www.openstarts.units.it/server/api/core/bitstreams/7f71222d-5668-4a8b-b91b-c55941a96051/content). L’Enciclopedia Italiana parla di un «nome di origine locale» che però «al colono latino doveva piuttosto ricordare il nome augurale dell’aquila» (Treccani, «Aquileia», 1929, https://www.treccani.it/enciclopedia/aquileia_(Enciclopedia-Italiana)/). L’ipotesi dei bambini, «il segno dell’aquila», è quindi la stessa spiegazione antica: si potrebbe discutere perché una spiegazione può essere molto antica e non essere per forza quella giusta.\n\nFossalon. Non abbiamo trovato una fonte che spieghi l’origine del nome. Le fonti dicono che Fossalon è la terra agricola ricavata con la bonifica dell’estremo lembo orientale della laguna di Grado (Grado, «Fossalon», https://grado.it/it/cosa-fare/arte-storia-e-cultura/la-citta-e-il-centro-storico/fossalon) e che il nome era già in uso nel 1934, nel titolo di un opuscolo sulla bonifica: La bonifica della Vittoria (Fossalon) (L. Fassetta, 1934). Oggi c’è anche un Canale Fossalon, che porta l’acqua in laguna attraverso l’idrovora Lame (ARPA FVG, Le trasformazioni ambientali lagunari, 2010, https://www.arpa.fvg.it/documents/4516/Le-trasformazioni-ambientali-lagunari-2010.pdf). Il nome somiglia a «fossa» e «fosso», parole che vengono dal latino fossa, da fodere, «scavare» (Treccani, «fossa», https://www.treccani.it/vocabolario/fossa1/): l’ipotesi dei bambini «tanti fossi ci sono» è ragionevole, ma resta un’ipotesi, finché non si trova una fonte sull’origine del nome. Si potrebbe chiedere alla Biblioteca civica di Grado l’opuscolo Fossalon: appunti per una storia (Comune di Grado, 1988) o scrivere al Comune.",
+          "aggancio": "Italiano (origine e formazione delle parole), storia (le fonti e la loro affidabilità), geografia (nomi di luogo e paesaggio).",
+          "valutazione": "Il bambino distingue l’ipotesi della classe da ciò che dice una fonte, e dice quanto la fonte è sicura."
+        },
+        {
+          "titolo": "Fossalon, la terra sotto il mare",
+          "testo": "La domanda sul fosso porta alla bonifica. Fossalon era laguna e palude; i lavori di arginatura iniziarono nel 1933, la prima semina a grano fu nel 1935, e oggi gran parte di Fossalon sta tra 0,1 e 0,7 m sotto il livello del mare e resta asciutta grazie alle idrovore, come l’Idrovora Vittoria, che sollevano l’acqua dei canali e delle scoline (relazione geologica del Piano regolatore di Grado, 2019; Venudo e Bisiani 2024). Alla stazione di Fossalon cadono in media circa 1093 mm di pioggia all’anno (dati OSMER-FVG 1991-2023, citati da Fracaros 2023): dove va tutta quell’acqua? Si potrebbe costruire un pluviometro e seguire l’acqua dal campo al fosso, al canale, all’idrovora.",
+          "aggancio": "Scienze (l’acqua nell’ambiente), geografia (territorio modificato dall’uomo), storia (la bonifica).",
+          "valutazione": "Il bambino racconta il percorso dell’acqua da un campo al fosso e all’idrovora."
+        },
+        {
+          "titolo": "Le bandiere di città e regioni",
+          "testo": "Si potrebbe cercare se Grado, il Friuli Venezia Giulia e Fossalon hanno una bandiera o uno stemma, e com’è fatto, sui siti del Comune e della Regione. Per il tricolore, leggere con l’insegnante la storia della bandiera italiana da una fonte istituzionale. Una traccia: in un libro del 1890 su Grado, G. Caprin racconta che nella piazza, durante una festa, «ondeggiava la grande bandiera rossa col leone in maestà, tutto d’oro» (Lagune di Grado, 1890, pubblico dominio). Che cosa c’entra con il leone sullo scudo della prima statua? Si può confrontare, senza dare per scontato un legame.",
+          "aggancio": "Educazione civica, storia, geografia (regione amministrativa).",
+          "valutazione": "Il bambino dice se ha trovato una bandiera o uno stemma, e da quale fonte."
+        },
+        {
+          "titolo": "«Contadino» viene da «contado»",
+          "testo": "Si potrebbe partire dalla spiegazione di Danilo e cercare altre parole nate da un luogo o da un mestiere (cittadino, paesano, marinaio…), e poi le parole figurate come «l’albero virus».",
+          "aggancio": "Italiano (formazione delle parole, significato figurato).",
+          "valutazione": "Il bambino spiega da dove viene una parola e, se c’è, il suo uso figurato."
+        },
+        {
+          "titolo": "L’albero virus ha un nome",
+          "testo": "Con le foto dei frutti spinosi e una guida degli alberi, la classe può scoprire da sola come si chiama. Per l’adulto: è un liquidambar; ai bambini il nome non è stato detto durante l’uscita. Si potrebbe poi completare il censimento degli alberi da frutto intorno alla scuola (cachi, melograno, melo, i «peschi» del disegno 08).",
+          "aggancio": "Scienze (classificazione vegetale).",
+          "valutazione": "Il bambino confronta un frutto o una foglia con una guida e spiega come ha riconosciuto l’albero."
+        },
+        {
+          "titolo": "Come si chiamano le montagne?",
+          "testo": "Dal punto dell’uscita, sulla mappa del telefono, Danilo ha indicato la direzione delle montagne verso nord-nord-est, cioè verso Monfalcone, Gorizia e, più lontano, Caporetto e Plezzo. Abbiamo calcolato noi la direzione delle cime a partire dalle coordinate riportate da Wikipedia. Nel settore tra il nord e il nord-est (circa 0°-40°) si trovano, dalle più vicine alle più lontane: le alture del Carso goriziano, come il Monte San Michele (circa 15°, 18 km); i monti tra il Collio e Gorizia: il Sabotino (circa 21°, 31 km), il monte più alto della provincia di Gorizia, poi il Monte Santo (circa 24°, 32 km) e il San Gabriele (circa 28°, 31 km); il Matajur (circa 3°, 54 km), delle Prealpi Giulie, e il Colovrat (circa 11°, 53 km), al confine con la Slovenia; più lontano, le Alpi Giulie: il Monte Nero (Krn, circa 12°, 61 km), il Mangart (circa 9°, 80 km) e il Tricorno (Triglav, circa 20°, 77 km), la cima più alta della Slovenia, nel parco del Triglav; al limite del settore, quasi a nord, il Monte Canin (circa 357°, 70 km).\n\nLe Alpi Carniche non stanno in questa direzione, quindi qui non le indichiamo. Per l’adulto: per la foto 10 la fotocamera aveva registrato una direzione di circa 343° (nord-nord-ovest). Probabilmente quel dato della bussola del telefono non era preciso, oppure la foto guardava un po’ più a ovest delle montagne: vale il controllo fatto sulla mappa. Quali cime si vedessero davvero quel pomeriggio, con le nuvole basse, resta un’ipotesi: si potrà tornare al bordo dei campi in una giornata limpida, con la bussola, segnare le direzioni delle cime più evidenti e confrontarle con una carta del Friuli Venezia Giulia e della Slovenia; poi rispondere alla seconda domanda dei bambini, «che cosa c’è al di là?», sulla carta (la valle dell’Isonzo, la Slovenia).",
+          "aggancio": "Geografia (orientamento, carta fisica della regione, rilievi), matematica (angoli e gradi).",
+          "valutazione": "Il bambino indica su una carta la direzione del nord-nord-est e almeno una cima di quel settore."
+        },
+        {
+          "titolo": "I guardiani di pietra",
+          "testo": "Si potrebbe riprendere l’incontro con le due statue come un piccolo percorso: osservarle dalla strada, senza entrare nella proprietà; riempire insieme la tabella dei due guerrieri e separare ciò che è certo, ciò che è probabile e ciò che resta ignoto; tracciare sulla carta, come ipotesi, il viaggio della pietra dai Colli Berici a Grado; osservare licheni e muschi su un muro della scuola; alla fine dare ai guerrieri un nome e una storia, e cercare nel paese altri «guardiani di soglia» (leoni, santi, stemmi, cani di pietra). Il percorso completo, con le quattro tappe, i materiali, la valutazione partecipata e le fonti, è nella scheda proposta «I guardiani di pietra», nello stesso Archivio UDA.",
+          "aggancio": "Arte e immagine, storia, italiano, geografia, scienze, educazione civica.",
+          "valutazione": "Il bambino distingue ciò che ha visto da ciò che resta un’ipotesi, e propone un nome o una domanda."
+        }
+      ],
+      "prossima_uscita": [
+        {
+          "titolo": "Domande aperte, rimaste ai bambini",
+          "punti": [
+            "Grado ha una bandiera? E le regioni e le città? Perché il tricolore ha quei colori?",
+            "Come si chiamano le montagne che si vedono da Fossalon, e che cosa c’è al di là?",
+            "Che cosa c’è scritto sullo scudo della seconda statua? I pilastrini di pietra sono tombe?",
+            "Da dove viene e dove va l’acqua del fosso?",
+            "Quante persone abitano a Fossalon e a Grado? Dov’è il mare?"
+          ]
+        },
+        {
+          "titolo": "Cose da controllare prima, per l’adulto",
+          "punti": [
+            "Il significato dei pilastrini; l’età, lo scultore e chi ha portato le statue restano ignoti.",
+            "Quali montagne si vedono davvero verso nord-nord-est (Carso, Collio, Prealpi e Alpi Giulie): si potrà controllare in una giornata limpida.",
+            "L’origine del nome di Fossalon: nessuna fonte trovata finora; la bandiera di Grado.",
+            "Nella scheda non si scrive nulla che non sia accertato."
+          ]
+        },
+        {
+          "titolo": "Mete possibili",
+          "punti": [
+            "Di nuovo il bordo dei campi, con la bussola e il binocolo, per il nord e le montagne.",
+            "L’Idrovora Vittoria, per capire dove va l’acqua dei fossi.",
+            "Il campo da calcio, per misurarlo con la rotella metrica.",
+            "L’«oasi dei fenicotteri» di cui ha parlato Danilo in classe, che potrebbe essere la Riserva Valle Cavanata (resta da controllare)."
+          ]
+        },
+        {
+          "titolo": "Materiali, ruoli, famiglie e comunità",
+          "punti": [
+            "Materiali: bussola, rotella metrica o corda con i nodi a 1 m, binocolo, cartoncino e matita, una carta semplice di Fossalon su cui aggiungere le tappe, una guida degli alberi.",
+            "Ruoli (a rotazione): chi tiene la bussola, chi conta i passi, chi scrive le misure, chi fotografa solo oggetti e paesaggi.",
+            "Famiglie e comunità: chiedere a casa se qualcuno sa chi ha fatto le statue o ricorda la bonifica; un’intervista a un contadino, se è disponibile e non mentre lavora."
+          ]
+        }
+      ]
+    },
+    "apparato": {
+      "fonti": [
+        "Racconto dell’uscita di Danilo Casertano, 25 novembre 2026",
+        "Registrazione audio dell’uscita (trascrizione, senza i nomi dei bambini): registrazioni 25 e 26",
+        "Foto dei luoghi senza volti riconoscibili e 19 disegni dei bambini con i nomi coperti",
+        "Scheda di Danilo Casertano «I guardiani di pietra» (28 novembre 2026), per l’identità dei due guerrieri",
+        "Consorzio Grado Turismo, «Le origini» e «Fossalon»",
+        "M. Puntin, «Annotazioni per una nuova proposta etimologica sul nome di Aquileia», Aquileia Nostra LXXVI, 2005",
+        "Enciclopedia Italiana, voce «Aquileia», 1929 (Treccani)",
+        "L. Fassetta, La bonifica della Vittoria (Fossalon), 1934; ARPA FVG, Le trasformazioni ambientali lagunari, 2010",
+        "Relazione geologica del Piano regolatore di Grado, 2019; Venudo e Bisiani 2024; dati OSMER-FVG 1991-2023 citati da Fracaros 2023",
+        "G. Caprin, Lagune di Grado, 1890 (pubblico dominio)",
+        "Direzioni delle cime nel settore nord-nord-est: calcolo dalle coordinate riportate da Wikipedia, a partire dalla direzione indicata da Danilo Casertano"
+      ]
+    },
+    "da_completare": [],
+    "modello": "uda-integrata-v1",
+    "foto": [
+      "assets/materiali/fossalon-4a/foto-10-verso-le-montagne-di-spalle.jpg"
+    ],
+    "competenze_ue": [
+      "Competenza alfabetica funzionale",
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+      "Competenza personale, sociale e capacità di imparare a imparare",
+      "Competenza in materia di cittadinanza",
+      "Consapevolezza ed espressione culturali"
+    ]
+  },
+  {
+    "id": "i-guardiani-di-pietra",
+    "community": "Grado",
+    "percorso": "Fossalon · due guerrieri alla soglia, osservati dalla strada",
+    "aula_id": "06-grado-09",
+    "aula": "Fossalon · Scuola Primaria",
+    "titolo": "I guardiani di pietra",
+    "stato": "proposta",
+    "eta": [
+      "primaria I-II",
+      "primaria III-V"
+    ],
+    "gruppo": [
+      "classe"
+    ],
+    "discipline": [
+      "arte",
+      "educazione civica",
+      "geografia",
+      "italiano",
+      "scienze",
+      "storia"
+    ],
+    "tipo_aula": "Da classificare",
+    "descrizione": "Due guerrieri di pietra fanno la guardia alla soglia di una villa privata nel territorio di Fossalon, frazione di Grado. Nessuno sa come si chiamano. La classe potrebbe osservarli dalla strada, senza entrare, disegnarli, confrontare ciò che è certo con ciò che è un’ipotesi, cercare da dove viene la pietra e alla fine dare loro un nome e una storia. La proposta nasce dall’uscita «Dove sta il nord?» (quarta di Fossalon, 25 novembre 2026) e si potrebbe fare dopo quella uscita o come percorso a sé.",
+    "materiali": "Foto dei due guerrieri e dei loro scudi, senza la casa privata e senza dati GPS",
+    "links": [
+      {
+        "label": "Scheda vissuta «Dove sta il nord?»",
+        "url": "https://stradadeibambini.it/esperienza.html?id=dove-sta-il-nord"
+      },
+      {
+        "label": "Villa Manin, orari e servizi",
+        "url": "https://www.villamanin.it/orari-servizi/"
+      },
+      {
+        "label": "Villa Manin, il parco",
+        "url": "https://www.villamanin.it/il-parco/"
+      },
+      {
+        "label": "Art Bonus, statue del parco di Villa Manin",
+        "url": "https://artbonus.gov.it/116-18-statue-del-parco-di-villa-manin-di-passariano.html"
+      },
+      {
+        "label": "ERPAC, «Il verde alfabeto» (mostra a Villa Manin)",
+        "url": "https://patrimonioculturale.regione.fvg.it/progetti/il-verde-alfabeto-mostra-a-villa-manin/"
+      },
+      {
+        "label": "Pieghevole «Il verde alfabeto»",
+        "url": "https://patrimonioculturale.regione.fvg.it/wp-content/uploads/2023/01/Pieghevole.pdf"
+      },
+      {
+        "label": "Comune di Zovencedo, «La Pietra di Vicenza»",
+        "url": "http://www.zovencedo.com/web/colliberici/la_pietra_di_vicenza.pdf"
+      },
+      {
+        "label": "Comune di Montecchio Maggiore, le Priare",
+        "url": "https://www.comune.montecchio-maggiore.vi.it/it/page/le-priare"
+      }
+    ],
+    "videos": [],
+    "provenienza": "Proposta · elaborata da Danilo Casertano il 28 novembre 2026 a partire dall’uscita della quarta di Fossalon del 25 novembre 2026 («Dove sta il nord?»). Non ancora svolta con una classe.",
+    "scheda_uda": {
+      "quando": "Quattro tappe, circa 8 ore, da concordare; si potrebbe fare dopo l’uscita «Dove sta il nord?» o come percorso a sé",
+      "dove": "La strada pubblica davanti alle due statue (senza entrare nella proprietà); la scuola; in alternativa un muro del paese per i licheni; di confronto, se si vuole un’uscita più lontana, il parco di Villa Manin a Passariano",
+      "chi": "Una classe di scuola primaria, dalla seconda alla quinta, con l’insegnante e, se c’è, un adulto della comunità",
+      "discipline": "Arte e immagine, storia, italiano, geografia, scienze, educazione civica",
+      "prodotto": "I disegni dal vero, la tabella dei due guerrieri, una pagina della mappa di comunità con il nome e la storia scelti dalla classe"
+    },
+    "sottotitolo": "Due guerrieri senza nome, alla soglia di una villa, da osservare dalla strada, indagare e battezzare",
+    "codice": "GRA-FOS-UDA-01",
+    "versione": "v1 · 28 novembre 2026",
+    "documentazione": "proposta scritta, con foto dei due guerrieri già dichiarate pubblicabili",
+    "aule_collegate": [
+      {
+        "id": "06-grado-09",
+        "nome": "Scuola Primaria di Fossalon"
+      }
+    ],
+    "uda_sintesi": {
+      "quando": "Quattro tappe, circa 8 ore, da concordare",
+      "dove": "La strada pubblica davanti alle due statue (senza entrare nella proprietà); la scuola; in alternativa un muro del paese per i licheni; di confronto, il parco di Villa Manin a Passariano",
+      "chi": "Una classe di scuola primaria, dalla seconda alla quinta",
+      "docenti": [
+        {
+          "nome": "Danilo Casertano",
+          "ruolo": "Associazione MANES · La Strada dei Bambini, autore della proposta"
+        }
+      ],
+      "risorse_esterne": "Associazione MANES · La Strada dei Bambini",
+      "tipologia": "Percorso in quattro tappe: un’uscita di osservazione dalla strada, lavoro in classe, osservazione di licheni, restituzione alla comunità",
+      "discipline": [
+        "arte",
+        "storia",
+        "italiano",
+        "geografia",
+        "scienze",
+        "educazione civica"
+      ],
+      "prodotti_intermedi": "Disegni dal vero, tabella dei due guerrieri, tracciato del viaggio della pietra come ipotesi",
+      "prodotto_finale": "Una pagina della mappa di comunità con il nome e la storia scelti dalla classe",
+      "competenze_chiave": [
+        "Competenza alfabetica funzionale",
+        "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+        "Competenza personale, sociale e capacità di imparare a imparare",
+        "Competenza in materia di cittadinanza",
+        "Consapevolezza ed espressione culturali"
+      ],
+      "note": {
+        "competenze_chiave": "proposta di raccordo"
+      }
+    },
+    "progettazione": {
+      "domanda_generativa": {
+        "testo": "Chi sono questi due, e perché stanno proprio lì?"
+      },
+      "competenze_stato": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera. Per le classi dalla seconda alla quinta valgono i traguardi al termine della scuola primaria. Gli obiettivi si prendono al termine della classe terza per la 2ª e la 3ª, e al termine della classe quinta per la 4ª e la 5ª.",
+      "competenze": [
+        {
+          "competenza": "Arte e immagine",
+          "abilita": [
+            "Guardare e osservare con consapevolezza un’immagine e gli oggetti presenti nell’ambiente descrivendo gli elementi formali, utilizzando le regole della percezione visiva e l’orientamento nello spazio.",
+            "Riconoscere e apprezzare nel proprio territorio gli aspetti più caratteristici del patrimonio ambientale e urbanistico e i principali monumenti storico-artistici.",
+            "Sperimentare strumenti e tecniche diverse per realizzare prodotti grafici, plastici, pittorici e multimediali."
+          ],
+          "conoscenze": [
+            "Osservazione e disegno dal vero",
+            "Beni artistici del territorio vicino"
+          ],
+          "traguardi": [
+            "È in grado di osservare, esplorare, descrivere e leggere immagini (opere d’arte, fotografie, manifesti, fumetti, ecc) e messaggi multimediali (spot, brevi filmati, videoclip, ecc.)",
+            "Conosce i principali beni artistico-culturali presenti nel proprio territorio e manifesta sensibilità e rispetto per la loro salvaguardia."
+          ]
+        },
+        {
+          "competenza": "Storia",
+          "abilita": [
+            "Individuare le tracce e usarle come fonti per produrre conoscenze sul proprio passato, della generazione degli adulti e della comunità di appartenenza.",
+            "Rappresentare, in un quadro storico-sociale, le informazioni che scaturiscono dalle tracce del passato presenti sul territorio vissuto.",
+            "Produrre informazioni con fonti di diversa natura utili alla ricostruzione di un fenomeno storico."
+          ],
+          "conoscenze": [
+            "Tracce sul territorio: statue di soglia, ville, pietra che viaggia",
+            "Certo, probabile e ignoto"
+          ],
+          "traguardi": [
+            "Riconosce e esplora in modo via via più approfondito le tracce storiche presenti nel territorio e comprende l’importanza del patrimonio artistico e culturale."
+          ]
+        },
+        {
+          "competenza": "Italiano",
+          "abilita": [
+            "Raccontare storie personali o fantastiche rispettando l’ordine cronologico ed esplicitando le informazioni necessarie perché il racconto sia chiaro per chi ascolta.",
+            "Raccontare esperienze personali o storie inventate organizzando il racconto in modo chiaro, rispettando l’ordine cronologico e logico e inserendo gli opportuni elementi descrittivi e informativi.",
+            "Raccogliere le idee, organizzarle per punti, pianificare la traccia di un racconto o di un’esperienza.",
+            "Realizzare testi collettivi per relazionare su esperienze scolastiche e argomenti di studio."
+          ],
+          "conoscenze": [
+            "Descrizione, domanda, narrazione",
+            "Dare un nome e scrivere una storia"
+          ],
+          "traguardi": [
+            "L’allievo partecipa a scambi comunicativi (conversazione, discussione di classe o di gruppo) con compagni e insegnanti rispettando il turno e formulando messaggi chiari e pertinenti, in un registro il più possibile adeguato alla situazione.",
+            "Scrive testi corretti nell’ortografia, chiari e coerenti, legati all’esperienza e alle diverse occasioni di scrittura che la scuola offre; rielabora testi parafrasandoli, completandoli, trasformandoli."
+          ]
+        },
+        {
+          "competenza": "Geografia",
+          "abilita": [
+            "Conoscere il territorio circostante attraverso l’approccio percettivo e l’osservazione diretta.",
+            "Comprendere che il territorio è uno spazio organizzato e modificato dalle attività umane.",
+            "Localizzare sulla carta geografica dell’Italia le regioni fisiche, storiche e amministrative; localizzare sul planisfero e sul globo la posizione dell’Italia in Europa e nel mondo."
+          ],
+          "conoscenze": [
+            "Carta del Nord-Est, viaggio della pietra come ipotesi",
+            "Colli Berici e Fossalon"
+          ],
+          "traguardi": [
+            "Utilizza il linguaggio della geo-graficità per interpretare carte geografiche e globo terrestre, realizzare semplici schizzi cartografici e carte tematiche, progettare percorsi e itinerari di viaggio."
+          ]
+        },
+        {
+          "competenza": "Scienze",
+          "abilita": [
+            "Proseguire nelle osservazioni frequenti e regolari, a occhio nudo o con appropriati strumenti, con i compagni e autonomamente, di una porzione di ambiente vicino; individuare gli elementi che lo caratterizzano e i loro cambiamenti nel tempo."
+          ],
+          "conoscenze": [
+            "Licheni e muschi sulla pietra e sui muri",
+            "Pietra di Vicenza: un’ipotesi letta dalle fotografie"
+          ],
+          "traguardi": [
+            "Esplora i fenomeni con un approccio scientifico: con l’aiuto dell’insegnante, dei compagni, in modo autonomo, osserva e descrive lo svolgersi dei fatti, formula domande, anche sulla base di ipotesi personali, propone e realizza semplici esperimenti.",
+            "Riconosce le principali caratteristiche e i modi di vivere di organismi animali e vegetali."
+          ]
+        },
+        {
+          "competenza": "Educazione civica",
+          "abilita": [
+            "Osservare dalla strada pubblica, senza entrare nella proprietà"
+          ],
+          "conoscenze": [
+            "Ciò che è di uno e ciò che si può guardare insieme"
+          ],
+          "traguardi": []
+        }
+      ],
+      "fasi": [
+        {
+          "titolo": "1. L’incontro",
+          "attivita": "Arrivo a piedi, sosta sulla strada pubblica, dieci minuti di silenzio, disegno dal vero, tre cose viste e una domanda.",
+          "discipline": [
+            "Arte e immagine",
+            "Educazione civica"
+          ],
+          "tempi": "uscita, 2 ore",
+          "fonte": "Proposta di Danilo Casertano, 28 novembre 2026"
+        },
+        {
+          "titolo": "2. L’indagine",
+          "attivita": "Confronto dei disegni, tabella dei due guerrieri, lettura di «Cosa sapremmo», distinzione tra certo, probabile e ignoto, tracciato del viaggio della pietra sulla carta come ipotesi.",
+          "discipline": [
+            "Storia",
+            "Geografia",
+            "Italiano"
+          ],
+          "tempi": "in classe, 2 ore",
+          "fonte": "Proposta di Danilo Casertano, 28 novembre 2026"
+        },
+        {
+          "titolo": "3. La pietra viva",
+          "attivita": "Osservazione di licheni e muschi su un muro della scuola o del paese; incisione di una saponetta o di un blocco di argilla.",
+          "discipline": [
+            "Scienze",
+            "Arte e immagine"
+          ],
+          "tempi": "uscita o classe, 2 ore",
+          "fonte": "Proposta di Danilo Casertano, 28 novembre 2026"
+        },
+        {
+          "titolo": "4. Il nome e la storia",
+          "attivita": "Ogni gruppo dà un nome ai guerrieri e scrive la loro storia; lettura ad alta voce; possibile pagina della mappa di comunità.",
+          "discipline": [
+            "Italiano",
+            "Storia"
+          ],
+          "tempi": "in classe, 2 ore",
+          "fonte": "Proposta di Danilo Casertano, 28 novembre 2026"
+        }
+      ],
+      "risorse": [
+        "Tavolette e fogli, matite morbide, lenti d’ingrandimento, carta del Nord-Est, saponette o argilla, attrezzi di legno per incidere",
+        "Le foto dei due guerrieri, già nella scheda «Dove sta il nord?»"
+      ],
+      "sicurezza": "Si osserva dalla strada pubblica, senza entrare nella proprietà privata. Le statue non si toccano. Le domande al proprietario, se è d’accordo, si chiedono e si preparano, non si improvvisano sulla soglia. Non si pubblica la posizione della casa."
+    },
+    "movimenti": [
+      {
+        "titolo": "Perché questa proposta",
+        "testo": "Il valore della proposta sta nel fatto che la risposta non c’è: i guerrieri non hanno nome, e questo mette bambini e adulti sullo stesso piano di fronte alla domanda.\n\nIl paesaggio è un testo. Anche un muro di cinta si può leggere. Un oggetto che si vede ogni giorno, guardato con lentezza, diventa una fonte.\n\nSapere di non sapere. Distinguere il certo, il probabile e l’ignoto è un esercizio di metodo storico alla portata di un bambino di sette anni.\n\nLe cose viaggiano. Una statua, se davvero fosse di pietra vicentina, in una terra di laguna e di bonifica racconterebbe che i luoghi sono fatti anche di ciò che arriva da fuori. Resta un’ipotesi, finché non c’è un documento.\n\nArte e natura insieme. La pietra scolpita e il lichene che la abita starebbero nello stesso sguardo: una sola uscita terrebbe insieme arte, storia e scienze.\n\nDare un nome è prendersi cura. Quando i bambini battezzano i guerrieri e ne scrivono la storia, diventano coautori del sapere del luogo.\n\nIl confine come tema. Guardare dalla strada, senza entrare, è già educazione civica: cosa è di uno, cosa è di tutti, cosa si può guardare insieme.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [],
+        "voci": []
+      },
+      {
+        "titolo": "I due guerrieri",
+        "testo": "Non c’è, tra le foto pubblicabili, un’inquadratura del paesaggio intorno che non mostri la casa privata: per questo qui ci sono solo i due guerrieri e i loro scudi. La villa è una proprietà privata: si guarda dalla strada, e sulla mappa del sito non c’è il punto dell’ingresso.\n\nIl guerriero con la lancia sta fermo, in piedi, e sorveglia. Ha la barba riccia e lo sguardo serio; una corazza a squame, come un pesce; teste di leone su petto, spalle e scudo; una lancia di ferro e lo scudo a terra. Sta vicino al portico d’ingresso.\n\nIl guerriero con la spada si gira di scatto e sguaina la spada. Ha i baffi, gli occhi spalancati, la bocca aperta; una corazza liscia e un gonnellino a strisce; nessuno animale sullo scudo; la spada e uno scudo ovale al braccio. Sta su un pilastro, sotto un grande pino.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [
+          {
+            "tipo": "foto",
+            "titolo": "Il guerriero con la lancia",
+            "immagine": "assets/materiali/fossalon-4a/foto-03-prima-statua-con-lancia.jpg",
+            "didascalia": "Il guerriero con la lancia e l’elmo, alla soglia della villa.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Lo scudo con il leone",
+            "immagine": "assets/materiali/fossalon-4a/foto-04-scudo-con-il-leone.jpg",
+            "didascalia": "Lo scudo del guerriero con la lancia, con il muso di un leone.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Il guerriero con la spada",
+            "immagine": "assets/materiali/fossalon-4a/foto-07-seconda-statua-con-la-spada.jpg",
+            "didascalia": "Il guerriero con la spada, su un pilastro.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "Lo scudo della seconda statua",
+            "immagine": "assets/materiali/fossalon-4a/foto-08-scudo-della-seconda-statua.jpg",
+            "didascalia": "Lo scudo del guerriero con la spada.",
+            "fonte": "Foto di Danilo Casertano, 25 novembre 2026 (senza volti riconoscibili)"
+          }
+        ],
+        "voci": []
+      },
+      {
+        "titolo": "1. L’incontro (uscita, 2 ore)",
+        "testo": "Si arriverebbe a piedi e ci si fermerebbe sulla strada pubblica, senza entrare nella proprietà. Dieci minuti di silenzio a guardare. Poi ognuno disegnerebbe un guerriero dal vero e annoterebbe tre cose che vede e una domanda.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [],
+        "voci": []
+      },
+      {
+        "titolo": "2. L’indagine (in classe, 2 ore)",
+        "testo": "Si confronterebbero i disegni e si riempirebbe insieme la tabella dei due guerrieri. Si leggerebbe il testo «Cosa sapremmo», qui sotto, e si separerebbe ciò che è certo da ciò che è un’ipotesi (e da ciò che resta ignoto). Sulla carta geografica si traccerebbe il viaggio della pietra, dai Colli Berici a Grado, come ipotesi, finché non c’è un documento.\n\nCosa sapremmo (da leggere in classe, dopo l’osservazione, non prima). Questo testo non sostituisce le ipotesi dei bambini.\n\nI due guerrieri non rappresentano persone esistite: sono soldati «all’antica», inventati dagli scultori per fare la guardia a cancelli e giardini. Non hanno un nome. Somigliano ai soldati dell’antica Roma, ma un vero legionario non si vestiva così. Lo scultore ha mescolato corazze romane, armature da festa del Cinquecento e costumi di teatro.\n\nFanno un mestiere. Stanno sul confine della proprietà, in alto, dove tutti li vedono. Dicono a chi passa: qui comincia una casa, e qualcuno la custodisce.\n\nVengono da lontano, forse. La pietra chiara e tenera, a un primo sguardo sulle fotografie, potrebbe essere pietra di Vicenza, che si scava nelle cave sotterranee dei Colli Berici. Qualcuno li avrebbe comprati e portati fin qui. L’attribuzione alla pietra di Vicenza e alla tradizione veneta è una lettura dalle fotografie, non un dato accertato su un documento. In linea d’aria i Colli Berici distano da Fossalon circa 150 km (calcolo dalle coordinate di Costozza e di Fossalon); su strada è un po’ di più.\n\nHanno dei cugini famosi. Nei primi decenni del Settecento le ville del Veneto e del Friuli riempivano i giardini di statue così. Il parco di Villa Manin, a Passariano, ne conserva 103, volute dai Manin.\n\nSono abitati. Le macchie grigie, verdi e arancioni sono licheni e muschi: esseri viventi che crescono piano sulla pietra.\n\nCosa non sapremmo ancora, e resterebbe da chiedere, se il proprietario è disponibile e d’accordo: quanti anni hanno, chi li ha scolpiti, chi li ha portati qui. Queste domande non si fanno sulla soglia, né si pubblica la posizione della casa.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [],
+        "voci": []
+      },
+      {
+        "titolo": "3. La pietra viva (uscita o classe, 2 ore)",
+        "testo": "Con le lenti si osserverebbero licheni e muschi su un muro della scuola o del paese, non necessariamente sulle statue (per non toccarle e per non entrare). Si potrebbe provare a incidere una saponetta o un blocco di argilla, per capire cosa vuol dire togliere materia come fa uno scultore.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [],
+        "voci": []
+      },
+      {
+        "titolo": "4. Il nome e la storia (in classe, 2 ore)",
+        "testo": "Ogni gruppo darebbe un nome ai guerrieri e scriverebbe la loro storia: da dove vengono, cosa custodiscono, cosa hanno visto passare. Le storie si leggerebbero ad alta voce e potrebbero diventare una pagina della mappa di comunità.\n\nMateriali: tavolette e fogli, matite morbide, lenti d’ingrandimento, carta del Nord-Est, saponette o argilla, attrezzi di legno per incidere.",
+        "fonte": "Proposta di Danilo Casertano, 28 novembre 2026",
+        "immagini": [],
+        "voci": []
+      }
+    ],
+    "racconto": "",
+    "voci_bambini": "",
+    "lettura_pedagogica": "",
+    "voci": [],
+    "voci_nota": "Questa sezione si riempirebbe con le parole raccolte durante il percorso. Nell’uscita del 25 novembre 2026 le voci sui due guerrieri sono già nella scheda «Dove sta il nord?» («È una tipica armatura romana», «Ma sono tombe!», «Nello scudo non c’è il leone»).",
+    "osservazioni_docenti": [],
+    "materiali_bambini": [],
+    "materiali_adulti": [],
+    "compiti": {
+      "dati": [
+        "Disegnare dal vero uno dei due guerrieri e scrivere tre cose osservate e una domanda.",
+        "Chiedere a casa: qualcuno sa da quando ci sono quelle statue?",
+        "Scrivere, in gruppo, il nome e la storia di un guerriero."
+      ],
+      "suggeriti": [
+        "Caccia ai guardiani: cercare nel proprio paese altri custodi di soglie (leoni, santi, stemmi, cani di pietra, capitelli) e segnarli sulla mappa.",
+        "Misurare una statua senza toccarla, usando l’ombra o il confronto con un compagno.",
+        "Fotografare lo stesso lichene una volta al mese per vedere se cambia.",
+        "Per i più grandi: intervistare il proprietario o un vicino, se è d’accordo, e riportare la risposta in classe.",
+        "Progettare il guardiano della propria scuola: chi sarebbe, cosa terrebbe in mano, dove starebbe."
+      ]
+    },
+    "valutazione": {
+      "stato": "Valutazione partecipata, senza voto ai bambini, con criteri decisi prima e con parole al posto dei voti",
+      "prodotto": "I disegni dal vero, la tabella dei due guerrieri, il nome e la storia scelti dalla classe.",
+      "processo": "Alla prima tappa la classe deciderebbe cosa vuol dire «osservare bene» e «raccontare bene», e lo scriverebbe su un cartellone. Si osserverebbero la precisione dello sguardo, la capacità di fare domande, l’uso di parole nuove (corazza, cimiero, lichene, cava), la distinzione tra ciò che si sa e ciò che si immagina.",
+      "metacognizione": "Alla fine ognuno risponderebbe a tre domande: cosa ho visto che prima non vedevo? Cosa so adesso? Cosa vorrei ancora sapere? Ogni gruppo ascolterebbe la storia di un altro gruppo e restituirebbe una cosa che ha funzionato e un consiglio. L’insegnante darebbe un riscontro descrittivo sul processo."
+    },
+    "lettura": {
+      "testo": "Il valore della proposta sta nel fatto che la risposta non c’è: i guerrieri non hanno nome, e questo mette bambini e adulti sullo stesso piano di fronte alla domanda. Il paesaggio è un testo. Sapere di non sapere: distinguere il certo, il probabile e l’ignoto è un esercizio di metodo storico alla portata di un bambino di sette anni. Le cose viaggiano: una statua, se davvero fosse di pietra vicentina, racconterebbe che i luoghi sono fatti anche di ciò che arriva da fuori. Resta un’ipotesi, finché non c’è un documento. Dare un nome è prendersi cura. Guardare dalla strada, senza entrare, è già educazione civica.",
+      "indicazioni": "Traguardi e obiettivi delle Indicazioni nazionali 2012, citati alla lettera nella progettazione."
+    },
+    "ferita_cura": "",
+    "stare_bene": "",
+    "strato_digitale": "",
+    "rilanci": {
+      "intro": "Idee già nel percorso, da adattare con le insegnanti. La valutazione resterebbe descrittiva, senza voto ai bambini.",
+      "in_classe": [
+        {
+          "titolo": "Voci della comunità",
+          "testo": "Si potrebbero trascrivere le frasi dette davanti alle statue, così come sono state dette. Domande utili ai bambini: secondo te chi è? È arrabbiato o spaventato? Da chi ci difende? Persone da ascoltare, se sono d’accordo: il proprietario della villa, chi abita vicino, un nonno o una nonna che ricorda quando le statue sono arrivate, uno scalpellino o un restauratore. L’intervista andrebbe chiesta e preparata, non improvvisata sulla soglia.",
+          "aggancio": "Italiano, storia, educazione civica."
+        }
+      ],
+      "prossima_uscita": [
+        {
+          "titolo": "Una meta di confronto: Villa Manin",
+          "punti": [
+            "Il parco di Villa Manin a Passariano è visitabile gratuitamente, da martedì a domenica (lunedì chiuso; in caso di maltempo può restare chiuso). Orari: villamanin.it/orari-servizi.",
+            "Il parco conserva 103 sculture in pietra, volute dai Manin nei primi decenni del 1700 (relazione di restauro inviata all’ERPAC il 6 giugno 2022; scheda Art Bonus).",
+            "Che i due guerrieri di Fossalon siano di pietra di Vicenza, e che appartengano alla tradizione delle ville venete, è una lettura dalle fotografie, non un dato accertato su un documento. Resta un’ipotesi, da approfondire con il proprietario, se è d’accordo, o con uno studio della pietra."
+          ]
+        }
+      ]
+    },
+    "apparato": {
+      "fonti": [
+        "Proposta di Danilo Casertano, 28 novembre 2026, nata dall’uscita «Dove sta il nord?» (Fossalon, classe quarta, 25 novembre 2026)",
+        "Foto dei due guerrieri di Danilo Casertano, 25 novembre 2026, già dichiarate pubblicabili",
+        "Villa Manin, orari e scheda del parco (villamanin.it)",
+        "Relazione di restauro inviata all’ERPAC il 6 giugno 2022: il parco di Villa Manin ospita 103 statue in pietra, dei primi decenni del 1700",
+        "Art Bonus, scheda sul restauro delle sculture del parco di Villa Manin (103 sculture in pietra di Vicenza)",
+        "ERPAC, mostra «Il verde alfabeto. Giardini e parchi storici del Friuli Venezia Giulia», Villa Manin, 19 marzo–3 luglio 2022",
+        "Comune di Zovencedo, «La Pietra di Vicenza»; Comune di Montecchio Maggiore, le Priare",
+        "Distanza in linea d’aria Colli Berici–Fossalon: circa 150 km, calcolo dalle coordinate di Costozza e di Fossalon"
+      ]
+    },
+    "da_completare": [],
+    "modello": "uda-integrata-v1",
+    "foto": [
+      "assets/materiali/fossalon-4a/foto-03-prima-statua-con-lancia.jpg",
+      "assets/materiali/fossalon-4a/foto-04-scudo-con-il-leone.jpg",
+      "assets/materiali/fossalon-4a/foto-07-seconda-statua-con-la-spada.jpg",
+      "assets/materiali/fossalon-4a/foto-08-scudo-della-seconda-statua.jpg"
+    ],
+    "competenze_ue": [
+      "Competenza alfabetica funzionale",
+      "Competenza matematica e competenza in scienze, tecnologie e ingegneria",
+      "Competenza personale, sociale e capacità di imparare a imparare",
+      "Competenza in materia di cittadinanza",
+      "Consapevolezza ed espressione culturali"
+    ]
   }
 ]
