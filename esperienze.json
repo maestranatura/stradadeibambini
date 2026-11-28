@@ -31805,7 +31805,7 @@
     ],
     "tipo_aula": "Da classificare",
     "descrizione": "Nel primo pomeriggio del 25 novembre 2026 (la data è scritta anche da un bambino sul suo disegno) una classe quarta della Primaria di Fossalon è uscita a piedi con Danilo Casertano intorno alla scuola, sotto qualche goccia di pioggia. In classe si è partiti dai nomi: perché Fossalon, Grado e Aquileia si chiamano così, e che cosa ha Grado che Fossalon non ha. Fuori la classe ha riconosciuto gli alberi da frutto e ha battezzato «l’albero virus» un albero con le palline spinose; si è chiesta perché l’Italia ha tre colori e se Grado ha una bandiera; ha osservato due statue di guerrieri, diverse tra loro, all’ingresso di una villa. Davanti alle montagne ognuno si è messo dove pensava che fosse il nord e ha spiegato il perché; il ragionamento sul sole che tramonta a ovest ha convinto quasi tutti. Lungo i campi la classe si è fermata a un fosso, ha misurato a passi i due lati del campo da calcio e ha guardato un contadino al lavoro. Tornati in classe, ognuno ha disegnato la mappa del percorso con le due misure.",
-    "materiali": "Foto dei luoghi senza volti riconoscibili e 19 disegni dei bambini, con i nomi coperti",
+    "materiali": "Foto dei luoghi senza volti riconoscibili, 19 disegni dei bambini con i nomi coperti, e un’immagine illustrativa di un virus per l’analogia dei frutti del liquidambar",
     "links": [
       {
         "label": "UDA proposta «I guardiani di pietra»",
@@ -31840,7 +31840,7 @@
     "sottotitolo": "Una quarta di Fossalon gira intorno alla scuola tra alberi da frutto, due statue di guerrieri e i campi della bonifica, cerca il nord con il sole e misura a passi il campo da calcio",
     "codice": "GRA-FOS-4A-01",
     "versione": "v1 · 28 novembre 2026",
-    "documentazione": "racconto, registrazione, foto dei luoghi e disegni dei bambini",
+    "documentazione": "racconto, registrazione, foto dei luoghi, disegni dei bambini e un’immagine illustrativa di un virus per l’analogia dell’«albero virus»",
     "aule_collegate": [
       {
         "id": "06-grado-09",
@@ -32112,6 +32112,13 @@
             "immagine": "assets/materiali/fossalon-4a/foto-19-liquidambar-frutti.jpg",
             "didascalia": "I frutti spinosi dell’«albero virus»: è un liquidambar.",
             "fonte": "Foto di Danilo Casertano (senza volti riconoscibili)"
+          },
+          {
+            "tipo": "foto",
+            "titolo": "L’analogia del virus",
+            "immagine": "assets/materiali/fossalon-4a/foto-21-virus-analogia.jpg",
+            "didascalia": "I frutti spinosi del liquidambar somigliano a questa immagine di un virus. Immagine illustrativa, non una foto dell’uscita.",
+            "fonte": "Immagine illustrativa (non è una foto dell’uscita)"
           },
           {
             "tipo": "foto",
@@ -32949,7 +32956,8 @@
         "L. Fassetta, La bonifica della Vittoria (Fossalon), 1934; ARPA FVG, Le trasformazioni ambientali lagunari, 2010",
         "Relazione geologica del Piano regolatore di Grado, 2019; Venudo e Bisiani 2024; dati OSMER-FVG 1991-2023 citati da Fracaros 2023",
         "G. Caprin, Lagune di Grado, 1890 (pubblico dominio)",
-        "Direzioni delle cime nel settore nord-nord-est: calcolo dalle coordinate riportate da Wikipedia, a partire dalla direzione indicata da Danilo Casertano"
+        "Direzioni delle cime nel settore nord-nord-est: calcolo dalle coordinate riportate da Wikipedia, a partire dalla direzione indicata da Danilo Casertano",
+        "Immagine illustrativa di un virus, per mostrare l’analogia dei bambini con i frutti spinosi del liquidambar (non è una foto dell’uscita)"
       ]
     },
     "da_completare": [],
