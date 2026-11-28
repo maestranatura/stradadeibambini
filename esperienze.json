@@ -31826,6 +31826,10 @@
       {
         "label": "Treccani, «Aquileia» (1929)",
         "url": "https://www.treccani.it/enciclopedia/aquileia_(Enciclopedia-Italiana)/"
+      },
+      {
+        "label": "Magnific, foto «Virus, batteri»",
+        "url": "https://www.magnific.com/it/foto/virus-batteri"
       }
     ],
     "videos": [],
@@ -32117,8 +32121,8 @@
             "tipo": "foto",
             "titolo": "L’analogia del virus",
             "immagine": "assets/materiali/fossalon-4a/foto-21-virus-analogia.jpg",
-            "didascalia": "I frutti spinosi del liquidambar somigliano a questa immagine di un virus. Immagine illustrativa, non una foto dell’uscita.",
-            "fonte": "Immagine illustrativa (non è una foto dell’uscita)"
+            "didascalia": "I frutti spinosi del liquidambar somigliano a questa immagine di un virus. Immagine illustrativa, non una foto dell’uscita. Fonte: Magnific, https://www.magnific.com/it/foto/virus-batteri",
+            "fonte": "Immagine illustrativa, Magnific (https://www.magnific.com/it/foto/virus-batteri); non è una foto dell’uscita"
           },
           {
             "tipo": "foto",
@@ -32957,7 +32961,7 @@
         "Relazione geologica del Piano regolatore di Grado, 2019; Venudo e Bisiani 2024; dati OSMER-FVG 1991-2023 citati da Fracaros 2023",
         "G. Caprin, Lagune di Grado, 1890 (pubblico dominio)",
         "Direzioni delle cime nel settore nord-nord-est: calcolo dalle coordinate riportate da Wikipedia, a partire dalla direzione indicata da Danilo Casertano",
-        "Immagine illustrativa di un virus, per mostrare l’analogia dei bambini con i frutti spinosi del liquidambar (non è una foto dell’uscita)"
+        "Immagine illustrativa di un virus: Magnific, https://www.magnific.com/it/foto/virus-batteri (non è una foto dell’uscita)"
       ]
     },
     "da_completare": [],
